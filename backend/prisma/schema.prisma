@@ -1,0 +1,211 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output = "../../shared/prisma-client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum User_Role {
+  owner
+  tenant
+  building_security
+  building_manager
+  admin
+  visitor
+}
+
+model PreSignUpManagement {
+  email String @unique
+  company_name String 
+  contact_number String
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  @@map("PreSignUpManagements")
+}
+
+model User {
+  id        String   @id @default(uuid()) @unique
+  email     String   @unique
+  phone_number String?
+  first_name String?
+  last_name String?
+  user_roles User_Role[] @default([])
+
+  created_at DateTime @default(now())
+  last_login DateTime @default(now())
+
+  management Management? // Relation field
+
+  @@map("Users")
+}
+
+
+enum Subscription_PlanType {
+  basic
+  standard
+  pro
+}
+enum Active_State {
+  active
+  inactive
+}
+enum OnboardingState {
+  management_onboard
+  building_onboard
+  payment
+  finish
+}
+model Management {
+  id String @id @default(uuid()) @unique
+  user_id String @unique
+  company_name String?
+  business_email String? @unique
+  phone_number String?
+  customer_service_email String?
+  emergency_email String?
+  address String?
+  subscription_plan_type Subscription_PlanType?
+  subscription_state Active_State?
+  business_state Active_State?
+  date_joined DateTime @default(now())
+  last_login DateTime @default(now())
+  last_updated DateTime @default(now()) @updatedAt
+  onboard_state OnboardingState? @default(management_onboard)
+
+  staffs ManagementStaff[]  // Relation field
+  buildings Building[]  // Relation field
+
+  user   User @relation(fields: [user_id], references: [id], onDelete: Cascade) // Relation attribute
+}
+
+model ManagementStaff {
+  id String @id @default(uuid()) @unique
+  management_id String     // Foreign key field
+  name String?
+  email String? @unique
+  date_added DateTime @default(now())
+  last_updated DateTime @default(now()) @updatedAt
+
+  management   Management @relation(fields: [management_id], references: [id], onDelete: Cascade) // Relation attribute
+}
+
+enum BuildingType {
+    commercial
+    residential
+    governmental
+}
+enum BuildingFacility {
+    ev_charging
+    bulk_parking_owners
+    smart_meters
+    anpr
+    internet_wifi
+    access_card_system
+    visitor_parking
+    bms
+    handicapped_parking
+    paid_parking_system
+}
+model Building {
+  id String @id @default(uuid()) @unique
+  management_id String     // Foreign key field
+  building_name String?
+  building_type BuildingType?
+  address String?
+  city String?
+  state String?
+  country String?
+  no_of_units Int?
+  no_of_parking_floors Int?
+  no_of_parking_spots Int?
+  no_of_developer_parking_spots Int?
+  facilities BuildingFacility[]
+
+  management   Management @relation(fields: [management_id], references: [id], onDelete: Cascade) // Relation attribute
+  community_members CommunityMembers[]  // Relation field
+  parking_spots ParkingSpot[]  // Relation field
+}
+
+model CommunityMembers {
+  id String @id @default(uuid()) @unique
+  building_id String  // Foreign key
+  user_role User_Role?
+  email String?
+  name String?
+  phone String?
+  unit_number String?
+  status Active_State @default(inactive)
+
+  qr_code_id String? @unique
+
+  building   Building @relation(fields: [building_id], references: [id], onDelete: Cascade) // Relation attribute
+  qr_code    QRCode? @relation(fields: [qr_code_id], references: [id], onDelete: Cascade) // Relation attribute
+  parking_spots ParkingSpot[] // A community member can have multiple parking spots
+
+  @@unique([building_id, unit_number])
+}
+
+enum Parking_Spot_Type {
+  regular
+  electric
+}
+model ParkingSpot {
+  id String @id @default(uuid()) @unique
+  building_id String  // Foreign key
+  owner_id String? // Foreign key
+  qr_code_id String? @unique
+  vehicle_id String?
+  
+  parking_level Int?
+  parking_spot_number String?
+  parking_spot_type Parking_Spot_Type @default(regular)
+
+  building   Building @relation(fields: [building_id], references: [id], onDelete: Cascade) // Relation attribute
+  owner   CommunityMembers? @relation(fields: [owner_id], references: [id], onDelete: Cascade) // Relation attribute
+  qr_code   QRCode? @relation(fields: [qr_code_id], references: [id], onDelete: Cascade) // Relation attribute
+  vehicle   Vehicle? @relation(fields: [vehicle_id], references: [id], onDelete: Cascade) // Relation attribute
+
+  @@unique([qr_code_id, parking_level, parking_spot_number]) // Ensure a parking spot can only have one QR code
+}
+
+
+enum QRCode_Type {
+  static
+  dynamic
+}
+enum QRCode_For {
+  community_member
+  parking_spot
+}
+model QRCode {
+  id String @id @unique
+  qr_type QRCode_Type
+  url String
+  image_url String?
+
+  qr_for QRCode_For
+
+  owner CommunityMembers? 
+  parking_spot ParkingSpot?
+}
+
+enum Vehicle_Type {
+  regular
+  electric
+  hybrid
+}
+model Vehicle {
+  id String @id @default(uuid()) @unique
+
+  vehicle_plate String?
+  vehicle_type Vehicle_Type @default(regular)
+
+  parking_spots ParkingSpot[]
+}
