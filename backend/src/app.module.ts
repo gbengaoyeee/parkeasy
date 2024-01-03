@@ -6,8 +6,9 @@ import { AppwriteModule } from './appwrite/appwrite.module';
 import { ErrorModule } from './exceptions/error.module';
 import { BuildingModule } from './building/building.module';
 import { QrCodeModule } from './qr-code/qr-code.module';
+import { VerificationModule } from './verification/verification.module';
 
 @Module({
-  imports: [ManagementModule, UserModule, PrismaModule, AppwriteModule, ErrorModule, BuildingModule, QrCodeModule,],
+  imports: [ManagementModule, UserModule, PrismaModule, AppwriteModule, ErrorModule, BuildingModule, QrCodeModule, VerificationModule,],
 })
 export class AppModule {}

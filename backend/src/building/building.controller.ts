@@ -66,9 +66,4 @@ export class BuildingController {
     async searchParkingSpotsBySpotNumber(@Param('buildingId') buildingId: string, @Query('spotNumber') spotNumber: string) {
         return await this.buildingService.searchParkingSpotsBySpotNumber(buildingId, spotNumber);
     }
-
-    @Post('test-webhook')
-    async testWebhook(@Body() body: any) {
-        console.log(body)
-    }
 }
