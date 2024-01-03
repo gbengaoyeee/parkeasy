@@ -31,7 +31,7 @@ export const UserContextProvider = ({ children }: { children: React.ReactNode })
     queryKey: ["user-data"],
     queryFn: async () => {
       if (authUser) {
-        const response = await getUser(authUser?.$id ?? authUser?.email ?? "");
+        const response = await getUser(authUser?.email ?? "");
         return response as User;
       }
       return null;

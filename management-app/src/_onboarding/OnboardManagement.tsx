@@ -55,7 +55,7 @@ const OnboardManagement = ({ onNext }: OnboardingProps) => {
   });
 
   const { isPending: isSubmitting, mutateAsync: submitManagementOnboard } =
-    useSubmitManagementOnboard(user?.$id ?? "");
+    useSubmitManagementOnboard();
 
   function onSubmit(values: z.infer<typeof OnboardManagementValidation>) {
     // Do something with the form values.

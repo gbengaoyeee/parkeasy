@@ -46,8 +46,8 @@ class StaffDto {
 }
 
 export class OnboardManagementDto {
-    @IsString()
-    userId:string
+    @IsEmail()
+    email:string
     
     @IsPhoneNumber()
     phoneNumber: string;
@@ -79,8 +79,8 @@ enum BuildingFacility {
     PaidParkingSystem = 'paid_parking_system',
 }
 export class OnboardBuildingDto {
-    @IsString()
-    userId:string
+    @IsEmail()
+    email:string
     
     @IsString()
     buildingName: string;

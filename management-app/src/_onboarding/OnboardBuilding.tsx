@@ -55,9 +55,8 @@ const OnboardBuilding = ({ onNext }: OnboardingProps) => {
     },
   });
 
-  const { isPending: isSubmitting, mutateAsync: submitBuildingOnboard } = useSubmitBuildingOnboard(
-    user?.$id ?? ""
-  );
+  const { isPending: isSubmitting, mutateAsync: submitBuildingOnboard } =
+    useSubmitBuildingOnboard(user?.email ?? "");
 
   function onSubmit(values: z.infer<typeof OnboardBuildingValidation>) {
     // Do something with the form values.

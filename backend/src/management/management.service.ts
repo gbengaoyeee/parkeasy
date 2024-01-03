@@ -58,7 +58,7 @@ export class ManagementService {
             const user = await this.prisma.user.findFirst({where: {email: dto.email}})
             const newId = v4()
             // create user with appwrite
-            await this.authProvider.users.create(newId, dto.email)
+            await this.authProvider.createUser(dto.email)
 
             // save user to db after success of above
             if(user && !user.user_roles.includes("building_manager")) {
@@ -102,8 +102,8 @@ export class ManagementService {
 
     async onboardManagement(dto: OnboardManagementDto) {
         try {
-            const user = await this.prisma.user.findUnique({where:{id: dto.userId}})
-            const management = await this.prisma.management.findUnique({where:{business_email: user.email}})
+            const user = await this.prisma.user.findUnique({where:{email: dto.email}})
+            const management = await this.prisma.management.findUnique({where:{business_email: dto.email}})
             const updatedManagement = this.prisma.management.update({
                 where: {
                     id: management.id
@@ -148,8 +148,8 @@ export class ManagementService {
 
     async onboardBuilding(dto: OnboardBuildingDto) {
         try {
-            const user = await this.prisma.user.findUnique({where:{id: dto.userId}})
-            const management = await this.prisma.management.findUnique({where:{business_email: user.email}})
+            const user = await this.prisma.user.findUnique({where:{email: dto.email}})
+            const management = await this.prisma.management.findUnique({where:{business_email: dto.email}})
 
 
             const building  = await this.prisma.building.create({

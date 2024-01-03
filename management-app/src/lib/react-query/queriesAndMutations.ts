@@ -28,17 +28,17 @@ export const useFinishPasswordRecovery = (userId: string, secret: string) => {
     })
 }
 
-export const useSubmitManagementOnboard = (userId: string) => {
+export const useSubmitManagementOnboard = () => {
     return useMutation({
         mutationFn: (dto: z.infer<typeof OnboardManagementValidation>) => {
-            return Promise.all([appwriteClient.resetPassword(dto.password, dto.oldPassword.length ? dto.oldPassword : undefined), onboardManagement(userId, dto)])
+            return Promise.all([appwriteClient.resetPassword(dto.password, dto.oldPassword.length ? dto.oldPassword : undefined), onboardManagement(dto)])
         }
     })
 }
-export const useSubmitBuildingOnboard = (userId: string) => {
+export const useSubmitBuildingOnboard = (email: string) => {
     return useMutation({
         mutationFn: (dto: z.infer<typeof OnboardBuildingValidation>) => {
-            return onboardBuilding(userId, dto)
+            return onboardBuilding(email, dto)
         }
     })
 }
