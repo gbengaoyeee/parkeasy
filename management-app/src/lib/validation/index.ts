@@ -4,15 +4,15 @@ import { buildingFacilities, buildingTypes, staffOptions } from "../constants.ts
 const passwordSchema = z.string().min(4, {
   message: "Password must be at least 4 characters long", // Minimum length requirement
 })
-// .regex(/[a-z]/, {
-//   message: "Password must include a lowercase letter", // Lowercase letter requirement
-// }).regex(/[A-Z]/, {
-//   message: "Password must include an uppercase letter", // Uppercase letter requirement
-// }).regex(/[0-9]/, {
-//   message: "Password must include a number", // Number requirement
-// }).regex(/[^A-Za-z0-9]/, {
-//   message: "Password must include a special character", // Special character requirement
-// });
+.regex(/[a-z]/, {
+  message: "Password must include a lowercase letter", // Lowercase letter requirement
+}).regex(/[A-Z]/, {
+  message: "Password must include an uppercase letter", // Uppercase letter requirement
+}).regex(/[0-9]/, {
+  message: "Password must include a number", // Number requirement
+}).regex(/[^A-Za-z0-9]/, {
+  message: "Password must include a special character", // Special character requirement
+});
 
 export const LoginValidation = z.object({
   email: z.string().email(),

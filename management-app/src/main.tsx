@@ -4,7 +4,6 @@ import App from "./App.tsx";
 import { BrowserRouter } from "react-router-dom";
 import { AuthContextProvider } from "./context/AuthContext.tsx";
 import QueryProvider from "./lib/react-query/QueryProvider.tsx";
-import { UserContext, UserContextProvider } from "./context/UserContext.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
