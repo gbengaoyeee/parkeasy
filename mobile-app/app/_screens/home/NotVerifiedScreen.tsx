@@ -1,0 +1,58 @@
+import { View, Text, FlatList, Linking } from "react-native";
+import React from "react";
+import Button from "@/components/shared/Button";
+import { getVerificationLink } from "@/app/services/verification";
+import useToast from "@/app/hooks/useToast";
+import useUser from "@/app/hooks/useUser";
+
+const NotVerifiedScreen = () => {
+  const { showToast } = useToast();
+  const { user, refreshUser } = useUser();
+  const featureList = [
+    {
+      title: "Property units, vehicles",
+    },
+    {
+      title: "Parking spots",
+    },
+    {
+      title: "Energy meter billings",
+    },
+  ];
+
+  const openURL = async () => {
+    if (user && user.phone_number) {
+      getVerificationLink(user.phone_number)
+        .then(async (link) => {
+          const canOpen = await Linking.canOpenURL(link);
+          if (canOpen) {
+            Linking.openURL(link);
+          } else {
+            console.error("Cannot open URL");
+          }
+        })
+        .catch((err) => {
+          showToast({ type: "error", message: err.message });
+        });
+    }
+  };
+  return (
+    <View>
+      <Text>Welcome to Parkeasy</Text>
+      <Text>To access to the following by verifying your identity</Text>
+      <FlatList
+        data={featureList}
+        renderItem={({ item }) => (
+          <>
+            <Text className="text-gray-500 text-lg">{item.title}</Text>
+          </>
+        )}
+      />
+      <Button onPress={openURL}>
+        <Text className="text-white">Get verified now</Text>
+      </Button>
+    </View>
+  );
+};
+
+export default NotVerifiedScreen;

@@ -44,7 +44,7 @@ const OTPCode = () => {
 
   useEffect(() => {
     if (phoneNumber) {
-        handleResend();
+    //   handleResend();
       console.log(phoneNumber);
     }
   }, []);
@@ -57,6 +57,7 @@ const OTPCode = () => {
         showToast({ type: "error", message: error.message });
       })
       .finally(() => {
+        // refresh user state
         checkAuthUser();
       });
   };
@@ -64,7 +65,11 @@ const OTPCode = () => {
     startVerification(phoneNumber)
       .then((resp) => {
         setSessionId(resp.userId);
-        showToast({ type: "success", title: "Code sent", message: `We sent a code to ${phoneNumber}` });
+        showToast({
+          type: "success",
+          title: "Code sent",
+          message: `We sent a code to ${phoneNumber}`,
+        });
       })
       .catch((error) => {
         showToast({ type: "error", message: error.message });

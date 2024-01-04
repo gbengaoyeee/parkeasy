@@ -5,7 +5,8 @@ import {
     User as PrismaUser, 
     CommunityMembers as PrismaCommunityMembers, 
     QRCode,
-    ParkingSpot as PrismaParkingSpot
+    ParkingSpot as PrismaParkingSpot,
+
  } from "../../../shared/prisma-client";
 
 export interface User extends PrismaUser {

@@ -122,6 +122,7 @@ exports.Prisma.UserScalarFieldEnum = {
   first_name: 'first_name',
   last_name: 'last_name',
   user_roles: 'user_roles',
+  verification_status: 'verification_status',
   created_at: 'created_at',
   last_login: 'last_login'
 };
@@ -220,6 +221,12 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+exports.Verification_Status = exports.$Enums.Verification_Status = {
+  not_started: 'not_started',
+  completed: 'completed',
+  failed: 'failed'
+};
+
 exports.User_Role = exports.$Enums.User_Role = {
   owner: 'owner',
   tenant: 'tenant',

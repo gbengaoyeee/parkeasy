@@ -5,7 +5,6 @@ import { ICreateQRCodeDto, QrCodeService } from 'src/qr-code/qr-code.service';
 import { IResponseData } from 'src/response';
 import * as xlsx from 'xlsx'
 import { GetBuildingQueryDto, GetBuildingsDto, GetPaginatedQueryDto, UpdateCommunityMemberDto } from './dto';
-import { User_Roles } from 'src/shared/enums';
 import { QRCode_Type } from '../../../shared/prisma-client';
 import { v4 as uuidv4 } from 'uuid'
 

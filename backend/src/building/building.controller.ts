@@ -47,8 +47,6 @@ export class BuildingController {
       return await this.buildingService.updateCommunityMember(buildingId, memberId, updateData);
     }
 
-
-
     // search community members by name
     @Get('search-community-members/:buildingId')
     async searchCommunityMembersByName(@Param('buildingId') buildingId: string, @Query('name') name: string) {

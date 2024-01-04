@@ -1,9 +1,5 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable,  } from '@nestjs/common';
-import { IsString } from 'class-validator';
-import {map} from 'rxjs'
-import { CreateCommunityMemberDto } from 'src/building/dto';
-import { User_Roles } from 'src/shared/enums';
 import { QRCode_Type } from '../../../shared/prisma-client';
 
 export interface ICreateQRCodeDto {

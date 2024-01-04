@@ -1,13 +1,18 @@
-import { Body, Controller, Get, Param, Post } from "@nestjs/common";
-import { GetUserDto } from "./dto/user.dto";
+import { Body, Controller, Get, Param, Post, Query } from "@nestjs/common";
+import { GetUserByPhone, GetUserDto } from "./dto/user.dto";
 import { UserService } from "./user.service";
 
 @Controller('user')
 export class UserController{
     constructor(private userService: UserService){}
 
-    @Get('/:idOrEmail')
+    @Get('/email/:email')
     async getUser(@Param() dto: GetUserDto) {
         return await this.userService.getUser(dto)
+    }
+
+    @Get('/phone')
+    async getUserByPhone(@Query() dto: GetUserByPhone) {
+        return await this.userService.getUserByPhone(dto)
     }
 }

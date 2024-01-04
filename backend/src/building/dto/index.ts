@@ -2,7 +2,8 @@
 import { Active_State } from "@prisma/client";
 import { Transform, Type } from "class-transformer";
 import { IsBoolean, IsEmail, IsEnum, IsNumber, IsOptional, IsPhoneNumber, IsString, Max, Min } from "class-validator";
-import { User_Roles } from "src/shared/enums";
+import { User_Role } from "../../../../shared/prisma-client";
+
 
 export class GetBuildingsDto {
     @IsString()
@@ -16,8 +17,8 @@ export class GetBuildingQueryDto {
 }
 
 export class CreateCommunityMemberDto {
-    @IsEnum(User_Roles)
-    userRole: User_Roles
+    @IsEnum(User_Role)
+    userRole: User_Role
     @IsString()
     name: string
     @IsPhoneNumber()
@@ -29,9 +30,9 @@ export class CreateCommunityMemberDto {
 }
 
 export class UpdateCommunityMemberDto {
-    @IsEnum(User_Roles)
+    @IsEnum(User_Role)
     @IsOptional()
-    userRole: User_Roles
+    userRole: User_Role
     @IsString()
     @IsOptional()
     name: string

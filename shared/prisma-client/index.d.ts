@@ -63,7 +63,16 @@ export type Vehicle = $Result.DefaultSelection<Prisma.$VehiclePayload>
  * Enums
  */
 export namespace $Enums {
-  export const User_Role: {
+  export const Verification_Status: {
+  not_started: 'not_started',
+  completed: 'completed',
+  failed: 'failed'
+};
+
+export type Verification_Status = (typeof Verification_Status)[keyof typeof Verification_Status]
+
+
+export const User_Role: {
   owner: 'owner',
   tenant: 'tenant',
   building_security: 'building_security',
@@ -160,6 +169,10 @@ export const Vehicle_Type: {
 export type Vehicle_Type = (typeof Vehicle_Type)[keyof typeof Vehicle_Type]
 
 }
+
+export type Verification_Status = $Enums.Verification_Status
+
+export const Verification_Status: typeof $Enums.Verification_Status
 
 export type User_Role = $Enums.User_Role
 
@@ -2695,6 +2708,7 @@ export namespace Prisma {
     phone_number: string | null
     first_name: string | null
     last_name: string | null
+    verification_status: $Enums.Verification_Status | null
     created_at: Date | null
     last_login: Date | null
   }
@@ -2705,6 +2719,7 @@ export namespace Prisma {
     phone_number: string | null
     first_name: string | null
     last_name: string | null
+    verification_status: $Enums.Verification_Status | null
     created_at: Date | null
     last_login: Date | null
   }
@@ -2716,6 +2731,7 @@ export namespace Prisma {
     first_name: number
     last_name: number
     user_roles: number
+    verification_status: number
     created_at: number
     last_login: number
     _all: number
@@ -2728,6 +2744,7 @@ export namespace Prisma {
     phone_number?: true
     first_name?: true
     last_name?: true
+    verification_status?: true
     created_at?: true
     last_login?: true
   }
@@ -2738,6 +2755,7 @@ export namespace Prisma {
     phone_number?: true
     first_name?: true
     last_name?: true
+    verification_status?: true
     created_at?: true
     last_login?: true
   }
@@ -2749,6 +2767,7 @@ export namespace Prisma {
     first_name?: true
     last_name?: true
     user_roles?: true
+    verification_status?: true
     created_at?: true
     last_login?: true
     _all?: true
@@ -2828,11 +2847,12 @@ export namespace Prisma {
 
   export type UserGroupByOutputType = {
     id: string
-    email: string
+    email: string | null
     phone_number: string | null
     first_name: string | null
     last_name: string | null
     user_roles: $Enums.User_Role[]
+    verification_status: $Enums.Verification_Status | null
     created_at: Date
     last_login: Date
     _count: UserCountAggregateOutputType | null
@@ -2861,6 +2881,7 @@ export namespace Prisma {
     first_name?: boolean
     last_name?: boolean
     user_roles?: boolean
+    verification_status?: boolean
     created_at?: boolean
     last_login?: boolean
     management?: boolean | User$managementArgs<ExtArgs>
@@ -2873,6 +2894,7 @@ export namespace Prisma {
     first_name?: boolean
     last_name?: boolean
     user_roles?: boolean
+    verification_status?: boolean
     created_at?: boolean
     last_login?: boolean
   }
@@ -2889,11 +2911,12 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      email: string
+      email: string | null
       phone_number: string | null
       first_name: string | null
       last_name: string | null
       user_roles: $Enums.User_Role[]
+      verification_status: $Enums.Verification_Status | null
       created_at: Date
       last_login: Date
     }, ExtArgs["result"]["user"]>
@@ -3297,6 +3320,7 @@ export namespace Prisma {
     readonly first_name: FieldRef<"User", 'String'>
     readonly last_name: FieldRef<"User", 'String'>
     readonly user_roles: FieldRef<"User", 'User_Role[]'>
+    readonly verification_status: FieldRef<"User", 'Verification_Status'>
     readonly created_at: FieldRef<"User", 'DateTime'>
     readonly last_login: FieldRef<"User", 'DateTime'>
   }
@@ -3499,7 +3523,7 @@ export namespace Prisma {
     /**
      * The data needed to create a User.
      */
-    data: XOR<UserCreateInput, UserUncheckedCreateInput>
+    data?: XOR<UserCreateInput, UserUncheckedCreateInput>
   }
 
 
@@ -10720,6 +10744,7 @@ export namespace Prisma {
     first_name: 'first_name',
     last_name: 'last_name',
     user_roles: 'user_roles',
+    verification_status: 'verification_status',
     created_at: 'created_at',
     last_login: 'last_login'
   };
@@ -10896,6 +10921,20 @@ export namespace Prisma {
    * Reference to a field of type 'User_Role'
    */
   export type EnumUser_RoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'User_Role'>
+    
+
+
+  /**
+   * Reference to a field of type 'Verification_Status'
+   */
+  export type EnumVerification_StatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Verification_Status'>
+    
+
+
+  /**
+   * Reference to a field of type 'Verification_Status[]'
+   */
+  export type ListEnumVerification_StatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Verification_Status[]'>
     
 
 
@@ -11113,11 +11152,12 @@ export namespace Prisma {
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     id?: StringFilter<"User"> | string
-    email?: StringFilter<"User"> | string
+    email?: StringNullableFilter<"User"> | string | null
     phone_number?: StringNullableFilter<"User"> | string | null
     first_name?: StringNullableFilter<"User"> | string | null
     last_name?: StringNullableFilter<"User"> | string | null
     user_roles?: EnumUser_RoleNullableListFilter<"User">
+    verification_status?: EnumVerification_StatusNullableFilter<"User"> | $Enums.Verification_Status | null
     created_at?: DateTimeFilter<"User"> | Date | string
     last_login?: DateTimeFilter<"User"> | Date | string
     management?: XOR<ManagementNullableRelationFilter, ManagementWhereInput> | null
@@ -11125,11 +11165,12 @@ export namespace Prisma {
 
   export type UserOrderByWithRelationInput = {
     id?: SortOrder
-    email?: SortOrder
+    email?: SortOrderInput | SortOrder
     phone_number?: SortOrderInput | SortOrder
     first_name?: SortOrderInput | SortOrder
     last_name?: SortOrderInput | SortOrder
     user_roles?: SortOrder
+    verification_status?: SortOrderInput | SortOrder
     created_at?: SortOrder
     last_login?: SortOrder
     management?: ManagementOrderByWithRelationInput
@@ -11138,25 +11179,27 @@ export namespace Prisma {
   export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     email?: string
+    phone_number?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
-    phone_number?: StringNullableFilter<"User"> | string | null
     first_name?: StringNullableFilter<"User"> | string | null
     last_name?: StringNullableFilter<"User"> | string | null
     user_roles?: EnumUser_RoleNullableListFilter<"User">
+    verification_status?: EnumVerification_StatusNullableFilter<"User"> | $Enums.Verification_Status | null
     created_at?: DateTimeFilter<"User"> | Date | string
     last_login?: DateTimeFilter<"User"> | Date | string
     management?: XOR<ManagementNullableRelationFilter, ManagementWhereInput> | null
-  }, "id" | "id" | "email">
+  }, "id" | "id" | "email" | "phone_number">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
-    email?: SortOrder
+    email?: SortOrderInput | SortOrder
     phone_number?: SortOrderInput | SortOrder
     first_name?: SortOrderInput | SortOrder
     last_name?: SortOrderInput | SortOrder
     user_roles?: SortOrder
+    verification_status?: SortOrderInput | SortOrder
     created_at?: SortOrder
     last_login?: SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -11169,11 +11212,12 @@ export namespace Prisma {
     OR?: UserScalarWhereWithAggregatesInput[]
     NOT?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"User"> | string
-    email?: StringWithAggregatesFilter<"User"> | string
+    email?: StringNullableWithAggregatesFilter<"User"> | string | null
     phone_number?: StringNullableWithAggregatesFilter<"User"> | string | null
     first_name?: StringNullableWithAggregatesFilter<"User"> | string | null
     last_name?: StringNullableWithAggregatesFilter<"User"> | string | null
     user_roles?: EnumUser_RoleNullableListFilter<"User">
+    verification_status?: EnumVerification_StatusNullableWithAggregatesFilter<"User"> | $Enums.Verification_Status | null
     created_at?: DateTimeWithAggregatesFilter<"User"> | Date | string
     last_login?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
@@ -11777,11 +11821,12 @@ export namespace Prisma {
 
   export type UserCreateInput = {
     id?: string
-    email: string
+    email?: string | null
     phone_number?: string | null
     first_name?: string | null
     last_name?: string | null
     user_roles?: UserCreateuser_rolesInput | $Enums.User_Role[]
+    verification_status?: $Enums.Verification_Status | null
     created_at?: Date | string
     last_login?: Date | string
     management?: ManagementCreateNestedOneWithoutUserInput
@@ -11789,11 +11834,12 @@ export namespace Prisma {
 
   export type UserUncheckedCreateInput = {
     id?: string
-    email: string
+    email?: string | null
     phone_number?: string | null
     first_name?: string | null
     last_name?: string | null
     user_roles?: UserCreateuser_rolesInput | $Enums.User_Role[]
+    verification_status?: $Enums.Verification_Status | null
     created_at?: Date | string
     last_login?: Date | string
     management?: ManagementUncheckedCreateNestedOneWithoutUserInput
@@ -11801,11 +11847,12 @@ export namespace Prisma {
 
   export type UserUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     phone_number?: NullableStringFieldUpdateOperationsInput | string | null
     first_name?: NullableStringFieldUpdateOperationsInput | string | null
     last_name?: NullableStringFieldUpdateOperationsInput | string | null
     user_roles?: UserUpdateuser_rolesInput | $Enums.User_Role[]
+    verification_status?: NullableEnumVerification_StatusFieldUpdateOperationsInput | $Enums.Verification_Status | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_login?: DateTimeFieldUpdateOperationsInput | Date | string
     management?: ManagementUpdateOneWithoutUserNestedInput
@@ -11813,11 +11860,12 @@ export namespace Prisma {
 
   export type UserUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     phone_number?: NullableStringFieldUpdateOperationsInput | string | null
     first_name?: NullableStringFieldUpdateOperationsInput | string | null
     last_name?: NullableStringFieldUpdateOperationsInput | string | null
     user_roles?: UserUpdateuser_rolesInput | $Enums.User_Role[]
+    verification_status?: NullableEnumVerification_StatusFieldUpdateOperationsInput | $Enums.Verification_Status | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_login?: DateTimeFieldUpdateOperationsInput | Date | string
     management?: ManagementUncheckedUpdateOneWithoutUserNestedInput
@@ -11825,33 +11873,36 @@ export namespace Prisma {
 
   export type UserCreateManyInput = {
     id?: string
-    email: string
+    email?: string | null
     phone_number?: string | null
     first_name?: string | null
     last_name?: string | null
     user_roles?: UserCreateuser_rolesInput | $Enums.User_Role[]
+    verification_status?: $Enums.Verification_Status | null
     created_at?: Date | string
     last_login?: Date | string
   }
 
   export type UserUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     phone_number?: NullableStringFieldUpdateOperationsInput | string | null
     first_name?: NullableStringFieldUpdateOperationsInput | string | null
     last_name?: NullableStringFieldUpdateOperationsInput | string | null
     user_roles?: UserUpdateuser_rolesInput | $Enums.User_Role[]
+    verification_status?: NullableEnumVerification_StatusFieldUpdateOperationsInput | $Enums.Verification_Status | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_login?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     phone_number?: NullableStringFieldUpdateOperationsInput | string | null
     first_name?: NullableStringFieldUpdateOperationsInput | string | null
     last_name?: NullableStringFieldUpdateOperationsInput | string | null
     user_roles?: UserUpdateuser_rolesInput | $Enums.User_Role[]
+    verification_status?: NullableEnumVerification_StatusFieldUpdateOperationsInput | $Enums.Verification_Status | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_login?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12544,6 +12595,13 @@ export namespace Prisma {
     isEmpty?: boolean
   }
 
+  export type EnumVerification_StatusNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.Verification_Status | EnumVerification_StatusFieldRefInput<$PrismaModel> | null
+    in?: $Enums.Verification_Status[] | ListEnumVerification_StatusFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.Verification_Status[] | ListEnumVerification_StatusFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumVerification_StatusNullableFilter<$PrismaModel> | $Enums.Verification_Status | null
+  }
+
   export type ManagementNullableRelationFilter = {
     is?: ManagementWhereInput | null
     isNot?: ManagementWhereInput | null
@@ -12561,6 +12619,7 @@ export namespace Prisma {
     first_name?: SortOrder
     last_name?: SortOrder
     user_roles?: SortOrder
+    verification_status?: SortOrder
     created_at?: SortOrder
     last_login?: SortOrder
   }
@@ -12571,6 +12630,7 @@ export namespace Prisma {
     phone_number?: SortOrder
     first_name?: SortOrder
     last_name?: SortOrder
+    verification_status?: SortOrder
     created_at?: SortOrder
     last_login?: SortOrder
   }
@@ -12581,6 +12641,7 @@ export namespace Prisma {
     phone_number?: SortOrder
     first_name?: SortOrder
     last_name?: SortOrder
+    verification_status?: SortOrder
     created_at?: SortOrder
     last_login?: SortOrder
   }
@@ -12601,6 +12662,16 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type EnumVerification_StatusNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Verification_Status | EnumVerification_StatusFieldRefInput<$PrismaModel> | null
+    in?: $Enums.Verification_Status[] | ListEnumVerification_StatusFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.Verification_Status[] | ListEnumVerification_StatusFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumVerification_StatusNullableWithAggregatesFilter<$PrismaModel> | $Enums.Verification_Status | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumVerification_StatusNullableFilter<$PrismaModel>
+    _max?: NestedEnumVerification_StatusNullableFilter<$PrismaModel>
   }
 
   export type EnumSubscription_PlanTypeNullableFilter<$PrismaModel = never> = {
@@ -13185,6 +13256,10 @@ export namespace Prisma {
   export type UserUpdateuser_rolesInput = {
     set?: $Enums.User_Role[]
     push?: $Enums.User_Role | $Enums.User_Role[]
+  }
+
+  export type NullableEnumVerification_StatusFieldUpdateOperationsInput = {
+    set?: $Enums.Verification_Status | null
   }
 
   export type ManagementUpdateOneWithoutUserNestedInput = {
@@ -13795,6 +13870,13 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type NestedEnumVerification_StatusNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.Verification_Status | EnumVerification_StatusFieldRefInput<$PrismaModel> | null
+    in?: $Enums.Verification_Status[] | ListEnumVerification_StatusFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.Verification_Status[] | ListEnumVerification_StatusFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumVerification_StatusNullableFilter<$PrismaModel> | $Enums.Verification_Status | null
+  }
+
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -13821,6 +13903,16 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedEnumVerification_StatusNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Verification_Status | EnumVerification_StatusFieldRefInput<$PrismaModel> | null
+    in?: $Enums.Verification_Status[] | ListEnumVerification_StatusFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.Verification_Status[] | ListEnumVerification_StatusFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumVerification_StatusNullableWithAggregatesFilter<$PrismaModel> | $Enums.Verification_Status | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumVerification_StatusNullableFilter<$PrismaModel>
+    _max?: NestedEnumVerification_StatusNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumSubscription_PlanTypeNullableFilter<$PrismaModel = never> = {
@@ -14184,22 +14276,24 @@ export namespace Prisma {
 
   export type UserCreateWithoutManagementInput = {
     id?: string
-    email: string
+    email?: string | null
     phone_number?: string | null
     first_name?: string | null
     last_name?: string | null
     user_roles?: UserCreateuser_rolesInput | $Enums.User_Role[]
+    verification_status?: $Enums.Verification_Status | null
     created_at?: Date | string
     last_login?: Date | string
   }
 
   export type UserUncheckedCreateWithoutManagementInput = {
     id?: string
-    email: string
+    email?: string | null
     phone_number?: string | null
     first_name?: string | null
     last_name?: string | null
     user_roles?: UserCreateuser_rolesInput | $Enums.User_Role[]
+    verification_status?: $Enums.Verification_Status | null
     created_at?: Date | string
     last_login?: Date | string
   }
@@ -14285,22 +14379,24 @@ export namespace Prisma {
 
   export type UserUpdateWithoutManagementInput = {
     id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     phone_number?: NullableStringFieldUpdateOperationsInput | string | null
     first_name?: NullableStringFieldUpdateOperationsInput | string | null
     last_name?: NullableStringFieldUpdateOperationsInput | string | null
     user_roles?: UserUpdateuser_rolesInput | $Enums.User_Role[]
+    verification_status?: NullableEnumVerification_StatusFieldUpdateOperationsInput | $Enums.Verification_Status | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_login?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserUncheckedUpdateWithoutManagementInput = {
     id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     phone_number?: NullableStringFieldUpdateOperationsInput | string | null
     first_name?: NullableStringFieldUpdateOperationsInput | string | null
     last_name?: NullableStringFieldUpdateOperationsInput | string | null
     user_roles?: UserUpdateuser_rolesInput | $Enums.User_Role[]
+    verification_status?: NullableEnumVerification_StatusFieldUpdateOperationsInput | $Enums.Verification_Status | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_login?: DateTimeFieldUpdateOperationsInput | Date | string
   }

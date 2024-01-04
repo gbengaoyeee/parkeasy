@@ -20,6 +20,25 @@ export class AppwriteService extends Client {
         return AppwriteService.instance;
     }
 
+    private encodeEmail(str: string): string {
+        let encoded = btoa(str);
+        // Replace '+' with '-', '/' with '_', and remove '='
+        return 'p_easy_' + encoded.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+    };
+
+
+    
+    private decodeHash(hash: string): string {
+        let encoded = hash.slice('p_easy_'.length);
+        // Replace '-' with '+' and '_' with '/'
+        encoded = encoded.replace(/-/g, '+').replace(/_/g, '/');
+        // Pad the string with '=' to make it Base64 valid
+        while (encoded.length % 4) {
+            encoded += '=';
+        }
+        return atob(encoded);
+    };
+
     async resetPassword(password: string, oldPassword: string | undefined,) {
         await this.account.updatePassword(password, oldPassword)
     }

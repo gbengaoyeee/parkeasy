@@ -1,6 +1,16 @@
-import { IsEmail, IsOptional, IsString, IsUUID } from "class-validator"
+import { IsEmail, IsEnum, IsOptional, IsString, IsUUID } from "class-validator"
+import { User_Role } from "../../../../shared/prisma-client"
+
 
 export class GetUserDto {
     @IsString()
-    idOrEmail: string
+    email: string
+}
+
+export class GetUserByPhone {
+    @IsString()
+    phone: string
+
+    @IsEnum(User_Role)
+    role: User_Role
 }

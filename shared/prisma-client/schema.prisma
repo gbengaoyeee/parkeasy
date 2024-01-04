@@ -30,13 +30,19 @@ model PreSignUpManagement {
   @@map("PreSignUpManagements")
 }
 
+enum Verification_Status {
+  not_started
+  completed
+  failed
+}
 model User {
   id        String   @id @default(uuid()) @unique
-  email     String   @unique
-  phone_number String?
+  email     String?   @unique
+  phone_number String? @unique
   first_name String?
   last_name String?
   user_roles User_Role[] @default([])
+  verification_status Verification_Status? @default(not_started)
 
   created_at DateTime @default(now())
   last_login DateTime @default(now())
