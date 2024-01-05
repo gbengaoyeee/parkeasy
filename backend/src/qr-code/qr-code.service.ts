@@ -5,7 +5,9 @@ import { QRCode_Type } from '../../../shared/prisma-client';
 export interface ICreateQRCodeDto {
     name: string
     qr_type: QRCode_Type
-    redirectUrl: string
+    qr_for: 'community_member' | 'parking_spot'
+    buildingId: string
+    id_for: string
 }
 
 @Injectable()
@@ -33,12 +35,13 @@ export class QrCodeService {
     }
 
     async create(dto: ICreateQRCodeDto) {
+        let redirectUrl = dto.qr_for === 'community_member' ? `${process.env.ENDPOINT_URL}/building/community-member/${dto.buildingId}/?memberId=${dto.id_for}` : `${process.env.ENDPOINT_URL}/parking/${dto.buildingId}/?parkingId=${dto.id_for}`
         let body = {
             name: dto.name,
             qr_type: dto.qr_type === QRCode_Type.static ? 1 : 2,
             fields_data: {
                 qr_type: 1,
-                url: dto.redirectUrl
+                url: redirectUrl
             },
             organization: process.env.BEACON_STACK_ORG_ID,
             attributes: QrCodeService.ATTRIBUTES

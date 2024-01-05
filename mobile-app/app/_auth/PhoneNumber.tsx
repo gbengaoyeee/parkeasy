@@ -35,7 +35,7 @@ const PhoneNumber = () => {
     //@ts-ignore
     navigation.navigate("OTPCode", { phoneNumber: data.phoneNumber });
   };
-  
+
   return (
     <KeyboardAvoidingView
       className="flex-1"

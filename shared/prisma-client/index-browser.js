@@ -173,11 +173,12 @@ exports.Prisma.BuildingScalarFieldEnum = {
 exports.Prisma.CommunityMembersScalarFieldEnum = {
   id: 'id',
   building_id: 'building_id',
+  user_id: 'user_id',
   user_role: 'user_role',
   email: 'email',
   name: 'name',
   phone: 'phone',
-  unit_number: 'unit_number',
+  unit_numbers: 'unit_numbers',
   status: 'status',
   qr_code_id: 'qr_code_id'
 };
@@ -190,7 +191,8 @@ exports.Prisma.ParkingSpotScalarFieldEnum = {
   vehicle_id: 'vehicle_id',
   parking_level: 'parking_level',
   parking_spot_number: 'parking_spot_number',
-  parking_spot_type: 'parking_spot_type'
+  parking_spot_type: 'parking_spot_type',
+  parking_instructions: 'parking_instructions'
 };
 
 exports.Prisma.QRCodeScalarFieldEnum = {

@@ -32,7 +32,8 @@ const NotVerifiedScreen = () => {
           }
         })
         .catch((err) => {
-          showToast({ type: "error", message: err.message });
+          console.error(err.response.data.message);
+          showToast({ type: "error", message: err.response.data.message });
         });
     }
   };
@@ -40,14 +41,9 @@ const NotVerifiedScreen = () => {
     <View>
       <Text>Welcome to Parkeasy</Text>
       <Text>To access to the following by verifying your identity</Text>
-      <FlatList
-        data={featureList}
-        renderItem={({ item }) => (
-          <>
-            <Text className="text-gray-500 text-lg">{item.title}</Text>
-          </>
-        )}
-      />
+      {featureList.map((item, index) => (
+        <Text key={index} className="text-gray-500 text-lg">{item.title}</Text>
+      ))}
       <Button onPress={openURL}>
         <Text className="text-white">Get verified now</Text>
       </Button>

@@ -32,16 +32,7 @@ const CommunityMemberPage = () => {
         return "tenant";
     }
   };
-  const form = useForm<z.infer<typeof UpdateCommunityMemberValidation>>({
-    resolver: zodResolver(UpdateCommunityMemberValidation),
-    defaultValues: {
-      name: member?.name || "",
-      phone: member?.phone || "",
-      role: getAppropriateUserRole(member?.user_role || null),
-      email: member?.email || "",
-      unit_number: member?.unit_number || "",
-    },
-  });
+  
   if (isFetchingMember) {
     return <>Loading</>;
   }
@@ -93,7 +84,7 @@ const CommunityMemberPage = () => {
 
           <div className="flex flex-col gap-2">
             <Label className="base-semibold">Unit Number</Label>
-            <p>{member.unit_number}</p>
+            <p>{member.unit_numbers}</p>
           </div>
 
           <div className="flex flex-col gap-2">

@@ -21,7 +21,6 @@ export class VerificationService {
                     ]
                 },
             })
-            console.log(user)
             const link = `https://inquiry.withpersona.com/verify?inquiry-template-id=${process.env.PERSONA_TEMPLATE_ID}&environment-id=${process.env.PERSONA_ENV_ID}&reference-id=${user.id}`;
             return new IResponseData(
                 `verification link generated successfully`,

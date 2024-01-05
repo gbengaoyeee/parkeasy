@@ -4,7 +4,7 @@ import ApiClient from "./client"
 let client = new ApiClient('building').client
 
 export const getBuilding = async (buildingId: string, queries: string=''): Promise<Building> => {
-    const {data} = await client.get(`/${buildingId}?${queries}`)
+    const {data} = await client.get(`/?buildingId=${buildingId}&${queries}`)
     return data.data as Building
 }
 export const uploadCommunityMembers = async (buildingId: string, file: FormData) => {

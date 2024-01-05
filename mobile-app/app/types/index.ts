@@ -11,5 +11,18 @@ import {
 
 
 export interface User extends PrismaUser {
-    
+    community_members: CommunityMembers[]
+}
+
+export interface CommunityMembers extends PrismaCommunityMembers {
+    qr_code: QRCode
+    building: Building
+    parking_spots: PrismaParkingSpot[]
+}
+
+export interface Building extends PrismaBuilding {
+    parking_spots: ParkingSpot[]
+}
+export interface ParkingSpot extends PrismaParkingSpot {
+    qr_code: QRCode
 }

@@ -18,10 +18,14 @@ import LinkButton from "@/components/shared/LinkButton";
 import TouchOpacity from "@/components/shared/TouchOpacity";
 import OTPInput from "@/components/shared/OTPInput";
 import useToast from "../hooks/useToast";
+import { AppwriteException } from "appwrite";
 
+interface RouteParams {
+  phoneNumber: string;
+}
 const OTPCode = () => {
   const route = useRoute();
-  const { checkAuthUser } = useAuthContext();
+  const { checkAuthUser, signOut } = useAuthContext();
   const [otpCodeValues, setOtpCodeValues] = useState(Array(6).fill(""));
   const navigation = useNavigation();
   const {
@@ -39,22 +43,31 @@ const OTPCode = () => {
   const { isPending: isSubmittingCode, mutateAsync: finishVerification } =
     useFinishPhoneVerification();
   const [sessionId, setSessionId] = useState("");
-  //@ts-ignore
-  const { phoneNumber } = route.params;
+
+  const { phoneNumber } = route.params as RouteParams;
 
   useEffect(() => {
     if (phoneNumber) {
-    //   handleResend();
-      console.log(phoneNumber);
+      handleResend();
     }
   }, []);
 
   const onSubmit = (data: any) => {
     //@ts-ignore
-    finishVerification({ otpcode: data.otpcode, sessionId })
+    finishVerification({
+      otpcode: data.otpcode,
+      sessionId,
+      phone: phoneNumber,
+      userRoles: ["owner"],
+    })
       .then((resp) => {})
       .catch((error) => {
-        showToast({ type: "error", message: error.message });
+        if (error instanceof AppwriteException) {
+          showToast({ type: "error", message: error.message });
+          return;
+        }
+        showToast({ type: "error", message: error.response.data.message });
+        signOut();
       })
       .finally(() => {
         // refresh user state
@@ -72,6 +85,7 @@ const OTPCode = () => {
         });
       })
       .catch((error) => {
+        console.error(error);
         showToast({ type: "error", message: error.message });
       });
   };

@@ -2,14 +2,26 @@
 import { Active_State } from "@prisma/client";
 import { Transform, Type } from "class-transformer";
 import { IsBoolean, IsEmail, IsEnum, IsNumber, IsOptional, IsPhoneNumber, IsString, Max, Min } from "class-validator";
-import { User_Role } from "../../../../shared/prisma-client";
+import { Parking_Spot_Type, User_Role } from "../../../../shared/prisma-client";
 
 
 export class GetBuildingsDto {
     @IsString()
+    @IsOptional()
     managementId: string
+    
+    @IsOptional()
+    @IsString()
+    email: string
+
+    @IsOptional()
+    @IsString()
+    phone: string
 }
 export class GetBuildingQueryDto {
+    @IsString()
+    buildingId: string
+
     @IsBoolean()
     @IsOptional()
     @Transform(({ obj, key }) => obj[key] === 'true')
@@ -51,7 +63,7 @@ export class UpdateCommunityMemberDto {
     status: 'active' | 'inactive'
 }
 
-export class GetPaginatedQueryDto {
+export class GetCommunityMembersDto {
     @IsOptional()
     @IsNumber()
     @Min(1)
@@ -64,4 +76,44 @@ export class GetPaginatedQueryDto {
     @Max(100)
     @Type(() => Number)
     pageSize: number = 10;
+}
+export class GetParkingsDto {
+    @IsOptional()
+    @IsNumber()
+    @Min(1)
+    @Type(() => Number)
+    page: number = 1;
+
+    @IsOptional()
+    @IsNumber()
+    @Min(1)
+    @Max(100)
+    @Type(() => Number)
+    pageSize: number = 10;
+
+    @IsOptional()
+    @IsString()
+    userId: string
+
+    @IsOptional()
+    @IsString()
+    phone: string
+}
+
+export class AddParkingSpotDto {
+    @IsString()
+    spotNumber: string
+
+    @IsNumber()
+    spotLevel: number
+
+    @IsEnum(Parking_Spot_Type)
+    spotType: Parking_Spot_Type
+
+    @IsString()
+    userId: string
+
+    @IsString()
+    @IsOptional()
+    parkingInstructions: string
 }

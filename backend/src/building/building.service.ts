@@ -4,7 +4,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { ICreateQRCodeDto, QrCodeService } from 'src/qr-code/qr-code.service';
 import { IResponseData } from 'src/response';
 import * as xlsx from 'xlsx'
-import { GetBuildingQueryDto, GetBuildingsDto, GetPaginatedQueryDto, UpdateCommunityMemberDto } from './dto';
+import { AddParkingSpotDto, GetBuildingQueryDto, GetBuildingsDto, GetCommunityMembersDto, GetParkingsDto, UpdateCommunityMemberDto } from './dto';
 import { QRCode_Type } from '../../../shared/prisma-client';
 import { v4 as uuidv4 } from 'uuid'
 
@@ -13,7 +13,7 @@ interface IBulkUploadData {
     name: string,
     phone: string,
     email: string,
-    unit_number: string,
+    unit_numbers: string,
     user_role: 'owner' | 'tenant',
     parking_level: number
     parking_spot_number: string
@@ -33,20 +33,44 @@ export class BuildingService {
 
     async getBuildings(dto: GetBuildingsDto) {
         try {
-            const buildings = await this.prisma.building.findMany({where: {management_id: dto.managementId}})
-            return new IResponseData(
-                `buildings retrieved successfully`,
-                buildings
-            ).json
+            if(dto.managementId) {
+                const buildings = await this.prisma.building.findMany(
+                    {
+                        where: {management_id: dto.managementId}
+                    }
+                )
+                return new IResponseData(
+                    `buildings retrieved successfully`,
+                    buildings
+                ).json
+            } else {
+                const members = await this.prisma.communityMembers.findMany(
+                    {
+                        where: {
+                            OR: [
+                                {phone: dto.phone},
+                                {email: dto.email}
+                            ],
+                        },
+                        include: {
+                            building: true
+                        },
+                    }
+                )
+                return new IResponseData(
+                    `buildings retrieved successfully`,
+                    members.map((member) => member.building)
+                ).json
+            }
         } catch (error) {
             console.error(error)
             throw this.errorService.handleException(error)
         }
     }
-    async getBuilding(buildingId: string, queryDto: GetBuildingQueryDto) {
+    async getBuilding(queryDto: GetBuildingQueryDto) {
         try {
             const building = await this.prisma.building.findUnique({
-                where: {id: buildingId}, 
+                where: {id: queryDto.buildingId}, 
                 include:{
                     community_members: queryDto.includeMembers && {
                         include: {
@@ -86,7 +110,7 @@ export class BuildingService {
             throw this.errorService.handleException(error)
         }
     }
-    async getCommunityMembers(buildingId: string, dto: GetPaginatedQueryDto) {
+    async getCommunityMembers(buildingId: string, dto: GetCommunityMembersDto) {
         try {
             const [members, total] = await this.prisma.$transaction([
                 this.prisma.communityMembers.findMany({
@@ -125,6 +149,7 @@ export class BuildingService {
             // prisma queries
             const writePromises = []
             data.forEach((entry: IBulkUploadData) => {
+                const unitNumbers = JSON.parse(entry.unit_numbers).map((unitNumber:any) => unitNumber.toString())
                 const memberId = uuidv4()
                 const vehicleId = uuidv4()
                 const prismaWritePromises = this.prisma.$transaction([
@@ -134,8 +159,8 @@ export class BuildingService {
                             building_id: buildingId,
                             email: entry.email,
                             name: entry.name,
-                            phone: `${entry.phone}`,
-                            unit_number: `${entry.unit_number}`,
+                            phone: `${entry.phone.toString().startsWith('+') ? entry.phone : `+${entry.phone}`}`,
+                            unit_numbers: unitNumbers,
                             user_role: entry.user_role
                         }
                     }),
@@ -164,15 +189,19 @@ export class BuildingService {
             const qrTransactions = []
             for (const entry of writeResults) {
                 const [memberEntry, vehicleEntry, parkingEntry,] = entry
-                const newMemberEntry = {
+                const newMemberEntry: ICreateQRCodeDto = {
                     name: `${memberEntry.name} Community QR`,
                     qr_type: QRCode_Type.static,
-                    redirectUrl: `${process.env.ENDPOINT_URL}/building/community-member/${buildingId}/?memberId=${memberEntry.id}`,
+                    qr_for: 'community_member',
+                    id_for: memberEntry.id as string,
+                    buildingId: buildingId
                 }
-                const newParkingEntry = {
+                const newParkingEntry: ICreateQRCodeDto = {
                     name: `${memberEntry.name} Parking QR`,
                     qr_type: QRCode_Type.static,
-                    redirectUrl: `${process.env.ENDPOINT_URL}/parking/${buildingId}/?parkingId=${parkingEntry.id}`,
+                    qr_for: 'parking_spot',
+                    id_for: parkingEntry.id as string,
+                    buildingId: buildingId
                 }
 
                 try {
@@ -322,7 +351,7 @@ export class BuildingService {
     }
 
     // get parking spots
-    async getParkingSpots(buildingId: string, dto: GetPaginatedQueryDto) {
+    async getParkingSpots(buildingId: string, dto: GetParkingsDto) {
         try {
             const parkingSpots = await this.prisma.parkingSpot.findMany({
                 where: {
@@ -362,6 +391,72 @@ export class BuildingService {
             return new IResponseData(
                 `Parking spot found successfully`,
                 parkingSpot
+            ).json;
+        } catch (error) {
+            console.error(error);
+            throw this.errorService.handleException(error);
+        }
+    }
+
+    //add parking spot
+    async addParkingSpot(buildingId: string, dto: AddParkingSpotDto) {
+        try {
+            const user = await this.prisma.user.findUnique({
+                where: {
+                    id: dto.userId
+                }
+            })
+            const communityMember = await this.prisma.communityMembers.findFirst({
+                where: {
+                    phone: user.phone_number
+                }
+            })
+            const newParkingSpot = await this.prisma.parkingSpot.create({
+                data: {
+                    owner_id: communityMember.id,
+                    parking_level: dto.spotLevel,
+                    parking_spot_number: dto.spotNumber,
+                    parking_spot_type: dto.spotType,
+                    building_id: buildingId,
+                    parking_instructions: dto.parkingInstructions
+                },
+                include: {
+                    qr_code: true
+                }
+            });
+            const newParkingEntry: ICreateQRCodeDto = {
+                name: `${dto.userId} Parking QR`,
+                qr_type: QRCode_Type.static,
+                qr_for: 'parking_spot',
+                id_for: newParkingSpot.id as string,
+                buildingId: buildingId
+            }
+            const {id, url} = await this.qrCodeService.create(newParkingEntry);
+            const {urls} = await this.qrCodeService.downloadQRCode(id)
+
+            const [_, spot] = await this.prisma.$transaction([
+                this.prisma.qRCode.create({
+                    data: {
+                        id: `${id}`,
+                        qr_for: 'parking_spot',
+                        url: url,
+                        qr_type: 'static',
+                        image_url: urls.png,
+                    }
+                }),
+                this.prisma.parkingSpot.update({
+                    where: {
+                        id: newParkingSpot.id
+                    },
+                    data: {
+                        qr_code_id: `${id}`
+                    }
+                }),
+            ]);
+            
+            return new IResponseData(
+                `Parking spot added successfully`,
+                spot
             ).json;
         } catch (error) {
             console.error(error);

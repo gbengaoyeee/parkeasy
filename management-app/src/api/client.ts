@@ -12,6 +12,9 @@ export class ApiClient {
     this.client = axios.create({
       baseURL: `${rootUrl}/${basePath}` ?? '/',
       responseType: 'json',
+      headers: {
+        "ngrok-skip-browser-warning": "69420",
+      }
     });
   }
 }

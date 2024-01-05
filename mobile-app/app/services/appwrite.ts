@@ -1,6 +1,4 @@
 import { Client, Account, ID} from "appwrite";
-// @ts-ignore
-import {APPWRITE_ENDPOINT, APPWRITE_PROJECT_ID} from '@env'
 
 export class AppwriteService extends Client {
     private static instance: AppwriteService;
@@ -8,8 +6,8 @@ export class AppwriteService extends Client {
     private constructor() {
         super()
         this
-            .setEndpoint(APPWRITE_ENDPOINT) // Your API Endpoint
-            .setProject(APPWRITE_PROJECT_ID) // Your project ID
+            .setEndpoint(process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT ?? 'https://api.appwrite.not-found') // Your API Endpoint
+            .setProject(process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID ?? 'project-id-not-found') // Your project ID
         this.account = new Account(this)
     }
 

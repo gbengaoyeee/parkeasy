@@ -1,7 +1,7 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { ErrorService } from 'src/exceptions/error.service';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { GetUserByPhone, GetUserDto } from './dto/user.dto';
+import { CreateUserDto, GetUserByPhone, GetUserDto } from './dto/user.dto';
 import { IResponseData } from 'src/response';
 
 @Injectable()
@@ -21,7 +21,7 @@ export class UserService {
                     ]
                 },
                 include: {
-                    management: true
+                    management: true,
                 }
             })
             if(!user) {
@@ -44,24 +44,53 @@ export class UserService {
                     phone_number: dto.phone
                 },
                 include: {
-                    management: true
+                    management: true,
+                    community_members: {
+                        include: {
+                            building: true,
+                            parking_spots: true
+                        }
+                    }
                 }
             })
-            if(!user) {
-                const user = await this.prisma.user.create({
-                    data: {
-                        phone_number: dto.phone,
-                        user_roles: [dto.role]
-                    }
-                })
-                return new IResponseData(
-                    `user retrieved successfully`,
-                    user
-                ).json
-            }
             
             return new IResponseData(
                 `user retrieved successfully`,
+                user
+            ).json
+        } catch (error) {
+            throw this.errorService.handleException(error)
+        }
+    }
+
+    async createUser(dto: CreateUserDto) {
+        try {
+            console.log('creating user at', new Date().toISOString())
+            const user = await this.prisma.user.create({
+                data: {
+                    email: dto.email,
+                    phone_number: dto.phone,
+                    first_name: dto.firstName,
+                    last_name: dto.lastName,
+                    user_roles: dto.userRoles
+                }
+            })
+
+            //update all community members with phone
+            await this.prisma.communityMembers.updateMany({
+                where: {
+                    OR: [
+                        {phone: dto.phone},
+                        {email: dto.email},
+                    ]
+                },
+                data: {
+                    user_id: user.id
+                }
+            })
+
+            return new IResponseData(
+                `user created successfully`,
                 user
             ).json
         } catch (error) {

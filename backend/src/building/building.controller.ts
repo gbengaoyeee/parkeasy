@@ -1,19 +1,19 @@
 import { Body, Controller, Get, Param, Post, Put, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { BuildingService } from './building.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { GetBuildingQueryDto, GetBuildingsDto, GetPaginatedQueryDto, UpdateCommunityMemberDto } from './dto';
+import { AddParkingSpotDto, GetBuildingQueryDto, GetBuildingsDto, GetCommunityMembersDto, GetParkingsDto, UpdateCommunityMemberDto } from './dto';
 
 @Controller('building')
 export class BuildingController {
     constructor(private buildingService: BuildingService){}
     
-    @Get('/:buildingId')
-    async getBuilding(@Param('buildingId') buildingId: string, @Query() queryDto: GetBuildingQueryDto) {
-        return await this.buildingService.getBuilding(buildingId, queryDto)
+    @Get('/')
+    async getBuilding(@Query() queryDto: GetBuildingQueryDto) {
+        return await this.buildingService.getBuilding(queryDto)
     }
 
-    @Get('buildings/:managementId')
-    async getBuildings(@Param() dto: GetBuildingsDto) {
+    @Get('buildings')
+    async getBuildings(@Query() dto: GetBuildingsDto) {
         return await this.buildingService.getBuildings(dto)
     }
     
@@ -23,8 +23,9 @@ export class BuildingController {
         return this.buildingService.bulkUpload(buildingId, file)
     }
 
+    /** COMMUNITY MEMBERS */
     @Get('community-members/:buildingId')
-    async getCommunityMembers(@Param('buildingId') buildingId: string, @Query() dto: GetPaginatedQueryDto) {
+    async getCommunityMembers(@Param('buildingId') buildingId: string, @Query() dto: GetCommunityMembersDto) {
         return await this.buildingService.getCommunityMembers(buildingId, dto)
     }
     @Get('community-member/:buildingId/:memberId')
@@ -37,7 +38,6 @@ export class BuildingController {
         return await this.buildingService.activateInactiveMembers(buildingId)
     }
 
-    
     @Put('community-member/:buildingId/:memberId')
     async updateCommunityMember(
       @Param('buildingId') buildingId: string,
@@ -53,9 +53,11 @@ export class BuildingController {
         return await this.buildingService.searchCommunityMembersByName(buildingId, name);
     }
 
+
+    /**PARKING SPOTS */
     // get parking spots
     @Get('parking-spots/:buildingId')
-    async getParkingSpots(@Param('buildingId') buildingId: string, @Query() dto: GetPaginatedQueryDto) {
+    async getParkingSpots(@Param('buildingId') buildingId: string, @Query() dto: GetParkingsDto) {
         return await this.buildingService.getParkingSpots(buildingId, dto);
     }
 
@@ -64,4 +66,11 @@ export class BuildingController {
     async searchParkingSpotsBySpotNumber(@Param('buildingId') buildingId: string, @Query('spotNumber') spotNumber: string) {
         return await this.buildingService.searchParkingSpotsBySpotNumber(buildingId, spotNumber);
     }
+
+    //Add parking spot
+    @Post('parking-spots/:buildingId')
+    async addParkingSpot(@Param('buildingId') buildingId: string, @Body() dto: AddParkingSpotDto) {
+        return await this.buildingService.addParkingSpot(buildingId, dto);
+    }
+
 }

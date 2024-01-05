@@ -48,6 +48,7 @@ model User {
   last_login DateTime @default(now())
 
   management Management? // Relation field
+  community_members CommunityMembers[] // Relation field
 
   @@map("Users")
 }
@@ -142,11 +143,12 @@ model Building {
 model CommunityMembers {
   id String @id @default(uuid()) @unique
   building_id String  // Foreign key
+  user_id String?  // Foreign key
   user_role User_Role?
   email String?
   name String?
   phone String?
-  unit_number String?
+  unit_numbers String[] @default([])
   status Active_State @default(inactive)
 
   qr_code_id String? @unique
@@ -154,8 +156,10 @@ model CommunityMembers {
   building   Building @relation(fields: [building_id], references: [id], onDelete: Cascade) // Relation attribute
   qr_code    QRCode? @relation(fields: [qr_code_id], references: [id], onDelete: Cascade) // Relation attribute
   parking_spots ParkingSpot[] // A community member can have multiple parking spots
+  user    User? @relation(fields: [user_id], references: [id]) // Relation attribute
 
-  @@unique([building_id, unit_number])
+
+  @@unique([building_id, phone, email])
 }
 
 enum Parking_Spot_Type {
@@ -172,6 +176,7 @@ model ParkingSpot {
   parking_level Int?
   parking_spot_number String?
   parking_spot_type Parking_Spot_Type @default(regular)
+  parking_instructions String? @default("")
 
   building   Building @relation(fields: [building_id], references: [id], onDelete: Cascade) // Relation attribute
   owner   CommunityMembers? @relation(fields: [owner_id], references: [id], onDelete: Cascade) // Relation attribute

@@ -9,6 +9,7 @@ import useToast from "./useToast";
 const useUser = () => {
   const { user: authUser, isLoading } = useAuthContext();
   const [user, setUser] = useState<User | null>(null);
+//   const [communityMembers, setCommunityMembers] = useState<PrismaCommunityMembers[]>([]);
   const [verifLink, setVerifLink] = useState<string | null>(null);
   const { showToast } = useToast();
   const role: User_Role = "owner";
@@ -20,10 +21,19 @@ const useUser = () => {
     refetch,
   } = useQuery({
     queryKey: ["user-data"],
-    queryFn: async () => {
+    queryFn: async (): Promise<User | null> => {
       if (authUser) {
-        const response = await getUser(authUser.phone, role);
-        return response as User;
+        const response = getUser(authUser.phone, role)
+        .then((response) => {
+          return response as User
+        })
+        .catch((error) => {
+          console.error("useUser", error.response.data);
+          showToast({ type: "error", message: error.response.data.message });
+          return null
+        })
+        
+        return response;
       }
       return null;
     },
@@ -37,13 +47,6 @@ const useUser = () => {
       refetch();
     }
   }, [authUser]);
-
-  useEffect(() => {
-    if (queryError) {
-      console.error(queryError);
-      showToast({ type: "error", message: queryError.message });
-    }
-  }, [queryError]);
 
   useEffect(() => {
     if (data) {

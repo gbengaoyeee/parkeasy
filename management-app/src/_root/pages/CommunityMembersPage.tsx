@@ -261,7 +261,7 @@ const CommunityMembersPage = () => {
                     >
                       <td className="px-6 py-4">{member.name}</td>
                       <td className="px-6 py-4">{member.email}</td>
-                      <td className="px-6 py-4">{member.unit_number}</td>
+                      <td className="px-6 py-4">{member.unit_numbers}</td>
                       <td className="px-6 py-4">
                         <img src={member.qr_code.image_url ?? ""} width={50} alt="" />
                       </td>

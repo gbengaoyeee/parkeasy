@@ -1663,6 +1663,40 @@ export namespace Prisma {
 
 
   /**
+   * Count Type UserCountOutputType
+   */
+
+  export type UserCountOutputType = {
+    community_members: number
+  }
+
+  export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    community_members?: boolean | UserCountOutputTypeCountCommunity_membersArgs
+  }
+
+  // Custom InputTypes
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCountOutputType
+     */
+    select?: UserCountOutputTypeSelect<ExtArgs> | null
+  }
+
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountCommunity_membersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CommunityMembersWhereInput
+  }
+
+
+
+  /**
    * Count Type ManagementCountOutputType
    */
 
@@ -2885,6 +2919,8 @@ export namespace Prisma {
     created_at?: boolean
     last_login?: boolean
     management?: boolean | User$managementArgs<ExtArgs>
+    community_members?: boolean | User$community_membersArgs<ExtArgs>
+    _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -2901,6 +2937,8 @@ export namespace Prisma {
 
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     management?: boolean | User$managementArgs<ExtArgs>
+    community_members?: boolean | User$community_membersArgs<ExtArgs>
+    _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
 
@@ -2908,6 +2946,7 @@ export namespace Prisma {
     name: "User"
     objects: {
       management: Prisma.$ManagementPayload<ExtArgs> | null
+      community_members: Prisma.$CommunityMembersPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3286,6 +3325,8 @@ export namespace Prisma {
 
     management<T extends User$managementArgs<ExtArgs> = {}>(args?: Subset<T, User$managementArgs<ExtArgs>>): Prisma__ManagementClient<$Result.GetResult<Prisma.$ManagementPayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
 
+    community_members<T extends User$community_membersArgs<ExtArgs> = {}>(args?: Subset<T, User$community_membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityMembersPayload<ExtArgs>, T, 'findMany'> | Null>;
+
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3647,6 +3688,27 @@ export namespace Prisma {
      */
     include?: ManagementInclude<ExtArgs> | null
     where?: ManagementWhereInput
+  }
+
+
+  /**
+   * User.community_members
+   */
+  export type User$community_membersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityMembers
+     */
+    select?: CommunityMembersSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CommunityMembersInclude<ExtArgs> | null
+    where?: CommunityMembersWhereInput
+    orderBy?: CommunityMembersOrderByWithRelationInput | CommunityMembersOrderByWithRelationInput[]
+    cursor?: CommunityMembersWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CommunityMembersScalarFieldEnum | CommunityMembersScalarFieldEnum[]
   }
 
 
@@ -6792,11 +6854,11 @@ export namespace Prisma {
   export type CommunityMembersMinAggregateOutputType = {
     id: string | null
     building_id: string | null
+    user_id: string | null
     user_role: $Enums.User_Role | null
     email: string | null
     name: string | null
     phone: string | null
-    unit_number: string | null
     status: $Enums.Active_State | null
     qr_code_id: string | null
   }
@@ -6804,11 +6866,11 @@ export namespace Prisma {
   export type CommunityMembersMaxAggregateOutputType = {
     id: string | null
     building_id: string | null
+    user_id: string | null
     user_role: $Enums.User_Role | null
     email: string | null
     name: string | null
     phone: string | null
-    unit_number: string | null
     status: $Enums.Active_State | null
     qr_code_id: string | null
   }
@@ -6816,11 +6878,12 @@ export namespace Prisma {
   export type CommunityMembersCountAggregateOutputType = {
     id: number
     building_id: number
+    user_id: number
     user_role: number
     email: number
     name: number
     phone: number
-    unit_number: number
+    unit_numbers: number
     status: number
     qr_code_id: number
     _all: number
@@ -6830,11 +6893,11 @@ export namespace Prisma {
   export type CommunityMembersMinAggregateInputType = {
     id?: true
     building_id?: true
+    user_id?: true
     user_role?: true
     email?: true
     name?: true
     phone?: true
-    unit_number?: true
     status?: true
     qr_code_id?: true
   }
@@ -6842,11 +6905,11 @@ export namespace Prisma {
   export type CommunityMembersMaxAggregateInputType = {
     id?: true
     building_id?: true
+    user_id?: true
     user_role?: true
     email?: true
     name?: true
     phone?: true
-    unit_number?: true
     status?: true
     qr_code_id?: true
   }
@@ -6854,11 +6917,12 @@ export namespace Prisma {
   export type CommunityMembersCountAggregateInputType = {
     id?: true
     building_id?: true
+    user_id?: true
     user_role?: true
     email?: true
     name?: true
     phone?: true
-    unit_number?: true
+    unit_numbers?: true
     status?: true
     qr_code_id?: true
     _all?: true
@@ -6939,11 +7003,12 @@ export namespace Prisma {
   export type CommunityMembersGroupByOutputType = {
     id: string
     building_id: string
+    user_id: string | null
     user_role: $Enums.User_Role | null
     email: string | null
     name: string | null
     phone: string | null
-    unit_number: string | null
+    unit_numbers: string[]
     status: $Enums.Active_State
     qr_code_id: string | null
     _count: CommunityMembersCountAggregateOutputType | null
@@ -6968,27 +7033,30 @@ export namespace Prisma {
   export type CommunityMembersSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     building_id?: boolean
+    user_id?: boolean
     user_role?: boolean
     email?: boolean
     name?: boolean
     phone?: boolean
-    unit_number?: boolean
+    unit_numbers?: boolean
     status?: boolean
     qr_code_id?: boolean
     building?: boolean | BuildingDefaultArgs<ExtArgs>
     qr_code?: boolean | CommunityMembers$qr_codeArgs<ExtArgs>
     parking_spots?: boolean | CommunityMembers$parking_spotsArgs<ExtArgs>
+    user?: boolean | CommunityMembers$userArgs<ExtArgs>
     _count?: boolean | CommunityMembersCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["communityMembers"]>
 
   export type CommunityMembersSelectScalar = {
     id?: boolean
     building_id?: boolean
+    user_id?: boolean
     user_role?: boolean
     email?: boolean
     name?: boolean
     phone?: boolean
-    unit_number?: boolean
+    unit_numbers?: boolean
     status?: boolean
     qr_code_id?: boolean
   }
@@ -6997,6 +7065,7 @@ export namespace Prisma {
     building?: boolean | BuildingDefaultArgs<ExtArgs>
     qr_code?: boolean | CommunityMembers$qr_codeArgs<ExtArgs>
     parking_spots?: boolean | CommunityMembers$parking_spotsArgs<ExtArgs>
+    user?: boolean | CommunityMembers$userArgs<ExtArgs>
     _count?: boolean | CommunityMembersCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -7007,15 +7076,17 @@ export namespace Prisma {
       building: Prisma.$BuildingPayload<ExtArgs>
       qr_code: Prisma.$QRCodePayload<ExtArgs> | null
       parking_spots: Prisma.$ParkingSpotPayload<ExtArgs>[]
+      user: Prisma.$UserPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       building_id: string
+      user_id: string | null
       user_role: $Enums.User_Role | null
       email: string | null
       name: string | null
       phone: string | null
-      unit_number: string | null
+      unit_numbers: string[]
       status: $Enums.Active_State
       qr_code_id: string | null
     }, ExtArgs["result"]["communityMembers"]>
@@ -7389,6 +7460,8 @@ export namespace Prisma {
 
     parking_spots<T extends CommunityMembers$parking_spotsArgs<ExtArgs> = {}>(args?: Subset<T, CommunityMembers$parking_spotsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParkingSpotPayload<ExtArgs>, T, 'findMany'> | Null>;
 
+    user<T extends CommunityMembers$userArgs<ExtArgs> = {}>(args?: Subset<T, CommunityMembers$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
+
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7419,11 +7492,12 @@ export namespace Prisma {
   interface CommunityMembersFieldRefs {
     readonly id: FieldRef<"CommunityMembers", 'String'>
     readonly building_id: FieldRef<"CommunityMembers", 'String'>
+    readonly user_id: FieldRef<"CommunityMembers", 'String'>
     readonly user_role: FieldRef<"CommunityMembers", 'User_Role'>
     readonly email: FieldRef<"CommunityMembers", 'String'>
     readonly name: FieldRef<"CommunityMembers", 'String'>
     readonly phone: FieldRef<"CommunityMembers", 'String'>
-    readonly unit_number: FieldRef<"CommunityMembers", 'String'>
+    readonly unit_numbers: FieldRef<"CommunityMembers", 'String[]'>
     readonly status: FieldRef<"CommunityMembers", 'Active_State'>
     readonly qr_code_id: FieldRef<"CommunityMembers", 'String'>
   }
@@ -7775,6 +7849,22 @@ export namespace Prisma {
 
 
   /**
+   * CommunityMembers.user
+   */
+  export type CommunityMembers$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+
+  /**
    * CommunityMembers without action
    */
   export type CommunityMembersDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7819,6 +7909,7 @@ export namespace Prisma {
     parking_level: number | null
     parking_spot_number: string | null
     parking_spot_type: $Enums.Parking_Spot_Type | null
+    parking_instructions: string | null
   }
 
   export type ParkingSpotMaxAggregateOutputType = {
@@ -7830,6 +7921,7 @@ export namespace Prisma {
     parking_level: number | null
     parking_spot_number: string | null
     parking_spot_type: $Enums.Parking_Spot_Type | null
+    parking_instructions: string | null
   }
 
   export type ParkingSpotCountAggregateOutputType = {
@@ -7841,6 +7933,7 @@ export namespace Prisma {
     parking_level: number
     parking_spot_number: number
     parking_spot_type: number
+    parking_instructions: number
     _all: number
   }
 
@@ -7862,6 +7955,7 @@ export namespace Prisma {
     parking_level?: true
     parking_spot_number?: true
     parking_spot_type?: true
+    parking_instructions?: true
   }
 
   export type ParkingSpotMaxAggregateInputType = {
@@ -7873,6 +7967,7 @@ export namespace Prisma {
     parking_level?: true
     parking_spot_number?: true
     parking_spot_type?: true
+    parking_instructions?: true
   }
 
   export type ParkingSpotCountAggregateInputType = {
@@ -7884,6 +7979,7 @@ export namespace Prisma {
     parking_level?: true
     parking_spot_number?: true
     parking_spot_type?: true
+    parking_instructions?: true
     _all?: true
   }
 
@@ -7982,6 +8078,7 @@ export namespace Prisma {
     parking_level: number | null
     parking_spot_number: string | null
     parking_spot_type: $Enums.Parking_Spot_Type
+    parking_instructions: string | null
     _count: ParkingSpotCountAggregateOutputType | null
     _avg: ParkingSpotAvgAggregateOutputType | null
     _sum: ParkingSpotSumAggregateOutputType | null
@@ -8012,6 +8109,7 @@ export namespace Prisma {
     parking_level?: boolean
     parking_spot_number?: boolean
     parking_spot_type?: boolean
+    parking_instructions?: boolean
     building?: boolean | BuildingDefaultArgs<ExtArgs>
     owner?: boolean | ParkingSpot$ownerArgs<ExtArgs>
     qr_code?: boolean | ParkingSpot$qr_codeArgs<ExtArgs>
@@ -8027,6 +8125,7 @@ export namespace Prisma {
     parking_level?: boolean
     parking_spot_number?: boolean
     parking_spot_type?: boolean
+    parking_instructions?: boolean
   }
 
   export type ParkingSpotInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8054,6 +8153,7 @@ export namespace Prisma {
       parking_level: number | null
       parking_spot_number: string | null
       parking_spot_type: $Enums.Parking_Spot_Type
+      parking_instructions: string | null
     }, ExtArgs["result"]["parkingSpot"]>
     composites: {}
   }
@@ -8463,6 +8563,7 @@ export namespace Prisma {
     readonly parking_level: FieldRef<"ParkingSpot", 'Int'>
     readonly parking_spot_number: FieldRef<"ParkingSpot", 'String'>
     readonly parking_spot_type: FieldRef<"ParkingSpot", 'Parking_Spot_Type'>
+    readonly parking_instructions: FieldRef<"ParkingSpot", 'String'>
   }
     
 
@@ -10807,11 +10908,12 @@ export namespace Prisma {
   export const CommunityMembersScalarFieldEnum: {
     id: 'id',
     building_id: 'building_id',
+    user_id: 'user_id',
     user_role: 'user_role',
     email: 'email',
     name: 'name',
     phone: 'phone',
-    unit_number: 'unit_number',
+    unit_numbers: 'unit_numbers',
     status: 'status',
     qr_code_id: 'qr_code_id'
   };
@@ -10827,7 +10929,8 @@ export namespace Prisma {
     vehicle_id: 'vehicle_id',
     parking_level: 'parking_level',
     parking_spot_number: 'parking_spot_number',
-    parking_spot_type: 'parking_spot_type'
+    parking_spot_type: 'parking_spot_type',
+    parking_instructions: 'parking_instructions'
   };
 
   export type ParkingSpotScalarFieldEnum = (typeof ParkingSpotScalarFieldEnum)[keyof typeof ParkingSpotScalarFieldEnum]
@@ -11161,6 +11264,7 @@ export namespace Prisma {
     created_at?: DateTimeFilter<"User"> | Date | string
     last_login?: DateTimeFilter<"User"> | Date | string
     management?: XOR<ManagementNullableRelationFilter, ManagementWhereInput> | null
+    community_members?: CommunityMembersListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -11174,6 +11278,7 @@ export namespace Prisma {
     created_at?: SortOrder
     last_login?: SortOrder
     management?: ManagementOrderByWithRelationInput
+    community_members?: CommunityMembersOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -11190,6 +11295,7 @@ export namespace Prisma {
     created_at?: DateTimeFilter<"User"> | Date | string
     last_login?: DateTimeFilter<"User"> | Date | string
     management?: XOR<ManagementNullableRelationFilter, ManagementWhereInput> | null
+    community_members?: CommunityMembersListRelationFilter
   }, "id" | "id" | "email" | "phone_number">
 
   export type UserOrderByWithAggregationInput = {
@@ -11502,60 +11608,67 @@ export namespace Prisma {
     NOT?: CommunityMembersWhereInput | CommunityMembersWhereInput[]
     id?: StringFilter<"CommunityMembers"> | string
     building_id?: StringFilter<"CommunityMembers"> | string
+    user_id?: StringNullableFilter<"CommunityMembers"> | string | null
     user_role?: EnumUser_RoleNullableFilter<"CommunityMembers"> | $Enums.User_Role | null
     email?: StringNullableFilter<"CommunityMembers"> | string | null
     name?: StringNullableFilter<"CommunityMembers"> | string | null
     phone?: StringNullableFilter<"CommunityMembers"> | string | null
-    unit_number?: StringNullableFilter<"CommunityMembers"> | string | null
+    unit_numbers?: StringNullableListFilter<"CommunityMembers">
     status?: EnumActive_StateFilter<"CommunityMembers"> | $Enums.Active_State
     qr_code_id?: StringNullableFilter<"CommunityMembers"> | string | null
     building?: XOR<BuildingRelationFilter, BuildingWhereInput>
     qr_code?: XOR<QRCodeNullableRelationFilter, QRCodeWhereInput> | null
     parking_spots?: ParkingSpotListRelationFilter
+    user?: XOR<UserNullableRelationFilter, UserWhereInput> | null
   }
 
   export type CommunityMembersOrderByWithRelationInput = {
     id?: SortOrder
     building_id?: SortOrder
+    user_id?: SortOrderInput | SortOrder
     user_role?: SortOrderInput | SortOrder
     email?: SortOrderInput | SortOrder
     name?: SortOrderInput | SortOrder
     phone?: SortOrderInput | SortOrder
-    unit_number?: SortOrderInput | SortOrder
+    unit_numbers?: SortOrder
     status?: SortOrder
     qr_code_id?: SortOrderInput | SortOrder
     building?: BuildingOrderByWithRelationInput
     qr_code?: QRCodeOrderByWithRelationInput
     parking_spots?: ParkingSpotOrderByRelationAggregateInput
+    user?: UserOrderByWithRelationInput
   }
 
   export type CommunityMembersWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     qr_code_id?: string
-    building_id_unit_number?: CommunityMembersBuilding_idUnit_numberCompoundUniqueInput
+    building_id_phone_email?: CommunityMembersBuilding_idPhoneEmailCompoundUniqueInput
     AND?: CommunityMembersWhereInput | CommunityMembersWhereInput[]
     OR?: CommunityMembersWhereInput[]
     NOT?: CommunityMembersWhereInput | CommunityMembersWhereInput[]
     building_id?: StringFilter<"CommunityMembers"> | string
+    user_id?: StringNullableFilter<"CommunityMembers"> | string | null
     user_role?: EnumUser_RoleNullableFilter<"CommunityMembers"> | $Enums.User_Role | null
     email?: StringNullableFilter<"CommunityMembers"> | string | null
     name?: StringNullableFilter<"CommunityMembers"> | string | null
     phone?: StringNullableFilter<"CommunityMembers"> | string | null
-    unit_number?: StringNullableFilter<"CommunityMembers"> | string | null
+    unit_numbers?: StringNullableListFilter<"CommunityMembers">
     status?: EnumActive_StateFilter<"CommunityMembers"> | $Enums.Active_State
     building?: XOR<BuildingRelationFilter, BuildingWhereInput>
     qr_code?: XOR<QRCodeNullableRelationFilter, QRCodeWhereInput> | null
     parking_spots?: ParkingSpotListRelationFilter
-  }, "id" | "id" | "qr_code_id" | "building_id_unit_number">
+    user?: XOR<UserNullableRelationFilter, UserWhereInput> | null
+  }, "id" | "id" | "qr_code_id" | "building_id_phone_email">
 
   export type CommunityMembersOrderByWithAggregationInput = {
     id?: SortOrder
     building_id?: SortOrder
+    user_id?: SortOrderInput | SortOrder
     user_role?: SortOrderInput | SortOrder
     email?: SortOrderInput | SortOrder
     name?: SortOrderInput | SortOrder
     phone?: SortOrderInput | SortOrder
-    unit_number?: SortOrderInput | SortOrder
+    unit_numbers?: SortOrder
     status?: SortOrder
     qr_code_id?: SortOrderInput | SortOrder
     _count?: CommunityMembersCountOrderByAggregateInput
@@ -11569,11 +11682,12 @@ export namespace Prisma {
     NOT?: CommunityMembersScalarWhereWithAggregatesInput | CommunityMembersScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"CommunityMembers"> | string
     building_id?: StringWithAggregatesFilter<"CommunityMembers"> | string
+    user_id?: StringNullableWithAggregatesFilter<"CommunityMembers"> | string | null
     user_role?: EnumUser_RoleNullableWithAggregatesFilter<"CommunityMembers"> | $Enums.User_Role | null
     email?: StringNullableWithAggregatesFilter<"CommunityMembers"> | string | null
     name?: StringNullableWithAggregatesFilter<"CommunityMembers"> | string | null
     phone?: StringNullableWithAggregatesFilter<"CommunityMembers"> | string | null
-    unit_number?: StringNullableWithAggregatesFilter<"CommunityMembers"> | string | null
+    unit_numbers?: StringNullableListFilter<"CommunityMembers">
     status?: EnumActive_StateWithAggregatesFilter<"CommunityMembers"> | $Enums.Active_State
     qr_code_id?: StringNullableWithAggregatesFilter<"CommunityMembers"> | string | null
   }
@@ -11590,6 +11704,7 @@ export namespace Prisma {
     parking_level?: IntNullableFilter<"ParkingSpot"> | number | null
     parking_spot_number?: StringNullableFilter<"ParkingSpot"> | string | null
     parking_spot_type?: EnumParking_Spot_TypeFilter<"ParkingSpot"> | $Enums.Parking_Spot_Type
+    parking_instructions?: StringNullableFilter<"ParkingSpot"> | string | null
     building?: XOR<BuildingRelationFilter, BuildingWhereInput>
     owner?: XOR<CommunityMembersNullableRelationFilter, CommunityMembersWhereInput> | null
     qr_code?: XOR<QRCodeNullableRelationFilter, QRCodeWhereInput> | null
@@ -11605,6 +11720,7 @@ export namespace Prisma {
     parking_level?: SortOrderInput | SortOrder
     parking_spot_number?: SortOrderInput | SortOrder
     parking_spot_type?: SortOrder
+    parking_instructions?: SortOrderInput | SortOrder
     building?: BuildingOrderByWithRelationInput
     owner?: CommunityMembersOrderByWithRelationInput
     qr_code?: QRCodeOrderByWithRelationInput
@@ -11624,6 +11740,7 @@ export namespace Prisma {
     parking_level?: IntNullableFilter<"ParkingSpot"> | number | null
     parking_spot_number?: StringNullableFilter<"ParkingSpot"> | string | null
     parking_spot_type?: EnumParking_Spot_TypeFilter<"ParkingSpot"> | $Enums.Parking_Spot_Type
+    parking_instructions?: StringNullableFilter<"ParkingSpot"> | string | null
     building?: XOR<BuildingRelationFilter, BuildingWhereInput>
     owner?: XOR<CommunityMembersNullableRelationFilter, CommunityMembersWhereInput> | null
     qr_code?: XOR<QRCodeNullableRelationFilter, QRCodeWhereInput> | null
@@ -11639,6 +11756,7 @@ export namespace Prisma {
     parking_level?: SortOrderInput | SortOrder
     parking_spot_number?: SortOrderInput | SortOrder
     parking_spot_type?: SortOrder
+    parking_instructions?: SortOrderInput | SortOrder
     _count?: ParkingSpotCountOrderByAggregateInput
     _avg?: ParkingSpotAvgOrderByAggregateInput
     _max?: ParkingSpotMaxOrderByAggregateInput
@@ -11658,6 +11776,7 @@ export namespace Prisma {
     parking_level?: IntNullableWithAggregatesFilter<"ParkingSpot"> | number | null
     parking_spot_number?: StringNullableWithAggregatesFilter<"ParkingSpot"> | string | null
     parking_spot_type?: EnumParking_Spot_TypeWithAggregatesFilter<"ParkingSpot"> | $Enums.Parking_Spot_Type
+    parking_instructions?: StringNullableWithAggregatesFilter<"ParkingSpot"> | string | null
   }
 
   export type QRCodeWhereInput = {
@@ -11830,6 +11949,7 @@ export namespace Prisma {
     created_at?: Date | string
     last_login?: Date | string
     management?: ManagementCreateNestedOneWithoutUserInput
+    community_members?: CommunityMembersCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -11843,6 +11963,7 @@ export namespace Prisma {
     created_at?: Date | string
     last_login?: Date | string
     management?: ManagementUncheckedCreateNestedOneWithoutUserInput
+    community_members?: CommunityMembersUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -11856,6 +11977,7 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_login?: DateTimeFieldUpdateOperationsInput | Date | string
     management?: ManagementUpdateOneWithoutUserNestedInput
+    community_members?: CommunityMembersUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -11869,6 +11991,7 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_login?: DateTimeFieldUpdateOperationsInput | Date | string
     management?: ManagementUncheckedUpdateOneWithoutUserNestedInput
+    community_members?: CommunityMembersUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -12227,21 +12350,23 @@ export namespace Prisma {
     email?: string | null
     name?: string | null
     phone?: string | null
-    unit_number?: string | null
+    unit_numbers?: CommunityMembersCreateunit_numbersInput | string[]
     status?: $Enums.Active_State
     building: BuildingCreateNestedOneWithoutCommunity_membersInput
     qr_code?: QRCodeCreateNestedOneWithoutOwnerInput
     parking_spots?: ParkingSpotCreateNestedManyWithoutOwnerInput
+    user?: UserCreateNestedOneWithoutCommunity_membersInput
   }
 
   export type CommunityMembersUncheckedCreateInput = {
     id?: string
     building_id: string
+    user_id?: string | null
     user_role?: $Enums.User_Role | null
     email?: string | null
     name?: string | null
     phone?: string | null
-    unit_number?: string | null
+    unit_numbers?: CommunityMembersCreateunit_numbersInput | string[]
     status?: $Enums.Active_State
     qr_code_id?: string | null
     parking_spots?: ParkingSpotUncheckedCreateNestedManyWithoutOwnerInput
@@ -12253,21 +12378,23 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    unit_number?: NullableStringFieldUpdateOperationsInput | string | null
+    unit_numbers?: CommunityMembersUpdateunit_numbersInput | string[]
     status?: EnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State
     building?: BuildingUpdateOneRequiredWithoutCommunity_membersNestedInput
     qr_code?: QRCodeUpdateOneWithoutOwnerNestedInput
     parking_spots?: ParkingSpotUpdateManyWithoutOwnerNestedInput
+    user?: UserUpdateOneWithoutCommunity_membersNestedInput
   }
 
   export type CommunityMembersUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     building_id?: StringFieldUpdateOperationsInput | string
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
     user_role?: NullableEnumUser_RoleFieldUpdateOperationsInput | $Enums.User_Role | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    unit_number?: NullableStringFieldUpdateOperationsInput | string | null
+    unit_numbers?: CommunityMembersUpdateunit_numbersInput | string[]
     status?: EnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State
     qr_code_id?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spots?: ParkingSpotUncheckedUpdateManyWithoutOwnerNestedInput
@@ -12276,11 +12403,12 @@ export namespace Prisma {
   export type CommunityMembersCreateManyInput = {
     id?: string
     building_id: string
+    user_id?: string | null
     user_role?: $Enums.User_Role | null
     email?: string | null
     name?: string | null
     phone?: string | null
-    unit_number?: string | null
+    unit_numbers?: CommunityMembersCreateunit_numbersInput | string[]
     status?: $Enums.Active_State
     qr_code_id?: string | null
   }
@@ -12291,18 +12419,19 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    unit_number?: NullableStringFieldUpdateOperationsInput | string | null
+    unit_numbers?: CommunityMembersUpdateunit_numbersInput | string[]
     status?: EnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State
   }
 
   export type CommunityMembersUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     building_id?: StringFieldUpdateOperationsInput | string
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
     user_role?: NullableEnumUser_RoleFieldUpdateOperationsInput | $Enums.User_Role | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    unit_number?: NullableStringFieldUpdateOperationsInput | string | null
+    unit_numbers?: CommunityMembersUpdateunit_numbersInput | string[]
     status?: EnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State
     qr_code_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -12312,6 +12441,7 @@ export namespace Prisma {
     parking_level?: number | null
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
+    parking_instructions?: string | null
     building: BuildingCreateNestedOneWithoutParking_spotsInput
     owner?: CommunityMembersCreateNestedOneWithoutParking_spotsInput
     qr_code?: QRCodeCreateNestedOneWithoutParking_spotInput
@@ -12327,6 +12457,7 @@ export namespace Prisma {
     parking_level?: number | null
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
+    parking_instructions?: string | null
   }
 
   export type ParkingSpotUpdateInput = {
@@ -12334,6 +12465,7 @@ export namespace Prisma {
     parking_level?: NullableIntFieldUpdateOperationsInput | number | null
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
+    parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
     building?: BuildingUpdateOneRequiredWithoutParking_spotsNestedInput
     owner?: CommunityMembersUpdateOneWithoutParking_spotsNestedInput
     qr_code?: QRCodeUpdateOneWithoutParking_spotNestedInput
@@ -12349,6 +12481,7 @@ export namespace Prisma {
     parking_level?: NullableIntFieldUpdateOperationsInput | number | null
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
+    parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ParkingSpotCreateManyInput = {
@@ -12360,6 +12493,7 @@ export namespace Prisma {
     parking_level?: number | null
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
+    parking_instructions?: string | null
   }
 
   export type ParkingSpotUpdateManyMutationInput = {
@@ -12367,6 +12501,7 @@ export namespace Prisma {
     parking_level?: NullableIntFieldUpdateOperationsInput | number | null
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
+    parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ParkingSpotUncheckedUpdateManyInput = {
@@ -12378,6 +12513,7 @@ export namespace Prisma {
     parking_level?: NullableIntFieldUpdateOperationsInput | number | null
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
+    parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type QRCodeCreateInput = {
@@ -12607,9 +12743,19 @@ export namespace Prisma {
     isNot?: ManagementWhereInput | null
   }
 
+  export type CommunityMembersListRelationFilter = {
+    every?: CommunityMembersWhereInput
+    some?: CommunityMembersWhereInput
+    none?: CommunityMembersWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
+  }
+
+  export type CommunityMembersOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type UserCountOrderByAggregateInput = {
@@ -12862,20 +13008,10 @@ export namespace Prisma {
     isEmpty?: boolean
   }
 
-  export type CommunityMembersListRelationFilter = {
-    every?: CommunityMembersWhereInput
-    some?: CommunityMembersWhereInput
-    none?: CommunityMembersWhereInput
-  }
-
   export type ParkingSpotListRelationFilter = {
     every?: ParkingSpotWhereInput
     some?: ParkingSpotWhereInput
     none?: ParkingSpotWhereInput
-  }
-
-  export type CommunityMembersOrderByRelationAggregateInput = {
-    _count?: SortOrder
   }
 
   export type ParkingSpotOrderByRelationAggregateInput = {
@@ -12975,6 +13111,14 @@ export namespace Prisma {
     not?: NestedEnumUser_RoleNullableFilter<$PrismaModel> | $Enums.User_Role | null
   }
 
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
   export type EnumActive_StateFilter<$PrismaModel = never> = {
     equals?: $Enums.Active_State | EnumActive_StateFieldRefInput<$PrismaModel>
     in?: $Enums.Active_State[] | ListEnumActive_StateFieldRefInput<$PrismaModel>
@@ -12992,19 +13136,26 @@ export namespace Prisma {
     isNot?: QRCodeWhereInput | null
   }
 
-  export type CommunityMembersBuilding_idUnit_numberCompoundUniqueInput = {
+  export type UserNullableRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
+  }
+
+  export type CommunityMembersBuilding_idPhoneEmailCompoundUniqueInput = {
     building_id: string
-    unit_number: string
+    phone: string
+    email: string
   }
 
   export type CommunityMembersCountOrderByAggregateInput = {
     id?: SortOrder
     building_id?: SortOrder
+    user_id?: SortOrder
     user_role?: SortOrder
     email?: SortOrder
     name?: SortOrder
     phone?: SortOrder
-    unit_number?: SortOrder
+    unit_numbers?: SortOrder
     status?: SortOrder
     qr_code_id?: SortOrder
   }
@@ -13012,11 +13163,11 @@ export namespace Prisma {
   export type CommunityMembersMaxOrderByAggregateInput = {
     id?: SortOrder
     building_id?: SortOrder
+    user_id?: SortOrder
     user_role?: SortOrder
     email?: SortOrder
     name?: SortOrder
     phone?: SortOrder
-    unit_number?: SortOrder
     status?: SortOrder
     qr_code_id?: SortOrder
   }
@@ -13024,11 +13175,11 @@ export namespace Prisma {
   export type CommunityMembersMinOrderByAggregateInput = {
     id?: SortOrder
     building_id?: SortOrder
+    user_id?: SortOrder
     user_role?: SortOrder
     email?: SortOrder
     name?: SortOrder
     phone?: SortOrder
-    unit_number?: SortOrder
     status?: SortOrder
     qr_code_id?: SortOrder
   }
@@ -13085,6 +13236,7 @@ export namespace Prisma {
     parking_level?: SortOrder
     parking_spot_number?: SortOrder
     parking_spot_type?: SortOrder
+    parking_instructions?: SortOrder
   }
 
   export type ParkingSpotAvgOrderByAggregateInput = {
@@ -13100,6 +13252,7 @@ export namespace Prisma {
     parking_level?: SortOrder
     parking_spot_number?: SortOrder
     parking_spot_type?: SortOrder
+    parking_instructions?: SortOrder
   }
 
   export type ParkingSpotMinOrderByAggregateInput = {
@@ -13111,6 +13264,7 @@ export namespace Prisma {
     parking_level?: SortOrder
     parking_spot_number?: SortOrder
     parking_spot_type?: SortOrder
+    parking_instructions?: SortOrder
   }
 
   export type ParkingSpotSumOrderByAggregateInput = {
@@ -13243,10 +13397,24 @@ export namespace Prisma {
     connect?: ManagementWhereUniqueInput
   }
 
+  export type CommunityMembersCreateNestedManyWithoutUserInput = {
+    create?: XOR<CommunityMembersCreateWithoutUserInput, CommunityMembersUncheckedCreateWithoutUserInput> | CommunityMembersCreateWithoutUserInput[] | CommunityMembersUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CommunityMembersCreateOrConnectWithoutUserInput | CommunityMembersCreateOrConnectWithoutUserInput[]
+    createMany?: CommunityMembersCreateManyUserInputEnvelope
+    connect?: CommunityMembersWhereUniqueInput | CommunityMembersWhereUniqueInput[]
+  }
+
   export type ManagementUncheckedCreateNestedOneWithoutUserInput = {
     create?: XOR<ManagementCreateWithoutUserInput, ManagementUncheckedCreateWithoutUserInput>
     connectOrCreate?: ManagementCreateOrConnectWithoutUserInput
     connect?: ManagementWhereUniqueInput
+  }
+
+  export type CommunityMembersUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<CommunityMembersCreateWithoutUserInput, CommunityMembersUncheckedCreateWithoutUserInput> | CommunityMembersCreateWithoutUserInput[] | CommunityMembersUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CommunityMembersCreateOrConnectWithoutUserInput | CommunityMembersCreateOrConnectWithoutUserInput[]
+    createMany?: CommunityMembersCreateManyUserInputEnvelope
+    connect?: CommunityMembersWhereUniqueInput | CommunityMembersWhereUniqueInput[]
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
@@ -13272,6 +13440,20 @@ export namespace Prisma {
     update?: XOR<XOR<ManagementUpdateToOneWithWhereWithoutUserInput, ManagementUpdateWithoutUserInput>, ManagementUncheckedUpdateWithoutUserInput>
   }
 
+  export type CommunityMembersUpdateManyWithoutUserNestedInput = {
+    create?: XOR<CommunityMembersCreateWithoutUserInput, CommunityMembersUncheckedCreateWithoutUserInput> | CommunityMembersCreateWithoutUserInput[] | CommunityMembersUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CommunityMembersCreateOrConnectWithoutUserInput | CommunityMembersCreateOrConnectWithoutUserInput[]
+    upsert?: CommunityMembersUpsertWithWhereUniqueWithoutUserInput | CommunityMembersUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: CommunityMembersCreateManyUserInputEnvelope
+    set?: CommunityMembersWhereUniqueInput | CommunityMembersWhereUniqueInput[]
+    disconnect?: CommunityMembersWhereUniqueInput | CommunityMembersWhereUniqueInput[]
+    delete?: CommunityMembersWhereUniqueInput | CommunityMembersWhereUniqueInput[]
+    connect?: CommunityMembersWhereUniqueInput | CommunityMembersWhereUniqueInput[]
+    update?: CommunityMembersUpdateWithWhereUniqueWithoutUserInput | CommunityMembersUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: CommunityMembersUpdateManyWithWhereWithoutUserInput | CommunityMembersUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: CommunityMembersScalarWhereInput | CommunityMembersScalarWhereInput[]
+  }
+
   export type ManagementUncheckedUpdateOneWithoutUserNestedInput = {
     create?: XOR<ManagementCreateWithoutUserInput, ManagementUncheckedCreateWithoutUserInput>
     connectOrCreate?: ManagementCreateOrConnectWithoutUserInput
@@ -13280,6 +13462,20 @@ export namespace Prisma {
     delete?: ManagementWhereInput | boolean
     connect?: ManagementWhereUniqueInput
     update?: XOR<XOR<ManagementUpdateToOneWithWhereWithoutUserInput, ManagementUpdateWithoutUserInput>, ManagementUncheckedUpdateWithoutUserInput>
+  }
+
+  export type CommunityMembersUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<CommunityMembersCreateWithoutUserInput, CommunityMembersUncheckedCreateWithoutUserInput> | CommunityMembersCreateWithoutUserInput[] | CommunityMembersUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CommunityMembersCreateOrConnectWithoutUserInput | CommunityMembersCreateOrConnectWithoutUserInput[]
+    upsert?: CommunityMembersUpsertWithWhereUniqueWithoutUserInput | CommunityMembersUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: CommunityMembersCreateManyUserInputEnvelope
+    set?: CommunityMembersWhereUniqueInput | CommunityMembersWhereUniqueInput[]
+    disconnect?: CommunityMembersWhereUniqueInput | CommunityMembersWhereUniqueInput[]
+    delete?: CommunityMembersWhereUniqueInput | CommunityMembersWhereUniqueInput[]
+    connect?: CommunityMembersWhereUniqueInput | CommunityMembersWhereUniqueInput[]
+    update?: CommunityMembersUpdateWithWhereUniqueWithoutUserInput | CommunityMembersUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: CommunityMembersUpdateManyWithWhereWithoutUserInput | CommunityMembersUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: CommunityMembersScalarWhereInput | CommunityMembersScalarWhereInput[]
   }
 
   export type ManagementStaffCreateNestedManyWithoutManagementInput = {
@@ -13525,6 +13721,10 @@ export namespace Prisma {
     deleteMany?: ParkingSpotScalarWhereInput | ParkingSpotScalarWhereInput[]
   }
 
+  export type CommunityMembersCreateunit_numbersInput = {
+    set: string[]
+  }
+
   export type BuildingCreateNestedOneWithoutCommunity_membersInput = {
     create?: XOR<BuildingCreateWithoutCommunity_membersInput, BuildingUncheckedCreateWithoutCommunity_membersInput>
     connectOrCreate?: BuildingCreateOrConnectWithoutCommunity_membersInput
@@ -13544,6 +13744,12 @@ export namespace Prisma {
     connect?: ParkingSpotWhereUniqueInput | ParkingSpotWhereUniqueInput[]
   }
 
+  export type UserCreateNestedOneWithoutCommunity_membersInput = {
+    create?: XOR<UserCreateWithoutCommunity_membersInput, UserUncheckedCreateWithoutCommunity_membersInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCommunity_membersInput
+    connect?: UserWhereUniqueInput
+  }
+
   export type ParkingSpotUncheckedCreateNestedManyWithoutOwnerInput = {
     create?: XOR<ParkingSpotCreateWithoutOwnerInput, ParkingSpotUncheckedCreateWithoutOwnerInput> | ParkingSpotCreateWithoutOwnerInput[] | ParkingSpotUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: ParkingSpotCreateOrConnectWithoutOwnerInput | ParkingSpotCreateOrConnectWithoutOwnerInput[]
@@ -13553,6 +13759,11 @@ export namespace Prisma {
 
   export type NullableEnumUser_RoleFieldUpdateOperationsInput = {
     set?: $Enums.User_Role | null
+  }
+
+  export type CommunityMembersUpdateunit_numbersInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type EnumActive_StateFieldUpdateOperationsInput = {
@@ -13589,6 +13800,16 @@ export namespace Prisma {
     update?: ParkingSpotUpdateWithWhereUniqueWithoutOwnerInput | ParkingSpotUpdateWithWhereUniqueWithoutOwnerInput[]
     updateMany?: ParkingSpotUpdateManyWithWhereWithoutOwnerInput | ParkingSpotUpdateManyWithWhereWithoutOwnerInput[]
     deleteMany?: ParkingSpotScalarWhereInput | ParkingSpotScalarWhereInput[]
+  }
+
+  export type UserUpdateOneWithoutCommunity_membersNestedInput = {
+    create?: XOR<UserCreateWithoutCommunity_membersInput, UserUncheckedCreateWithoutCommunity_membersInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCommunity_membersInput
+    upsert?: UserUpsertWithoutCommunity_membersInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCommunity_membersInput, UserUpdateWithoutCommunity_membersInput>, UserUncheckedUpdateWithoutCommunity_membersInput>
   }
 
   export type ParkingSpotUncheckedUpdateManyWithoutOwnerNestedInput = {
@@ -14155,6 +14376,42 @@ export namespace Prisma {
     create: XOR<ManagementCreateWithoutUserInput, ManagementUncheckedCreateWithoutUserInput>
   }
 
+  export type CommunityMembersCreateWithoutUserInput = {
+    id?: string
+    user_role?: $Enums.User_Role | null
+    email?: string | null
+    name?: string | null
+    phone?: string | null
+    unit_numbers?: CommunityMembersCreateunit_numbersInput | string[]
+    status?: $Enums.Active_State
+    building: BuildingCreateNestedOneWithoutCommunity_membersInput
+    qr_code?: QRCodeCreateNestedOneWithoutOwnerInput
+    parking_spots?: ParkingSpotCreateNestedManyWithoutOwnerInput
+  }
+
+  export type CommunityMembersUncheckedCreateWithoutUserInput = {
+    id?: string
+    building_id: string
+    user_role?: $Enums.User_Role | null
+    email?: string | null
+    name?: string | null
+    phone?: string | null
+    unit_numbers?: CommunityMembersCreateunit_numbersInput | string[]
+    status?: $Enums.Active_State
+    qr_code_id?: string | null
+    parking_spots?: ParkingSpotUncheckedCreateNestedManyWithoutOwnerInput
+  }
+
+  export type CommunityMembersCreateOrConnectWithoutUserInput = {
+    where: CommunityMembersWhereUniqueInput
+    create: XOR<CommunityMembersCreateWithoutUserInput, CommunityMembersUncheckedCreateWithoutUserInput>
+  }
+
+  export type CommunityMembersCreateManyUserInputEnvelope = {
+    data: CommunityMembersCreateManyUserInput | CommunityMembersCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ManagementUpsertWithoutUserInput = {
     update: XOR<ManagementUpdateWithoutUserInput, ManagementUncheckedUpdateWithoutUserInput>
     create: XOR<ManagementCreateWithoutUserInput, ManagementUncheckedCreateWithoutUserInput>
@@ -14202,6 +14459,38 @@ export namespace Prisma {
     onboard_state?: NullableEnumOnboardingStateFieldUpdateOperationsInput | $Enums.OnboardingState | null
     staffs?: ManagementStaffUncheckedUpdateManyWithoutManagementNestedInput
     buildings?: BuildingUncheckedUpdateManyWithoutManagementNestedInput
+  }
+
+  export type CommunityMembersUpsertWithWhereUniqueWithoutUserInput = {
+    where: CommunityMembersWhereUniqueInput
+    update: XOR<CommunityMembersUpdateWithoutUserInput, CommunityMembersUncheckedUpdateWithoutUserInput>
+    create: XOR<CommunityMembersCreateWithoutUserInput, CommunityMembersUncheckedCreateWithoutUserInput>
+  }
+
+  export type CommunityMembersUpdateWithWhereUniqueWithoutUserInput = {
+    where: CommunityMembersWhereUniqueInput
+    data: XOR<CommunityMembersUpdateWithoutUserInput, CommunityMembersUncheckedUpdateWithoutUserInput>
+  }
+
+  export type CommunityMembersUpdateManyWithWhereWithoutUserInput = {
+    where: CommunityMembersScalarWhereInput
+    data: XOR<CommunityMembersUpdateManyMutationInput, CommunityMembersUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type CommunityMembersScalarWhereInput = {
+    AND?: CommunityMembersScalarWhereInput | CommunityMembersScalarWhereInput[]
+    OR?: CommunityMembersScalarWhereInput[]
+    NOT?: CommunityMembersScalarWhereInput | CommunityMembersScalarWhereInput[]
+    id?: StringFilter<"CommunityMembers"> | string
+    building_id?: StringFilter<"CommunityMembers"> | string
+    user_id?: StringNullableFilter<"CommunityMembers"> | string | null
+    user_role?: EnumUser_RoleNullableFilter<"CommunityMembers"> | $Enums.User_Role | null
+    email?: StringNullableFilter<"CommunityMembers"> | string | null
+    name?: StringNullableFilter<"CommunityMembers"> | string | null
+    phone?: StringNullableFilter<"CommunityMembers"> | string | null
+    unit_numbers?: StringNullableListFilter<"CommunityMembers">
+    status?: EnumActive_StateFilter<"CommunityMembers"> | $Enums.Active_State
+    qr_code_id?: StringNullableFilter<"CommunityMembers"> | string | null
   }
 
   export type ManagementStaffCreateWithoutManagementInput = {
@@ -14284,6 +14573,7 @@ export namespace Prisma {
     verification_status?: $Enums.Verification_Status | null
     created_at?: Date | string
     last_login?: Date | string
+    community_members?: CommunityMembersCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutManagementInput = {
@@ -14296,6 +14586,7 @@ export namespace Prisma {
     verification_status?: $Enums.Verification_Status | null
     created_at?: Date | string
     last_login?: Date | string
+    community_members?: CommunityMembersUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutManagementInput = {
@@ -14387,6 +14678,7 @@ export namespace Prisma {
     verification_status?: NullableEnumVerification_StatusFieldUpdateOperationsInput | $Enums.Verification_Status | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_login?: DateTimeFieldUpdateOperationsInput | Date | string
+    community_members?: CommunityMembersUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutManagementInput = {
@@ -14399,6 +14691,7 @@ export namespace Prisma {
     verification_status?: NullableEnumVerification_StatusFieldUpdateOperationsInput | $Enums.Verification_Status | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_login?: DateTimeFieldUpdateOperationsInput | Date | string
+    community_members?: CommunityMembersUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ManagementCreateWithoutStaffsInput = {
@@ -14542,19 +14835,21 @@ export namespace Prisma {
     email?: string | null
     name?: string | null
     phone?: string | null
-    unit_number?: string | null
+    unit_numbers?: CommunityMembersCreateunit_numbersInput | string[]
     status?: $Enums.Active_State
     qr_code?: QRCodeCreateNestedOneWithoutOwnerInput
     parking_spots?: ParkingSpotCreateNestedManyWithoutOwnerInput
+    user?: UserCreateNestedOneWithoutCommunity_membersInput
   }
 
   export type CommunityMembersUncheckedCreateWithoutBuildingInput = {
     id?: string
+    user_id?: string | null
     user_role?: $Enums.User_Role | null
     email?: string | null
     name?: string | null
     phone?: string | null
-    unit_number?: string | null
+    unit_numbers?: CommunityMembersCreateunit_numbersInput | string[]
     status?: $Enums.Active_State
     qr_code_id?: string | null
     parking_spots?: ParkingSpotUncheckedCreateNestedManyWithoutOwnerInput
@@ -14575,6 +14870,7 @@ export namespace Prisma {
     parking_level?: number | null
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
+    parking_instructions?: string | null
     owner?: CommunityMembersCreateNestedOneWithoutParking_spotsInput
     qr_code?: QRCodeCreateNestedOneWithoutParking_spotInput
     vehicle?: VehicleCreateNestedOneWithoutParking_spotsInput
@@ -14588,6 +14884,7 @@ export namespace Prisma {
     parking_level?: number | null
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
+    parking_instructions?: string | null
   }
 
   export type ParkingSpotCreateOrConnectWithoutBuildingInput = {
@@ -14665,21 +14962,6 @@ export namespace Prisma {
     data: XOR<CommunityMembersUpdateManyMutationInput, CommunityMembersUncheckedUpdateManyWithoutBuildingInput>
   }
 
-  export type CommunityMembersScalarWhereInput = {
-    AND?: CommunityMembersScalarWhereInput | CommunityMembersScalarWhereInput[]
-    OR?: CommunityMembersScalarWhereInput[]
-    NOT?: CommunityMembersScalarWhereInput | CommunityMembersScalarWhereInput[]
-    id?: StringFilter<"CommunityMembers"> | string
-    building_id?: StringFilter<"CommunityMembers"> | string
-    user_role?: EnumUser_RoleNullableFilter<"CommunityMembers"> | $Enums.User_Role | null
-    email?: StringNullableFilter<"CommunityMembers"> | string | null
-    name?: StringNullableFilter<"CommunityMembers"> | string | null
-    phone?: StringNullableFilter<"CommunityMembers"> | string | null
-    unit_number?: StringNullableFilter<"CommunityMembers"> | string | null
-    status?: EnumActive_StateFilter<"CommunityMembers"> | $Enums.Active_State
-    qr_code_id?: StringNullableFilter<"CommunityMembers"> | string | null
-  }
-
   export type ParkingSpotUpsertWithWhereUniqueWithoutBuildingInput = {
     where: ParkingSpotWhereUniqueInput
     update: XOR<ParkingSpotUpdateWithoutBuildingInput, ParkingSpotUncheckedUpdateWithoutBuildingInput>
@@ -14708,6 +14990,7 @@ export namespace Prisma {
     parking_level?: IntNullableFilter<"ParkingSpot"> | number | null
     parking_spot_number?: StringNullableFilter<"ParkingSpot"> | string | null
     parking_spot_type?: EnumParking_Spot_TypeFilter<"ParkingSpot"> | $Enums.Parking_Spot_Type
+    parking_instructions?: StringNullableFilter<"ParkingSpot"> | string | null
   }
 
   export type BuildingCreateWithoutCommunity_membersInput = {
@@ -14777,6 +15060,7 @@ export namespace Prisma {
     parking_level?: number | null
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
+    parking_instructions?: string | null
     building: BuildingCreateNestedOneWithoutParking_spotsInput
     qr_code?: QRCodeCreateNestedOneWithoutParking_spotInput
     vehicle?: VehicleCreateNestedOneWithoutParking_spotsInput
@@ -14790,6 +15074,7 @@ export namespace Prisma {
     parking_level?: number | null
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
+    parking_instructions?: string | null
   }
 
   export type ParkingSpotCreateOrConnectWithoutOwnerInput = {
@@ -14800,6 +15085,37 @@ export namespace Prisma {
   export type ParkingSpotCreateManyOwnerInputEnvelope = {
     data: ParkingSpotCreateManyOwnerInput | ParkingSpotCreateManyOwnerInput[]
     skipDuplicates?: boolean
+  }
+
+  export type UserCreateWithoutCommunity_membersInput = {
+    id?: string
+    email?: string | null
+    phone_number?: string | null
+    first_name?: string | null
+    last_name?: string | null
+    user_roles?: UserCreateuser_rolesInput | $Enums.User_Role[]
+    verification_status?: $Enums.Verification_Status | null
+    created_at?: Date | string
+    last_login?: Date | string
+    management?: ManagementCreateNestedOneWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutCommunity_membersInput = {
+    id?: string
+    email?: string | null
+    phone_number?: string | null
+    first_name?: string | null
+    last_name?: string | null
+    user_roles?: UserCreateuser_rolesInput | $Enums.User_Role[]
+    verification_status?: $Enums.Verification_Status | null
+    created_at?: Date | string
+    last_login?: Date | string
+    management?: ManagementUncheckedCreateNestedOneWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutCommunity_membersInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCommunity_membersInput, UserUncheckedCreateWithoutCommunity_membersInput>
   }
 
   export type BuildingUpsertWithoutCommunity_membersInput = {
@@ -14892,6 +15208,43 @@ export namespace Prisma {
     data: XOR<ParkingSpotUpdateManyMutationInput, ParkingSpotUncheckedUpdateManyWithoutOwnerInput>
   }
 
+  export type UserUpsertWithoutCommunity_membersInput = {
+    update: XOR<UserUpdateWithoutCommunity_membersInput, UserUncheckedUpdateWithoutCommunity_membersInput>
+    create: XOR<UserCreateWithoutCommunity_membersInput, UserUncheckedCreateWithoutCommunity_membersInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutCommunity_membersInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutCommunity_membersInput, UserUncheckedUpdateWithoutCommunity_membersInput>
+  }
+
+  export type UserUpdateWithoutCommunity_membersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone_number?: NullableStringFieldUpdateOperationsInput | string | null
+    first_name?: NullableStringFieldUpdateOperationsInput | string | null
+    last_name?: NullableStringFieldUpdateOperationsInput | string | null
+    user_roles?: UserUpdateuser_rolesInput | $Enums.User_Role[]
+    verification_status?: NullableEnumVerification_StatusFieldUpdateOperationsInput | $Enums.Verification_Status | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    last_login?: DateTimeFieldUpdateOperationsInput | Date | string
+    management?: ManagementUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutCommunity_membersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone_number?: NullableStringFieldUpdateOperationsInput | string | null
+    first_name?: NullableStringFieldUpdateOperationsInput | string | null
+    last_name?: NullableStringFieldUpdateOperationsInput | string | null
+    user_roles?: UserUpdateuser_rolesInput | $Enums.User_Role[]
+    verification_status?: NullableEnumVerification_StatusFieldUpdateOperationsInput | $Enums.Verification_Status | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    last_login?: DateTimeFieldUpdateOperationsInput | Date | string
+    management?: ManagementUncheckedUpdateOneWithoutUserNestedInput
+  }
+
   export type BuildingCreateWithoutParking_spotsInput = {
     id?: string
     building_name?: string | null
@@ -14937,20 +15290,22 @@ export namespace Prisma {
     email?: string | null
     name?: string | null
     phone?: string | null
-    unit_number?: string | null
+    unit_numbers?: CommunityMembersCreateunit_numbersInput | string[]
     status?: $Enums.Active_State
     building: BuildingCreateNestedOneWithoutCommunity_membersInput
     qr_code?: QRCodeCreateNestedOneWithoutOwnerInput
+    user?: UserCreateNestedOneWithoutCommunity_membersInput
   }
 
   export type CommunityMembersUncheckedCreateWithoutParking_spotsInput = {
     id?: string
     building_id: string
+    user_id?: string | null
     user_role?: $Enums.User_Role | null
     email?: string | null
     name?: string | null
     phone?: string | null
-    unit_number?: string | null
+    unit_numbers?: CommunityMembersCreateunit_numbersInput | string[]
     status?: $Enums.Active_State
     qr_code_id?: string | null
   }
@@ -15062,20 +15417,22 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    unit_number?: NullableStringFieldUpdateOperationsInput | string | null
+    unit_numbers?: CommunityMembersUpdateunit_numbersInput | string[]
     status?: EnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State
     building?: BuildingUpdateOneRequiredWithoutCommunity_membersNestedInput
     qr_code?: QRCodeUpdateOneWithoutOwnerNestedInput
+    user?: UserUpdateOneWithoutCommunity_membersNestedInput
   }
 
   export type CommunityMembersUncheckedUpdateWithoutParking_spotsInput = {
     id?: StringFieldUpdateOperationsInput | string
     building_id?: StringFieldUpdateOperationsInput | string
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
     user_role?: NullableEnumUser_RoleFieldUpdateOperationsInput | $Enums.User_Role | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    unit_number?: NullableStringFieldUpdateOperationsInput | string | null
+    unit_numbers?: CommunityMembersUpdateunit_numbersInput | string[]
     status?: EnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State
     qr_code_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -15138,20 +15495,22 @@ export namespace Prisma {
     email?: string | null
     name?: string | null
     phone?: string | null
-    unit_number?: string | null
+    unit_numbers?: CommunityMembersCreateunit_numbersInput | string[]
     status?: $Enums.Active_State
     building: BuildingCreateNestedOneWithoutCommunity_membersInput
     parking_spots?: ParkingSpotCreateNestedManyWithoutOwnerInput
+    user?: UserCreateNestedOneWithoutCommunity_membersInput
   }
 
   export type CommunityMembersUncheckedCreateWithoutQr_codeInput = {
     id?: string
     building_id: string
+    user_id?: string | null
     user_role?: $Enums.User_Role | null
     email?: string | null
     name?: string | null
     phone?: string | null
-    unit_number?: string | null
+    unit_numbers?: CommunityMembersCreateunit_numbersInput | string[]
     status?: $Enums.Active_State
     parking_spots?: ParkingSpotUncheckedCreateNestedManyWithoutOwnerInput
   }
@@ -15166,6 +15525,7 @@ export namespace Prisma {
     parking_level?: number | null
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
+    parking_instructions?: string | null
     building: BuildingCreateNestedOneWithoutParking_spotsInput
     owner?: CommunityMembersCreateNestedOneWithoutParking_spotsInput
     vehicle?: VehicleCreateNestedOneWithoutParking_spotsInput
@@ -15179,6 +15539,7 @@ export namespace Prisma {
     parking_level?: number | null
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
+    parking_instructions?: string | null
   }
 
   export type ParkingSpotCreateOrConnectWithoutQr_codeInput = {
@@ -15203,20 +15564,22 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    unit_number?: NullableStringFieldUpdateOperationsInput | string | null
+    unit_numbers?: CommunityMembersUpdateunit_numbersInput | string[]
     status?: EnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State
     building?: BuildingUpdateOneRequiredWithoutCommunity_membersNestedInput
     parking_spots?: ParkingSpotUpdateManyWithoutOwnerNestedInput
+    user?: UserUpdateOneWithoutCommunity_membersNestedInput
   }
 
   export type CommunityMembersUncheckedUpdateWithoutQr_codeInput = {
     id?: StringFieldUpdateOperationsInput | string
     building_id?: StringFieldUpdateOperationsInput | string
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
     user_role?: NullableEnumUser_RoleFieldUpdateOperationsInput | $Enums.User_Role | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    unit_number?: NullableStringFieldUpdateOperationsInput | string | null
+    unit_numbers?: CommunityMembersUpdateunit_numbersInput | string[]
     status?: EnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State
     parking_spots?: ParkingSpotUncheckedUpdateManyWithoutOwnerNestedInput
   }
@@ -15237,6 +15600,7 @@ export namespace Prisma {
     parking_level?: NullableIntFieldUpdateOperationsInput | number | null
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
+    parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
     building?: BuildingUpdateOneRequiredWithoutParking_spotsNestedInput
     owner?: CommunityMembersUpdateOneWithoutParking_spotsNestedInput
     vehicle?: VehicleUpdateOneWithoutParking_spotsNestedInput
@@ -15250,6 +15614,7 @@ export namespace Prisma {
     parking_level?: NullableIntFieldUpdateOperationsInput | number | null
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
+    parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ParkingSpotCreateWithoutVehicleInput = {
@@ -15257,6 +15622,7 @@ export namespace Prisma {
     parking_level?: number | null
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
+    parking_instructions?: string | null
     building: BuildingCreateNestedOneWithoutParking_spotsInput
     owner?: CommunityMembersCreateNestedOneWithoutParking_spotsInput
     qr_code?: QRCodeCreateNestedOneWithoutParking_spotInput
@@ -15270,6 +15636,7 @@ export namespace Prisma {
     parking_level?: number | null
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
+    parking_instructions?: string | null
   }
 
   export type ParkingSpotCreateOrConnectWithoutVehicleInput = {
@@ -15296,6 +15663,56 @@ export namespace Prisma {
   export type ParkingSpotUpdateManyWithWhereWithoutVehicleInput = {
     where: ParkingSpotScalarWhereInput
     data: XOR<ParkingSpotUpdateManyMutationInput, ParkingSpotUncheckedUpdateManyWithoutVehicleInput>
+  }
+
+  export type CommunityMembersCreateManyUserInput = {
+    id?: string
+    building_id: string
+    user_role?: $Enums.User_Role | null
+    email?: string | null
+    name?: string | null
+    phone?: string | null
+    unit_numbers?: CommunityMembersCreateunit_numbersInput | string[]
+    status?: $Enums.Active_State
+    qr_code_id?: string | null
+  }
+
+  export type CommunityMembersUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    user_role?: NullableEnumUser_RoleFieldUpdateOperationsInput | $Enums.User_Role | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    unit_numbers?: CommunityMembersUpdateunit_numbersInput | string[]
+    status?: EnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State
+    building?: BuildingUpdateOneRequiredWithoutCommunity_membersNestedInput
+    qr_code?: QRCodeUpdateOneWithoutOwnerNestedInput
+    parking_spots?: ParkingSpotUpdateManyWithoutOwnerNestedInput
+  }
+
+  export type CommunityMembersUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    building_id?: StringFieldUpdateOperationsInput | string
+    user_role?: NullableEnumUser_RoleFieldUpdateOperationsInput | $Enums.User_Role | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    unit_numbers?: CommunityMembersUpdateunit_numbersInput | string[]
+    status?: EnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State
+    qr_code_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parking_spots?: ParkingSpotUncheckedUpdateManyWithoutOwnerNestedInput
+  }
+
+  export type CommunityMembersUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    building_id?: StringFieldUpdateOperationsInput | string
+    user_role?: NullableEnumUser_RoleFieldUpdateOperationsInput | $Enums.User_Role | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    unit_numbers?: CommunityMembersUpdateunit_numbersInput | string[]
+    status?: EnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State
+    qr_code_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ManagementStaffCreateManyManagementInput = {
@@ -15396,11 +15813,12 @@ export namespace Prisma {
 
   export type CommunityMembersCreateManyBuildingInput = {
     id?: string
+    user_id?: string | null
     user_role?: $Enums.User_Role | null
     email?: string | null
     name?: string | null
     phone?: string | null
-    unit_number?: string | null
+    unit_numbers?: CommunityMembersCreateunit_numbersInput | string[]
     status?: $Enums.Active_State
     qr_code_id?: string | null
   }
@@ -15413,6 +15831,7 @@ export namespace Prisma {
     parking_level?: number | null
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
+    parking_instructions?: string | null
   }
 
   export type CommunityMembersUpdateWithoutBuildingInput = {
@@ -15421,19 +15840,21 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    unit_number?: NullableStringFieldUpdateOperationsInput | string | null
+    unit_numbers?: CommunityMembersUpdateunit_numbersInput | string[]
     status?: EnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State
     qr_code?: QRCodeUpdateOneWithoutOwnerNestedInput
     parking_spots?: ParkingSpotUpdateManyWithoutOwnerNestedInput
+    user?: UserUpdateOneWithoutCommunity_membersNestedInput
   }
 
   export type CommunityMembersUncheckedUpdateWithoutBuildingInput = {
     id?: StringFieldUpdateOperationsInput | string
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
     user_role?: NullableEnumUser_RoleFieldUpdateOperationsInput | $Enums.User_Role | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    unit_number?: NullableStringFieldUpdateOperationsInput | string | null
+    unit_numbers?: CommunityMembersUpdateunit_numbersInput | string[]
     status?: EnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State
     qr_code_id?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spots?: ParkingSpotUncheckedUpdateManyWithoutOwnerNestedInput
@@ -15441,11 +15862,12 @@ export namespace Prisma {
 
   export type CommunityMembersUncheckedUpdateManyWithoutBuildingInput = {
     id?: StringFieldUpdateOperationsInput | string
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
     user_role?: NullableEnumUser_RoleFieldUpdateOperationsInput | $Enums.User_Role | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    unit_number?: NullableStringFieldUpdateOperationsInput | string | null
+    unit_numbers?: CommunityMembersUpdateunit_numbersInput | string[]
     status?: EnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State
     qr_code_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -15455,6 +15877,7 @@ export namespace Prisma {
     parking_level?: NullableIntFieldUpdateOperationsInput | number | null
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
+    parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
     owner?: CommunityMembersUpdateOneWithoutParking_spotsNestedInput
     qr_code?: QRCodeUpdateOneWithoutParking_spotNestedInput
     vehicle?: VehicleUpdateOneWithoutParking_spotsNestedInput
@@ -15468,6 +15891,7 @@ export namespace Prisma {
     parking_level?: NullableIntFieldUpdateOperationsInput | number | null
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
+    parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ParkingSpotUncheckedUpdateManyWithoutBuildingInput = {
@@ -15478,6 +15902,7 @@ export namespace Prisma {
     parking_level?: NullableIntFieldUpdateOperationsInput | number | null
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
+    parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ParkingSpotCreateManyOwnerInput = {
@@ -15488,6 +15913,7 @@ export namespace Prisma {
     parking_level?: number | null
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
+    parking_instructions?: string | null
   }
 
   export type ParkingSpotUpdateWithoutOwnerInput = {
@@ -15495,6 +15921,7 @@ export namespace Prisma {
     parking_level?: NullableIntFieldUpdateOperationsInput | number | null
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
+    parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
     building?: BuildingUpdateOneRequiredWithoutParking_spotsNestedInput
     qr_code?: QRCodeUpdateOneWithoutParking_spotNestedInput
     vehicle?: VehicleUpdateOneWithoutParking_spotsNestedInput
@@ -15508,6 +15935,7 @@ export namespace Prisma {
     parking_level?: NullableIntFieldUpdateOperationsInput | number | null
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
+    parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ParkingSpotUncheckedUpdateManyWithoutOwnerInput = {
@@ -15518,6 +15946,7 @@ export namespace Prisma {
     parking_level?: NullableIntFieldUpdateOperationsInput | number | null
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
+    parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ParkingSpotCreateManyVehicleInput = {
@@ -15528,6 +15957,7 @@ export namespace Prisma {
     parking_level?: number | null
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
+    parking_instructions?: string | null
   }
 
   export type ParkingSpotUpdateWithoutVehicleInput = {
@@ -15535,6 +15965,7 @@ export namespace Prisma {
     parking_level?: NullableIntFieldUpdateOperationsInput | number | null
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
+    parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
     building?: BuildingUpdateOneRequiredWithoutParking_spotsNestedInput
     owner?: CommunityMembersUpdateOneWithoutParking_spotsNestedInput
     qr_code?: QRCodeUpdateOneWithoutParking_spotNestedInput
@@ -15548,6 +15979,7 @@ export namespace Prisma {
     parking_level?: NullableIntFieldUpdateOperationsInput | number | null
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
+    parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ParkingSpotUncheckedUpdateManyWithoutVehicleInput = {
@@ -15558,6 +15990,7 @@ export namespace Prisma {
     parking_level?: NullableIntFieldUpdateOperationsInput | number | null
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
+    parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 
@@ -15565,6 +15998,10 @@ export namespace Prisma {
   /**
    * Aliases for legacy arg types
    */
+    /**
+     * @deprecated Use UserCountOutputTypeDefaultArgs instead
+     */
+    export type UserCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = UserCountOutputTypeDefaultArgs<ExtArgs>
     /**
      * @deprecated Use ManagementCountOutputTypeDefaultArgs instead
      */

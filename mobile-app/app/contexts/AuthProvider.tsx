@@ -50,7 +50,17 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
   };
 
   useEffect(() => {
-    checkAuthUser();
+    appwriteClient.account
+      .get()
+      .then((userData) => {
+        setUser(userData);
+        setIsLoggedIn(true);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        setIsLoggedIn(false);
+      });
   }, []);
 
   const value = {
