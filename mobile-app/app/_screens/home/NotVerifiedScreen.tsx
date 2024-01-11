@@ -3,11 +3,11 @@ import React from "react";
 import Button from "@/components/shared/Button";
 import { getVerificationLink } from "@/app/services/verification";
 import useToast from "@/app/hooks/useToast";
-import useUser from "@/app/hooks/useUser";
+import { useUserContext } from "@/app/contexts/UserContext";
 
 const NotVerifiedScreen = () => {
   const { showToast } = useToast();
-  const { user, refreshUser } = useUser();
+  const { user } = useUserContext();
   const featureList = [
     {
       title: "Property units, vehicles",

@@ -2,18 +2,20 @@ import { View, Text, TextInputProps, TextInput } from "react-native";
 import React from "react";
 
 interface InputProps extends TextInputProps {
-    errors?: string
+  errors?: string;
+  containerStyle?: string;
 }
 
-const Input = ({errors, ...props }: InputProps = {}) => {
+const Input = ({ errors, containerStyle, ...props }: InputProps = {}) => {
   return (
-    <View>
-      <TextInput
-        {...props}
-        className="border border-gray-300 rounded-md p-3"
-      />
+    <>
+      <View
+        className={`${containerStyle ? containerStyle : "border border-gray-300 rounded-md"} grow`}
+      >
+        <TextInput {...props} className=" p-3" />
+      </View>
       {errors && <Text className="text-error">{errors}</Text>}
-    </View>
+    </>
   );
 };
 

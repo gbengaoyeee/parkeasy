@@ -65,6 +65,8 @@ const CommunityMembersPage = () => {
     handleSearch();
   }, [debounce, handleSearch]);
 
+  console.log(communityMembers)
+
   if (!communityMembers) {
     return <h1>Could not find your building. contact {import.meta.env.VITE_SUPPORT_EMAIL}</h1>;
   }
@@ -263,7 +265,7 @@ const CommunityMembersPage = () => {
                       <td className="px-6 py-4">{member.email}</td>
                       <td className="px-6 py-4">{member.unit_numbers}</td>
                       <td className="px-6 py-4">
-                        <img src={member.qr_code.image_url ?? ""} width={50} alt="" />
+                        <img src={member?.qr_code?.image_url || ""} width={50} alt="" />
                       </td>
                       <td className="px-6 py-4">{member.status}</td>
                       <td className="px-6 py-4">{member.user_role}</td>

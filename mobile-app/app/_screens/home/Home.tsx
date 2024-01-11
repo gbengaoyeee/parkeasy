@@ -1,22 +1,34 @@
-import { View, Text, Linking, ScrollView, RefreshControl } from "react-native";
-import React, { useState } from "react";
-import Button from "@/components/shared/Button";
-import { useAuthContext } from "../../contexts/AuthProvider";
-import useUser from "../../hooks/useUser";
-import { FlatList } from "react-native-gesture-handler";
+import { View, ScrollView, RefreshControl } from "react-native";
+import React, { useEffect, useState } from "react";
 import NotVerifiedScreen from "./NotVerifiedScreen";
 import VerifiedScreen from "./VerifiedScreen";
+import Loader from "@/components/shared/Loader";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { HomeStackParamList } from "../HomeNavigator";
+import { useUserContext } from "@/app/contexts/UserContext";
+
 
 const Home = () => {
-  const { signOut } = useAuthContext();
-  const { user, refreshUser } = useUser();
+  const { user, refreshUser, isLoading } = useUserContext();
   const [refreshing, setRefreshing] = useState(false);
+  const navigation = useNavigation<NavigationProp<HomeStackParamList>>();
+  useEffect(() => {
+    if (user && user?.mobile_onboard_status !== "completed") {
+      navigation.navigate("OnboardUser", { user, });
+    }
+  }, [user]);
+
+  if(isLoading) {
+    return <View className="flex-1 items-center p-8">
+      <Loader />
+    </View>
+  }
 
   return (
     <View className="flex-1">
       <ScrollView
         className="p-5"
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => refreshUser()} />}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => refreshUser()}  />}
       >
         {user?.verification_status !== "completed" ? (
           <NotVerifiedScreen />
@@ -24,9 +36,7 @@ const Home = () => {
           <VerifiedScreen />
         )}
 
-        <Button className="bg-primary-1" onPress={signOut}>
-          <Text className="text-white">Sign Out</Text>
-        </Button>
+        
       </ScrollView>
     </View>
   );

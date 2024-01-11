@@ -1,16 +1,16 @@
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import React from "react";
-import useUser from "@/app/hooks/useUser";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { HomeStackParamList } from "../HomeNavigator";
+import { useUserContext } from "@/app/contexts/UserContext";
 
 const AssetsList = () => {
-  const { user } = useUser();
+  const { user } = useUserContext();
   const navigation = useNavigation<NavigationProp<HomeStackParamList>>();
-  const parkingSpots = [];
-  //   const parkingSpots = user?.community_members?.map((member) => member.parking_spots)?.flat() || [];
+  const parkingSpots = user?.community_members?.map((member) => member.parking_spots)?.flat() || [];
+  // const parkingSpots = [];
 
-  if(!user) {
+  if (!user) {
     return null;
   }
 
@@ -37,16 +37,26 @@ const AssetsList = () => {
           <Text>
             {parkingSpots?.length} Parking Spot{parkingSpots?.length > 1 ? "s" : ""}
           </Text>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("ParkingLotList", {
+                communityMembers: user.community_members,
+              });
+            }}
+          >
             <Text className="text-primary-3">View all</Text>
           </TouchableOpacity>
         </View>
       ) : (
         <View className="flex-row justify-between p-3 bg-gray-200">
           <Text>No Parking Spot</Text>
-          <TouchableOpacity onPress={() => {
-            navigation.navigate("AddParkingSpotScreen", { buildings: user.community_members?.map((member) => member.building) });
-          }}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("AddParkingSpotScreen", {
+                buildings: user.community_members?.map((member) => member.building),
+              });
+            }}
+          >
             <Text className="text-primary-3">+ Add</Text>
           </TouchableOpacity>
         </View>

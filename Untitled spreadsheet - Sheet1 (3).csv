@@ -1,0 +1,6 @@
+user_role,name,email,phone,unit_numbers,parking_level,parking_spot_number,parking_spot_type,vehicle_plate,vehicle_type
+owner,Ayo Oyesanya,ayo12@grr.la,17866432499,"[123,124]",2,10,regular,C-91255,regular
+tenant,John Bull,john@grr.la,16475555551,[123],1,4,electric,A-91567,electric
+owner,Raj Srinivas,sales@goldensandtechnologies.com,14165224163,[3510],2,P1-122,regular,A-91568,regular
+owner,Raj Srinivas UAE,contactalways@gmail.com,971506220503,[3510],2,P1-122,regular,C-91256,hybrid
+owner,Raj Srinivas 1833,goldensandtechnologies@skiff.com,18335224163,[3510],2,P1-122,regular,C-91256,regular

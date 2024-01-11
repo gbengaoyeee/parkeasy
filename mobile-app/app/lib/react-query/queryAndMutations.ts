@@ -1,7 +1,10 @@
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
-import appwriteClient from '../services/appwrite'
-import { createUser, getUser } from '../services/user'
-import { User_Role } from '../../../shared/prisma-client'
+import appwriteClient from '../../services/appwrite'
+import { createUser, getUser, updateUser } from '../../services/user'
+import { Mobile_Onboard_Status, User_Role } from '../../../../shared/prisma-client'
+import { z } from 'zod'
+import { AddParkingValidation, UpdateUserValidation } from '../validation'
+import { addParkingSpot } from '@/app/services/building'
 
 export const useStartPhoneVerification = () => {
     return useMutation({
@@ -23,5 +26,20 @@ export const useFinishPhoneVerification = () => {
                 return resp
             })
         },
+    })
+}
+
+export const useAddParkingSpot = () => {
+    return useMutation({
+        mutationFn: ({userId, dto}:{userId: string, dto: z.infer<typeof AddParkingValidation> }) => {
+            return addParkingSpot(userId, dto)
+        }
+    })
+}
+export const useUpdateUser = () => {
+    return useMutation({
+        mutationFn: ({userId, dto, extra}:{userId: string, extra:{mobileOnboardStatus?: Mobile_Onboard_Status}, dto: z.infer<typeof UpdateUserValidation> }) => {
+            return updateUser(userId, dto, extra)
+        }
     })
 }

@@ -1,3 +1,0 @@
-user_role,name,email,phone,unit_numbers,parking_level,parking_spot_number,parking_spot_type,vehicle_plate,vehicle_type
-owner,Ayo Oyesanya,ayo12@grr.la,17866432499,"[123,124]",2,10,regular,C-91255,regular
-tenant,John Bull,john@grr.la,16475555551,[123],1,4,electric,A-91567,electric

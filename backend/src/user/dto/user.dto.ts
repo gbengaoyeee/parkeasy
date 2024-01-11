@@ -1,5 +1,5 @@
 import { IsArray, IsEmail, IsEnum, IsOptional, IsString } from "class-validator"
-import { User_Role } from "../../../../shared/prisma-client"
+import { Mobile_Onboard_Status, User_Role } from "../../../../shared/prisma-client"
 
 
 export class GetUserDto {
@@ -32,7 +32,12 @@ export class CreateUserDto {
     @IsOptional()
     lastName: string
 
+    @IsEnum(Mobile_Onboard_Status)
+    @IsOptional()
+    mobileOnboardStatus: Mobile_Onboard_Status
+
     @IsArray()
+    @IsOptional()
     @IsEnum(User_Role, { each: true })
     userRoles: User_Role[]
 }

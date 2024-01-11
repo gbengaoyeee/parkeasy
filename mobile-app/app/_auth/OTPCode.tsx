@@ -8,7 +8,10 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigation, useRoute } from "@react-navigation/native";
-import { useFinishPhoneVerification, useStartPhoneVerification } from "../lib/queryAndMutations";
+import {
+  useFinishPhoneVerification,
+  useStartPhoneVerification,
+} from "../lib/react-query/queryAndMutations";
 import Toast from "react-native-toast-message";
 import { Controller, useForm } from "react-hook-form";
 import Input from "@/components/shared/Input";

@@ -1,13 +1,16 @@
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AuthNavigator from "./_auth/AuthNavigator";
 import { useAuthContext } from "./contexts/AuthProvider";
-import HomeNavigator from "./_screens/HomeNavigator";
-import { useEffect } from "react";
-import Toast from "react-native-toast-message";
+import TabController from "./_screens/TabController";
+import { View } from "react-native";
+import Loader from "@/components/shared/Loader";
 
 export default function MainNavigator() {
   // Add a Toast on screen.
   const { isLoggedIn, isLoading } = useAuthContext();
-  return isLoggedIn ? <HomeNavigator /> : <AuthNavigator />;
+  if(isLoading) {
+    return <View className="flex-1 items-center p-8">
+      <Loader />
+    </View>
+  }
+  return isLoggedIn ? <TabController /> : <AuthNavigator />;
 }

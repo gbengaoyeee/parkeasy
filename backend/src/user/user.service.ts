@@ -48,7 +48,11 @@ export class UserService {
                     community_members: {
                         include: {
                             building: true,
-                            parking_spots: true
+                            parking_spots: {
+                                include: {
+                                    qr_code: true
+                                }
+                            }
                         }
                     }
                 }
@@ -91,6 +95,31 @@ export class UserService {
 
             return new IResponseData(
                 `user created successfully`,
+                user
+            ).json
+        } catch (error) {
+            throw this.errorService.handleException(error)
+        }
+    }
+
+    //update user
+    async updateUser(id: string, dto: CreateUserDto) {
+        try {
+            const user = await this.prisma.user.update({
+                where: {
+                    id
+                },
+                data: {
+                    email: dto.email,
+                    phone_number: dto.phone,
+                    first_name: dto.firstName,
+                    last_name: dto.lastName,
+                    user_roles: dto.userRoles,
+                    mobile_onboard_status: dto.mobileOnboardStatus
+                }
+            })
+            return new IResponseData(
+                `user updated successfully`,
                 user
             ).json
         } catch (error) {

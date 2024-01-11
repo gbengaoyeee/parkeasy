@@ -35,6 +35,10 @@ enum Verification_Status {
   completed
   failed
 }
+enum Mobile_Onboard_Status {
+  not_started
+  completed
+}
 model User {
   id        String   @id @default(uuid()) @unique
   email     String?   @unique
@@ -43,12 +47,14 @@ model User {
   last_name String?
   user_roles User_Role[] @default([])
   verification_status Verification_Status? @default(not_started)
+  mobile_onboard_status Mobile_Onboard_Status? @default(not_started)
 
   created_at DateTime @default(now())
   last_login DateTime @default(now())
 
   management Management? // Relation field
   community_members CommunityMembers[] // Relation field
+  // invite_codes InviteCode[] // Relation field
 
   @@map("Users")
 }
@@ -220,3 +226,12 @@ model Vehicle {
 
   parking_spots ParkingSpot[]
 }
+
+// model InviteCode {
+//   id String @id @default(uuid()) @unique
+//   user_id String? // Foreign key
+//   created_at DateTime @default(now())
+//   updated_at DateTime @default(now())
+
+//   user   User? @relation(fields: [user_id], references: [id], onDelete: Cascade) // Relation attribute
+// }

@@ -144,18 +144,24 @@ export class BuildingService {
             const workbook       = xlsx.read(file.buffer);
             const sheetName      = workbook.SheetNames[0];
             const sheet          = workbook.Sheets[sheetName];
-            const data           = xlsx.utils.sheet_to_json(sheet);
+            const data: IBulkUploadData[]  = xlsx.utils.sheet_to_json(sheet);
 
             // prisma queries
             const writePromises = []
-            data.forEach((entry: IBulkUploadData) => {
+            for (const entry of data) {
                 const unitNumbers = JSON.parse(entry.unit_numbers).map((unitNumber:any) => unitNumber.toString())
                 const memberId = uuidv4()
                 const vehicleId = uuidv4()
+                const user = await this.prisma.user.findFirst({
+                    where: {
+                        phone_number: `${entry.phone.toString().startsWith('+') ? entry.phone : `+${entry.phone}`}`,
+                    }
+                })
                 const prismaWritePromises = this.prisma.$transaction([
                     this.prisma.communityMembers.create({
                         data: {
                             id: memberId,
+                            user_id: user ? user.id : null,
                             building_id: buildingId,
                             email: entry.email,
                             name: entry.name,
@@ -183,7 +189,10 @@ export class BuildingService {
                     }),
                 ])
                 writePromises.push(prismaWritePromises)
-            })
+            }
+            // data.forEach(async (entry: IBulkUploadData) => {
+                
+            // })
             const writeResults = await Promise.all(writePromises)
             
             const qrTransactions = []

@@ -13,7 +13,8 @@ export class ApiClient {
       baseURL: `${rootUrl}/${basePath}` ?? '/',
       responseType: 'json',
       headers: {
-        "ngrok-skip-browser-warning": "69420",
+        // "ngrok-skip-browser-warning": "69420",
+        "bypass-tunnel-reminder": "69420",
       }
     });
   }
