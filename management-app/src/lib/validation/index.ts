@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { buildingFacilities, buildingTypes, staffOptions } from "../constants.ts";
+import { buildingTypes, staffOptions } from "../constants.ts";
 
 const passwordSchema = z.string().min(4, {
   message: "Password must be at least 4 characters long", // Minimum length requirement
