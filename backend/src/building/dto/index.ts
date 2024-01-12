@@ -1,8 +1,7 @@
 
-import { Active_State } from "@prisma/client";
 import { Transform, Type } from "class-transformer";
 import { IsBoolean, IsEmail, IsEnum, IsNumber, IsOptional, IsPhoneNumber, IsString, Max, Min } from "class-validator";
-import { Parking_Spot_Type, User_Role } from "../../../../shared/prisma-client";
+import { Active_State, Parking_Spot_Type, User_Role, Vehicle_Type } from "../../../../shared/prisma-client";
 
 
 export class GetBuildingsDto {
@@ -38,7 +37,27 @@ export class CreateCommunityMemberDto {
     @IsEmail()
     email: string
     @IsString()
-    unit_number: string
+    unitNumbers: string
+
+    @IsString()
+    @IsOptional()
+    parkingSpotNumber: string
+
+    @IsNumber()
+    @IsOptional()
+    parkingLevel: number
+
+    @IsEnum(Parking_Spot_Type)
+    @IsOptional()
+    parkingSpotType: Parking_Spot_Type
+
+    @IsString()
+    @IsOptional()
+    vehiclePlate: string
+
+    @IsEnum(Vehicle_Type)
+    @IsOptional()
+    vehicleType: Vehicle_Type
 }
 
 export class UpdateCommunityMemberDto {

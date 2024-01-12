@@ -494,8 +494,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 5.6.0
-   * Query Engine version: e95e739751f42d8ca026f6b910f5a2dc5adeaeee
+   * Prisma Client JS version: 5.8.0
+   * Query Engine version: 0a83d8541752d7582de2ebc1ece46519ce72a848
    */
   export type PrismaVersion = {
     client: string
@@ -2060,7 +2060,7 @@ export namespace Prisma {
   type PreSignUpManagementGetPayload<S extends boolean | null | undefined | PreSignUpManagementDefaultArgs> = $Result.GetResult<Prisma.$PreSignUpManagementPayload, S>
 
   type PreSignUpManagementCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
-    Omit<PreSignUpManagementFindManyArgs, 'select' | 'include' | 'distinct' > & {
+    Omit<PreSignUpManagementFindManyArgs, 'select' | 'include' | 'distinct'> & {
       select?: PreSignUpManagementCountAggregateInputType | true
     }
 
@@ -2988,7 +2988,7 @@ export namespace Prisma {
   type UserGetPayload<S extends boolean | null | undefined | UserDefaultArgs> = $Result.GetResult<Prisma.$UserPayload, S>
 
   type UserCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
-    Omit<UserFindManyArgs, 'select' | 'include' | 'distinct' > & {
+    Omit<UserFindManyArgs, 'select' | 'include' | 'distinct'> & {
       select?: UserCountAggregateInputType | true
     }
 
@@ -4126,7 +4126,7 @@ export namespace Prisma {
   type ManagementGetPayload<S extends boolean | null | undefined | ManagementDefaultArgs> = $Result.GetResult<Prisma.$ManagementPayload, S>
 
   type ManagementCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
-    Omit<ManagementFindManyArgs, 'select' | 'include' | 'distinct' > & {
+    Omit<ManagementFindManyArgs, 'select' | 'include' | 'distinct'> & {
       select?: ManagementCountAggregateInputType | true
     }
 
@@ -5113,7 +5113,7 @@ export namespace Prisma {
   type ManagementStaffGetPayload<S extends boolean | null | undefined | ManagementStaffDefaultArgs> = $Result.GetResult<Prisma.$ManagementStaffPayload, S>
 
   type ManagementStaffCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
-    Omit<ManagementStaffFindManyArgs, 'select' | 'include' | 'distinct' > & {
+    Omit<ManagementStaffFindManyArgs, 'select' | 'include' | 'distinct'> & {
       select?: ManagementStaffCountAggregateInputType | true
     }
 
@@ -6190,7 +6190,7 @@ export namespace Prisma {
   type BuildingGetPayload<S extends boolean | null | undefined | BuildingDefaultArgs> = $Result.GetResult<Prisma.$BuildingPayload, S>
 
   type BuildingCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
-    Omit<BuildingFindManyArgs, 'select' | 'include' | 'distinct' > & {
+    Omit<BuildingFindManyArgs, 'select' | 'include' | 'distinct'> & {
       select?: BuildingCountAggregateInputType | true
     }
 
@@ -7221,7 +7221,7 @@ export namespace Prisma {
   type CommunityMembersGetPayload<S extends boolean | null | undefined | CommunityMembersDefaultArgs> = $Result.GetResult<Prisma.$CommunityMembersPayload, S>
 
   type CommunityMembersCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
-    Omit<CommunityMembersFindManyArgs, 'select' | 'include' | 'distinct' > & {
+    Omit<CommunityMembersFindManyArgs, 'select' | 'include' | 'distinct'> & {
       select?: CommunityMembersCountAggregateInputType | true
     }
 
@@ -8286,7 +8286,7 @@ export namespace Prisma {
   type ParkingSpotGetPayload<S extends boolean | null | undefined | ParkingSpotDefaultArgs> = $Result.GetResult<Prisma.$ParkingSpotPayload, S>
 
   type ParkingSpotCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
-    Omit<ParkingSpotFindManyArgs, 'select' | 'include' | 'distinct' > & {
+    Omit<ParkingSpotFindManyArgs, 'select' | 'include' | 'distinct'> & {
       select?: ParkingSpotCountAggregateInputType | true
     }
 
@@ -9265,7 +9265,7 @@ export namespace Prisma {
   type QRCodeGetPayload<S extends boolean | null | undefined | QRCodeDefaultArgs> = $Result.GetResult<Prisma.$QRCodePayload, S>
 
   type QRCodeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
-    Omit<QRCodeFindManyArgs, 'select' | 'include' | 'distinct' > & {
+    Omit<QRCodeFindManyArgs, 'select' | 'include' | 'distinct'> & {
       select?: QRCodeCountAggregateInputType | true
     }
 
@@ -10199,7 +10199,7 @@ export namespace Prisma {
   type VehicleGetPayload<S extends boolean | null | undefined | VehicleDefaultArgs> = $Result.GetResult<Prisma.$VehiclePayload, S>
 
   type VehicleCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
-    Omit<VehicleFindManyArgs, 'select' | 'include' | 'distinct' > & {
+    Omit<VehicleFindManyArgs, 'select' | 'include' | 'distinct'> & {
       select?: VehicleCountAggregateInputType | true
     }
 

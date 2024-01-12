@@ -4,10 +4,10 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { ICreateQRCodeDto, QrCodeService } from 'src/qr-code/qr-code.service';
 import { IResponseData } from 'src/response';
 import * as xlsx from 'xlsx'
-import { AddParkingSpotDto, GetBuildingQueryDto, GetBuildingsDto, GetCommunityMembersDto, GetParkingsDto, UpdateCommunityMemberDto } from './dto';
+import { AddParkingSpotDto, CreateCommunityMemberDto, GetBuildingQueryDto, GetBuildingsDto, GetCommunityMembersDto, GetParkingsDto, UpdateCommunityMemberDto } from './dto';
 import { QRCode_Type } from '../../../shared/prisma-client';
 import { v4 as uuidv4 } from 'uuid'
-
+import { objectToCamel} from 'ts-case-convert'
 
 interface IBulkUploadData {
     name: string,
@@ -139,17 +139,37 @@ export class BuildingService {
         }
     }
 
+    // add comunity member
+    async addCommunityMember(buildingId: string, dto: CreateCommunityMemberDto) {
+        
+    }
+
+    /**
+     * {
+    userRole: 'owner',
+    name: 'Raj Srinivas 1833',
+    email: 'goldensandtechnologies@skiff.com',
+    phone: 18335224163,
+    unitNumbers: '[3510]',
+    parkingLevel: 2,
+    parkingSpotNumber: 'P1-122',
+    parkingSpotType: 'regular',
+    vehiclePlate: 'C-91256',
+    vehicleType: 'regular'
+  }
+     */
     async bulkUpload(buildingId: string, file: Express.Multer.File){
         try {
             const workbook       = xlsx.read(file.buffer);
             const sheetName      = workbook.SheetNames[0];
             const sheet          = workbook.Sheets[sheetName];
-            const data: IBulkUploadData[]  = xlsx.utils.sheet_to_json(sheet);
+            const data: CreateCommunityMemberDto[] = objectToCamel(xlsx.utils.sheet_to_json(sheet)) as CreateCommunityMemberDto[]
+            console.log(data)
 
             // prisma queries
             const writePromises = []
             for (const entry of data) {
-                const unitNumbers = JSON.parse(entry.unit_numbers).map((unitNumber:any) => unitNumber.toString())
+                const unitNumbers = JSON.parse(entry.unitNumbers).map((unitNumber:any) => unitNumber.toString())
                 const memberId = uuidv4()
                 const vehicleId = uuidv4()
                 const user = await this.prisma.user.findFirst({
@@ -167,14 +187,14 @@ export class BuildingService {
                             name: entry.name,
                             phone: `${entry.phone.toString().startsWith('+') ? entry.phone : `+${entry.phone}`}`,
                             unit_numbers: unitNumbers,
-                            user_role: entry.user_role
+                            user_role: entry.userRole
                         }
                     }),
                     this.prisma.vehicle.create({
                         data: {
                             id: vehicleId,
-                            vehicle_plate: entry.vehicle_plate,
-                            vehicle_type: entry.vehicle_type
+                            vehicle_plate: entry.vehiclePlate,
+                            vehicle_type: entry.vehicleType
                         }
                     }),
                     this.prisma.parkingSpot.create({
@@ -182,17 +202,14 @@ export class BuildingService {
                             building_id: buildingId,
                             owner_id: memberId,
                             vehicle_id: vehicleId,
-                            parking_level: entry.parking_level,
-                            parking_spot_number: `${entry.parking_spot_number}`,
-                            parking_spot_type: entry.parking_spot_type,
+                            parking_level: entry.parkingLevel,
+                            parking_spot_number: `${entry.parkingSpotNumber}`,
+                            parking_spot_type: entry.parkingSpotType,
                         }
                     }),
                 ])
                 writePromises.push(prismaWritePromises)
             }
-            // data.forEach(async (entry: IBulkUploadData) => {
-                
-            // })
             const writeResults = await Promise.all(writePromises)
             
             const qrTransactions = []

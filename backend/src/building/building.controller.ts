@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post, Put, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { BuildingService } from './building.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { AddParkingSpotDto, GetBuildingQueryDto, GetBuildingsDto, GetCommunityMembersDto, GetParkingsDto, UpdateCommunityMemberDto } from './dto';
+import { AddParkingSpotDto, CreateCommunityMemberDto, GetBuildingQueryDto, GetBuildingsDto, GetCommunityMembersDto, GetParkingsDto, UpdateCommunityMemberDto } from './dto';
 
 @Controller('building')
 export class BuildingController {
@@ -21,6 +21,11 @@ export class BuildingController {
     @UseInterceptors(FileInterceptor('file'))
     async bulkUpload(@Param('buildingId') buildingId: string, @UploadedFile() file: Express.Multer.File) {
         return this.buildingService.bulkUpload(buildingId, file)
+    }
+
+    @Post()
+    async addCommunityMember(@Param('buildingId') buildingId: string, @Body() dto: CreateCommunityMemberDto) {
+        return await this.buildingService.addCommunityMember(buildingId, dto)
     }
 
     /** COMMUNITY MEMBERS */
