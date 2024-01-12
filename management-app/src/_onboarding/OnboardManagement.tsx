@@ -26,6 +26,8 @@ import {
 } from "@/components/ui/select";
 import { StaffOption, staffOptions } from "@/lib/constants.ts";
 import { AppwriteException } from "appwrite";
+import Autocomplete from "react-google-autocomplete";
+
 
 interface OnboardingProps {
   onNext: () => void;
@@ -41,6 +43,9 @@ const OnboardManagement = ({ onNext }: OnboardingProps) => {
       confirmPassword: "",
       phoneNumber: "",
       address: "",
+      address2: "",
+      lat: 0,
+      lng: 0,
       staffMembers: Array.from({ length: 1 }, () => ({
         staffRole: "",
         staffName: "",
@@ -56,6 +61,7 @@ const OnboardManagement = ({ onNext }: OnboardingProps) => {
 
   const { isPending: isSubmitting, mutateAsync: submitManagementOnboard } =
     useSubmitManagementOnboard();
+  const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
 
   function onSubmit(values: z.infer<typeof OnboardManagementValidation>) {
     // Do something with the form values.
@@ -100,11 +106,50 @@ const OnboardManagement = ({ onNext }: OnboardingProps) => {
             <FormField
               control={form.control}
               name="address"
-              render={({ field }) => (
-                <FormItem>
+              render={({ field, formState: { errors } }) => (
+                <FormItem className="flex flex-col mt-2">
                   <FormLabel>Company address</FormLabel>
                   <FormControl>
-                    <Input placeholder="123 Main Street" {...field} />
+                    <Autocomplete
+                      {...field}
+                      placeholder="123 Main Street"
+                      className="w-full border rounded-md p-2 text-sm"
+                      apiKey={apiKey}
+                      options={{
+                        types: [],
+                        // componentRestrictions: { country: "" },
+                      }}
+                      onChange={(e) => {
+                        form.setValue("lat", 0);
+                        form.setValue("lng", 0);
+                        field.onChange(e)
+                      }}
+                      onBlur={() => {
+                        setTimeout(() => {
+                          if (form.getValues("lat") === 0 || form.getValues("lng") === 0) {
+                            form.setValue("address", "");
+                          }
+                        }, 300);
+                      }}
+                      onPlaceSelected={(place: google.maps.places.PlaceResult) => {
+                        form.setValue("lat", place.geometry?.location.lat() ?? 0);
+                        form.setValue("lng", place.geometry?.location.lng() ?? 0);
+                        form.setValue("address", place.formatted_address ?? "");
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage className="shad-form_message" />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="address2"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Address 2</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Unit 1200" {...field} />
                   </FormControl>
                   <FormMessage className="shad-form_message" />
                 </FormItem>

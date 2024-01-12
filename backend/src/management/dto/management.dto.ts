@@ -54,6 +54,16 @@ export class OnboardManagementDto {
     
     @IsString()
     address: string;
+
+    @IsString()
+    @IsOptional()
+    address2: string;
+
+    @IsNumber()
+    lat: number;
+
+    @IsNumber()
+    lng: number;
     
     @IsArray() // Add this if you're validating the array itself
     @ValidateNested({ each: true })
@@ -90,6 +100,12 @@ export class OnboardBuildingDto {
     
     @IsString()
     address: string;
+
+    @IsNumber()
+    lat: number;
+
+    @IsNumber()
+    lng: number;
 
     @IsString()
     city: string;

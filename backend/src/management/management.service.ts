@@ -95,7 +95,7 @@ export class ManagementService {
                 management
             ).json
         } catch (error) {
-            console.log(error)
+            console.error(error)
             throw this.errorService.handleException(error)
         }
     }
@@ -111,6 +111,9 @@ export class ManagementService {
                 data: {
                     ...management,
                     address: dto.address,
+                    address2: dto.address2,
+                    lat: dto.lat,
+                    lng: dto.lng,
                     phone_number: dto.phoneNumber,
                     onboard_state: 'building_onboard',
                     last_updated: new Date()
@@ -141,7 +144,7 @@ export class ManagementService {
             ).json
 
         } catch (error) {
-            console.log(error)
+            console.error(error)
             throw this.errorService.handleException(error)
         }
     }
@@ -158,6 +161,8 @@ export class ManagementService {
                     building_name: dto.buildingName,
                     building_type: dto.buildingType,
                     address: dto.address,
+                    lat: dto.lat,
+                    lng: dto.lng,
                     city: dto.city,
                     state: dto.state,
                     country: dto.country,
@@ -182,7 +187,7 @@ export class ManagementService {
                 user
             ).json
         } catch (error) {
-            console.log(error)
+            console.error(error)
             throw this.errorService.handleException(error)
         }
     }
@@ -203,7 +208,7 @@ export class ManagementService {
                 management
             ).json
         } catch (error) {
-            console.log(error)
+            console.error(error)
             throw this.errorService.handleException(error)
         }
     }

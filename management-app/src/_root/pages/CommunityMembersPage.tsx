@@ -65,8 +65,6 @@ const CommunityMembersPage = () => {
     handleSearch();
   }, [debounce, handleSearch]);
 
-  console.log(communityMembers)
-
   if (!communityMembers) {
     return <h1>Could not find your building. contact {import.meta.env.VITE_SUPPORT_EMAIL}</h1>;
   }

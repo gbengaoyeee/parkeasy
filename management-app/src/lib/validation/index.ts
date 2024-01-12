@@ -62,6 +62,9 @@ export const OnboardManagementValidation = z.object({
   confirmPassword: passwordSchema,
   phoneNumber: z.string().regex(/^\+?[1-9]\d{1,14}$/, "Invalid phone number format"),
   address: z.string().min(4, 'Please enter a valid address'),
+  address2: z.string().optional(),
+  lat: z.number(),
+  lng: z.number(),
   staffMembers: staffMembersSchema.optional()
 }).refine(({password, confirmPassword}) => password === confirmPassword, {
   message: "Passwords don't match",
@@ -87,6 +90,8 @@ export const OnboardBuildingValidation = z.object({
   //@ts-ignore
   buildingType: z.enum(Object.keys(buildingTypes) as Array<keyof typeof buildingTypes>,),
   address: z.string().min(4, 'Please enter a valid address'),
+  lat: z.number(),
+  lng: z.number(),
   city: z.string().min(2, 'Please enter a city'),
   state: z.string().min(2, 'Please enter a state or province'),
   zipcode: z.string().min(2, 'Please enter a valid zipcode or postal code'),

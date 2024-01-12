@@ -84,6 +84,9 @@ model Management {
   customer_service_email String?
   emergency_email String?
   address String?
+  address2 String?
+  lat Float?
+  lng Float?
   subscription_plan_type Subscription_PlanType?
   subscription_state Active_State?
   business_state Active_State?
@@ -135,6 +138,8 @@ model Building {
   city String?
   state String?
   country String?
+  lat Float?
+  lng Float?
   no_of_units Int?
   no_of_parking_floors Int?
   no_of_parking_spots Int?

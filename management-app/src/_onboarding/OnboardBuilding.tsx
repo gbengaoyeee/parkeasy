@@ -30,6 +30,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import Autocomplete from "react-google-autocomplete";
 
 interface OnboardingProps {
   onNext: () => void;
@@ -43,6 +44,8 @@ const OnboardBuilding = ({ onNext }: OnboardingProps) => {
       buildingName: "",
       buildingType: "",
       address: "",
+      lat: 0,
+      lng: 0,
       city: "",
       state: "",
       zipcode: "",
@@ -55,8 +58,11 @@ const OnboardBuilding = ({ onNext }: OnboardingProps) => {
     },
   });
 
-  const { isPending: isSubmitting, mutateAsync: submitBuildingOnboard } =
-    useSubmitBuildingOnboard(user?.email ?? "");
+  const { isPending: isSubmitting, mutateAsync: submitBuildingOnboard } = useSubmitBuildingOnboard(
+    user?.email ?? ""
+  );
+
+  const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
 
   function onSubmit(values: z.infer<typeof OnboardBuildingValidation>) {
     // Do something with the form values.
@@ -99,7 +105,38 @@ const OnboardBuilding = ({ onNext }: OnboardingProps) => {
               <FormItem>
                 <FormLabel>Building address</FormLabel>
                 <FormControl>
-                  <Input placeholder="123 Main Street" {...field} />
+                  <Autocomplete
+                    {...field}
+                    placeholder="123 Main Street"
+                    className="w-full border rounded-md p-2 text-sm"
+                    apiKey={apiKey}
+                    options={{
+                      types: [],
+                      // componentRestrictions: { country: "" },
+                    }}
+                    onChange={(e) => {
+                      form.setValue("lat", 0);
+                      form.setValue("lng", 0);
+                      field.onChange(e);
+                    }}
+                    onBlur={() => {
+                      setTimeout(() => {
+                        if (form.getValues("lat") === 0 || form.getValues("lng") === 0) {
+                          form.setValue("address", "");
+                        }
+                      }, 300);
+                    }}
+                    onPlaceSelected={(place: google.maps.places.PlaceResult) => {
+                      form.setValue("lat", place.geometry?.location.lat() ?? 0);
+                      form.setValue("lng", place.geometry?.location.lng() ?? 0);
+                      form.setValue("address", place.formatted_address ?? "");
+
+                      form.setValue("city", place.address_components?.find((c) => c.types.includes("sublocality"))?.long_name ?? "");
+                      form.setValue("state", place.address_components?.find((c) => c.types.includes("administrative_area_level_1"))?.long_name ?? "");
+                      form.setValue("country", place.address_components?.find((c) => c.types.includes("country"))?.long_name ?? "");
+                      form.setValue("zipcode", place.address_components?.find((c) => c.types.includes("postal_code"))?.long_name ?? "");
+                    }}
+                  />
                 </FormControl>
                 <FormMessage className="shad-form_message" />
               </FormItem>

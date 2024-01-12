@@ -3757,8 +3757,20 @@ export namespace Prisma {
 
   export type AggregateManagement = {
     _count: ManagementCountAggregateOutputType | null
+    _avg: ManagementAvgAggregateOutputType | null
+    _sum: ManagementSumAggregateOutputType | null
     _min: ManagementMinAggregateOutputType | null
     _max: ManagementMaxAggregateOutputType | null
+  }
+
+  export type ManagementAvgAggregateOutputType = {
+    lat: number | null
+    lng: number | null
+  }
+
+  export type ManagementSumAggregateOutputType = {
+    lat: number | null
+    lng: number | null
   }
 
   export type ManagementMinAggregateOutputType = {
@@ -3770,6 +3782,9 @@ export namespace Prisma {
     customer_service_email: string | null
     emergency_email: string | null
     address: string | null
+    address2: string | null
+    lat: number | null
+    lng: number | null
     subscription_plan_type: $Enums.Subscription_PlanType | null
     subscription_state: $Enums.Active_State | null
     business_state: $Enums.Active_State | null
@@ -3788,6 +3803,9 @@ export namespace Prisma {
     customer_service_email: string | null
     emergency_email: string | null
     address: string | null
+    address2: string | null
+    lat: number | null
+    lng: number | null
     subscription_plan_type: $Enums.Subscription_PlanType | null
     subscription_state: $Enums.Active_State | null
     business_state: $Enums.Active_State | null
@@ -3806,6 +3824,9 @@ export namespace Prisma {
     customer_service_email: number
     emergency_email: number
     address: number
+    address2: number
+    lat: number
+    lng: number
     subscription_plan_type: number
     subscription_state: number
     business_state: number
@@ -3817,6 +3838,16 @@ export namespace Prisma {
   }
 
 
+  export type ManagementAvgAggregateInputType = {
+    lat?: true
+    lng?: true
+  }
+
+  export type ManagementSumAggregateInputType = {
+    lat?: true
+    lng?: true
+  }
+
   export type ManagementMinAggregateInputType = {
     id?: true
     user_id?: true
@@ -3826,6 +3857,9 @@ export namespace Prisma {
     customer_service_email?: true
     emergency_email?: true
     address?: true
+    address2?: true
+    lat?: true
+    lng?: true
     subscription_plan_type?: true
     subscription_state?: true
     business_state?: true
@@ -3844,6 +3878,9 @@ export namespace Prisma {
     customer_service_email?: true
     emergency_email?: true
     address?: true
+    address2?: true
+    lat?: true
+    lng?: true
     subscription_plan_type?: true
     subscription_state?: true
     business_state?: true
@@ -3862,6 +3899,9 @@ export namespace Prisma {
     customer_service_email?: true
     emergency_email?: true
     address?: true
+    address2?: true
+    lat?: true
+    lng?: true
     subscription_plan_type?: true
     subscription_state?: true
     business_state?: true
@@ -3910,6 +3950,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: ManagementAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ManagementSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: ManagementMinAggregateInputType
@@ -3940,6 +3992,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: ManagementCountAggregateInputType | true
+    _avg?: ManagementAvgAggregateInputType
+    _sum?: ManagementSumAggregateInputType
     _min?: ManagementMinAggregateInputType
     _max?: ManagementMaxAggregateInputType
   }
@@ -3953,6 +4007,9 @@ export namespace Prisma {
     customer_service_email: string | null
     emergency_email: string | null
     address: string | null
+    address2: string | null
+    lat: number | null
+    lng: number | null
     subscription_plan_type: $Enums.Subscription_PlanType | null
     subscription_state: $Enums.Active_State | null
     business_state: $Enums.Active_State | null
@@ -3961,6 +4018,8 @@ export namespace Prisma {
     last_updated: Date
     onboard_state: $Enums.OnboardingState | null
     _count: ManagementCountAggregateOutputType | null
+    _avg: ManagementAvgAggregateOutputType | null
+    _sum: ManagementSumAggregateOutputType | null
     _min: ManagementMinAggregateOutputType | null
     _max: ManagementMaxAggregateOutputType | null
   }
@@ -3988,6 +4047,9 @@ export namespace Prisma {
     customer_service_email?: boolean
     emergency_email?: boolean
     address?: boolean
+    address2?: boolean
+    lat?: boolean
+    lng?: boolean
     subscription_plan_type?: boolean
     subscription_state?: boolean
     business_state?: boolean
@@ -4010,6 +4072,9 @@ export namespace Prisma {
     customer_service_email?: boolean
     emergency_email?: boolean
     address?: boolean
+    address2?: boolean
+    lat?: boolean
+    lng?: boolean
     subscription_plan_type?: boolean
     subscription_state?: boolean
     business_state?: boolean
@@ -4043,6 +4108,9 @@ export namespace Prisma {
       customer_service_email: string | null
       emergency_email: string | null
       address: string | null
+      address2: string | null
+      lat: number | null
+      lng: number | null
       subscription_plan_type: $Enums.Subscription_PlanType | null
       subscription_state: $Enums.Active_State | null
       business_state: $Enums.Active_State | null
@@ -4457,6 +4525,9 @@ export namespace Prisma {
     readonly customer_service_email: FieldRef<"Management", 'String'>
     readonly emergency_email: FieldRef<"Management", 'String'>
     readonly address: FieldRef<"Management", 'String'>
+    readonly address2: FieldRef<"Management", 'String'>
+    readonly lat: FieldRef<"Management", 'Float'>
+    readonly lng: FieldRef<"Management", 'Float'>
     readonly subscription_plan_type: FieldRef<"Management", 'Subscription_PlanType'>
     readonly subscription_state: FieldRef<"Management", 'Active_State'>
     readonly business_state: FieldRef<"Management", 'Active_State'>
@@ -5775,6 +5846,8 @@ export namespace Prisma {
   }
 
   export type BuildingAvgAggregateOutputType = {
+    lat: number | null
+    lng: number | null
     no_of_units: number | null
     no_of_parking_floors: number | null
     no_of_parking_spots: number | null
@@ -5782,6 +5855,8 @@ export namespace Prisma {
   }
 
   export type BuildingSumAggregateOutputType = {
+    lat: number | null
+    lng: number | null
     no_of_units: number | null
     no_of_parking_floors: number | null
     no_of_parking_spots: number | null
@@ -5797,6 +5872,8 @@ export namespace Prisma {
     city: string | null
     state: string | null
     country: string | null
+    lat: number | null
+    lng: number | null
     no_of_units: number | null
     no_of_parking_floors: number | null
     no_of_parking_spots: number | null
@@ -5812,6 +5889,8 @@ export namespace Prisma {
     city: string | null
     state: string | null
     country: string | null
+    lat: number | null
+    lng: number | null
     no_of_units: number | null
     no_of_parking_floors: number | null
     no_of_parking_spots: number | null
@@ -5827,6 +5906,8 @@ export namespace Prisma {
     city: number
     state: number
     country: number
+    lat: number
+    lng: number
     no_of_units: number
     no_of_parking_floors: number
     no_of_parking_spots: number
@@ -5837,6 +5918,8 @@ export namespace Prisma {
 
 
   export type BuildingAvgAggregateInputType = {
+    lat?: true
+    lng?: true
     no_of_units?: true
     no_of_parking_floors?: true
     no_of_parking_spots?: true
@@ -5844,6 +5927,8 @@ export namespace Prisma {
   }
 
   export type BuildingSumAggregateInputType = {
+    lat?: true
+    lng?: true
     no_of_units?: true
     no_of_parking_floors?: true
     no_of_parking_spots?: true
@@ -5859,6 +5944,8 @@ export namespace Prisma {
     city?: true
     state?: true
     country?: true
+    lat?: true
+    lng?: true
     no_of_units?: true
     no_of_parking_floors?: true
     no_of_parking_spots?: true
@@ -5874,6 +5961,8 @@ export namespace Prisma {
     city?: true
     state?: true
     country?: true
+    lat?: true
+    lng?: true
     no_of_units?: true
     no_of_parking_floors?: true
     no_of_parking_spots?: true
@@ -5889,6 +5978,8 @@ export namespace Prisma {
     city?: true
     state?: true
     country?: true
+    lat?: true
+    lng?: true
     no_of_units?: true
     no_of_parking_floors?: true
     no_of_parking_spots?: true
@@ -5992,6 +6083,8 @@ export namespace Prisma {
     city: string | null
     state: string | null
     country: string | null
+    lat: number | null
+    lng: number | null
     no_of_units: number | null
     no_of_parking_floors: number | null
     no_of_parking_spots: number | null
@@ -6027,6 +6120,8 @@ export namespace Prisma {
     city?: boolean
     state?: boolean
     country?: boolean
+    lat?: boolean
+    lng?: boolean
     no_of_units?: boolean
     no_of_parking_floors?: boolean
     no_of_parking_spots?: boolean
@@ -6047,6 +6142,8 @@ export namespace Prisma {
     city?: boolean
     state?: boolean
     country?: boolean
+    lat?: boolean
+    lng?: boolean
     no_of_units?: boolean
     no_of_parking_floors?: boolean
     no_of_parking_spots?: boolean
@@ -6078,6 +6175,8 @@ export namespace Prisma {
       city: string | null
       state: string | null
       country: string | null
+      lat: number | null
+      lng: number | null
       no_of_units: number | null
       no_of_parking_floors: number | null
       no_of_parking_spots: number | null
@@ -6490,6 +6589,8 @@ export namespace Prisma {
     readonly city: FieldRef<"Building", 'String'>
     readonly state: FieldRef<"Building", 'String'>
     readonly country: FieldRef<"Building", 'String'>
+    readonly lat: FieldRef<"Building", 'Float'>
+    readonly lng: FieldRef<"Building", 'Float'>
     readonly no_of_units: FieldRef<"Building", 'Int'>
     readonly no_of_parking_floors: FieldRef<"Building", 'Int'>
     readonly no_of_parking_spots: FieldRef<"Building", 'Int'>
@@ -10886,6 +10987,9 @@ export namespace Prisma {
     customer_service_email: 'customer_service_email',
     emergency_email: 'emergency_email',
     address: 'address',
+    address2: 'address2',
+    lat: 'lat',
+    lng: 'lng',
     subscription_plan_type: 'subscription_plan_type',
     subscription_state: 'subscription_state',
     business_state: 'business_state',
@@ -10919,6 +11023,8 @@ export namespace Prisma {
     city: 'city',
     state: 'state',
     country: 'country',
+    lat: 'lat',
+    lng: 'lng',
     no_of_units: 'no_of_units',
     no_of_parking_floors: 'no_of_parking_floors',
     no_of_parking_spots: 'no_of_parking_spots',
@@ -11080,6 +11186,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Float'
+   */
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float[]'
+   */
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Subscription_PlanType'
    */
   export type EnumSubscription_PlanTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Subscription_PlanType'>
@@ -11216,20 +11336,6 @@ export namespace Prisma {
    * Reference to a field of type 'Vehicle_Type[]'
    */
   export type ListEnumVehicle_TypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Vehicle_Type[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Float'
-   */
-  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
-    
-
-
-  /**
-   * Reference to a field of type 'Float[]'
-   */
-  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
   /**
    * Deep Input Types
@@ -11383,6 +11489,9 @@ export namespace Prisma {
     customer_service_email?: StringNullableFilter<"Management"> | string | null
     emergency_email?: StringNullableFilter<"Management"> | string | null
     address?: StringNullableFilter<"Management"> | string | null
+    address2?: StringNullableFilter<"Management"> | string | null
+    lat?: FloatNullableFilter<"Management"> | number | null
+    lng?: FloatNullableFilter<"Management"> | number | null
     subscription_plan_type?: EnumSubscription_PlanTypeNullableFilter<"Management"> | $Enums.Subscription_PlanType | null
     subscription_state?: EnumActive_StateNullableFilter<"Management"> | $Enums.Active_State | null
     business_state?: EnumActive_StateNullableFilter<"Management"> | $Enums.Active_State | null
@@ -11404,6 +11513,9 @@ export namespace Prisma {
     customer_service_email?: SortOrderInput | SortOrder
     emergency_email?: SortOrderInput | SortOrder
     address?: SortOrderInput | SortOrder
+    address2?: SortOrderInput | SortOrder
+    lat?: SortOrderInput | SortOrder
+    lng?: SortOrderInput | SortOrder
     subscription_plan_type?: SortOrderInput | SortOrder
     subscription_state?: SortOrderInput | SortOrder
     business_state?: SortOrderInput | SortOrder
@@ -11428,6 +11540,9 @@ export namespace Prisma {
     customer_service_email?: StringNullableFilter<"Management"> | string | null
     emergency_email?: StringNullableFilter<"Management"> | string | null
     address?: StringNullableFilter<"Management"> | string | null
+    address2?: StringNullableFilter<"Management"> | string | null
+    lat?: FloatNullableFilter<"Management"> | number | null
+    lng?: FloatNullableFilter<"Management"> | number | null
     subscription_plan_type?: EnumSubscription_PlanTypeNullableFilter<"Management"> | $Enums.Subscription_PlanType | null
     subscription_state?: EnumActive_StateNullableFilter<"Management"> | $Enums.Active_State | null
     business_state?: EnumActive_StateNullableFilter<"Management"> | $Enums.Active_State | null
@@ -11449,6 +11564,9 @@ export namespace Prisma {
     customer_service_email?: SortOrderInput | SortOrder
     emergency_email?: SortOrderInput | SortOrder
     address?: SortOrderInput | SortOrder
+    address2?: SortOrderInput | SortOrder
+    lat?: SortOrderInput | SortOrder
+    lng?: SortOrderInput | SortOrder
     subscription_plan_type?: SortOrderInput | SortOrder
     subscription_state?: SortOrderInput | SortOrder
     business_state?: SortOrderInput | SortOrder
@@ -11457,8 +11575,10 @@ export namespace Prisma {
     last_updated?: SortOrder
     onboard_state?: SortOrderInput | SortOrder
     _count?: ManagementCountOrderByAggregateInput
+    _avg?: ManagementAvgOrderByAggregateInput
     _max?: ManagementMaxOrderByAggregateInput
     _min?: ManagementMinOrderByAggregateInput
+    _sum?: ManagementSumOrderByAggregateInput
   }
 
   export type ManagementScalarWhereWithAggregatesInput = {
@@ -11473,6 +11593,9 @@ export namespace Prisma {
     customer_service_email?: StringNullableWithAggregatesFilter<"Management"> | string | null
     emergency_email?: StringNullableWithAggregatesFilter<"Management"> | string | null
     address?: StringNullableWithAggregatesFilter<"Management"> | string | null
+    address2?: StringNullableWithAggregatesFilter<"Management"> | string | null
+    lat?: FloatNullableWithAggregatesFilter<"Management"> | number | null
+    lng?: FloatNullableWithAggregatesFilter<"Management"> | number | null
     subscription_plan_type?: EnumSubscription_PlanTypeNullableWithAggregatesFilter<"Management"> | $Enums.Subscription_PlanType | null
     subscription_state?: EnumActive_StateNullableWithAggregatesFilter<"Management"> | $Enums.Active_State | null
     business_state?: EnumActive_StateNullableWithAggregatesFilter<"Management"> | $Enums.Active_State | null
@@ -11554,6 +11677,8 @@ export namespace Prisma {
     city?: StringNullableFilter<"Building"> | string | null
     state?: StringNullableFilter<"Building"> | string | null
     country?: StringNullableFilter<"Building"> | string | null
+    lat?: FloatNullableFilter<"Building"> | number | null
+    lng?: FloatNullableFilter<"Building"> | number | null
     no_of_units?: IntNullableFilter<"Building"> | number | null
     no_of_parking_floors?: IntNullableFilter<"Building"> | number | null
     no_of_parking_spots?: IntNullableFilter<"Building"> | number | null
@@ -11573,6 +11698,8 @@ export namespace Prisma {
     city?: SortOrderInput | SortOrder
     state?: SortOrderInput | SortOrder
     country?: SortOrderInput | SortOrder
+    lat?: SortOrderInput | SortOrder
+    lng?: SortOrderInput | SortOrder
     no_of_units?: SortOrderInput | SortOrder
     no_of_parking_floors?: SortOrderInput | SortOrder
     no_of_parking_spots?: SortOrderInput | SortOrder
@@ -11595,6 +11722,8 @@ export namespace Prisma {
     city?: StringNullableFilter<"Building"> | string | null
     state?: StringNullableFilter<"Building"> | string | null
     country?: StringNullableFilter<"Building"> | string | null
+    lat?: FloatNullableFilter<"Building"> | number | null
+    lng?: FloatNullableFilter<"Building"> | number | null
     no_of_units?: IntNullableFilter<"Building"> | number | null
     no_of_parking_floors?: IntNullableFilter<"Building"> | number | null
     no_of_parking_spots?: IntNullableFilter<"Building"> | number | null
@@ -11614,6 +11743,8 @@ export namespace Prisma {
     city?: SortOrderInput | SortOrder
     state?: SortOrderInput | SortOrder
     country?: SortOrderInput | SortOrder
+    lat?: SortOrderInput | SortOrder
+    lng?: SortOrderInput | SortOrder
     no_of_units?: SortOrderInput | SortOrder
     no_of_parking_floors?: SortOrderInput | SortOrder
     no_of_parking_spots?: SortOrderInput | SortOrder
@@ -11638,6 +11769,8 @@ export namespace Prisma {
     city?: StringNullableWithAggregatesFilter<"Building"> | string | null
     state?: StringNullableWithAggregatesFilter<"Building"> | string | null
     country?: StringNullableWithAggregatesFilter<"Building"> | string | null
+    lat?: FloatNullableWithAggregatesFilter<"Building"> | number | null
+    lng?: FloatNullableWithAggregatesFilter<"Building"> | number | null
     no_of_units?: IntNullableWithAggregatesFilter<"Building"> | number | null
     no_of_parking_floors?: IntNullableWithAggregatesFilter<"Building"> | number | null
     no_of_parking_spots?: IntNullableWithAggregatesFilter<"Building"> | number | null
@@ -12088,6 +12221,9 @@ export namespace Prisma {
     customer_service_email?: string | null
     emergency_email?: string | null
     address?: string | null
+    address2?: string | null
+    lat?: number | null
+    lng?: number | null
     subscription_plan_type?: $Enums.Subscription_PlanType | null
     subscription_state?: $Enums.Active_State | null
     business_state?: $Enums.Active_State | null
@@ -12109,6 +12245,9 @@ export namespace Prisma {
     customer_service_email?: string | null
     emergency_email?: string | null
     address?: string | null
+    address2?: string | null
+    lat?: number | null
+    lng?: number | null
     subscription_plan_type?: $Enums.Subscription_PlanType | null
     subscription_state?: $Enums.Active_State | null
     business_state?: $Enums.Active_State | null
@@ -12128,6 +12267,9 @@ export namespace Prisma {
     customer_service_email?: NullableStringFieldUpdateOperationsInput | string | null
     emergency_email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    address2?: NullableStringFieldUpdateOperationsInput | string | null
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    lng?: NullableFloatFieldUpdateOperationsInput | number | null
     subscription_plan_type?: NullableEnumSubscription_PlanTypeFieldUpdateOperationsInput | $Enums.Subscription_PlanType | null
     subscription_state?: NullableEnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State | null
     business_state?: NullableEnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State | null
@@ -12149,6 +12291,9 @@ export namespace Prisma {
     customer_service_email?: NullableStringFieldUpdateOperationsInput | string | null
     emergency_email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    address2?: NullableStringFieldUpdateOperationsInput | string | null
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    lng?: NullableFloatFieldUpdateOperationsInput | number | null
     subscription_plan_type?: NullableEnumSubscription_PlanTypeFieldUpdateOperationsInput | $Enums.Subscription_PlanType | null
     subscription_state?: NullableEnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State | null
     business_state?: NullableEnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State | null
@@ -12169,6 +12314,9 @@ export namespace Prisma {
     customer_service_email?: string | null
     emergency_email?: string | null
     address?: string | null
+    address2?: string | null
+    lat?: number | null
+    lng?: number | null
     subscription_plan_type?: $Enums.Subscription_PlanType | null
     subscription_state?: $Enums.Active_State | null
     business_state?: $Enums.Active_State | null
@@ -12186,6 +12334,9 @@ export namespace Prisma {
     customer_service_email?: NullableStringFieldUpdateOperationsInput | string | null
     emergency_email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    address2?: NullableStringFieldUpdateOperationsInput | string | null
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    lng?: NullableFloatFieldUpdateOperationsInput | number | null
     subscription_plan_type?: NullableEnumSubscription_PlanTypeFieldUpdateOperationsInput | $Enums.Subscription_PlanType | null
     subscription_state?: NullableEnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State | null
     business_state?: NullableEnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State | null
@@ -12204,6 +12355,9 @@ export namespace Prisma {
     customer_service_email?: NullableStringFieldUpdateOperationsInput | string | null
     emergency_email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    address2?: NullableStringFieldUpdateOperationsInput | string | null
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    lng?: NullableFloatFieldUpdateOperationsInput | number | null
     subscription_plan_type?: NullableEnumSubscription_PlanTypeFieldUpdateOperationsInput | $Enums.Subscription_PlanType | null
     subscription_state?: NullableEnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State | null
     business_state?: NullableEnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State | null
@@ -12283,6 +12437,8 @@ export namespace Prisma {
     city?: string | null
     state?: string | null
     country?: string | null
+    lat?: number | null
+    lng?: number | null
     no_of_units?: number | null
     no_of_parking_floors?: number | null
     no_of_parking_spots?: number | null
@@ -12302,6 +12458,8 @@ export namespace Prisma {
     city?: string | null
     state?: string | null
     country?: string | null
+    lat?: number | null
+    lng?: number | null
     no_of_units?: number | null
     no_of_parking_floors?: number | null
     no_of_parking_spots?: number | null
@@ -12319,6 +12477,8 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    lng?: NullableFloatFieldUpdateOperationsInput | number | null
     no_of_units?: NullableIntFieldUpdateOperationsInput | number | null
     no_of_parking_floors?: NullableIntFieldUpdateOperationsInput | number | null
     no_of_parking_spots?: NullableIntFieldUpdateOperationsInput | number | null
@@ -12338,6 +12498,8 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    lng?: NullableFloatFieldUpdateOperationsInput | number | null
     no_of_units?: NullableIntFieldUpdateOperationsInput | number | null
     no_of_parking_floors?: NullableIntFieldUpdateOperationsInput | number | null
     no_of_parking_spots?: NullableIntFieldUpdateOperationsInput | number | null
@@ -12356,6 +12518,8 @@ export namespace Prisma {
     city?: string | null
     state?: string | null
     country?: string | null
+    lat?: number | null
+    lng?: number | null
     no_of_units?: number | null
     no_of_parking_floors?: number | null
     no_of_parking_spots?: number | null
@@ -12371,6 +12535,8 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    lng?: NullableFloatFieldUpdateOperationsInput | number | null
     no_of_units?: NullableIntFieldUpdateOperationsInput | number | null
     no_of_parking_floors?: NullableIntFieldUpdateOperationsInput | number | null
     no_of_parking_spots?: NullableIntFieldUpdateOperationsInput | number | null
@@ -12387,6 +12553,8 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    lng?: NullableFloatFieldUpdateOperationsInput | number | null
     no_of_units?: NullableIntFieldUpdateOperationsInput | number | null
     no_of_parking_floors?: NullableIntFieldUpdateOperationsInput | number | null
     no_of_parking_spots?: NullableIntFieldUpdateOperationsInput | number | null
@@ -12890,6 +13058,17 @@ export namespace Prisma {
     _max?: NestedEnumMobile_Onboard_StatusNullableFilter<$PrismaModel>
   }
 
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type EnumSubscription_PlanTypeNullableFilter<$PrismaModel = never> = {
     equals?: $Enums.Subscription_PlanType | EnumSubscription_PlanTypeFieldRefInput<$PrismaModel> | null
     in?: $Enums.Subscription_PlanType[] | ListEnumSubscription_PlanTypeFieldRefInput<$PrismaModel> | null
@@ -12945,6 +13124,9 @@ export namespace Prisma {
     customer_service_email?: SortOrder
     emergency_email?: SortOrder
     address?: SortOrder
+    address2?: SortOrder
+    lat?: SortOrder
+    lng?: SortOrder
     subscription_plan_type?: SortOrder
     subscription_state?: SortOrder
     business_state?: SortOrder
@@ -12952,6 +13134,11 @@ export namespace Prisma {
     last_login?: SortOrder
     last_updated?: SortOrder
     onboard_state?: SortOrder
+  }
+
+  export type ManagementAvgOrderByAggregateInput = {
+    lat?: SortOrder
+    lng?: SortOrder
   }
 
   export type ManagementMaxOrderByAggregateInput = {
@@ -12963,6 +13150,9 @@ export namespace Prisma {
     customer_service_email?: SortOrder
     emergency_email?: SortOrder
     address?: SortOrder
+    address2?: SortOrder
+    lat?: SortOrder
+    lng?: SortOrder
     subscription_plan_type?: SortOrder
     subscription_state?: SortOrder
     business_state?: SortOrder
@@ -12981,6 +13171,9 @@ export namespace Prisma {
     customer_service_email?: SortOrder
     emergency_email?: SortOrder
     address?: SortOrder
+    address2?: SortOrder
+    lat?: SortOrder
+    lng?: SortOrder
     subscription_plan_type?: SortOrder
     subscription_state?: SortOrder
     business_state?: SortOrder
@@ -12988,6 +13181,27 @@ export namespace Prisma {
     last_login?: SortOrder
     last_updated?: SortOrder
     onboard_state?: SortOrder
+  }
+
+  export type ManagementSumOrderByAggregateInput = {
+    lat?: SortOrder
+    lng?: SortOrder
+  }
+
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type EnumSubscription_PlanTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -13097,6 +13311,8 @@ export namespace Prisma {
     city?: SortOrder
     state?: SortOrder
     country?: SortOrder
+    lat?: SortOrder
+    lng?: SortOrder
     no_of_units?: SortOrder
     no_of_parking_floors?: SortOrder
     no_of_parking_spots?: SortOrder
@@ -13105,6 +13321,8 @@ export namespace Prisma {
   }
 
   export type BuildingAvgOrderByAggregateInput = {
+    lat?: SortOrder
+    lng?: SortOrder
     no_of_units?: SortOrder
     no_of_parking_floors?: SortOrder
     no_of_parking_spots?: SortOrder
@@ -13120,6 +13338,8 @@ export namespace Prisma {
     city?: SortOrder
     state?: SortOrder
     country?: SortOrder
+    lat?: SortOrder
+    lng?: SortOrder
     no_of_units?: SortOrder
     no_of_parking_floors?: SortOrder
     no_of_parking_spots?: SortOrder
@@ -13135,6 +13355,8 @@ export namespace Prisma {
     city?: SortOrder
     state?: SortOrder
     country?: SortOrder
+    lat?: SortOrder
+    lng?: SortOrder
     no_of_units?: SortOrder
     no_of_parking_floors?: SortOrder
     no_of_parking_spots?: SortOrder
@@ -13142,6 +13364,8 @@ export namespace Prisma {
   }
 
   export type BuildingSumOrderByAggregateInput = {
+    lat?: SortOrder
+    lng?: SortOrder
     no_of_units?: SortOrder
     no_of_parking_floors?: SortOrder
     no_of_parking_spots?: SortOrder
@@ -13584,6 +13808,14 @@ export namespace Prisma {
     connectOrCreate?: BuildingCreateOrConnectWithoutManagementInput | BuildingCreateOrConnectWithoutManagementInput[]
     createMany?: BuildingCreateManyManagementInputEnvelope
     connect?: BuildingWhereUniqueInput | BuildingWhereUniqueInput[]
+  }
+
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type NullableEnumSubscription_PlanTypeFieldUpdateOperationsInput = {
@@ -14227,6 +14459,17 @@ export namespace Prisma {
     _max?: NestedEnumMobile_Onboard_StatusNullableFilter<$PrismaModel>
   }
 
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedEnumSubscription_PlanTypeNullableFilter<$PrismaModel = never> = {
     equals?: $Enums.Subscription_PlanType | EnumSubscription_PlanTypeFieldRefInput<$PrismaModel> | null
     in?: $Enums.Subscription_PlanType[] | ListEnumSubscription_PlanTypeFieldRefInput<$PrismaModel> | null
@@ -14246,6 +14489,22 @@ export namespace Prisma {
     in?: $Enums.OnboardingState[] | ListEnumOnboardingStateFieldRefInput<$PrismaModel> | null
     notIn?: $Enums.OnboardingState[] | ListEnumOnboardingStateFieldRefInput<$PrismaModel> | null
     not?: NestedEnumOnboardingStateNullableFilter<$PrismaModel> | $Enums.OnboardingState | null
+  }
+
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumSubscription_PlanTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -14309,17 +14568,6 @@ export namespace Prisma {
     _sum?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedIntNullableFilter<$PrismaModel>
     _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
-  export type NestedFloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedEnumUser_RoleNullableFilter<$PrismaModel = never> = {
@@ -14432,6 +14680,9 @@ export namespace Prisma {
     customer_service_email?: string | null
     emergency_email?: string | null
     address?: string | null
+    address2?: string | null
+    lat?: number | null
+    lng?: number | null
     subscription_plan_type?: $Enums.Subscription_PlanType | null
     subscription_state?: $Enums.Active_State | null
     business_state?: $Enums.Active_State | null
@@ -14451,6 +14702,9 @@ export namespace Prisma {
     customer_service_email?: string | null
     emergency_email?: string | null
     address?: string | null
+    address2?: string | null
+    lat?: number | null
+    lng?: number | null
     subscription_plan_type?: $Enums.Subscription_PlanType | null
     subscription_state?: $Enums.Active_State | null
     business_state?: $Enums.Active_State | null
@@ -14522,6 +14776,9 @@ export namespace Prisma {
     customer_service_email?: NullableStringFieldUpdateOperationsInput | string | null
     emergency_email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    address2?: NullableStringFieldUpdateOperationsInput | string | null
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    lng?: NullableFloatFieldUpdateOperationsInput | number | null
     subscription_plan_type?: NullableEnumSubscription_PlanTypeFieldUpdateOperationsInput | $Enums.Subscription_PlanType | null
     subscription_state?: NullableEnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State | null
     business_state?: NullableEnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State | null
@@ -14541,6 +14798,9 @@ export namespace Prisma {
     customer_service_email?: NullableStringFieldUpdateOperationsInput | string | null
     emergency_email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    address2?: NullableStringFieldUpdateOperationsInput | string | null
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    lng?: NullableFloatFieldUpdateOperationsInput | number | null
     subscription_plan_type?: NullableEnumSubscription_PlanTypeFieldUpdateOperationsInput | $Enums.Subscription_PlanType | null
     subscription_state?: NullableEnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State | null
     business_state?: NullableEnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State | null
@@ -14618,6 +14878,8 @@ export namespace Prisma {
     city?: string | null
     state?: string | null
     country?: string | null
+    lat?: number | null
+    lng?: number | null
     no_of_units?: number | null
     no_of_parking_floors?: number | null
     no_of_parking_spots?: number | null
@@ -14635,6 +14897,8 @@ export namespace Prisma {
     city?: string | null
     state?: string | null
     country?: string | null
+    lat?: number | null
+    lng?: number | null
     no_of_units?: number | null
     no_of_parking_floors?: number | null
     no_of_parking_spots?: number | null
@@ -14743,6 +15007,8 @@ export namespace Prisma {
     city?: StringNullableFilter<"Building"> | string | null
     state?: StringNullableFilter<"Building"> | string | null
     country?: StringNullableFilter<"Building"> | string | null
+    lat?: FloatNullableFilter<"Building"> | number | null
+    lng?: FloatNullableFilter<"Building"> | number | null
     no_of_units?: IntNullableFilter<"Building"> | number | null
     no_of_parking_floors?: IntNullableFilter<"Building"> | number | null
     no_of_parking_spots?: IntNullableFilter<"Building"> | number | null
@@ -14797,6 +15063,9 @@ export namespace Prisma {
     customer_service_email?: string | null
     emergency_email?: string | null
     address?: string | null
+    address2?: string | null
+    lat?: number | null
+    lng?: number | null
     subscription_plan_type?: $Enums.Subscription_PlanType | null
     subscription_state?: $Enums.Active_State | null
     business_state?: $Enums.Active_State | null
@@ -14817,6 +15086,9 @@ export namespace Prisma {
     customer_service_email?: string | null
     emergency_email?: string | null
     address?: string | null
+    address2?: string | null
+    lat?: number | null
+    lng?: number | null
     subscription_plan_type?: $Enums.Subscription_PlanType | null
     subscription_state?: $Enums.Active_State | null
     business_state?: $Enums.Active_State | null
@@ -14851,6 +15123,9 @@ export namespace Prisma {
     customer_service_email?: NullableStringFieldUpdateOperationsInput | string | null
     emergency_email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    address2?: NullableStringFieldUpdateOperationsInput | string | null
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    lng?: NullableFloatFieldUpdateOperationsInput | number | null
     subscription_plan_type?: NullableEnumSubscription_PlanTypeFieldUpdateOperationsInput | $Enums.Subscription_PlanType | null
     subscription_state?: NullableEnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State | null
     business_state?: NullableEnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State | null
@@ -14871,6 +15146,9 @@ export namespace Prisma {
     customer_service_email?: NullableStringFieldUpdateOperationsInput | string | null
     emergency_email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    address2?: NullableStringFieldUpdateOperationsInput | string | null
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    lng?: NullableFloatFieldUpdateOperationsInput | number | null
     subscription_plan_type?: NullableEnumSubscription_PlanTypeFieldUpdateOperationsInput | $Enums.Subscription_PlanType | null
     subscription_state?: NullableEnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State | null
     business_state?: NullableEnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State | null
@@ -14889,6 +15167,9 @@ export namespace Prisma {
     customer_service_email?: string | null
     emergency_email?: string | null
     address?: string | null
+    address2?: string | null
+    lat?: number | null
+    lng?: number | null
     subscription_plan_type?: $Enums.Subscription_PlanType | null
     subscription_state?: $Enums.Active_State | null
     business_state?: $Enums.Active_State | null
@@ -14909,6 +15190,9 @@ export namespace Prisma {
     customer_service_email?: string | null
     emergency_email?: string | null
     address?: string | null
+    address2?: string | null
+    lat?: number | null
+    lng?: number | null
     subscription_plan_type?: $Enums.Subscription_PlanType | null
     subscription_state?: $Enums.Active_State | null
     business_state?: $Enums.Active_State | null
@@ -15011,6 +15295,9 @@ export namespace Prisma {
     customer_service_email?: NullableStringFieldUpdateOperationsInput | string | null
     emergency_email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    address2?: NullableStringFieldUpdateOperationsInput | string | null
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    lng?: NullableFloatFieldUpdateOperationsInput | number | null
     subscription_plan_type?: NullableEnumSubscription_PlanTypeFieldUpdateOperationsInput | $Enums.Subscription_PlanType | null
     subscription_state?: NullableEnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State | null
     business_state?: NullableEnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State | null
@@ -15031,6 +15318,9 @@ export namespace Prisma {
     customer_service_email?: NullableStringFieldUpdateOperationsInput | string | null
     emergency_email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    address2?: NullableStringFieldUpdateOperationsInput | string | null
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    lng?: NullableFloatFieldUpdateOperationsInput | number | null
     subscription_plan_type?: NullableEnumSubscription_PlanTypeFieldUpdateOperationsInput | $Enums.Subscription_PlanType | null
     subscription_state?: NullableEnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State | null
     business_state?: NullableEnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State | null
@@ -15096,6 +15386,8 @@ export namespace Prisma {
     city?: string | null
     state?: string | null
     country?: string | null
+    lat?: number | null
+    lng?: number | null
     no_of_units?: number | null
     no_of_parking_floors?: number | null
     no_of_parking_spots?: number | null
@@ -15114,6 +15406,8 @@ export namespace Prisma {
     city?: string | null
     state?: string | null
     country?: string | null
+    lat?: number | null
+    lng?: number | null
     no_of_units?: number | null
     no_of_parking_floors?: number | null
     no_of_parking_spots?: number | null
@@ -15234,6 +15528,8 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    lng?: NullableFloatFieldUpdateOperationsInput | number | null
     no_of_units?: NullableIntFieldUpdateOperationsInput | number | null
     no_of_parking_floors?: NullableIntFieldUpdateOperationsInput | number | null
     no_of_parking_spots?: NullableIntFieldUpdateOperationsInput | number | null
@@ -15252,6 +15548,8 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    lng?: NullableFloatFieldUpdateOperationsInput | number | null
     no_of_units?: NullableIntFieldUpdateOperationsInput | number | null
     no_of_parking_floors?: NullableIntFieldUpdateOperationsInput | number | null
     no_of_parking_spots?: NullableIntFieldUpdateOperationsInput | number | null
@@ -15352,6 +15650,8 @@ export namespace Prisma {
     city?: string | null
     state?: string | null
     country?: string | null
+    lat?: number | null
+    lng?: number | null
     no_of_units?: number | null
     no_of_parking_floors?: number | null
     no_of_parking_spots?: number | null
@@ -15370,6 +15670,8 @@ export namespace Prisma {
     city?: string | null
     state?: string | null
     country?: string | null
+    lat?: number | null
+    lng?: number | null
     no_of_units?: number | null
     no_of_parking_floors?: number | null
     no_of_parking_spots?: number | null
@@ -15473,6 +15775,8 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    lng?: NullableFloatFieldUpdateOperationsInput | number | null
     no_of_units?: NullableIntFieldUpdateOperationsInput | number | null
     no_of_parking_floors?: NullableIntFieldUpdateOperationsInput | number | null
     no_of_parking_spots?: NullableIntFieldUpdateOperationsInput | number | null
@@ -15491,6 +15795,8 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    lng?: NullableFloatFieldUpdateOperationsInput | number | null
     no_of_units?: NullableIntFieldUpdateOperationsInput | number | null
     no_of_parking_floors?: NullableIntFieldUpdateOperationsInput | number | null
     no_of_parking_spots?: NullableIntFieldUpdateOperationsInput | number | null
@@ -15830,6 +16136,8 @@ export namespace Prisma {
     city?: string | null
     state?: string | null
     country?: string | null
+    lat?: number | null
+    lng?: number | null
     no_of_units?: number | null
     no_of_parking_floors?: number | null
     no_of_parking_spots?: number | null
@@ -15869,6 +16177,8 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    lng?: NullableFloatFieldUpdateOperationsInput | number | null
     no_of_units?: NullableIntFieldUpdateOperationsInput | number | null
     no_of_parking_floors?: NullableIntFieldUpdateOperationsInput | number | null
     no_of_parking_spots?: NullableIntFieldUpdateOperationsInput | number | null
@@ -15886,6 +16196,8 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    lng?: NullableFloatFieldUpdateOperationsInput | number | null
     no_of_units?: NullableIntFieldUpdateOperationsInput | number | null
     no_of_parking_floors?: NullableIntFieldUpdateOperationsInput | number | null
     no_of_parking_spots?: NullableIntFieldUpdateOperationsInput | number | null
@@ -15903,6 +16215,8 @@ export namespace Prisma {
     city?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    lng?: NullableFloatFieldUpdateOperationsInput | number | null
     no_of_units?: NullableIntFieldUpdateOperationsInput | number | null
     no_of_parking_floors?: NullableIntFieldUpdateOperationsInput | number | null
     no_of_parking_spots?: NullableIntFieldUpdateOperationsInput | number | null
