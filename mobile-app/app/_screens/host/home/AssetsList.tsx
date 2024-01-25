@@ -1,7 +1,7 @@
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import React from "react";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { HomeStackParamList } from "../HomeNavigator";
+import { HomeStackParamList } from "./HomeNavigator";
 import { useUserContext } from "@/app/contexts/UserContext";
 
 const AssetsList = () => {

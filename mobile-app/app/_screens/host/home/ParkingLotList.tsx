@@ -2,8 +2,7 @@ import { Text, TouchableOpacity, ScrollView, FlatList } from "react-native";
 import React, { useLayoutEffect } from "react";
 import { NavigationProp, useNavigation, useRoute } from "@react-navigation/native";
 import { Building, CommunityMembers } from "@/app/types";
-import { HomeStackParamList } from "../HomeNavigator";
-import useUser from "@/app/hooks/useUser";
+import { HomeStackParamList } from "./HomeNavigator";
 
 interface RouteParams {
   communityMembers: CommunityMembers[];
@@ -17,20 +16,20 @@ const ParkingLotList = () => {
     navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("AddParkingSpotScreen", {
-                buildings: communityMembers.map((member) => member.building),
-              });
-            }}
-          >
-            <Text className="text-primary-3">+ Add</Text>
-          </TouchableOpacity>
+          onPress={() => {
+            navigation.navigate("AddParkingSpotScreen", {
+              buildings: communityMembers.map((member) => member.building),
+            });
+          }}
+        >
+          <Text className="text-primary-3">+ Add</Text>
+        </TouchableOpacity>
       ),
     });
   }, [navigation]);
   return (
     <FlatList
-    className="p-5"
+      className="p-5"
       data={communityMembers}
       renderItem={({ item: communityMember }) => (
         <>

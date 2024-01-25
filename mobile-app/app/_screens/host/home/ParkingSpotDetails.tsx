@@ -2,7 +2,7 @@ import { View, Text, ScrollView, Image, StyleSheet } from "react-native";
 import React, { useLayoutEffect } from "react";
 import { NavigationProp, useNavigation, useRoute } from "@react-navigation/native";
 import { ParkingSpot } from "@/app/types";
-import { HomeStackParamList } from "../HomeNavigator";
+import { HomeStackParamList } from "./HomeNavigator";
 
 interface RouteParams {
   parkingSpot: ParkingSpot;
@@ -31,10 +31,7 @@ const ParkingSpotDetails = () => {
       <View className="bg-gray-200 p-3 flex-row justify-between mb-3">
         <Text>QR code</Text>
       </View>
-      <Image
-        source={{ uri: parkingSpot?.qr_code?.image_url ?? "" }}
-        style={styles.qrCode}
-      />
+      <Image source={{ uri: parkingSpot?.qr_code?.image_url ?? "" }} style={styles.qrCode} />
     </View>
   );
 };
@@ -43,8 +40,8 @@ const styles = StyleSheet.create({
   qrCode: {
     width: 200,
     height: 200,
-    resizeMode: 'contain',
-  }
+    resizeMode: "contain",
+  },
 });
 
 export default ParkingSpotDetails;

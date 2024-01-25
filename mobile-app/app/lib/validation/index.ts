@@ -1,4 +1,5 @@
-import { Parking_Spot_Type, User_Role } from "@/app/types";
+import { PRICE_LIMITS } from "@/app/constants";
+import { Listing_Type, Parking_Spot_Type, User_Role } from "@/app/types";
 import { z } from "zod";
 
 export const AddParkingValidation = z.object({
@@ -18,3 +19,43 @@ export const UpdateUserValidation = z.object({
     phone: z.string().min(1, 'Please enter your phone number').optional(),
     userRoles: z.array(z.nativeEnum(User_Role)).optional(),
 })
+
+export const CreateParkingListingValidation = z.object({
+    title: z.string().min(1, 'Please enter a memorable title'),
+    description: z.string().min(1, 'Please enter a very good description'),
+    buildingId: z.string().min(1, 'Please select a building'),
+    parkingId: z.string().min(1, 'Please select a parking spot'),
+    price: z.string()
+            .min(1, 'Please enter a price')
+            .regex(/^\d+(\.\d+)?$/, 'Please enter a valid number for the price')
+            .transform((str) => parseFloat(str)),
+    type: z.nativeEnum(Listing_Type).refine((val) => ['weekly', 'monthly', 'hourly',].includes(val), {
+        message: 'Please select a spot type',
+    })
+}).refine((data) => {
+    // Set the price limit based on the type
+    const priceLimit = data.type === 'weekly' ? PRICE_LIMITS.weekly : data.type === 'monthly' ? PRICE_LIMITS.monthly : PRICE_LIMITS.hourly;
+    return data.price <= priceLimit;
+  }, {
+    message: `Price exceeds the maximum limit for the selected type`,
+    path: ['price'], // Specify the path of the field this error message is associated with
+  });
+  
+export const UpdateParkingListingValidation = z.object({
+    title: z.string().min(1, 'Please enter a memorable title'),
+    description: z.string().min(1, 'Please enter a very good description'),
+    price: z.string()
+            .min(1, 'Please enter a price')
+            .regex(/^\d+(\.\d+)?$/, 'Please enter a valid number for the price')
+            .transform((str) => parseFloat(str)),
+    type: z.nativeEnum(Listing_Type).refine((val) => ['weekly', 'monthly', 'hourly',].includes(val), {
+        message: 'Please select a spot type',
+    })
+}).refine((data) => {
+    // Set the price limit based on the type
+    const priceLimit = data.type === 'weekly' ? PRICE_LIMITS.weekly : data.type === 'monthly' ? PRICE_LIMITS.monthly : PRICE_LIMITS.hourly;
+    return data.price <= priceLimit;
+  }, {
+    message: `Price exceeds the maximum limit for the selected type`,
+    path: ['price'], // Specify the path of the field this error message is associated with
+  });

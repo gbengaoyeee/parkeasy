@@ -13,7 +13,7 @@ export class VerificationService {
 
     async generateLink(emailOrPhone: string) {
         try {
-            const user = await this.prisma.user.findFirst({
+            const user = await this.prisma.user.findFirstOrThrow({
                 where: {
                     OR: [
                         {email: emailOrPhone},

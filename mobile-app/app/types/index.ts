@@ -6,6 +6,7 @@ import {
     CommunityMembers as PrismaCommunityMembers, 
     QRCode,
     ParkingSpot as PrismaParkingSpot,
+    Listing as PrismaListing,
  } from "../../../shared/prisma-client";
 
 export interface User extends PrismaUser {
@@ -25,6 +26,11 @@ export enum Parking_Spot_Type {
     Regular = "regular",
     Electric = "electric",
 }
+export enum Listing_Type {
+    Weekly = "weekly",
+    Monthly = "monthly",
+    Hourly = "hourly",
+}
 
 export interface CommunityMembers extends PrismaCommunityMembers {
     qr_code: QRCode
@@ -36,4 +42,8 @@ export interface Building extends PrismaBuilding {
 }
 export interface ParkingSpot extends PrismaParkingSpot {
     qr_code: QRCode
+}
+
+export interface Listing extends PrismaListing {
+
 }

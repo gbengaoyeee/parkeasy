@@ -1,40 +1,7 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Home from "./home/Home";
-import AssetsList from "./home/AssetsList";
-import BuildingUnitsList from "./home/BuildingUnitsList";
-import UnitDetails from "./home/UnitDetails";
-import { Building, CommunityMembers, ParkingSpot, User } from "../types";
-import AddParkingSpotScreen from "./home/AddParkingSpotScreen";
-import ParkingLotList from "./home/ParkingLotList";
-import ParkingSpotDetails from "./home/ParkingSpotDetails";
-import OnboardUser from "./onboarding/OnboardUser";
+import { View, Text } from 'react-native'
+import React from 'react'
 
-const Stack = createNativeStackNavigator();
-
-export type HomeStackParamList = {
-  Home: undefined; // No parameters expected to navigate to home
-  AssetsList: undefined;
-  BuildingUnitsList: { communityMember: CommunityMembers };
-  UnitDetails: {
-    building: Building;
-    unit: string;
-  };
-  AddParkingSpotScreen: {
-    buildings: Building[];
-  };
-  ParkingLotList: {
-    communityMembers: CommunityMembers[];
-  };
-  ParkingSpotDetails: {
-    parkingSpot: ParkingSpot;
-  };
-  OnboardUser: {
-    user: User;
-  }
-  // ... other screens
-};
-
-export default function HomeNavigator() {
+const VisitorHomeNavigator = () => {
   return (
     <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
       <Stack.Group>
@@ -65,6 +32,11 @@ export default function HomeNavigator() {
           component={ParkingSpotDetails}
           options={{ headerShown: true }}
         />
+        <Stack.Screen
+          name="CreateAListing"
+          component={CreateAListing}
+          options={{ headerShown: true, headerTitle: "Create a Parking Spot Listing" }}
+        />
       </Stack.Group>
       <Stack.Group screenOptions={{ presentation: "modal", gestureEnabled: false }}>
         <Stack.Screen name="OnboardUser" component={OnboardUser} options={{ headerShown: false }} />
@@ -72,3 +44,5 @@ export default function HomeNavigator() {
     </Stack.Navigator>
   );
 }
+
+export default VisitorHomeNavigator

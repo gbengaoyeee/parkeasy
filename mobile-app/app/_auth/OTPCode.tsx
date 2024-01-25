@@ -61,7 +61,7 @@ const OTPCode = () => {
       otpcode: data.otpcode,
       sessionId,
       phone: phoneNumber,
-      userRoles: ["owner"],
+      userRoles: ["owner", "visitor"],
     })
       .then((resp) => {})
       .catch((error) => {

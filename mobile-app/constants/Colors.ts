@@ -26,5 +26,6 @@ export default {
     'primary-3': '#DD7230',
     'primary-4': '#F4C95D',
     'primary-5': '#E7E393',
+    error: '#b81d1d',
   },
 };

@@ -55,7 +55,7 @@ export class ManagementService {
                 throw this.errorService.handleException(new BadRequestException('Management has not pre registered'))
             }
             let createOrUpdateUser;
-            const user = await this.prisma.user.findFirst({where: {email: dto.email}})
+            const user = await this.prisma.user.findFirstOrThrow({where: {email: dto.email}})
             const newId = v4()
             // create user with appwrite
             await this.authProvider.createUser(dto.email)

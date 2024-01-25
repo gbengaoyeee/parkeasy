@@ -3,8 +3,11 @@ import appwriteClient from '../../services/appwrite'
 import { createUser, getUser, updateUser } from '../../services/user'
 import { Mobile_Onboard_Status, User_Role } from '../../../../shared/prisma-client'
 import { z } from 'zod'
-import { AddParkingValidation, UpdateUserValidation } from '../validation'
+import { AddParkingValidation, CreateParkingListingValidation, UpdateParkingListingValidation, UpdateUserValidation } from '../validation'
 import { addParkingSpot } from '@/app/services/building'
+import { createParkingListing, getListings, updateListing } from '@/app/services/host'
+import { Listing } from '@/app/types'
+import useToast from '@/app/hooks/useToast'
 
 export const useStartPhoneVerification = () => {
     return useMutation({
@@ -36,10 +39,42 @@ export const useAddParkingSpot = () => {
         }
     })
 }
+export const useCreateParkingListing = () => {
+    return useMutation({
+        mutationFn: ({userId, dto}:{userId: string, dto: z.infer<typeof CreateParkingListingValidation> }) => {
+            return createParkingListing(userId, dto)
+        }
+    })
+}
 export const useUpdateUser = () => {
     return useMutation({
         mutationFn: ({userId, dto, extra}:{userId: string, extra:{mobileOnboardStatus?: Mobile_Onboard_Status}, dto: z.infer<typeof UpdateUserValidation> }) => {
             return updateUser(userId, dto, extra)
+        }
+    })
+}
+
+export const useGetListings = (hostId: string) => {
+    const {showToast} = useToast()
+    return useQuery({
+        queryKey: ['listings'],
+        queryFn: async (): Promise<Listing[]> => {
+            return getListings(hostId)
+            .catch((error) => {
+                console.error(error.response.data.message);
+                showToast({ type: "error", message: error.response.data.message });
+                return [];
+            })
+        },
+        retry: 3,
+        refetchInterval: 30000
+    })
+}
+
+export const useUpdateListing = () => {
+    return useMutation({
+        mutationFn: ({listingId, dto}:{listingId: string, dto: z.infer<typeof UpdateParkingListingValidation> }) => {
+            return updateListing(listingId, dto)
         }
     })
 }

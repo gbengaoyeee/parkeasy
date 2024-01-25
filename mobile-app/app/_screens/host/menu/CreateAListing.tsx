@@ -1,66 +1,74 @@
 import {
   View,
   Text,
-  ScrollView,
-  StyleSheet,
-  StatusBar,
   SafeAreaView,
-  Platform,
+  ScrollView,
   KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
 } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { NavigationProp, useNavigation, useRoute } from "@react-navigation/native";
-import { HomeStackParamList } from "../HomeNavigator";
-import { Building, Parking_Spot_Type } from "@/app/types";
-import { Controller, Form, useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { CreateParkingListingValidation } from "@/app/lib/validation";
 import { Dropdown } from "react-native-element-dropdown";
+import { CommunityMembers, Listing_Type, ParkingSpot } from "@/app/types";
 import Input from "@/components/shared/Input";
 import Button from "@/components/shared/Button";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { AddParkingValidation } from "@/app/lib/validation";
-import { addParkingSpot } from "@/app/services/building";
-import { z } from "zod";
 import useToast from "@/app/hooks/useToast";
-import { useAddParkingSpot } from "@/app/lib/react-query/queryAndMutations";
-import Loader from "@/components/shared/Loader";
+import { z } from "zod";
 import { useUserContext } from "@/app/contexts/UserContext";
+import { useCreateParkingListing } from "@/app/lib/react-query/queryAndMutations";
+import Loader from "@/components/shared/Loader";
+import { HostMenuStackParamList } from "./HostMenuNavigator";
+import { PRICE_LIMITS } from "@/app/constants";
 
 interface RouteParams {
-  buildings: Building[];
+  communityMembers: CommunityMembers[];
 }
-const AddParkingSpotScreen = () => {
+const CreateAListing = () => {
+  const navigation = useNavigation<NavigationProp<HostMenuStackParamList>>();
   const route = useRoute();
-  const { buildings } = route.params as RouteParams;
+  const { communityMembers } = route.params as RouteParams;
+  const [parkingSpots, setParkingSpots] = useState<ParkingSpot[]>([]);
+  const { showToast, toast } = useToast();
   const { user, refreshUser } = useUserContext();
-
-  const navigation = useNavigation<NavigationProp<HomeStackParamList>>();
+  const { isPending: isAdding, mutateAsync: handleCreateListing } = useCreateParkingListing();
 
   const form = useForm({
-    resolver: zodResolver(AddParkingValidation),
+    resolver: zodResolver(CreateParkingListingValidation),
     defaultValues: {
+      title: "",
+      description: "",
       buildingId: "",
-      spotLevel: "",
-      spotNumber: "",
-      spotType: "",
-      parkingInstructions: "",
+      parkingId: "",
+      price: "",
+      type: "",
     },
   });
 
-  const { isPending: isAdding, mutateAsync: handleAddSpot } = useAddParkingSpot();
+  const watchedBuildingId = form.watch("buildingId");
+  const watchedParkingType = form.watch("type");
 
-  const { showToast, toast } = useToast();
+  useEffect(() => {
+    const pSpots = communityMembers.find(
+      (member) => member.building.id === watchedBuildingId
+    )?.parking_spots;
+    setParkingSpots(pSpots || []);
+  }, [watchedBuildingId]);
 
   const onSubmit = (values: any) => {
     if (!user) {
-      console.error("AddParkingSpotScreen: Account not found");
+      console.error("CreateAListing: Account not found");
       showToast({
         type: "error",
         message: `Your account could not be found please contact support at ${process.env.EXPO_PUBLIC_SUPPORT_EMAIL}`,
       });
       return;
     }
-    let data = values as z.infer<typeof AddParkingValidation>;
-    handleAddSpot({ userId: user.id, dto: data })
+    let data = values as z.infer<typeof CreateParkingListingValidation>;
+    handleCreateListing({ userId: user.id, dto: data })
       .then((resp) => {
         toast.hide();
         setTimeout(() => {
@@ -75,9 +83,6 @@ const AddParkingSpotScreen = () => {
       });
   };
 
-  if (!user) {
-    return null;
-  }
   return (
     <SafeAreaView className="flex-1">
       <ScrollView className="p-5">
@@ -86,11 +91,11 @@ const AddParkingSpotScreen = () => {
           style={{ flex: 1 }}
           keyboardVerticalOffset={100}
         >
-          { isAdding &&
+          {isAdding && (
             <View className="mb-3 items-center">
               <Loader />
             </View>
-          }
+          )}
           <View className="mb-3">
             <Text className="text-xl font-bold">Select a building</Text>
             <Controller
@@ -100,7 +105,8 @@ const AddParkingSpotScreen = () => {
                   <>
                     <Dropdown
                       style={styles.dropdown}
-                      data={buildings.map((building) => {
+                      data={communityMembers.map((member) => {
+                        const building = member.building;
                         return {
                           label: building.building_name,
                           value: building.id,
@@ -120,43 +126,36 @@ const AddParkingSpotScreen = () => {
               }}
               name="buildingId"
             />
-          </View>
-
-          <View className="mb-3">
-            <Text className="text-xl font-bold">Parking spot information</Text>
-            <Controller
-              control={form.control}
-              render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
-                <View className="mb-3">
-                  <Text>Parking floor level</Text>
-                  <Input
-                    placeholder="Enter your parking floor level"
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    value={value}
-                    errors={error?.message}
-                  />
-                </View>
-              )}
-              name="spotLevel"
-            />
-
-            <Controller
-              control={form.control}
-              render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
-                <View className="mb-3">
-                  <Text>Parking spot number</Text>
-                  <Input
-                    placeholder="Enter your parking spot number"
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    value={value}
-                    errors={error?.message}
-                  />
-                </View>
-              )}
-              name="spotNumber"
-            />
+            {watchedBuildingId && (
+              <Controller
+                control={form.control}
+                render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => {
+                  return (
+                    <>
+                      <Text>Select a parking spot</Text>
+                      <Dropdown
+                        style={styles.dropdown}
+                        data={parkingSpots.map((spot) => {
+                          return {
+                            label: spot.parking_spot_number,
+                            value: spot.id,
+                          };
+                        })}
+                        labelField="label"
+                        valueField="value"
+                        value={value}
+                        onBlur={onBlur}
+                        onChange={(item) => {
+                          onChange(item.value);
+                        }}
+                      />
+                      {error && <Text className="text-error">{error.message}</Text>}
+                    </>
+                  );
+                }}
+                name="parkingId"
+              />
+            )}
 
             <Controller
               control={form.control}
@@ -165,10 +164,10 @@ const AddParkingSpotScreen = () => {
                   <Text>Parking spot type</Text>
                   <Dropdown
                     style={styles.dropdown}
-                    data={Object.values(Parking_Spot_Type).map((spotType) => {
+                    data={Object.values(Listing_Type).map((type) => {
                       return {
-                        label: spotType,
-                        value: spotType,
+                        label: type,
+                        value: type,
                       };
                     })}
                     labelField="label"
@@ -181,16 +180,34 @@ const AddParkingSpotScreen = () => {
                   {error && <Text className="text-error">{error.message}</Text>}
                 </View>
               )}
-              name="spotType"
+              name="type"
+            />
+          </View>
+
+          <View className="mb-3">
+            <Text className="text-xl font-bold">Parking spot information</Text>
+            <Controller
+              control={form.control}
+              render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
+                <View className="mb-3">
+                  <Text>Give your listing an enticing title</Text>
+                  <Input
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                    errors={error?.message}
+                  />
+                </View>
+              )}
+              name="title"
             />
 
             <Controller
               control={form.control}
               render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
                 <View className="mb-3">
-                  <Text>Location instructions</Text>
+                  <Text>Give your listing an eye catching description</Text>
                   <Input
-                    placeholder="Enter parking instructions"
                     multiline
                     onBlur={onBlur}
                     onChangeText={onChange}
@@ -200,7 +217,29 @@ const AddParkingSpotScreen = () => {
                   />
                 </View>
               )}
-              name="parkingInstructions"
+              name="description"
+            />
+            <Controller
+              control={form.control}
+              render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
+                <View className="mb-3">
+                  <Text>Enter a price for your listing per {watchedParkingType}</Text>
+                  <Input
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                    errors={error?.message}
+                    keyboardType="decimal-pad"
+                  />
+                  {watchedParkingType && (
+                    <Text>
+                      Price limit per {watchedParkingType} is $
+                      {PRICE_LIMITS[watchedParkingType as keyof typeof PRICE_LIMITS]}
+                    </Text>
+                  )}
+                </View>
+              )}
+              name="price"
             />
           </View>
 
@@ -230,4 +269,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddParkingSpotScreen;
+export default CreateAListing;

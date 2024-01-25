@@ -23,7 +23,7 @@ export class BuildingController {
         return this.buildingService.bulkUpload(buildingId, file)
     }
 
-    @Post()
+    @Post('community-member/:buildingId')
     async addCommunityMember(@Param('buildingId') buildingId: string, @Body() dto: CreateCommunityMemberDto) {
         return await this.buildingService.addCommunityMember(buildingId, dto)
     }

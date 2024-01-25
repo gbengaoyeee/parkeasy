@@ -2,7 +2,7 @@ import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import React, { useLayoutEffect } from "react";
 import { NavigationProp, useNavigation, useRoute } from "@react-navigation/native";
 import { CommunityMembers } from "@/app/types";
-import { HomeStackParamList } from "../HomeNavigator";
+import { HomeStackParamList } from "./HomeNavigator";
 
 interface RouteParams {
   communityMember: CommunityMembers;

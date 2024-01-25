@@ -20,7 +20,7 @@ import Loader from "@/components/shared/Loader";
 import { User } from "@/app/types";
 import { NavigationProp, useNavigation, useRoute } from "@react-navigation/native";
 import useToast from "@/app/hooks/useToast";
-import { HomeStackParamList } from "../HomeNavigator";
+import { HomeStackParamList } from "../home/HomeNavigator";
 import { useUserContext } from "@/app/contexts/UserContext";
 
 interface RouteParams {
@@ -48,7 +48,7 @@ const OnboardUser = () => {
 
   const onSubmit = (values: any) => {
     let data = values as z.infer<typeof UpdateUserValidation>;
-    handleUpdateUser({ userId: user.id, dto: data, extra: {mobileOnboardStatus: 'completed'} })
+    handleUpdateUser({ userId: user.id, dto: data, extra: { mobileOnboardStatus: "completed" } })
       .then((resp) => {
         toast.hide();
         setTimeout(() => {

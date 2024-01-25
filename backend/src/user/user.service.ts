@@ -14,7 +14,7 @@ export class UserService {
 
     async getUser(dto: GetUserDto) {
         try {
-            const user = await this.prisma.user.findFirst({
+            const user = await this.prisma.user.findFirstOrThrow({
                 where: {
                     OR: [
                         {email: dto.email},
@@ -39,7 +39,7 @@ export class UserService {
 
     async getUserByPhone(dto: GetUserByPhone) {
         try {
-            let user = await this.prisma.user.findFirst({
+            let user = await this.prisma.user.findFirstOrThrow({
                 where: {
                     phone_number: dto.phone
                 },

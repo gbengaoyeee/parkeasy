@@ -49,7 +49,8 @@ export class BuildingService {
                         where: {
                             OR: [
                                 {phone: dto.phone},
-                                {email: dto.email}
+                                {email: dto.email},
+                                {user_id: dto.userId}
                             ],
                         },
                         include: {
@@ -141,30 +142,168 @@ export class BuildingService {
 
     // add comunity member
     async addCommunityMember(buildingId: string, dto: CreateCommunityMemberDto) {
-        
+
+        try {
+            const unitNumbers = JSON.parse(dto.unitNumbers).map((unitNumber:any) => unitNumber.toString())
+            const memberId = uuidv4()
+            const vehicleId = uuidv4()
+            const sanitizedPhone = dto.phone.toString().startsWith('+') ? dto.phone : `+${dto.phone}`
+            const user = await this.prisma.user.findFirstOrThrow({
+                where: {
+                    phone_number: sanitizedPhone,
+                }
+            })
+            let transaction: any = [
+                this.prisma.communityMembers.create({
+                    data: {
+                        id: memberId,
+                        user_id: user ? user.id : null,
+                        building_id: buildingId,
+                        email: dto.email,
+                        name: dto.name,
+                        phone: sanitizedPhone,
+                        unit_numbers: unitNumbers,
+                        user_role: dto.userRole
+                    }
+                }),
+            ]
+
+            if(dto.vehiclePlate) {
+                transaction.push(
+                    this.prisma.vehicle.create({
+                        data: {
+                            id: vehicleId,
+                            vehicle_plate: dto.vehiclePlate,
+                            vehicle_type: dto.vehicleType
+                        }
+                    })
+                )
+            }
+
+            if(dto.parkingSpotNumber) {
+                transaction.push(
+                    this.prisma.parkingSpot.create({
+                        data: {
+                            building_id: buildingId,
+                            owner_id: memberId,
+                            vehicle_id: dto.vehiclePlate ? vehicleId : null,
+                            parking_level: dto.parkingLevel,
+                            parking_spot_number: `${dto.parkingSpotNumber}`,
+                            parking_spot_type: dto.parkingSpotType,
+                        }
+                    })
+                )
+            }
+    
+            // prisma transaction
+            const prismaWriteResults = await this.prisma.$transaction(transaction)
+            console.log(prismaWriteResults)
+    
+            const qrTransactions = []
+            await this.createQrCodeTransaction(buildingId, prismaWriteResults, qrTransactions)
+            const qrResults = await this.prisma.$transaction(qrTransactions)
+
+            return new IResponseData(
+                `community member added successfully`,
+                qrResults
+            ).json
+        } catch (error) {
+            console.error(error)
+            throw this.errorService.handleException(error)
+        }
     }
 
-    /**
-     * {
-    userRole: 'owner',
-    name: 'Raj Srinivas 1833',
-    email: 'goldensandtechnologies@skiff.com',
-    phone: 18335224163,
-    unitNumbers: '[3510]',
-    parkingLevel: 2,
-    parkingSpotNumber: 'P1-122',
-    parkingSpotType: 'regular',
-    vehiclePlate: 'C-91256',
-    vehicleType: 'regular'
-  }
-     */
+    private async createQrCodeTransaction(buildingId: string, entry: any, qrTransactions: any[]) {
+        const memberEntry = entry[0]
+        const parkingEntry = entry.length > 2 ? entry[2] : entry[1]
+        const newMemberEntry: ICreateQRCodeDto = {
+            name: `${memberEntry.name} Community QR`,
+            qr_type: QRCode_Type.static,
+            qr_for: 'community_member',
+            id_for: memberEntry.id as string,
+            buildingId: buildingId
+        }
+        
+        const newParkingEntry:ICreateQRCodeDto | undefined = parkingEntry ?  {
+            name: `${memberEntry.name} Parking QR`,
+            qr_type: QRCode_Type.static,
+            qr_for: 'parking_spot',
+            id_for: parkingEntry.id as string,
+            buildingId: buildingId
+        } : undefined
+
+        try {
+            // create qr codes
+            const qrCreateResults = await Promise.allSettled([this.qrCodeService.create(newMemberEntry), this.qrCodeService.create(newParkingEntry)]);
+            const downloadPromises = []
+            let usefulValues: {id: string, url: string}[] = []
+            qrCreateResults.forEach((result, index) => {
+                if (result.status === 'rejected') {
+                    console.error(result.reason)
+                } else {
+                    // prepare for downloading image url
+                    const {id, url} = result.value
+                    usefulValues[index] = {id, url}
+                    downloadPromises.push(this.qrCodeService.downloadQRCode(id))
+                }
+            })
+
+            // download images url
+            const downloadResults = await Promise.allSettled(downloadPromises)
+            downloadResults.forEach((result, index) => {
+                if (result.status === 'rejected') {
+                    console.error(result.reason)
+                } else {
+                    // prepare to save qr code to db
+                    const {urls} = result.value
+                    qrTransactions.push(
+                        this.prisma.qRCode.create({
+                            data: {
+                                id: `${usefulValues[index].id}`, // should be the same as memberQr.id,
+                                qr_for: index === 0 ? 'community_member' : 'parking_spot',
+                                url: usefulValues[index].url,
+                                qr_type: 'static',
+                                image_url: urls.png,
+                            }
+                        })
+                    )
+                    if(index === 0) {
+                        // also save qr code id to member
+                        qrTransactions.push(
+                            this.prisma.communityMembers.update({
+                                where: {
+                                    id: memberEntry.id
+                                },
+                                data: {
+                                    qr_code_id: `${usefulValues[index].id}`
+                                }
+                            })
+                        )
+                    } else {
+                        // also save qr code id to parking spot
+                        qrTransactions.push(
+                            this.prisma.parkingSpot.update({
+                                where: {
+                                    id: parkingEntry.id
+                                },
+                                data: {
+                                    qr_code_id: `${usefulValues[index].id}`
+                                }
+                            })
+                        )
+                    }
+                }
+            })
+        } catch (error) {
+            console.error(error)
+        }
+    }
     async bulkUpload(buildingId: string, file: Express.Multer.File){
         try {
             const workbook       = xlsx.read(file.buffer);
             const sheetName      = workbook.SheetNames[0];
             const sheet          = workbook.Sheets[sheetName];
             const data: CreateCommunityMemberDto[] = objectToCamel(xlsx.utils.sheet_to_json(sheet)) as CreateCommunityMemberDto[]
-            console.log(data)
 
             // prisma queries
             const writePromises = []
@@ -172,7 +311,7 @@ export class BuildingService {
                 const unitNumbers = JSON.parse(entry.unitNumbers).map((unitNumber:any) => unitNumber.toString())
                 const memberId = uuidv4()
                 const vehicleId = uuidv4()
-                const user = await this.prisma.user.findFirst({
+                const user = await this.prisma.user.findFirstOrThrow({
                     where: {
                         phone_number: `${entry.phone.toString().startsWith('+') ? entry.phone : `+${entry.phone}`}`,
                     }
@@ -214,87 +353,7 @@ export class BuildingService {
             
             const qrTransactions = []
             for (const entry of writeResults) {
-                const [memberEntry, vehicleEntry, parkingEntry,] = entry
-                const newMemberEntry: ICreateQRCodeDto = {
-                    name: `${memberEntry.name} Community QR`,
-                    qr_type: QRCode_Type.static,
-                    qr_for: 'community_member',
-                    id_for: memberEntry.id as string,
-                    buildingId: buildingId
-                }
-                const newParkingEntry: ICreateQRCodeDto = {
-                    name: `${memberEntry.name} Parking QR`,
-                    qr_type: QRCode_Type.static,
-                    qr_for: 'parking_spot',
-                    id_for: parkingEntry.id as string,
-                    buildingId: buildingId
-                }
-
-                try {
-                    // create qr codes
-                    const qrCreateResults = await Promise.allSettled([this.qrCodeService.create(newMemberEntry), this.qrCodeService.create(newParkingEntry)]);
-                    const downloadPromises = []
-                    let usefulValues: {id: string, url: string}[] = []
-                    qrCreateResults.forEach((result, index) => {
-                        if (result.status === 'rejected') {
-                            console.error(result.reason)
-                        } else {
-                            // prepare for downloading image url
-                            const {id, url} = result.value
-                            usefulValues[index] = {id, url}
-                            downloadPromises.push(this.qrCodeService.downloadQRCode(id))
-                        }
-                    })
-
-                    // download images url
-                    const downloadResults = await Promise.allSettled(downloadPromises)
-                    downloadResults.forEach((result, index) => {
-                        if (result.status === 'rejected') {
-                            console.error(result.reason)
-                        } else {
-                            // prepare to save qr code to db
-                            const {urls} = result.value
-                            qrTransactions.push(
-                                this.prisma.qRCode.create({
-                                    data: {
-                                        id: `${usefulValues[index].id}`, // should be the same as memberQr.id,
-                                        qr_for: index === 0 ? 'community_member' : 'parking_spot',
-                                        url: usefulValues[index].url,
-                                        qr_type: 'static',
-                                        image_url: urls.png,
-                                    }
-                                })
-                            )
-                            if(index === 0) {
-                                // also save qr code id to member
-                                qrTransactions.push(
-                                    this.prisma.communityMembers.update({
-                                        where: {
-                                            id: memberEntry.id
-                                        },
-                                        data: {
-                                            qr_code_id: `${usefulValues[index].id}`
-                                        }
-                                    })
-                                )
-                            } else {
-                                // also save qr code id to parking spot
-                                qrTransactions.push(
-                                    this.prisma.parkingSpot.update({
-                                        where: {
-                                            id: parkingEntry.id
-                                        },
-                                        data: {
-                                            qr_code_id: `${usefulValues[index].id}`
-                                        }
-                                    })
-                                )
-                            }
-                        }
-                    })
-                } catch (error) {
-                    console.error(error)
-                }
+                await this.createQrCodeTransaction(buildingId, entry, qrTransactions)
             }
             const qrResults = await this.prisma.$transaction(qrTransactions)
             
@@ -432,7 +491,7 @@ export class BuildingService {
                     id: dto.userId
                 }
             })
-            const communityMember = await this.prisma.communityMembers.findFirst({
+            const communityMember = await this.prisma.communityMembers.findFirstOrThrow({
                 where: {
                     phone: user.phone_number
                 }

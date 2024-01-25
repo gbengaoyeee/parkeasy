@@ -8,8 +8,10 @@ import { BuildingModule } from './building/building.module';
 import { QrCodeModule } from './qr-code/qr-code.module';
 import { VerificationModule } from './verification/verification.module';
 import { InvitesModule } from './invites/invites.module';
+import { HostModule } from './host/host.module';
+import { VisitorModule } from './visitor/visitor.module';
 
 @Module({
-  imports: [ManagementModule, UserModule, PrismaModule, AppwriteModule, ErrorModule, BuildingModule, QrCodeModule, VerificationModule, InvitesModule,],
+  imports: [ManagementModule, UserModule, PrismaModule, AppwriteModule, ErrorModule, BuildingModule, QrCodeModule, VerificationModule, InvitesModule, HostModule, VisitorModule,],
 })
 export class AppModule {}

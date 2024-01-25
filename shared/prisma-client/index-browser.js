@@ -215,6 +215,35 @@ exports.Prisma.VehicleScalarFieldEnum = {
   vehicle_type: 'vehicle_type'
 };
 
+exports.Prisma.ListingScalarFieldEnum = {
+  id: 'id',
+  host_id: 'host_id',
+  parking_id: 'parking_id',
+  title: 'title',
+  description: 'description',
+  type: 'type',
+  price: 'price',
+  status: 'status',
+  booking_status: 'booking_status',
+  confirmation_type: 'confirmation_type',
+  no_of_bookings: 'no_of_bookings',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.ReservationScalarFieldEnum = {
+  id: 'id',
+  listing_id: 'listing_id',
+  host_id: 'host_id',
+  visitor_id: 'visitor_id',
+  building_id: 'building_id',
+  parking_spot_id: 'parking_spot_id',
+  price: 'price',
+  start_date: 'start_date',
+  end_date: 'end_date',
+  status: 'status'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -307,6 +336,24 @@ exports.Vehicle_Type = exports.$Enums.Vehicle_Type = {
   hybrid: 'hybrid'
 };
 
+exports.Listing_Type = exports.$Enums.Listing_Type = {
+  hourly: 'hourly',
+  weekly: 'weekly',
+  monthly: 'monthly'
+};
+
+exports.Confirmation_Type = exports.$Enums.Confirmation_Type = {
+  manual: 'manual',
+  automatic: 'automatic'
+};
+
+exports.Reservation_Status = exports.$Enums.Reservation_Status = {
+  pending: 'pending',
+  confirmed: 'confirmed',
+  cancelled: 'cancelled',
+  completed: 'completed'
+};
+
 exports.Prisma.ModelName = {
   PreSignUpManagement: 'PreSignUpManagement',
   User: 'User',
@@ -316,7 +363,9 @@ exports.Prisma.ModelName = {
   CommunityMembers: 'CommunityMembers',
   ParkingSpot: 'ParkingSpot',
   QRCode: 'QRCode',
-  Vehicle: 'Vehicle'
+  Vehicle: 'Vehicle',
+  Listing: 'Listing',
+  Reservation: 'Reservation'
 };
 
 /**

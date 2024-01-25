@@ -88,6 +88,9 @@ const ParkingSpots = () => {
                     Spot Level
                   </th>
                   <th scope="col" className="px-6 py-3">
+                    Spot type
+                  </th>
+                  <th scope="col" className="px-6 py-3">
                     QR Code
                   </th>
                 </tr>
@@ -101,6 +104,7 @@ const ParkingSpots = () => {
                   >
                     <td className="px-6 py-4">{spot.parking_spot_number}</td>
                     <td className="px-6 py-4">{spot.parking_level}</td>
+                    <td className="px-6 py-4">{spot.parking_spot_type}</td>
                     <td className="px-6 py-4">
                       <img src={spot.qr_code.image_url ?? ""} width={50} alt="" />
                     </td>
