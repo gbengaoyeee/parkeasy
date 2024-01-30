@@ -8,13 +8,15 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { AppDispatch, RootState } from "@/app/_store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleAppSection } from "@/app/_store/slices/appSectionSlice";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const VisitorMenuTab = () => {
   const { signOut } = useAuthContext();
+  const insets = useSafeAreaInsets();
   const dispatch: AppDispatch = useDispatch();
   const appSection = useSelector((state: RootState) => state.appSection.appSection);
   return (
-    <ScrollView>
+    <ScrollView style={{ marginTop: insets.top }}>
       <View style={styles.container}>
         <Text style={styles.headerTitle}>Account</Text>
         <View style={styles.optionContainer}>

@@ -13,12 +13,14 @@ import store from "./_store/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
 import Loader from "@/components/shared/Loader";
+import { SafeAreaProvider, useSafeAreaInsets } from "react-native-safe-area-context";
 
 const Stack = createNativeStackNavigator();
 
 const persistor = persistStore(store);
 
 function App() {
+  const insets = useSafeAreaInsets();
   return (
     <>
       <QueryProvider>
@@ -27,9 +29,11 @@ function App() {
             <RootSiblingParent>
               <AuthContextProvider>
                 <UserContextProvider>
-                  <NavigationContainer independent>
-                    <MainNavigator />
-                  </NavigationContainer>
+                  <View style={{ flex: 1, marginTop: -insets.top }}>
+                    <NavigationContainer independent>
+                      <MainNavigator />
+                    </NavigationContainer>
+                  </View>
                 </UserContextProvider>
               </AuthContextProvider>
             </RootSiblingParent>

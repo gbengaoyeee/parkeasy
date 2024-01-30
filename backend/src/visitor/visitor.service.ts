@@ -70,8 +70,26 @@ export class VisitorService {
                             }
                         }
                     }
+                },
+                include: {
+                    parking_spot: {
+                        select: {
+                           building: {
+                            select: {
+                                lat: true,
+                                lng: true
+                            }
+                           }
+                        }
+                    }
                 }
                 
+            })
+
+            listings.forEach((listing) => {
+                listing['lat'] = listing.parking_spot.building.lat
+                listing['lng'] = listing.parking_spot.building.lng
+                delete listing.parking_spot
             })
             return new IResponseData(
                 `listings retrieved successfully`,

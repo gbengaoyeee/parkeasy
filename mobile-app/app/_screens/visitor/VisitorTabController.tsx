@@ -7,8 +7,8 @@ import VisitorMenuTab from "./menu/VisitorMenuTab";
 const Tab = createBottomTabNavigator();
 const VisitorTabController = () => {
   return (
-    <Tab.Navigator screenOptions={{ headerShown: false }}>
-      <Tab.Screen name="VisitorHomeTab" component={VisitorHomeNavigator} />
+    <Tab.Navigator screenOptions={{ headerShown: false,  }} >
+      <Tab.Screen name="VisitorHomeTab" component={VisitorHomeNavigator} options={{}}/>
       <Tab.Screen name="VisitorMenuTab" component={VisitorMenuTab} />
     </Tab.Navigator>
   );

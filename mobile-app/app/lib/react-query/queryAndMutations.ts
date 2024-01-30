@@ -8,6 +8,7 @@ import { addParkingSpot } from '@/app/services/building'
 import { createParkingListing, getListings, updateListing } from '@/app/services/host'
 import { Listing } from '@/app/types'
 import useToast from '@/app/hooks/useToast'
+import { getVisitorListings } from '@/app/services/visitor'
 
 export const useStartPhoneVerification = () => {
     return useMutation({
@@ -54,10 +55,10 @@ export const useUpdateUser = () => {
     })
 }
 
-export const useGetListings = (hostId: string) => {
+export const useGetHostListings = (hostId: string) => {
     const {showToast} = useToast()
     return useQuery({
-        queryKey: ['listings'],
+        queryKey: ['host-listings'],
         queryFn: async (): Promise<Listing[]> => {
             return getListings(hostId)
             .catch((error) => {
@@ -76,5 +77,23 @@ export const useUpdateListing = () => {
         mutationFn: ({listingId, dto}:{listingId: string, dto: z.infer<typeof UpdateParkingListingValidation> }) => {
             return updateListing(listingId, dto)
         }
+    })
+}
+
+export const useGetVisitorListings = (lat?: number, lng?: number) => {
+    const {showToast} = useToast()
+    return useQuery({
+        queryKey: ['visitor-listings', lat, lng],
+        queryFn: async (arg): Promise<Listing[]> => {
+            return getVisitorListings(lat, lng)
+            .catch((error) => {
+                console.error(error.response.data.message);
+                showToast({ type: "error", message: error.response.data.message });
+                return [];
+            })
+        },
+        retry: 3,
+        refetchInterval: 30000,
+        enabled: false
     })
 }

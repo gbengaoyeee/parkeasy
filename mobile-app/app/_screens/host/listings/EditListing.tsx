@@ -14,7 +14,7 @@ import { UpdateParkingListingValidation } from "@/app/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Listing, Listing_Type } from "@/app/types";
 import { NavigationProp, useNavigation, useRoute } from "@react-navigation/native";
-import { useGetListings, useUpdateListing } from "@/app/lib/react-query/queryAndMutations";
+import { useGetHostListings, useUpdateListing } from "@/app/lib/react-query/queryAndMutations";
 import { z } from "zod";
 import useToast from "@/app/hooks/useToast";
 import { useUserContext } from "@/app/contexts/UserContext";
@@ -32,7 +32,9 @@ const EditListing = () => {
   const { listing } = route.params as RouteParams;
   const { isPending: isUpdating, mutateAsync: handleUpdateListing } = useUpdateListing();
   const { user } = useUserContext();
-  const { isFetching: listingLoading, refetch: refetchListings } = useGetListings(user?.id ?? "");
+  const { isFetching: listingLoading, refetch: refetchListings } = useGetHostListings(
+    user?.id ?? ""
+  );
   const { showToast, toast } = useToast();
   const navigation = useNavigation<NavigationProp<HostListingsStackParamList>>();
 

@@ -1,45 +1,31 @@
 import { View, Text } from 'react-native'
 import React from 'react'
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import VisitorListingsView from './VisitorListingsView';
+import { Listing } from '@/app/types';
+import VisitorListingDetails from './VisitorListingDetails';
+import SelectDate from './SelectDate';
+
+const Stack = createNativeStackNavigator();
+
+export type VisitorHomeStackParamList = {
+  Listings: undefined; // No parameters expected to navigate to home
+  ListingDetails: {
+    listing: Listing;
+  }
+  SelectDate: undefined;
+  // ... other screens
+};
 
 const VisitorHomeNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
+    <Stack.Navigator initialRouteName="Listings" screenOptions={{ headerShown: false }}>
       <Stack.Group>
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="AssetsList" component={AssetsList} />
-        <Stack.Screen
-          name="BuildingUnitsList"
-          component={BuildingUnitsList}
-          options={{ headerShown: true }}
-        />
-        <Stack.Screen
-          name="UnitDetails"
-          component={UnitDetails}
-          options={{ headerShown: true, headerTitle: "Unit Details" }}
-        />
-        <Stack.Screen
-          name="AddParkingSpotScreen"
-          component={AddParkingSpotScreen}
-          options={{ headerShown: true, headerTitle: "Add a Parking Spot" }}
-        />
-        <Stack.Screen
-          name="ParkingLotList"
-          component={ParkingLotList}
-          options={{ headerShown: true, headerTitle: "Parking Lots" }}
-        />
-        <Stack.Screen
-          name="ParkingSpotDetails"
-          component={ParkingSpotDetails}
-          options={{ headerShown: true }}
-        />
-        <Stack.Screen
-          name="CreateAListing"
-          component={CreateAListing}
-          options={{ headerShown: true, headerTitle: "Create a Parking Spot Listing" }}
-        />
+        <Stack.Screen name="Listings" component={VisitorListingsView} />
+        <Stack.Screen name="ListingDetails" component={VisitorListingDetails} />
       </Stack.Group>
-      <Stack.Group screenOptions={{ presentation: "modal", gestureEnabled: false }}>
-        <Stack.Screen name="OnboardUser" component={OnboardUser} options={{ headerShown: false }} />
+      <Stack.Group screenOptions={{ presentation: "fullScreenModal", gestureEnabled: false }}>
+        <Stack.Screen name="SelectDate" component={SelectDate} options={{ headerShown: true }} />
       </Stack.Group>
     </Stack.Navigator>
   );

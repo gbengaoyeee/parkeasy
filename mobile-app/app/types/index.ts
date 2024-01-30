@@ -45,5 +45,6 @@ export interface ParkingSpot extends PrismaParkingSpot {
 }
 
 export interface Listing extends PrismaListing {
-
+    lat: number
+    lng: number
 }

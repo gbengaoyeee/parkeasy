@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import React, { useEffect, useLayoutEffect } from "react";
 import { useUserContext } from "@/app/contexts/UserContext";
-import { useGetListings } from "@/app/lib/react-query/queryAndMutations";
+import { useGetHostListings } from "@/app/lib/react-query/queryAndMutations";
 import Loader from "@/components/shared/Loader";
 import { Link, NavigationProp, useNavigation } from "@react-navigation/native";
 import { HostListingsStackParamList } from "./HostListingsNavigator";
@@ -17,7 +17,11 @@ import { AntDesign } from "@expo/vector-icons";
 
 const ListingsTab = () => {
   const { user, isLoading: userLoading } = useUserContext();
-  const { data: listings, isFetching: listingLoading, refetch } = useGetListings(user?.id ?? "");
+  const {
+    data: listings,
+    isFetching: listingLoading,
+    refetch,
+  } = useGetHostListings(user?.id ?? "");
   const navigation = useNavigation<NavigationProp<HostListingsStackParamList>>();
 
   useEffect(() => {
@@ -80,6 +84,5 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 24,
   },
-
 });
 export default ListingsTab;
