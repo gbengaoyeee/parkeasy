@@ -1992,13 +1992,13 @@ export namespace Prisma {
   export type BuildingCountOutputType = {
     community_members: number
     parking_spots: number
-    Reservation: number
+    reservations: number
   }
 
   export type BuildingCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     community_members?: boolean | BuildingCountOutputTypeCountCommunity_membersArgs
     parking_spots?: boolean | BuildingCountOutputTypeCountParking_spotsArgs
-    Reservation?: boolean | BuildingCountOutputTypeCountReservationArgs
+    reservations?: boolean | BuildingCountOutputTypeCountReservationsArgs
   }
 
   // Custom InputTypes
@@ -2033,7 +2033,7 @@ export namespace Prisma {
   /**
    * BuildingCountOutputType without action
    */
-  export type BuildingCountOutputTypeCountReservationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type BuildingCountOutputTypeCountReservationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ReservationWhereInput
   }
 
@@ -2078,13 +2078,13 @@ export namespace Prisma {
    */
 
   export type ParkingSpotCountOutputType = {
-    Listing: number
-    Reservation: number
+    listings: number
+    reservations: number
   }
 
   export type ParkingSpotCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    Listing?: boolean | ParkingSpotCountOutputTypeCountListingArgs
-    Reservation?: boolean | ParkingSpotCountOutputTypeCountReservationArgs
+    listings?: boolean | ParkingSpotCountOutputTypeCountListingsArgs
+    reservations?: boolean | ParkingSpotCountOutputTypeCountReservationsArgs
   }
 
   // Custom InputTypes
@@ -2103,7 +2103,7 @@ export namespace Prisma {
   /**
    * ParkingSpotCountOutputType without action
    */
-  export type ParkingSpotCountOutputTypeCountListingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ParkingSpotCountOutputTypeCountListingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ListingWhereInput
   }
 
@@ -2111,7 +2111,7 @@ export namespace Prisma {
   /**
    * ParkingSpotCountOutputType without action
    */
-  export type ParkingSpotCountOutputTypeCountReservationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ParkingSpotCountOutputTypeCountReservationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ReservationWhereInput
   }
 
@@ -2156,11 +2156,11 @@ export namespace Prisma {
    */
 
   export type ListingCountOutputType = {
-    Reservation: number
+    reservations: number
   }
 
   export type ListingCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    Reservation?: boolean | ListingCountOutputTypeCountReservationArgs
+    reservations?: boolean | ListingCountOutputTypeCountReservationsArgs
   }
 
   // Custom InputTypes
@@ -2179,7 +2179,7 @@ export namespace Prisma {
   /**
    * ListingCountOutputType without action
    */
-  export type ListingCountOutputTypeCountReservationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ListingCountOutputTypeCountReservationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ReservationWhereInput
   }
 
@@ -6529,7 +6529,7 @@ export namespace Prisma {
     management?: boolean | ManagementDefaultArgs<ExtArgs>
     community_members?: boolean | Building$community_membersArgs<ExtArgs>
     parking_spots?: boolean | Building$parking_spotsArgs<ExtArgs>
-    Reservation?: boolean | Building$ReservationArgs<ExtArgs>
+    reservations?: boolean | Building$reservationsArgs<ExtArgs>
     _count?: boolean | BuildingCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["building"]>
 
@@ -6555,7 +6555,7 @@ export namespace Prisma {
     management?: boolean | ManagementDefaultArgs<ExtArgs>
     community_members?: boolean | Building$community_membersArgs<ExtArgs>
     parking_spots?: boolean | Building$parking_spotsArgs<ExtArgs>
-    Reservation?: boolean | Building$ReservationArgs<ExtArgs>
+    reservations?: boolean | Building$reservationsArgs<ExtArgs>
     _count?: boolean | BuildingCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -6566,7 +6566,7 @@ export namespace Prisma {
       management: Prisma.$ManagementPayload<ExtArgs>
       community_members: Prisma.$CommunityMembersPayload<ExtArgs>[]
       parking_spots: Prisma.$ParkingSpotPayload<ExtArgs>[]
-      Reservation: Prisma.$ReservationPayload<ExtArgs>[]
+      reservations: Prisma.$ReservationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6955,7 +6955,7 @@ export namespace Prisma {
 
     parking_spots<T extends Building$parking_spotsArgs<ExtArgs> = {}>(args?: Subset<T, Building$parking_spotsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParkingSpotPayload<ExtArgs>, T, 'findMany'> | Null>;
 
-    Reservation<T extends Building$ReservationArgs<ExtArgs> = {}>(args?: Subset<T, Building$ReservationArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservationPayload<ExtArgs>, T, 'findMany'> | Null>;
+    reservations<T extends Building$reservationsArgs<ExtArgs> = {}>(args?: Subset<T, Building$reservationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservationPayload<ExtArgs>, T, 'findMany'> | Null>;
 
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -7354,9 +7354,9 @@ export namespace Prisma {
 
 
   /**
-   * Building.Reservation
+   * Building.reservations
    */
-  export type Building$ReservationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Building$reservationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Reservation
      */
@@ -8663,8 +8663,8 @@ export namespace Prisma {
     owner?: boolean | ParkingSpot$ownerArgs<ExtArgs>
     qr_code?: boolean | ParkingSpot$qr_codeArgs<ExtArgs>
     vehicle?: boolean | ParkingSpot$vehicleArgs<ExtArgs>
-    Listing?: boolean | ParkingSpot$ListingArgs<ExtArgs>
-    Reservation?: boolean | ParkingSpot$ReservationArgs<ExtArgs>
+    listings?: boolean | ParkingSpot$listingsArgs<ExtArgs>
+    reservations?: boolean | ParkingSpot$reservationsArgs<ExtArgs>
     _count?: boolean | ParkingSpotCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["parkingSpot"]>
 
@@ -8685,8 +8685,8 @@ export namespace Prisma {
     owner?: boolean | ParkingSpot$ownerArgs<ExtArgs>
     qr_code?: boolean | ParkingSpot$qr_codeArgs<ExtArgs>
     vehicle?: boolean | ParkingSpot$vehicleArgs<ExtArgs>
-    Listing?: boolean | ParkingSpot$ListingArgs<ExtArgs>
-    Reservation?: boolean | ParkingSpot$ReservationArgs<ExtArgs>
+    listings?: boolean | ParkingSpot$listingsArgs<ExtArgs>
+    reservations?: boolean | ParkingSpot$reservationsArgs<ExtArgs>
     _count?: boolean | ParkingSpotCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -8698,8 +8698,8 @@ export namespace Prisma {
       owner: Prisma.$CommunityMembersPayload<ExtArgs> | null
       qr_code: Prisma.$QRCodePayload<ExtArgs> | null
       vehicle: Prisma.$VehiclePayload<ExtArgs> | null
-      Listing: Prisma.$ListingPayload<ExtArgs>[]
-      Reservation: Prisma.$ReservationPayload<ExtArgs>[]
+      listings: Prisma.$ListingPayload<ExtArgs>[]
+      reservations: Prisma.$ReservationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -9084,9 +9084,9 @@ export namespace Prisma {
 
     vehicle<T extends ParkingSpot$vehicleArgs<ExtArgs> = {}>(args?: Subset<T, ParkingSpot$vehicleArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
 
-    Listing<T extends ParkingSpot$ListingArgs<ExtArgs> = {}>(args?: Subset<T, ParkingSpot$ListingArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ListingPayload<ExtArgs>, T, 'findMany'> | Null>;
+    listings<T extends ParkingSpot$listingsArgs<ExtArgs> = {}>(args?: Subset<T, ParkingSpot$listingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ListingPayload<ExtArgs>, T, 'findMany'> | Null>;
 
-    Reservation<T extends ParkingSpot$ReservationArgs<ExtArgs> = {}>(args?: Subset<T, ParkingSpot$ReservationArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservationPayload<ExtArgs>, T, 'findMany'> | Null>;
+    reservations<T extends ParkingSpot$reservationsArgs<ExtArgs> = {}>(args?: Subset<T, ParkingSpot$reservationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservationPayload<ExtArgs>, T, 'findMany'> | Null>;
 
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -9485,9 +9485,9 @@ export namespace Prisma {
 
 
   /**
-   * ParkingSpot.Listing
+   * ParkingSpot.listings
    */
-  export type ParkingSpot$ListingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ParkingSpot$listingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Listing
      */
@@ -9506,9 +9506,9 @@ export namespace Prisma {
 
 
   /**
-   * ParkingSpot.Reservation
+   * ParkingSpot.reservations
    */
-  export type ParkingSpot$ReservationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ParkingSpot$reservationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Reservation
      */
@@ -11684,7 +11684,7 @@ export namespace Prisma {
     updated_at?: boolean
     host?: boolean | UserDefaultArgs<ExtArgs>
     parking_spot?: boolean | ParkingSpotDefaultArgs<ExtArgs>
-    Reservation?: boolean | Listing$ReservationArgs<ExtArgs>
+    reservations?: boolean | Listing$reservationsArgs<ExtArgs>
     _count?: boolean | ListingCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["listing"]>
 
@@ -11707,7 +11707,7 @@ export namespace Prisma {
   export type ListingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     host?: boolean | UserDefaultArgs<ExtArgs>
     parking_spot?: boolean | ParkingSpotDefaultArgs<ExtArgs>
-    Reservation?: boolean | Listing$ReservationArgs<ExtArgs>
+    reservations?: boolean | Listing$reservationsArgs<ExtArgs>
     _count?: boolean | ListingCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -11717,7 +11717,7 @@ export namespace Prisma {
     objects: {
       host: Prisma.$UserPayload<ExtArgs>
       parking_spot: Prisma.$ParkingSpotPayload<ExtArgs>
-      Reservation: Prisma.$ReservationPayload<ExtArgs>[]
+      reservations: Prisma.$ReservationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -12102,7 +12102,7 @@ export namespace Prisma {
 
     parking_spot<T extends ParkingSpotDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ParkingSpotDefaultArgs<ExtArgs>>): Prisma__ParkingSpotClient<$Result.GetResult<Prisma.$ParkingSpotPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
 
-    Reservation<T extends Listing$ReservationArgs<ExtArgs> = {}>(args?: Subset<T, Listing$ReservationArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservationPayload<ExtArgs>, T, 'findMany'> | Null>;
+    reservations<T extends Listing$reservationsArgs<ExtArgs> = {}>(args?: Subset<T, Listing$reservationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservationPayload<ExtArgs>, T, 'findMany'> | Null>;
 
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -12457,9 +12457,9 @@ export namespace Prisma {
 
 
   /**
-   * Listing.Reservation
+   * Listing.reservations
    */
-  export type Listing$ReservationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Listing$reservationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Reservation
      */
@@ -14372,7 +14372,7 @@ export namespace Prisma {
     management?: XOR<ManagementRelationFilter, ManagementWhereInput>
     community_members?: CommunityMembersListRelationFilter
     parking_spots?: ParkingSpotListRelationFilter
-    Reservation?: ReservationListRelationFilter
+    reservations?: ReservationListRelationFilter
   }
 
   export type BuildingOrderByWithRelationInput = {
@@ -14394,7 +14394,7 @@ export namespace Prisma {
     management?: ManagementOrderByWithRelationInput
     community_members?: CommunityMembersOrderByRelationAggregateInput
     parking_spots?: ParkingSpotOrderByRelationAggregateInput
-    Reservation?: ReservationOrderByRelationAggregateInput
+    reservations?: ReservationOrderByRelationAggregateInput
   }
 
   export type BuildingWhereUniqueInput = Prisma.AtLeast<{
@@ -14419,7 +14419,7 @@ export namespace Prisma {
     management?: XOR<ManagementRelationFilter, ManagementWhereInput>
     community_members?: CommunityMembersListRelationFilter
     parking_spots?: ParkingSpotListRelationFilter
-    Reservation?: ReservationListRelationFilter
+    reservations?: ReservationListRelationFilter
   }, "id" | "id">
 
   export type BuildingOrderByWithAggregationInput = {
@@ -14573,8 +14573,8 @@ export namespace Prisma {
     owner?: XOR<CommunityMembersNullableRelationFilter, CommunityMembersWhereInput> | null
     qr_code?: XOR<QRCodeNullableRelationFilter, QRCodeWhereInput> | null
     vehicle?: XOR<VehicleNullableRelationFilter, VehicleWhereInput> | null
-    Listing?: ListingListRelationFilter
-    Reservation?: ReservationListRelationFilter
+    listings?: ListingListRelationFilter
+    reservations?: ReservationListRelationFilter
   }
 
   export type ParkingSpotOrderByWithRelationInput = {
@@ -14591,8 +14591,8 @@ export namespace Prisma {
     owner?: CommunityMembersOrderByWithRelationInput
     qr_code?: QRCodeOrderByWithRelationInput
     vehicle?: VehicleOrderByWithRelationInput
-    Listing?: ListingOrderByRelationAggregateInput
-    Reservation?: ReservationOrderByRelationAggregateInput
+    listings?: ListingOrderByRelationAggregateInput
+    reservations?: ReservationOrderByRelationAggregateInput
   }
 
   export type ParkingSpotWhereUniqueInput = Prisma.AtLeast<{
@@ -14613,8 +14613,8 @@ export namespace Prisma {
     owner?: XOR<CommunityMembersNullableRelationFilter, CommunityMembersWhereInput> | null
     qr_code?: XOR<QRCodeNullableRelationFilter, QRCodeWhereInput> | null
     vehicle?: XOR<VehicleNullableRelationFilter, VehicleWhereInput> | null
-    Listing?: ListingListRelationFilter
-    Reservation?: ReservationListRelationFilter
+    listings?: ListingListRelationFilter
+    reservations?: ReservationListRelationFilter
   }, "id" | "id" | "qr_code_id" | "qr_code_id_parking_level_parking_spot_number">
 
   export type ParkingSpotOrderByWithAggregationInput = {
@@ -14771,7 +14771,7 @@ export namespace Prisma {
     updated_at?: DateTimeFilter<"Listing"> | Date | string
     host?: XOR<UserRelationFilter, UserWhereInput>
     parking_spot?: XOR<ParkingSpotRelationFilter, ParkingSpotWhereInput>
-    Reservation?: ReservationListRelationFilter
+    reservations?: ReservationListRelationFilter
   }
 
   export type ListingOrderByWithRelationInput = {
@@ -14790,7 +14790,7 @@ export namespace Prisma {
     updated_at?: SortOrder
     host?: UserOrderByWithRelationInput
     parking_spot?: ParkingSpotOrderByWithRelationInput
-    Reservation?: ReservationOrderByRelationAggregateInput
+    reservations?: ReservationOrderByRelationAggregateInput
   }
 
   export type ListingWhereUniqueInput = Prisma.AtLeast<{
@@ -14813,7 +14813,7 @@ export namespace Prisma {
     updated_at?: DateTimeFilter<"Listing"> | Date | string
     host?: XOR<UserRelationFilter, UserWhereInput>
     parking_spot?: XOR<ParkingSpotRelationFilter, ParkingSpotWhereInput>
-    Reservation?: ReservationListRelationFilter
+    reservations?: ReservationListRelationFilter
   }, "id" | "id" | "host_id_parking_id">
 
   export type ListingOrderByWithAggregationInput = {
@@ -15351,7 +15351,7 @@ export namespace Prisma {
     management: ManagementCreateNestedOneWithoutBuildingsInput
     community_members?: CommunityMembersCreateNestedManyWithoutBuildingInput
     parking_spots?: ParkingSpotCreateNestedManyWithoutBuildingInput
-    Reservation?: ReservationCreateNestedManyWithoutBuildingInput
+    reservations?: ReservationCreateNestedManyWithoutBuildingInput
   }
 
   export type BuildingUncheckedCreateInput = {
@@ -15372,7 +15372,7 @@ export namespace Prisma {
     facilities?: BuildingCreatefacilitiesInput | $Enums.BuildingFacility[]
     community_members?: CommunityMembersUncheckedCreateNestedManyWithoutBuildingInput
     parking_spots?: ParkingSpotUncheckedCreateNestedManyWithoutBuildingInput
-    Reservation?: ReservationUncheckedCreateNestedManyWithoutBuildingInput
+    reservations?: ReservationUncheckedCreateNestedManyWithoutBuildingInput
   }
 
   export type BuildingUpdateInput = {
@@ -15393,7 +15393,7 @@ export namespace Prisma {
     management?: ManagementUpdateOneRequiredWithoutBuildingsNestedInput
     community_members?: CommunityMembersUpdateManyWithoutBuildingNestedInput
     parking_spots?: ParkingSpotUpdateManyWithoutBuildingNestedInput
-    Reservation?: ReservationUpdateManyWithoutBuildingNestedInput
+    reservations?: ReservationUpdateManyWithoutBuildingNestedInput
   }
 
   export type BuildingUncheckedUpdateInput = {
@@ -15414,7 +15414,7 @@ export namespace Prisma {
     facilities?: BuildingUpdatefacilitiesInput | $Enums.BuildingFacility[]
     community_members?: CommunityMembersUncheckedUpdateManyWithoutBuildingNestedInput
     parking_spots?: ParkingSpotUncheckedUpdateManyWithoutBuildingNestedInput
-    Reservation?: ReservationUncheckedUpdateManyWithoutBuildingNestedInput
+    reservations?: ReservationUncheckedUpdateManyWithoutBuildingNestedInput
   }
 
   export type BuildingCreateManyInput = {
@@ -15572,8 +15572,8 @@ export namespace Prisma {
     owner?: CommunityMembersCreateNestedOneWithoutParking_spotsInput
     qr_code?: QRCodeCreateNestedOneWithoutParking_spotInput
     vehicle?: VehicleCreateNestedOneWithoutParking_spotsInput
-    Listing?: ListingCreateNestedManyWithoutParking_spotInput
-    Reservation?: ReservationCreateNestedManyWithoutParkingInput
+    listings?: ListingCreateNestedManyWithoutParking_spotInput
+    reservations?: ReservationCreateNestedManyWithoutParkingInput
   }
 
   export type ParkingSpotUncheckedCreateInput = {
@@ -15586,8 +15586,8 @@ export namespace Prisma {
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
-    Listing?: ListingUncheckedCreateNestedManyWithoutParking_spotInput
-    Reservation?: ReservationUncheckedCreateNestedManyWithoutParkingInput
+    listings?: ListingUncheckedCreateNestedManyWithoutParking_spotInput
+    reservations?: ReservationUncheckedCreateNestedManyWithoutParkingInput
   }
 
   export type ParkingSpotUpdateInput = {
@@ -15600,8 +15600,8 @@ export namespace Prisma {
     owner?: CommunityMembersUpdateOneWithoutParking_spotsNestedInput
     qr_code?: QRCodeUpdateOneWithoutParking_spotNestedInput
     vehicle?: VehicleUpdateOneWithoutParking_spotsNestedInput
-    Listing?: ListingUpdateManyWithoutParking_spotNestedInput
-    Reservation?: ReservationUpdateManyWithoutParkingNestedInput
+    listings?: ListingUpdateManyWithoutParking_spotNestedInput
+    reservations?: ReservationUpdateManyWithoutParkingNestedInput
   }
 
   export type ParkingSpotUncheckedUpdateInput = {
@@ -15614,8 +15614,8 @@ export namespace Prisma {
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
-    Listing?: ListingUncheckedUpdateManyWithoutParking_spotNestedInput
-    Reservation?: ReservationUncheckedUpdateManyWithoutParkingNestedInput
+    listings?: ListingUncheckedUpdateManyWithoutParking_spotNestedInput
+    reservations?: ReservationUncheckedUpdateManyWithoutParkingNestedInput
   }
 
   export type ParkingSpotCreateManyInput = {
@@ -15773,8 +15773,8 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string
     host: UserCreateNestedOneWithoutListingsInput
-    parking_spot: ParkingSpotCreateNestedOneWithoutListingInput
-    Reservation?: ReservationCreateNestedManyWithoutListingInput
+    parking_spot: ParkingSpotCreateNestedOneWithoutListingsInput
+    reservations?: ReservationCreateNestedManyWithoutListingInput
   }
 
   export type ListingUncheckedCreateInput = {
@@ -15791,7 +15791,7 @@ export namespace Prisma {
     no_of_bookings?: number | null
     created_at?: Date | string
     updated_at?: Date | string
-    Reservation?: ReservationUncheckedCreateNestedManyWithoutListingInput
+    reservations?: ReservationUncheckedCreateNestedManyWithoutListingInput
   }
 
   export type ListingUpdateInput = {
@@ -15807,8 +15807,8 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     host?: UserUpdateOneRequiredWithoutListingsNestedInput
-    parking_spot?: ParkingSpotUpdateOneRequiredWithoutListingNestedInput
-    Reservation?: ReservationUpdateManyWithoutListingNestedInput
+    parking_spot?: ParkingSpotUpdateOneRequiredWithoutListingsNestedInput
+    reservations?: ReservationUpdateManyWithoutListingNestedInput
   }
 
   export type ListingUncheckedUpdateInput = {
@@ -15825,7 +15825,7 @@ export namespace Prisma {
     no_of_bookings?: NullableIntFieldUpdateOperationsInput | number | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    Reservation?: ReservationUncheckedUpdateManyWithoutListingNestedInput
+    reservations?: ReservationUncheckedUpdateManyWithoutListingNestedInput
   }
 
   export type ListingCreateManyInput = {
@@ -15880,11 +15880,11 @@ export namespace Prisma {
     start_date: Date | string
     end_date: Date | string
     status?: $Enums.Reservation_Status
-    listing: ListingCreateNestedOneWithoutReservationInput
+    listing: ListingCreateNestedOneWithoutReservationsInput
     host: UserCreateNestedOneWithoutHostReservationsInput
     visitor: UserCreateNestedOneWithoutVisitorReservationsInput
-    building?: BuildingCreateNestedOneWithoutReservationInput
-    parking: ParkingSpotCreateNestedOneWithoutReservationInput
+    building?: BuildingCreateNestedOneWithoutReservationsInput
+    parking: ParkingSpotCreateNestedOneWithoutReservationsInput
   }
 
   export type ReservationUncheckedCreateInput = {
@@ -15906,11 +15906,11 @@ export namespace Prisma {
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumReservation_StatusFieldUpdateOperationsInput | $Enums.Reservation_Status
-    listing?: ListingUpdateOneRequiredWithoutReservationNestedInput
+    listing?: ListingUpdateOneRequiredWithoutReservationsNestedInput
     host?: UserUpdateOneRequiredWithoutHostReservationsNestedInput
     visitor?: UserUpdateOneRequiredWithoutVisitorReservationsNestedInput
-    building?: BuildingUpdateOneWithoutReservationNestedInput
-    parking?: ParkingSpotUpdateOneRequiredWithoutReservationNestedInput
+    building?: BuildingUpdateOneWithoutReservationsNestedInput
+    parking?: ParkingSpotUpdateOneRequiredWithoutReservationsNestedInput
   }
 
   export type ReservationUncheckedUpdateInput = {
@@ -17886,9 +17886,9 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
-  export type ParkingSpotCreateNestedOneWithoutListingInput = {
-    create?: XOR<ParkingSpotCreateWithoutListingInput, ParkingSpotUncheckedCreateWithoutListingInput>
-    connectOrCreate?: ParkingSpotCreateOrConnectWithoutListingInput
+  export type ParkingSpotCreateNestedOneWithoutListingsInput = {
+    create?: XOR<ParkingSpotCreateWithoutListingsInput, ParkingSpotUncheckedCreateWithoutListingsInput>
+    connectOrCreate?: ParkingSpotCreateOrConnectWithoutListingsInput
     connect?: ParkingSpotWhereUniqueInput
   }
 
@@ -17922,12 +17922,12 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutListingsInput, UserUpdateWithoutListingsInput>, UserUncheckedUpdateWithoutListingsInput>
   }
 
-  export type ParkingSpotUpdateOneRequiredWithoutListingNestedInput = {
-    create?: XOR<ParkingSpotCreateWithoutListingInput, ParkingSpotUncheckedCreateWithoutListingInput>
-    connectOrCreate?: ParkingSpotCreateOrConnectWithoutListingInput
-    upsert?: ParkingSpotUpsertWithoutListingInput
+  export type ParkingSpotUpdateOneRequiredWithoutListingsNestedInput = {
+    create?: XOR<ParkingSpotCreateWithoutListingsInput, ParkingSpotUncheckedCreateWithoutListingsInput>
+    connectOrCreate?: ParkingSpotCreateOrConnectWithoutListingsInput
+    upsert?: ParkingSpotUpsertWithoutListingsInput
     connect?: ParkingSpotWhereUniqueInput
-    update?: XOR<XOR<ParkingSpotUpdateToOneWithWhereWithoutListingInput, ParkingSpotUpdateWithoutListingInput>, ParkingSpotUncheckedUpdateWithoutListingInput>
+    update?: XOR<XOR<ParkingSpotUpdateToOneWithWhereWithoutListingsInput, ParkingSpotUpdateWithoutListingsInput>, ParkingSpotUncheckedUpdateWithoutListingsInput>
   }
 
   export type ReservationUpdateManyWithoutListingNestedInput = {
@@ -17958,9 +17958,9 @@ export namespace Prisma {
     deleteMany?: ReservationScalarWhereInput | ReservationScalarWhereInput[]
   }
 
-  export type ListingCreateNestedOneWithoutReservationInput = {
-    create?: XOR<ListingCreateWithoutReservationInput, ListingUncheckedCreateWithoutReservationInput>
-    connectOrCreate?: ListingCreateOrConnectWithoutReservationInput
+  export type ListingCreateNestedOneWithoutReservationsInput = {
+    create?: XOR<ListingCreateWithoutReservationsInput, ListingUncheckedCreateWithoutReservationsInput>
+    connectOrCreate?: ListingCreateOrConnectWithoutReservationsInput
     connect?: ListingWhereUniqueInput
   }
 
@@ -17976,15 +17976,15 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
-  export type BuildingCreateNestedOneWithoutReservationInput = {
-    create?: XOR<BuildingCreateWithoutReservationInput, BuildingUncheckedCreateWithoutReservationInput>
-    connectOrCreate?: BuildingCreateOrConnectWithoutReservationInput
+  export type BuildingCreateNestedOneWithoutReservationsInput = {
+    create?: XOR<BuildingCreateWithoutReservationsInput, BuildingUncheckedCreateWithoutReservationsInput>
+    connectOrCreate?: BuildingCreateOrConnectWithoutReservationsInput
     connect?: BuildingWhereUniqueInput
   }
 
-  export type ParkingSpotCreateNestedOneWithoutReservationInput = {
-    create?: XOR<ParkingSpotCreateWithoutReservationInput, ParkingSpotUncheckedCreateWithoutReservationInput>
-    connectOrCreate?: ParkingSpotCreateOrConnectWithoutReservationInput
+  export type ParkingSpotCreateNestedOneWithoutReservationsInput = {
+    create?: XOR<ParkingSpotCreateWithoutReservationsInput, ParkingSpotUncheckedCreateWithoutReservationsInput>
+    connectOrCreate?: ParkingSpotCreateOrConnectWithoutReservationsInput
     connect?: ParkingSpotWhereUniqueInput
   }
 
@@ -17992,12 +17992,12 @@ export namespace Prisma {
     set?: $Enums.Reservation_Status
   }
 
-  export type ListingUpdateOneRequiredWithoutReservationNestedInput = {
-    create?: XOR<ListingCreateWithoutReservationInput, ListingUncheckedCreateWithoutReservationInput>
-    connectOrCreate?: ListingCreateOrConnectWithoutReservationInput
-    upsert?: ListingUpsertWithoutReservationInput
+  export type ListingUpdateOneRequiredWithoutReservationsNestedInput = {
+    create?: XOR<ListingCreateWithoutReservationsInput, ListingUncheckedCreateWithoutReservationsInput>
+    connectOrCreate?: ListingCreateOrConnectWithoutReservationsInput
+    upsert?: ListingUpsertWithoutReservationsInput
     connect?: ListingWhereUniqueInput
-    update?: XOR<XOR<ListingUpdateToOneWithWhereWithoutReservationInput, ListingUpdateWithoutReservationInput>, ListingUncheckedUpdateWithoutReservationInput>
+    update?: XOR<XOR<ListingUpdateToOneWithWhereWithoutReservationsInput, ListingUpdateWithoutReservationsInput>, ListingUncheckedUpdateWithoutReservationsInput>
   }
 
   export type UserUpdateOneRequiredWithoutHostReservationsNestedInput = {
@@ -18016,22 +18016,22 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutVisitorReservationsInput, UserUpdateWithoutVisitorReservationsInput>, UserUncheckedUpdateWithoutVisitorReservationsInput>
   }
 
-  export type BuildingUpdateOneWithoutReservationNestedInput = {
-    create?: XOR<BuildingCreateWithoutReservationInput, BuildingUncheckedCreateWithoutReservationInput>
-    connectOrCreate?: BuildingCreateOrConnectWithoutReservationInput
-    upsert?: BuildingUpsertWithoutReservationInput
+  export type BuildingUpdateOneWithoutReservationsNestedInput = {
+    create?: XOR<BuildingCreateWithoutReservationsInput, BuildingUncheckedCreateWithoutReservationsInput>
+    connectOrCreate?: BuildingCreateOrConnectWithoutReservationsInput
+    upsert?: BuildingUpsertWithoutReservationsInput
     disconnect?: BuildingWhereInput | boolean
     delete?: BuildingWhereInput | boolean
     connect?: BuildingWhereUniqueInput
-    update?: XOR<XOR<BuildingUpdateToOneWithWhereWithoutReservationInput, BuildingUpdateWithoutReservationInput>, BuildingUncheckedUpdateWithoutReservationInput>
+    update?: XOR<XOR<BuildingUpdateToOneWithWhereWithoutReservationsInput, BuildingUpdateWithoutReservationsInput>, BuildingUncheckedUpdateWithoutReservationsInput>
   }
 
-  export type ParkingSpotUpdateOneRequiredWithoutReservationNestedInput = {
-    create?: XOR<ParkingSpotCreateWithoutReservationInput, ParkingSpotUncheckedCreateWithoutReservationInput>
-    connectOrCreate?: ParkingSpotCreateOrConnectWithoutReservationInput
-    upsert?: ParkingSpotUpsertWithoutReservationInput
+  export type ParkingSpotUpdateOneRequiredWithoutReservationsNestedInput = {
+    create?: XOR<ParkingSpotCreateWithoutReservationsInput, ParkingSpotUncheckedCreateWithoutReservationsInput>
+    connectOrCreate?: ParkingSpotCreateOrConnectWithoutReservationsInput
+    upsert?: ParkingSpotUpsertWithoutReservationsInput
     connect?: ParkingSpotWhereUniqueInput
-    update?: XOR<XOR<ParkingSpotUpdateToOneWithWhereWithoutReservationInput, ParkingSpotUpdateWithoutReservationInput>, ParkingSpotUncheckedUpdateWithoutReservationInput>
+    update?: XOR<XOR<ParkingSpotUpdateToOneWithWhereWithoutReservationsInput, ParkingSpotUpdateWithoutReservationsInput>, ParkingSpotUncheckedUpdateWithoutReservationsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -18538,8 +18538,8 @@ export namespace Prisma {
     no_of_bookings?: number | null
     created_at?: Date | string
     updated_at?: Date | string
-    parking_spot: ParkingSpotCreateNestedOneWithoutListingInput
-    Reservation?: ReservationCreateNestedManyWithoutListingInput
+    parking_spot: ParkingSpotCreateNestedOneWithoutListingsInput
+    reservations?: ReservationCreateNestedManyWithoutListingInput
   }
 
   export type ListingUncheckedCreateWithoutHostInput = {
@@ -18555,7 +18555,7 @@ export namespace Prisma {
     no_of_bookings?: number | null
     created_at?: Date | string
     updated_at?: Date | string
-    Reservation?: ReservationUncheckedCreateNestedManyWithoutListingInput
+    reservations?: ReservationUncheckedCreateNestedManyWithoutListingInput
   }
 
   export type ListingCreateOrConnectWithoutHostInput = {
@@ -18574,10 +18574,10 @@ export namespace Prisma {
     start_date: Date | string
     end_date: Date | string
     status?: $Enums.Reservation_Status
-    listing: ListingCreateNestedOneWithoutReservationInput
+    listing: ListingCreateNestedOneWithoutReservationsInput
     visitor: UserCreateNestedOneWithoutVisitorReservationsInput
-    building?: BuildingCreateNestedOneWithoutReservationInput
-    parking: ParkingSpotCreateNestedOneWithoutReservationInput
+    building?: BuildingCreateNestedOneWithoutReservationsInput
+    parking: ParkingSpotCreateNestedOneWithoutReservationsInput
   }
 
   export type ReservationUncheckedCreateWithoutHostInput = {
@@ -18608,10 +18608,10 @@ export namespace Prisma {
     start_date: Date | string
     end_date: Date | string
     status?: $Enums.Reservation_Status
-    listing: ListingCreateNestedOneWithoutReservationInput
+    listing: ListingCreateNestedOneWithoutReservationsInput
     host: UserCreateNestedOneWithoutHostReservationsInput
-    building?: BuildingCreateNestedOneWithoutReservationInput
-    parking: ParkingSpotCreateNestedOneWithoutReservationInput
+    building?: BuildingCreateNestedOneWithoutReservationsInput
+    parking: ParkingSpotCreateNestedOneWithoutReservationsInput
   }
 
   export type ReservationUncheckedCreateWithoutVisitorInput = {
@@ -18849,7 +18849,7 @@ export namespace Prisma {
     facilities?: BuildingCreatefacilitiesInput | $Enums.BuildingFacility[]
     community_members?: CommunityMembersCreateNestedManyWithoutBuildingInput
     parking_spots?: ParkingSpotCreateNestedManyWithoutBuildingInput
-    Reservation?: ReservationCreateNestedManyWithoutBuildingInput
+    reservations?: ReservationCreateNestedManyWithoutBuildingInput
   }
 
   export type BuildingUncheckedCreateWithoutManagementInput = {
@@ -18869,7 +18869,7 @@ export namespace Prisma {
     facilities?: BuildingCreatefacilitiesInput | $Enums.BuildingFacility[]
     community_members?: CommunityMembersUncheckedCreateNestedManyWithoutBuildingInput
     parking_spots?: ParkingSpotUncheckedCreateNestedManyWithoutBuildingInput
-    Reservation?: ReservationUncheckedCreateNestedManyWithoutBuildingInput
+    reservations?: ReservationUncheckedCreateNestedManyWithoutBuildingInput
   }
 
   export type BuildingCreateOrConnectWithoutManagementInput = {
@@ -19229,8 +19229,8 @@ export namespace Prisma {
     owner?: CommunityMembersCreateNestedOneWithoutParking_spotsInput
     qr_code?: QRCodeCreateNestedOneWithoutParking_spotInput
     vehicle?: VehicleCreateNestedOneWithoutParking_spotsInput
-    Listing?: ListingCreateNestedManyWithoutParking_spotInput
-    Reservation?: ReservationCreateNestedManyWithoutParkingInput
+    listings?: ListingCreateNestedManyWithoutParking_spotInput
+    reservations?: ReservationCreateNestedManyWithoutParkingInput
   }
 
   export type ParkingSpotUncheckedCreateWithoutBuildingInput = {
@@ -19242,8 +19242,8 @@ export namespace Prisma {
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
-    Listing?: ListingUncheckedCreateNestedManyWithoutParking_spotInput
-    Reservation?: ReservationUncheckedCreateNestedManyWithoutParkingInput
+    listings?: ListingUncheckedCreateNestedManyWithoutParking_spotInput
+    reservations?: ReservationUncheckedCreateNestedManyWithoutParkingInput
   }
 
   export type ParkingSpotCreateOrConnectWithoutBuildingInput = {
@@ -19262,10 +19262,10 @@ export namespace Prisma {
     start_date: Date | string
     end_date: Date | string
     status?: $Enums.Reservation_Status
-    listing: ListingCreateNestedOneWithoutReservationInput
+    listing: ListingCreateNestedOneWithoutReservationsInput
     host: UserCreateNestedOneWithoutHostReservationsInput
     visitor: UserCreateNestedOneWithoutVisitorReservationsInput
-    parking: ParkingSpotCreateNestedOneWithoutReservationInput
+    parking: ParkingSpotCreateNestedOneWithoutReservationsInput
   }
 
   export type ReservationUncheckedCreateWithoutBuildingInput = {
@@ -19425,7 +19425,7 @@ export namespace Prisma {
     facilities?: BuildingCreatefacilitiesInput | $Enums.BuildingFacility[]
     management: ManagementCreateNestedOneWithoutBuildingsInput
     parking_spots?: ParkingSpotCreateNestedManyWithoutBuildingInput
-    Reservation?: ReservationCreateNestedManyWithoutBuildingInput
+    reservations?: ReservationCreateNestedManyWithoutBuildingInput
   }
 
   export type BuildingUncheckedCreateWithoutCommunity_membersInput = {
@@ -19445,7 +19445,7 @@ export namespace Prisma {
     no_of_developer_parking_spots?: number | null
     facilities?: BuildingCreatefacilitiesInput | $Enums.BuildingFacility[]
     parking_spots?: ParkingSpotUncheckedCreateNestedManyWithoutBuildingInput
-    Reservation?: ReservationUncheckedCreateNestedManyWithoutBuildingInput
+    reservations?: ReservationUncheckedCreateNestedManyWithoutBuildingInput
   }
 
   export type BuildingCreateOrConnectWithoutCommunity_membersInput = {
@@ -19485,8 +19485,8 @@ export namespace Prisma {
     building: BuildingCreateNestedOneWithoutParking_spotsInput
     qr_code?: QRCodeCreateNestedOneWithoutParking_spotInput
     vehicle?: VehicleCreateNestedOneWithoutParking_spotsInput
-    Listing?: ListingCreateNestedManyWithoutParking_spotInput
-    Reservation?: ReservationCreateNestedManyWithoutParkingInput
+    listings?: ListingCreateNestedManyWithoutParking_spotInput
+    reservations?: ReservationCreateNestedManyWithoutParkingInput
   }
 
   export type ParkingSpotUncheckedCreateWithoutOwnerInput = {
@@ -19498,8 +19498,8 @@ export namespace Prisma {
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
-    Listing?: ListingUncheckedCreateNestedManyWithoutParking_spotInput
-    Reservation?: ReservationUncheckedCreateNestedManyWithoutParkingInput
+    listings?: ListingUncheckedCreateNestedManyWithoutParking_spotInput
+    reservations?: ReservationUncheckedCreateNestedManyWithoutParkingInput
   }
 
   export type ParkingSpotCreateOrConnectWithoutOwnerInput = {
@@ -19579,7 +19579,7 @@ export namespace Prisma {
     facilities?: BuildingUpdatefacilitiesInput | $Enums.BuildingFacility[]
     management?: ManagementUpdateOneRequiredWithoutBuildingsNestedInput
     parking_spots?: ParkingSpotUpdateManyWithoutBuildingNestedInput
-    Reservation?: ReservationUpdateManyWithoutBuildingNestedInput
+    reservations?: ReservationUpdateManyWithoutBuildingNestedInput
   }
 
   export type BuildingUncheckedUpdateWithoutCommunity_membersInput = {
@@ -19599,7 +19599,7 @@ export namespace Prisma {
     no_of_developer_parking_spots?: NullableIntFieldUpdateOperationsInput | number | null
     facilities?: BuildingUpdatefacilitiesInput | $Enums.BuildingFacility[]
     parking_spots?: ParkingSpotUncheckedUpdateManyWithoutBuildingNestedInput
-    Reservation?: ReservationUncheckedUpdateManyWithoutBuildingNestedInput
+    reservations?: ReservationUncheckedUpdateManyWithoutBuildingNestedInput
   }
 
   export type QRCodeUpsertWithoutOwnerInput = {
@@ -19709,7 +19709,7 @@ export namespace Prisma {
     facilities?: BuildingCreatefacilitiesInput | $Enums.BuildingFacility[]
     management: ManagementCreateNestedOneWithoutBuildingsInput
     community_members?: CommunityMembersCreateNestedManyWithoutBuildingInput
-    Reservation?: ReservationCreateNestedManyWithoutBuildingInput
+    reservations?: ReservationCreateNestedManyWithoutBuildingInput
   }
 
   export type BuildingUncheckedCreateWithoutParking_spotsInput = {
@@ -19729,7 +19729,7 @@ export namespace Prisma {
     no_of_developer_parking_spots?: number | null
     facilities?: BuildingCreatefacilitiesInput | $Enums.BuildingFacility[]
     community_members?: CommunityMembersUncheckedCreateNestedManyWithoutBuildingInput
-    Reservation?: ReservationUncheckedCreateNestedManyWithoutBuildingInput
+    reservations?: ReservationUncheckedCreateNestedManyWithoutBuildingInput
   }
 
   export type BuildingCreateOrConnectWithoutParking_spotsInput = {
@@ -19821,7 +19821,7 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string
     host: UserCreateNestedOneWithoutListingsInput
-    Reservation?: ReservationCreateNestedManyWithoutListingInput
+    reservations?: ReservationCreateNestedManyWithoutListingInput
   }
 
   export type ListingUncheckedCreateWithoutParking_spotInput = {
@@ -19837,7 +19837,7 @@ export namespace Prisma {
     no_of_bookings?: number | null
     created_at?: Date | string
     updated_at?: Date | string
-    Reservation?: ReservationUncheckedCreateNestedManyWithoutListingInput
+    reservations?: ReservationUncheckedCreateNestedManyWithoutListingInput
   }
 
   export type ListingCreateOrConnectWithoutParking_spotInput = {
@@ -19856,10 +19856,10 @@ export namespace Prisma {
     start_date: Date | string
     end_date: Date | string
     status?: $Enums.Reservation_Status
-    listing: ListingCreateNestedOneWithoutReservationInput
+    listing: ListingCreateNestedOneWithoutReservationsInput
     host: UserCreateNestedOneWithoutHostReservationsInput
     visitor: UserCreateNestedOneWithoutVisitorReservationsInput
-    building?: BuildingCreateNestedOneWithoutReservationInput
+    building?: BuildingCreateNestedOneWithoutReservationsInput
   }
 
   export type ReservationUncheckedCreateWithoutParkingInput = {
@@ -19912,7 +19912,7 @@ export namespace Prisma {
     facilities?: BuildingUpdatefacilitiesInput | $Enums.BuildingFacility[]
     management?: ManagementUpdateOneRequiredWithoutBuildingsNestedInput
     community_members?: CommunityMembersUpdateManyWithoutBuildingNestedInput
-    Reservation?: ReservationUpdateManyWithoutBuildingNestedInput
+    reservations?: ReservationUpdateManyWithoutBuildingNestedInput
   }
 
   export type BuildingUncheckedUpdateWithoutParking_spotsInput = {
@@ -19932,7 +19932,7 @@ export namespace Prisma {
     no_of_developer_parking_spots?: NullableIntFieldUpdateOperationsInput | number | null
     facilities?: BuildingUpdatefacilitiesInput | $Enums.BuildingFacility[]
     community_members?: CommunityMembersUncheckedUpdateManyWithoutBuildingNestedInput
-    Reservation?: ReservationUncheckedUpdateManyWithoutBuildingNestedInput
+    reservations?: ReservationUncheckedUpdateManyWithoutBuildingNestedInput
   }
 
   export type CommunityMembersUpsertWithoutParking_spotsInput = {
@@ -20096,8 +20096,8 @@ export namespace Prisma {
     building: BuildingCreateNestedOneWithoutParking_spotsInput
     owner?: CommunityMembersCreateNestedOneWithoutParking_spotsInput
     vehicle?: VehicleCreateNestedOneWithoutParking_spotsInput
-    Listing?: ListingCreateNestedManyWithoutParking_spotInput
-    Reservation?: ReservationCreateNestedManyWithoutParkingInput
+    listings?: ListingCreateNestedManyWithoutParking_spotInput
+    reservations?: ReservationCreateNestedManyWithoutParkingInput
   }
 
   export type ParkingSpotUncheckedCreateWithoutQr_codeInput = {
@@ -20109,8 +20109,8 @@ export namespace Prisma {
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
-    Listing?: ListingUncheckedCreateNestedManyWithoutParking_spotInput
-    Reservation?: ReservationUncheckedCreateNestedManyWithoutParkingInput
+    listings?: ListingUncheckedCreateNestedManyWithoutParking_spotInput
+    reservations?: ReservationUncheckedCreateNestedManyWithoutParkingInput
   }
 
   export type ParkingSpotCreateOrConnectWithoutQr_codeInput = {
@@ -20175,8 +20175,8 @@ export namespace Prisma {
     building?: BuildingUpdateOneRequiredWithoutParking_spotsNestedInput
     owner?: CommunityMembersUpdateOneWithoutParking_spotsNestedInput
     vehicle?: VehicleUpdateOneWithoutParking_spotsNestedInput
-    Listing?: ListingUpdateManyWithoutParking_spotNestedInput
-    Reservation?: ReservationUpdateManyWithoutParkingNestedInput
+    listings?: ListingUpdateManyWithoutParking_spotNestedInput
+    reservations?: ReservationUpdateManyWithoutParkingNestedInput
   }
 
   export type ParkingSpotUncheckedUpdateWithoutQr_codeInput = {
@@ -20188,8 +20188,8 @@ export namespace Prisma {
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
-    Listing?: ListingUncheckedUpdateManyWithoutParking_spotNestedInput
-    Reservation?: ReservationUncheckedUpdateManyWithoutParkingNestedInput
+    listings?: ListingUncheckedUpdateManyWithoutParking_spotNestedInput
+    reservations?: ReservationUncheckedUpdateManyWithoutParkingNestedInput
   }
 
   export type ParkingSpotCreateWithoutVehicleInput = {
@@ -20201,8 +20201,8 @@ export namespace Prisma {
     building: BuildingCreateNestedOneWithoutParking_spotsInput
     owner?: CommunityMembersCreateNestedOneWithoutParking_spotsInput
     qr_code?: QRCodeCreateNestedOneWithoutParking_spotInput
-    Listing?: ListingCreateNestedManyWithoutParking_spotInput
-    Reservation?: ReservationCreateNestedManyWithoutParkingInput
+    listings?: ListingCreateNestedManyWithoutParking_spotInput
+    reservations?: ReservationCreateNestedManyWithoutParkingInput
   }
 
   export type ParkingSpotUncheckedCreateWithoutVehicleInput = {
@@ -20214,8 +20214,8 @@ export namespace Prisma {
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
-    Listing?: ListingUncheckedCreateNestedManyWithoutParking_spotInput
-    Reservation?: ReservationUncheckedCreateNestedManyWithoutParkingInput
+    listings?: ListingUncheckedCreateNestedManyWithoutParking_spotInput
+    reservations?: ReservationUncheckedCreateNestedManyWithoutParkingInput
   }
 
   export type ParkingSpotCreateOrConnectWithoutVehicleInput = {
@@ -20283,7 +20283,7 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutListingsInput, UserUncheckedCreateWithoutListingsInput>
   }
 
-  export type ParkingSpotCreateWithoutListingInput = {
+  export type ParkingSpotCreateWithoutListingsInput = {
     id?: string
     parking_level?: number | null
     parking_spot_number?: string | null
@@ -20293,10 +20293,10 @@ export namespace Prisma {
     owner?: CommunityMembersCreateNestedOneWithoutParking_spotsInput
     qr_code?: QRCodeCreateNestedOneWithoutParking_spotInput
     vehicle?: VehicleCreateNestedOneWithoutParking_spotsInput
-    Reservation?: ReservationCreateNestedManyWithoutParkingInput
+    reservations?: ReservationCreateNestedManyWithoutParkingInput
   }
 
-  export type ParkingSpotUncheckedCreateWithoutListingInput = {
+  export type ParkingSpotUncheckedCreateWithoutListingsInput = {
     id?: string
     building_id: string
     owner_id?: string | null
@@ -20306,12 +20306,12 @@ export namespace Prisma {
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
-    Reservation?: ReservationUncheckedCreateNestedManyWithoutParkingInput
+    reservations?: ReservationUncheckedCreateNestedManyWithoutParkingInput
   }
 
-  export type ParkingSpotCreateOrConnectWithoutListingInput = {
+  export type ParkingSpotCreateOrConnectWithoutListingsInput = {
     where: ParkingSpotWhereUniqueInput
-    create: XOR<ParkingSpotCreateWithoutListingInput, ParkingSpotUncheckedCreateWithoutListingInput>
+    create: XOR<ParkingSpotCreateWithoutListingsInput, ParkingSpotUncheckedCreateWithoutListingsInput>
   }
 
   export type ReservationCreateWithoutListingInput = {
@@ -20322,8 +20322,8 @@ export namespace Prisma {
     status?: $Enums.Reservation_Status
     host: UserCreateNestedOneWithoutHostReservationsInput
     visitor: UserCreateNestedOneWithoutVisitorReservationsInput
-    building?: BuildingCreateNestedOneWithoutReservationInput
-    parking: ParkingSpotCreateNestedOneWithoutReservationInput
+    building?: BuildingCreateNestedOneWithoutReservationsInput
+    parking: ParkingSpotCreateNestedOneWithoutReservationsInput
   }
 
   export type ReservationUncheckedCreateWithoutListingInput = {
@@ -20393,18 +20393,18 @@ export namespace Prisma {
     visitorReservations?: ReservationUncheckedUpdateManyWithoutVisitorNestedInput
   }
 
-  export type ParkingSpotUpsertWithoutListingInput = {
-    update: XOR<ParkingSpotUpdateWithoutListingInput, ParkingSpotUncheckedUpdateWithoutListingInput>
-    create: XOR<ParkingSpotCreateWithoutListingInput, ParkingSpotUncheckedCreateWithoutListingInput>
+  export type ParkingSpotUpsertWithoutListingsInput = {
+    update: XOR<ParkingSpotUpdateWithoutListingsInput, ParkingSpotUncheckedUpdateWithoutListingsInput>
+    create: XOR<ParkingSpotCreateWithoutListingsInput, ParkingSpotUncheckedCreateWithoutListingsInput>
     where?: ParkingSpotWhereInput
   }
 
-  export type ParkingSpotUpdateToOneWithWhereWithoutListingInput = {
+  export type ParkingSpotUpdateToOneWithWhereWithoutListingsInput = {
     where?: ParkingSpotWhereInput
-    data: XOR<ParkingSpotUpdateWithoutListingInput, ParkingSpotUncheckedUpdateWithoutListingInput>
+    data: XOR<ParkingSpotUpdateWithoutListingsInput, ParkingSpotUncheckedUpdateWithoutListingsInput>
   }
 
-  export type ParkingSpotUpdateWithoutListingInput = {
+  export type ParkingSpotUpdateWithoutListingsInput = {
     id?: StringFieldUpdateOperationsInput | string
     parking_level?: NullableIntFieldUpdateOperationsInput | number | null
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
@@ -20414,10 +20414,10 @@ export namespace Prisma {
     owner?: CommunityMembersUpdateOneWithoutParking_spotsNestedInput
     qr_code?: QRCodeUpdateOneWithoutParking_spotNestedInput
     vehicle?: VehicleUpdateOneWithoutParking_spotsNestedInput
-    Reservation?: ReservationUpdateManyWithoutParkingNestedInput
+    reservations?: ReservationUpdateManyWithoutParkingNestedInput
   }
 
-  export type ParkingSpotUncheckedUpdateWithoutListingInput = {
+  export type ParkingSpotUncheckedUpdateWithoutListingsInput = {
     id?: StringFieldUpdateOperationsInput | string
     building_id?: StringFieldUpdateOperationsInput | string
     owner_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -20427,7 +20427,7 @@ export namespace Prisma {
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
-    Reservation?: ReservationUncheckedUpdateManyWithoutParkingNestedInput
+    reservations?: ReservationUncheckedUpdateManyWithoutParkingNestedInput
   }
 
   export type ReservationUpsertWithWhereUniqueWithoutListingInput = {
@@ -20446,7 +20446,7 @@ export namespace Prisma {
     data: XOR<ReservationUpdateManyMutationInput, ReservationUncheckedUpdateManyWithoutListingInput>
   }
 
-  export type ListingCreateWithoutReservationInput = {
+  export type ListingCreateWithoutReservationsInput = {
     id?: string
     title?: string | null
     description?: string | null
@@ -20459,10 +20459,10 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string
     host: UserCreateNestedOneWithoutListingsInput
-    parking_spot: ParkingSpotCreateNestedOneWithoutListingInput
+    parking_spot: ParkingSpotCreateNestedOneWithoutListingsInput
   }
 
-  export type ListingUncheckedCreateWithoutReservationInput = {
+  export type ListingUncheckedCreateWithoutReservationsInput = {
     id?: string
     host_id: string
     parking_id: string
@@ -20478,9 +20478,9 @@ export namespace Prisma {
     updated_at?: Date | string
   }
 
-  export type ListingCreateOrConnectWithoutReservationInput = {
+  export type ListingCreateOrConnectWithoutReservationsInput = {
     where: ListingWhereUniqueInput
-    create: XOR<ListingCreateWithoutReservationInput, ListingUncheckedCreateWithoutReservationInput>
+    create: XOR<ListingCreateWithoutReservationsInput, ListingUncheckedCreateWithoutReservationsInput>
   }
 
   export type UserCreateWithoutHostReservationsInput = {
@@ -20561,7 +20561,7 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutVisitorReservationsInput, UserUncheckedCreateWithoutVisitorReservationsInput>
   }
 
-  export type BuildingCreateWithoutReservationInput = {
+  export type BuildingCreateWithoutReservationsInput = {
     id?: string
     building_name?: string | null
     building_type?: $Enums.BuildingType | null
@@ -20581,7 +20581,7 @@ export namespace Prisma {
     parking_spots?: ParkingSpotCreateNestedManyWithoutBuildingInput
   }
 
-  export type BuildingUncheckedCreateWithoutReservationInput = {
+  export type BuildingUncheckedCreateWithoutReservationsInput = {
     id?: string
     management_id: string
     building_name?: string | null
@@ -20601,12 +20601,12 @@ export namespace Prisma {
     parking_spots?: ParkingSpotUncheckedCreateNestedManyWithoutBuildingInput
   }
 
-  export type BuildingCreateOrConnectWithoutReservationInput = {
+  export type BuildingCreateOrConnectWithoutReservationsInput = {
     where: BuildingWhereUniqueInput
-    create: XOR<BuildingCreateWithoutReservationInput, BuildingUncheckedCreateWithoutReservationInput>
+    create: XOR<BuildingCreateWithoutReservationsInput, BuildingUncheckedCreateWithoutReservationsInput>
   }
 
-  export type ParkingSpotCreateWithoutReservationInput = {
+  export type ParkingSpotCreateWithoutReservationsInput = {
     id?: string
     parking_level?: number | null
     parking_spot_number?: string | null
@@ -20616,10 +20616,10 @@ export namespace Prisma {
     owner?: CommunityMembersCreateNestedOneWithoutParking_spotsInput
     qr_code?: QRCodeCreateNestedOneWithoutParking_spotInput
     vehicle?: VehicleCreateNestedOneWithoutParking_spotsInput
-    Listing?: ListingCreateNestedManyWithoutParking_spotInput
+    listings?: ListingCreateNestedManyWithoutParking_spotInput
   }
 
-  export type ParkingSpotUncheckedCreateWithoutReservationInput = {
+  export type ParkingSpotUncheckedCreateWithoutReservationsInput = {
     id?: string
     building_id: string
     owner_id?: string | null
@@ -20629,26 +20629,26 @@ export namespace Prisma {
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
-    Listing?: ListingUncheckedCreateNestedManyWithoutParking_spotInput
+    listings?: ListingUncheckedCreateNestedManyWithoutParking_spotInput
   }
 
-  export type ParkingSpotCreateOrConnectWithoutReservationInput = {
+  export type ParkingSpotCreateOrConnectWithoutReservationsInput = {
     where: ParkingSpotWhereUniqueInput
-    create: XOR<ParkingSpotCreateWithoutReservationInput, ParkingSpotUncheckedCreateWithoutReservationInput>
+    create: XOR<ParkingSpotCreateWithoutReservationsInput, ParkingSpotUncheckedCreateWithoutReservationsInput>
   }
 
-  export type ListingUpsertWithoutReservationInput = {
-    update: XOR<ListingUpdateWithoutReservationInput, ListingUncheckedUpdateWithoutReservationInput>
-    create: XOR<ListingCreateWithoutReservationInput, ListingUncheckedCreateWithoutReservationInput>
+  export type ListingUpsertWithoutReservationsInput = {
+    update: XOR<ListingUpdateWithoutReservationsInput, ListingUncheckedUpdateWithoutReservationsInput>
+    create: XOR<ListingCreateWithoutReservationsInput, ListingUncheckedCreateWithoutReservationsInput>
     where?: ListingWhereInput
   }
 
-  export type ListingUpdateToOneWithWhereWithoutReservationInput = {
+  export type ListingUpdateToOneWithWhereWithoutReservationsInput = {
     where?: ListingWhereInput
-    data: XOR<ListingUpdateWithoutReservationInput, ListingUncheckedUpdateWithoutReservationInput>
+    data: XOR<ListingUpdateWithoutReservationsInput, ListingUncheckedUpdateWithoutReservationsInput>
   }
 
-  export type ListingUpdateWithoutReservationInput = {
+  export type ListingUpdateWithoutReservationsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
@@ -20661,10 +20661,10 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     host?: UserUpdateOneRequiredWithoutListingsNestedInput
-    parking_spot?: ParkingSpotUpdateOneRequiredWithoutListingNestedInput
+    parking_spot?: ParkingSpotUpdateOneRequiredWithoutListingsNestedInput
   }
 
-  export type ListingUncheckedUpdateWithoutReservationInput = {
+  export type ListingUncheckedUpdateWithoutReservationsInput = {
     id?: StringFieldUpdateOperationsInput | string
     host_id?: StringFieldUpdateOperationsInput | string
     parking_id?: StringFieldUpdateOperationsInput | string
@@ -20770,18 +20770,18 @@ export namespace Prisma {
     hostReservations?: ReservationUncheckedUpdateManyWithoutHostNestedInput
   }
 
-  export type BuildingUpsertWithoutReservationInput = {
-    update: XOR<BuildingUpdateWithoutReservationInput, BuildingUncheckedUpdateWithoutReservationInput>
-    create: XOR<BuildingCreateWithoutReservationInput, BuildingUncheckedCreateWithoutReservationInput>
+  export type BuildingUpsertWithoutReservationsInput = {
+    update: XOR<BuildingUpdateWithoutReservationsInput, BuildingUncheckedUpdateWithoutReservationsInput>
+    create: XOR<BuildingCreateWithoutReservationsInput, BuildingUncheckedCreateWithoutReservationsInput>
     where?: BuildingWhereInput
   }
 
-  export type BuildingUpdateToOneWithWhereWithoutReservationInput = {
+  export type BuildingUpdateToOneWithWhereWithoutReservationsInput = {
     where?: BuildingWhereInput
-    data: XOR<BuildingUpdateWithoutReservationInput, BuildingUncheckedUpdateWithoutReservationInput>
+    data: XOR<BuildingUpdateWithoutReservationsInput, BuildingUncheckedUpdateWithoutReservationsInput>
   }
 
-  export type BuildingUpdateWithoutReservationInput = {
+  export type BuildingUpdateWithoutReservationsInput = {
     id?: StringFieldUpdateOperationsInput | string
     building_name?: NullableStringFieldUpdateOperationsInput | string | null
     building_type?: NullableEnumBuildingTypeFieldUpdateOperationsInput | $Enums.BuildingType | null
@@ -20801,7 +20801,7 @@ export namespace Prisma {
     parking_spots?: ParkingSpotUpdateManyWithoutBuildingNestedInput
   }
 
-  export type BuildingUncheckedUpdateWithoutReservationInput = {
+  export type BuildingUncheckedUpdateWithoutReservationsInput = {
     id?: StringFieldUpdateOperationsInput | string
     management_id?: StringFieldUpdateOperationsInput | string
     building_name?: NullableStringFieldUpdateOperationsInput | string | null
@@ -20821,18 +20821,18 @@ export namespace Prisma {
     parking_spots?: ParkingSpotUncheckedUpdateManyWithoutBuildingNestedInput
   }
 
-  export type ParkingSpotUpsertWithoutReservationInput = {
-    update: XOR<ParkingSpotUpdateWithoutReservationInput, ParkingSpotUncheckedUpdateWithoutReservationInput>
-    create: XOR<ParkingSpotCreateWithoutReservationInput, ParkingSpotUncheckedCreateWithoutReservationInput>
+  export type ParkingSpotUpsertWithoutReservationsInput = {
+    update: XOR<ParkingSpotUpdateWithoutReservationsInput, ParkingSpotUncheckedUpdateWithoutReservationsInput>
+    create: XOR<ParkingSpotCreateWithoutReservationsInput, ParkingSpotUncheckedCreateWithoutReservationsInput>
     where?: ParkingSpotWhereInput
   }
 
-  export type ParkingSpotUpdateToOneWithWhereWithoutReservationInput = {
+  export type ParkingSpotUpdateToOneWithWhereWithoutReservationsInput = {
     where?: ParkingSpotWhereInput
-    data: XOR<ParkingSpotUpdateWithoutReservationInput, ParkingSpotUncheckedUpdateWithoutReservationInput>
+    data: XOR<ParkingSpotUpdateWithoutReservationsInput, ParkingSpotUncheckedUpdateWithoutReservationsInput>
   }
 
-  export type ParkingSpotUpdateWithoutReservationInput = {
+  export type ParkingSpotUpdateWithoutReservationsInput = {
     id?: StringFieldUpdateOperationsInput | string
     parking_level?: NullableIntFieldUpdateOperationsInput | number | null
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
@@ -20842,10 +20842,10 @@ export namespace Prisma {
     owner?: CommunityMembersUpdateOneWithoutParking_spotsNestedInput
     qr_code?: QRCodeUpdateOneWithoutParking_spotNestedInput
     vehicle?: VehicleUpdateOneWithoutParking_spotsNestedInput
-    Listing?: ListingUpdateManyWithoutParking_spotNestedInput
+    listings?: ListingUpdateManyWithoutParking_spotNestedInput
   }
 
-  export type ParkingSpotUncheckedUpdateWithoutReservationInput = {
+  export type ParkingSpotUncheckedUpdateWithoutReservationsInput = {
     id?: StringFieldUpdateOperationsInput | string
     building_id?: StringFieldUpdateOperationsInput | string
     owner_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -20855,7 +20855,7 @@ export namespace Prisma {
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
-    Listing?: ListingUncheckedUpdateManyWithoutParking_spotNestedInput
+    listings?: ListingUncheckedUpdateManyWithoutParking_spotNestedInput
   }
 
   export type CommunityMembersCreateManyUserInput = {
@@ -20959,8 +20959,8 @@ export namespace Prisma {
     no_of_bookings?: NullableIntFieldUpdateOperationsInput | number | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    parking_spot?: ParkingSpotUpdateOneRequiredWithoutListingNestedInput
-    Reservation?: ReservationUpdateManyWithoutListingNestedInput
+    parking_spot?: ParkingSpotUpdateOneRequiredWithoutListingsNestedInput
+    reservations?: ReservationUpdateManyWithoutListingNestedInput
   }
 
   export type ListingUncheckedUpdateWithoutHostInput = {
@@ -20976,7 +20976,7 @@ export namespace Prisma {
     no_of_bookings?: NullableIntFieldUpdateOperationsInput | number | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    Reservation?: ReservationUncheckedUpdateManyWithoutListingNestedInput
+    reservations?: ReservationUncheckedUpdateManyWithoutListingNestedInput
   }
 
   export type ListingUncheckedUpdateManyWithoutHostInput = {
@@ -21000,10 +21000,10 @@ export namespace Prisma {
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumReservation_StatusFieldUpdateOperationsInput | $Enums.Reservation_Status
-    listing?: ListingUpdateOneRequiredWithoutReservationNestedInput
+    listing?: ListingUpdateOneRequiredWithoutReservationsNestedInput
     visitor?: UserUpdateOneRequiredWithoutVisitorReservationsNestedInput
-    building?: BuildingUpdateOneWithoutReservationNestedInput
-    parking?: ParkingSpotUpdateOneRequiredWithoutReservationNestedInput
+    building?: BuildingUpdateOneWithoutReservationsNestedInput
+    parking?: ParkingSpotUpdateOneRequiredWithoutReservationsNestedInput
   }
 
   export type ReservationUncheckedUpdateWithoutHostInput = {
@@ -21036,10 +21036,10 @@ export namespace Prisma {
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumReservation_StatusFieldUpdateOperationsInput | $Enums.Reservation_Status
-    listing?: ListingUpdateOneRequiredWithoutReservationNestedInput
+    listing?: ListingUpdateOneRequiredWithoutReservationsNestedInput
     host?: UserUpdateOneRequiredWithoutHostReservationsNestedInput
-    building?: BuildingUpdateOneWithoutReservationNestedInput
-    parking?: ParkingSpotUpdateOneRequiredWithoutReservationNestedInput
+    building?: BuildingUpdateOneWithoutReservationsNestedInput
+    parking?: ParkingSpotUpdateOneRequiredWithoutReservationsNestedInput
   }
 
   export type ReservationUncheckedUpdateWithoutVisitorInput = {
@@ -21132,7 +21132,7 @@ export namespace Prisma {
     facilities?: BuildingUpdatefacilitiesInput | $Enums.BuildingFacility[]
     community_members?: CommunityMembersUpdateManyWithoutBuildingNestedInput
     parking_spots?: ParkingSpotUpdateManyWithoutBuildingNestedInput
-    Reservation?: ReservationUpdateManyWithoutBuildingNestedInput
+    reservations?: ReservationUpdateManyWithoutBuildingNestedInput
   }
 
   export type BuildingUncheckedUpdateWithoutManagementInput = {
@@ -21152,7 +21152,7 @@ export namespace Prisma {
     facilities?: BuildingUpdatefacilitiesInput | $Enums.BuildingFacility[]
     community_members?: CommunityMembersUncheckedUpdateManyWithoutBuildingNestedInput
     parking_spots?: ParkingSpotUncheckedUpdateManyWithoutBuildingNestedInput
-    Reservation?: ReservationUncheckedUpdateManyWithoutBuildingNestedInput
+    reservations?: ReservationUncheckedUpdateManyWithoutBuildingNestedInput
   }
 
   export type BuildingUncheckedUpdateManyWithoutManagementInput = {
@@ -21254,8 +21254,8 @@ export namespace Prisma {
     owner?: CommunityMembersUpdateOneWithoutParking_spotsNestedInput
     qr_code?: QRCodeUpdateOneWithoutParking_spotNestedInput
     vehicle?: VehicleUpdateOneWithoutParking_spotsNestedInput
-    Listing?: ListingUpdateManyWithoutParking_spotNestedInput
-    Reservation?: ReservationUpdateManyWithoutParkingNestedInput
+    listings?: ListingUpdateManyWithoutParking_spotNestedInput
+    reservations?: ReservationUpdateManyWithoutParkingNestedInput
   }
 
   export type ParkingSpotUncheckedUpdateWithoutBuildingInput = {
@@ -21267,8 +21267,8 @@ export namespace Prisma {
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
-    Listing?: ListingUncheckedUpdateManyWithoutParking_spotNestedInput
-    Reservation?: ReservationUncheckedUpdateManyWithoutParkingNestedInput
+    listings?: ListingUncheckedUpdateManyWithoutParking_spotNestedInput
+    reservations?: ReservationUncheckedUpdateManyWithoutParkingNestedInput
   }
 
   export type ParkingSpotUncheckedUpdateManyWithoutBuildingInput = {
@@ -21288,10 +21288,10 @@ export namespace Prisma {
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumReservation_StatusFieldUpdateOperationsInput | $Enums.Reservation_Status
-    listing?: ListingUpdateOneRequiredWithoutReservationNestedInput
+    listing?: ListingUpdateOneRequiredWithoutReservationsNestedInput
     host?: UserUpdateOneRequiredWithoutHostReservationsNestedInput
     visitor?: UserUpdateOneRequiredWithoutVisitorReservationsNestedInput
-    parking?: ParkingSpotUpdateOneRequiredWithoutReservationNestedInput
+    parking?: ParkingSpotUpdateOneRequiredWithoutReservationsNestedInput
   }
 
   export type ReservationUncheckedUpdateWithoutBuildingInput = {
@@ -21338,8 +21338,8 @@ export namespace Prisma {
     building?: BuildingUpdateOneRequiredWithoutParking_spotsNestedInput
     qr_code?: QRCodeUpdateOneWithoutParking_spotNestedInput
     vehicle?: VehicleUpdateOneWithoutParking_spotsNestedInput
-    Listing?: ListingUpdateManyWithoutParking_spotNestedInput
-    Reservation?: ReservationUpdateManyWithoutParkingNestedInput
+    listings?: ListingUpdateManyWithoutParking_spotNestedInput
+    reservations?: ReservationUpdateManyWithoutParkingNestedInput
   }
 
   export type ParkingSpotUncheckedUpdateWithoutOwnerInput = {
@@ -21351,8 +21351,8 @@ export namespace Prisma {
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
-    Listing?: ListingUncheckedUpdateManyWithoutParking_spotNestedInput
-    Reservation?: ReservationUncheckedUpdateManyWithoutParkingNestedInput
+    listings?: ListingUncheckedUpdateManyWithoutParking_spotNestedInput
+    reservations?: ReservationUncheckedUpdateManyWithoutParkingNestedInput
   }
 
   export type ParkingSpotUncheckedUpdateManyWithoutOwnerInput = {
@@ -21406,7 +21406,7 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     host?: UserUpdateOneRequiredWithoutListingsNestedInput
-    Reservation?: ReservationUpdateManyWithoutListingNestedInput
+    reservations?: ReservationUpdateManyWithoutListingNestedInput
   }
 
   export type ListingUncheckedUpdateWithoutParking_spotInput = {
@@ -21422,7 +21422,7 @@ export namespace Prisma {
     no_of_bookings?: NullableIntFieldUpdateOperationsInput | number | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    Reservation?: ReservationUncheckedUpdateManyWithoutListingNestedInput
+    reservations?: ReservationUncheckedUpdateManyWithoutListingNestedInput
   }
 
   export type ListingUncheckedUpdateManyWithoutParking_spotInput = {
@@ -21446,10 +21446,10 @@ export namespace Prisma {
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumReservation_StatusFieldUpdateOperationsInput | $Enums.Reservation_Status
-    listing?: ListingUpdateOneRequiredWithoutReservationNestedInput
+    listing?: ListingUpdateOneRequiredWithoutReservationsNestedInput
     host?: UserUpdateOneRequiredWithoutHostReservationsNestedInput
     visitor?: UserUpdateOneRequiredWithoutVisitorReservationsNestedInput
-    building?: BuildingUpdateOneWithoutReservationNestedInput
+    building?: BuildingUpdateOneWithoutReservationsNestedInput
   }
 
   export type ReservationUncheckedUpdateWithoutParkingInput = {
@@ -21496,8 +21496,8 @@ export namespace Prisma {
     building?: BuildingUpdateOneRequiredWithoutParking_spotsNestedInput
     owner?: CommunityMembersUpdateOneWithoutParking_spotsNestedInput
     qr_code?: QRCodeUpdateOneWithoutParking_spotNestedInput
-    Listing?: ListingUpdateManyWithoutParking_spotNestedInput
-    Reservation?: ReservationUpdateManyWithoutParkingNestedInput
+    listings?: ListingUpdateManyWithoutParking_spotNestedInput
+    reservations?: ReservationUpdateManyWithoutParkingNestedInput
   }
 
   export type ParkingSpotUncheckedUpdateWithoutVehicleInput = {
@@ -21509,8 +21509,8 @@ export namespace Prisma {
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
-    Listing?: ListingUncheckedUpdateManyWithoutParking_spotNestedInput
-    Reservation?: ReservationUncheckedUpdateManyWithoutParkingNestedInput
+    listings?: ListingUncheckedUpdateManyWithoutParking_spotNestedInput
+    reservations?: ReservationUncheckedUpdateManyWithoutParkingNestedInput
   }
 
   export type ParkingSpotUncheckedUpdateManyWithoutVehicleInput = {
@@ -21544,8 +21544,8 @@ export namespace Prisma {
     status?: EnumReservation_StatusFieldUpdateOperationsInput | $Enums.Reservation_Status
     host?: UserUpdateOneRequiredWithoutHostReservationsNestedInput
     visitor?: UserUpdateOneRequiredWithoutVisitorReservationsNestedInput
-    building?: BuildingUpdateOneWithoutReservationNestedInput
-    parking?: ParkingSpotUpdateOneRequiredWithoutReservationNestedInput
+    building?: BuildingUpdateOneWithoutReservationsNestedInput
+    parking?: ParkingSpotUpdateOneRequiredWithoutReservationsNestedInput
   }
 
   export type ReservationUncheckedUpdateWithoutListingInput = {

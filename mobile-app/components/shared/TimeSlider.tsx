@@ -12,7 +12,7 @@ const SliderPad = 12;
 const TimeSlider = (props: TimeSliderProps) => {
   const { min, max } = TIME;
   const [width, setWidth] = useState(280);
-  const [selected, setSelected] = useState<number[]>([min]);
+  const [selected, setSelected] = useState<number[]>(props.values ?? [min]);
 
   if (!selected) {
     setSelected([min]); // we are only selected min, since it is single slider

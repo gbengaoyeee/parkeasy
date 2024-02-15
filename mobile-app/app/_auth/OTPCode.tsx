@@ -22,13 +22,21 @@ import TouchOpacity from "@/components/shared/TouchOpacity";
 import OTPInput from "@/components/shared/OTPInput";
 import useToast from "../hooks/useToast";
 import { AppwriteException } from "appwrite";
+import {
+  ConfirmationResult,
+  browserLocalPersistence,
+  browserSessionPersistence,
+  setPersistence,
+} from "firebase/auth";
+import { FIREBASE_AUTH } from "@/firebaseConfig";
 
 interface RouteParams {
+  confirmationResult: ConfirmationResult;
   phoneNumber: string;
 }
 const OTPCode = () => {
   const route = useRoute();
-  const { checkAuthUser, signOut } = useAuthContext();
+  const { signOut } = useAuthContext();
   const [otpCodeValues, setOtpCodeValues] = useState(Array(6).fill(""));
   const navigation = useNavigation();
   const {
@@ -47,50 +55,67 @@ const OTPCode = () => {
     useFinishPhoneVerification();
   const [sessionId, setSessionId] = useState("");
 
-  const { phoneNumber } = route.params as RouteParams;
+  const { confirmationResult, phoneNumber } = route.params as RouteParams;
 
   useEffect(() => {
-    if (phoneNumber) {
-      handleResend();
-    }
+    // if (phoneNumber) {
+    //   handleResend();
+    // }
   }, []);
 
   const onSubmit = (data: any) => {
-    //@ts-ignore
-    finishVerification({
-      otpcode: data.otpcode,
-      sessionId,
-      phone: phoneNumber,
-      userRoles: ["owner", "visitor"],
-    })
-      .then((resp) => {})
-      .catch((error) => {
-        if (error instanceof AppwriteException) {
-          showToast({ type: "error", message: error.message });
-          return;
-        }
-        showToast({ type: "error", message: error.response.data.message });
-        signOut();
+    if (confirmationResult) {
+      finishVerification({
+        otpcode: otpCodeValues.join(""),
+        confirmResult: confirmationResult,
+        phone: phoneNumber,
+        userRoles: ["owner", "visitor"],
       })
-      .finally(() => {
-        // refresh user state
-        checkAuthUser();
-      });
+        .then((resp) => {})
+        .catch((error) => {
+          if (error instanceof AppwriteException) {
+            showToast({ type: "error", message: error.message });
+            return;
+          }
+          showToast({ type: "error", message: error.response.data.message });
+          signOut();
+        });
+    }
+    //@ts-ignore
+    // finishVerification({
+    //   otpcode: data.otpcode,
+    //   sessionId,
+    //   phone: phoneNumber,
+    //   userRoles: ["owner", "visitor"],
+    // })
+    //   .then((resp) => {})
+    //   .catch((error) => {
+    //     if (error instanceof AppwriteException) {
+    //       showToast({ type: "error", message: error.message });
+    //       return;
+    //     }
+    //     showToast({ type: "error", message: error.response.data.message });
+    //     signOut();
+    //   })
+    //   .finally(() => {
+    //     // refresh user state
+    //     // checkAuthUser();
+    //   });
   };
   const handleResend = async () => {
-    startVerification(phoneNumber)
-      .then((resp) => {
-        setSessionId(resp.userId);
-        showToast({
-          type: "success",
-          title: "Code sent",
-          message: `We sent a code to ${phoneNumber}`,
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-        showToast({ type: "error", message: error.message });
-      });
+    // startVerification(phoneNumber)
+    //   .then((resp) => {
+    //     setSessionId(resp.userId);
+    //     showToast({
+    //       type: "success",
+    //       title: "Code sent",
+    //       message: `We sent a code to ${phoneNumber}`,
+    //     });
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //     showToast({ type: "error", message: error.message });
+    //   });
   };
   return (
     <KeyboardAvoidingView

@@ -1,5 +1,6 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import appSectionReducer from './slices/appSectionSlice';
+import authUserReducer from './slices/authProviderSlice';
 import { persistReducer, FLUSH,
   REHYDRATE,
   PAUSE,
@@ -16,7 +17,8 @@ const persistConfig = {
 
 
 const reducer = combineReducers({
-  appSection: appSectionReducer
+  appSection: appSectionReducer,
+  authUser: authUserReducer
 })
 const persistedReducer = persistReducer(persistConfig, reducer)
 

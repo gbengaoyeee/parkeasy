@@ -1,4 +1,4 @@
-import { View, ScrollView, RefreshControl } from "react-native";
+import { View, ScrollView, RefreshControl, SafeAreaView } from "react-native";
 import React, { useEffect, useState } from "react";
 import NotVerifiedScreen from "./NotVerifiedScreen";
 import VerifiedScreen from "./VerifiedScreen";
@@ -26,14 +26,14 @@ const Home = () => {
   }
 
   return (
-    <View className="flex-1">
+    <SafeAreaView className="flex-1">
       <ScrollView
         className="p-5"
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => refreshUser()} />}
       >
         {user?.verification_status !== "completed" ? <NotVerifiedScreen /> : <VerifiedScreen />}
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 

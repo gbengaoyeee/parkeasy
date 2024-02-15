@@ -158,7 +158,7 @@ model Building {
   management        Management         @relation(fields: [management_id], references: [id], onDelete: Cascade) // Relation attribute
   community_members CommunityMembers[] // Relation field
   parking_spots     ParkingSpot[] // Relation field
-  Reservation       Reservation[]
+  reservations       Reservation[]
 }
 
 model CommunityMembers {
@@ -203,8 +203,8 @@ model ParkingSpot {
   owner       CommunityMembers? @relation(fields: [owner_id], references: [id], onDelete: Cascade) // Relation attribute
   qr_code     QRCode?           @relation(fields: [qr_code_id], references: [id], onDelete: Cascade) // Relation attribute
   vehicle     Vehicle?          @relation(fields: [vehicle_id], references: [id], onDelete: Cascade) // Relation attribute
-  Listing     Listing[]
-  Reservation Reservation[]
+  listings     Listing[]
+  reservations Reservation[]
 
   @@unique([qr_code_id, parking_level, parking_spot_number]) // Ensure a parking spot can only have one QR code
 }
@@ -275,7 +275,7 @@ model Listing {
 
   host         User          @relation(fields: [host_id], references: [id], onDelete: Cascade) // Relation attribute
   parking_spot ParkingSpot   @relation(fields: [parking_id], references: [id], onDelete: Cascade) // Relation attribute
-  Reservation  Reservation[]
+  reservations  Reservation[]
 
   @@unique([host_id, parking_id])
 }

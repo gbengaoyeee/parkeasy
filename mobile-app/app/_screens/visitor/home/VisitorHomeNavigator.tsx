@@ -1,26 +1,39 @@
-import { View, Text } from 'react-native'
-import React from 'react'
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import VisitorListingsView from './VisitorListingsView';
-import { Listing } from '@/app/types';
-import VisitorListingDetails from './VisitorListingDetails';
-import SelectDate from './SelectDate';
+import { View, Text } from "react-native";
+import React from "react";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import VisitorListingsView from "./VisitorListingsView";
+import { Listing } from "@/app/types";
+import VisitorListingDetails from "./VisitorListingDetails";
+import SelectDate from "./SelectDate";
+import VisitorHomePage from "./VisitorHomePage";
+import { GooglePlaceData, GooglePlaceDetail } from "react-native-google-places-autocomplete";
 
 const Stack = createNativeStackNavigator();
 
 export type VisitorHomeStackParamList = {
-  Listings: undefined; // No parameters expected to navigate to home
+  Home: undefined;
+  Listings: {
+    locationData: GooglePlaceData;
+    locationDetails: GooglePlaceDetail;
+  };
   ListingDetails: {
     listing: Listing;
-  }
-  SelectDate: undefined;
+  };
+  SelectDate: {
+    startDate: string | null;
+    endDate: string | null;
+    startTime: number;
+    endTime: number;
+    onUpdate: (startDate: Date, endDate: Date, startTime: number, endTime: number) => void;
+  };
   // ... other screens
 };
 
 const VisitorHomeNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName="Listings" screenOptions={{ headerShown: false }}>
+    <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
       <Stack.Group>
+        <Stack.Screen name="Home" component={VisitorHomePage} />
         <Stack.Screen name="Listings" component={VisitorListingsView} />
         <Stack.Screen name="ListingDetails" component={VisitorListingDetails} />
       </Stack.Group>
@@ -29,6 +42,6 @@ const VisitorHomeNavigator = () => {
       </Stack.Group>
     </Stack.Navigator>
   );
-}
+};
 
-export default VisitorHomeNavigator
+export default VisitorHomeNavigator;

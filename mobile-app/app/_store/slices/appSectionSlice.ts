@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 // Define the initial state with a type
 interface AppSectionState {
@@ -6,7 +6,7 @@ interface AppSectionState {
 }
 
 const initialState: AppSectionState = {
-  appSection: 'host', // initial value is 'host'
+  appSection: 'visitor', // initial value is 'host'
 };
 
 // Create a slice of the store for handling appSection with types

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Text } from "react-native";
+import { View, Text, SafeAreaView } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { AuthContextProvider } from "./contexts/AuthProvider";
@@ -13,7 +13,8 @@ import store from "./_store/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
 import Loader from "@/components/shared/Loader";
-import { SafeAreaProvider, useSafeAreaInsets } from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { StripeProvider } from "@stripe/stripe-react-native";
 
 const Stack = createNativeStackNavigator();
 
@@ -30,9 +31,15 @@ function App() {
               <AuthContextProvider>
                 <UserContextProvider>
                   <View style={{ flex: 1, marginTop: -insets.top }}>
-                    <NavigationContainer independent>
-                      <MainNavigator />
-                    </NavigationContainer>
+                    <StripeProvider
+                      publishableKey={process.env.EXPO_STRIPE_PUBLISHABLE_KEY ?? ""}
+                      urlScheme="your-url-scheme"
+                      merchantIdentifier="merchant.com.parkeasy"
+                    >
+                      <NavigationContainer independent>
+                        <MainNavigator />
+                      </NavigationContainer>
+                    </StripeProvider>
                   </View>
                 </UserContextProvider>
               </AuthContextProvider>

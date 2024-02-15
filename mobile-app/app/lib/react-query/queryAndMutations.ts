@@ -9,6 +9,8 @@ import { createParkingListing, getListings, updateListing } from '@/app/services
 import { Listing } from '@/app/types'
 import useToast from '@/app/hooks/useToast'
 import { getVisitorListings } from '@/app/services/visitor'
+import { ConfirmationResult } from 'firebase/auth'
+import { createPaymentIntent } from '@/app/services/payment'
 
 export const useStartPhoneVerification = () => {
     return useMutation({
@@ -17,9 +19,9 @@ export const useStartPhoneVerification = () => {
 }
 export const useFinishPhoneVerification = () => {
     return useMutation({
-        mutationFn: ({otpcode, sessionId, phone, userRoles}: {otpcode: string, sessionId: string, phone: string, userRoles: User_Role[]}) => {
+        mutationFn: ({otpcode, confirmResult, phone, userRoles}: {otpcode: string, confirmResult: ConfirmationResult, phone: string, userRoles: User_Role[]}) => {
             console.log('finishing phone verification')
-            return appwriteClient.updatePhoneSession(sessionId, otpcode)
+            return confirmResult.confirm(otpcode)
             .then((resp) => {
                 return getUser(phone, userRoles[0])
             })
@@ -30,6 +32,19 @@ export const useFinishPhoneVerification = () => {
                 return resp
             })
         },
+        // mutationFn: ({otpcode, sessionId, phone, userRoles}: {otpcode: string, sessionId: string, phone: string, userRoles: User_Role[]}) => {
+        //     console.log('finishing phone verification')
+        //     return appwriteClient.updatePhoneSession(sessionId, otpcode)
+        //     .then((resp) => {
+        //         return getUser(phone, userRoles[0])
+        //     })
+        //     .then((resp) => {
+        //         if(!resp) {
+        //             return createUser(phone, userRoles)
+        //         }
+        //         return resp
+        //     })
+        // },
     })
 }
 
@@ -80,12 +95,17 @@ export const useUpdateListing = () => {
     })
 }
 
-export const useGetVisitorListings = (lat?: number, lng?: number) => {
+export const useGetVisitorListings = (lat: number, lng: number, startDate: number, endDate: number) => {
     const {showToast} = useToast()
     return useQuery({
-        queryKey: ['visitor-listings', lat, lng],
+        queryKey: ['visitor-listings', lat, lng, startDate, endDate],
         queryFn: async (arg): Promise<Listing[]> => {
-            return getVisitorListings(lat, lng)
+            return getVisitorListings({
+                lat: lat,
+                lng: lng,
+                startDate: startDate,
+                endDate: endDate
+            })
             .catch((error) => {
                 console.error(error.response.data.message);
                 showToast({ type: "error", message: error.response.data.message });
@@ -94,6 +114,14 @@ export const useGetVisitorListings = (lat?: number, lng?: number) => {
         },
         retry: 3,
         refetchInterval: 30000,
-        enabled: false
+        // enabled: false
+    })
+}
+
+export const usePaymentIntent = () => {
+    return useMutation({
+        mutationFn: () => {
+            return createPaymentIntent()
+        }
     })
 }

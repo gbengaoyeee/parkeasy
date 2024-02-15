@@ -10,14 +10,18 @@ import {
   Touchable,
   StyleSheet,
 } from "react-native";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { TextInput, TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import Button from "@/components/shared/Button";
 import Input from "@/components/shared/Input";
-import { useNavigation } from "@react-navigation/native";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import CountryPicker, { Country } from "react-native-country-picker-modal";
+import { ApplicationVerifier, signInWithPhoneNumber } from "firebase/auth";
+import { AuthNavigatorParamList } from "./AuthNavigator";
+import { FirebaseRecaptchaVerifierModal } from "expo-firebase-recaptcha";
+import { FIREBASE_APP, FIREBASE_AUTH } from "@/firebaseConfig";
 
 const PhoneNumber = () => {
   const {
@@ -30,23 +34,40 @@ const PhoneNumber = () => {
     },
   });
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<AuthNavigatorParamList>>();
+  const recaptchaVerifier = useRef<FirebaseRecaptchaVerifierModal>(null);
 
   const onSubmit = (data: any) => {
-    //@ts-ignore
-    navigation.navigate("OTPCode", {
-      phoneNumber: `+${country.callingCode[0]}${data.phoneNumber}`,
+    if (!recaptchaVerifier.current) return;
+    signInWithPhoneNumber(
+      FIREBASE_AUTH,
+      `+${country.callingCode[0]}${data.phoneNumber}`,
+      recaptchaVerifier.current
+    ).then((confirmationResult) => {
+      navigation.navigate("OTPCode", {
+        confirmationResult,
+        phoneNumber: `+${country.callingCode[0]}${data.phoneNumber}`,
+      });
     });
   };
   const [country, setCountry] = useState<Country>({
-    callingCode: ["971"],
-    cca2: "AE",
-    currency: ["AED"],
-    flag: "flag-ae",
-    name: "United Arab Emirates",
-    region: "Asia",
-    subregion: "Western Asia",
+    callingCode: ["1"],
+    cca2: "US",
+    currency: ["USD"],
+    flag: "flag-us",
+    name: "United States",
+    region: "Americas",
+    subregion: "North America",
   });
+  // {
+  //   callingCode: ["971"],
+  //   cca2: "AE",
+  //   currency: ["AED"],
+  //   flag: "flag-ae",
+  //   name: "United Arab Emirates",
+  //   region: "Asia",
+  //   subregion: "Western Asia",
+  // }
 
   const onSelect = (country: Country) => {
     setCountry(country);
@@ -55,6 +76,7 @@ const PhoneNumber = () => {
   return (
     <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
       <SafeAreaView style={styles.container}>
+        <FirebaseRecaptchaVerifierModal ref={recaptchaVerifier} firebaseConfig={FIREBASE_APP.options} />
         <Controller
           control={control}
           rules={{

@@ -35,8 +35,8 @@ export const UserContextProvider = ({ children }: { children: React.ReactNode })
   } = useQuery({
     queryKey: [cacheKey],
     queryFn: async (): Promise<User | null> => {
-      if (authUser) {
-        const response = getUser(authUser.phone, role)
+      if (authUser && authUser.phoneNumber) {
+        const response = getUser(authUser.phoneNumber, role)
           .then((response) => {
             return response as User;
           })
