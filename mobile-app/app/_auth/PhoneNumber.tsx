@@ -3,15 +3,9 @@ import {
   Text,
   KeyboardAvoidingView,
   Platform,
-  Keyboard,
-  NativeSyntheticEvent,
-  TextInputChangeEventData,
-  TouchableOpacity,
-  Touchable,
   StyleSheet,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
-import { TextInput, TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import Button from "@/components/shared/Button";
