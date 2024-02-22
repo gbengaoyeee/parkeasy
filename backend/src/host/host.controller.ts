@@ -1,11 +1,21 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Headers, HttpCode, HttpStatus, Param, Post, Put } from '@nestjs/common';
 import { HostService } from './host.service';
-import { UpdateListingDto } from './dto';
+import { EnableHostingDto, GetAccountLink, UpdateListingDto } from './dto';
 
 @Controller('host')
 export class HostController {
 
     constructor(private hostService: HostService) {}
+
+    @Put('enable-hosting')
+    async enableListing(@Body() dto: EnableHostingDto) {
+        return await this.hostService.enableHosting(dto);
+    }
+
+    @Get('account-link/:userId')
+    async createAccountLink(@Param() dto: GetAccountLink) {
+        return await this.hostService.createAccountLink(dto);
+    }
 
     // create listing
     @Post('listing')

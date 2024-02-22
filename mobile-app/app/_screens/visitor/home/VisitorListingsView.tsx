@@ -71,7 +71,6 @@ const VisitorListingsView = () => {
   };
 
   const { debounce } = useDebounce();
-  console.log(startDate.toLocaleDateString());
 
   // useEffect(() => {
   //   (async () => {
@@ -114,7 +113,7 @@ const VisitorListingsView = () => {
   // };
 
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView style={{ flex: 1 }}>
       {/* <MapView
             style={styles.map}
             // provider={PROVIDER_GOOGLE}
@@ -176,9 +175,14 @@ const VisitorListingsView = () => {
           <Pressable
             key={listing.id}
             style={styles.listingItem}
-            onPress={() => navigation.navigate("ListingDetails", { listing })}
+            onPress={() =>
+              navigation.navigate("ListingDetails", {
+                listing,
+                tripDates: { startDate, endDate, startTime, endTime },
+              })
+            }
           >
-            <Text className="text-lg">{listing.title}</Text>
+            <Text style={{ fontSize: 18 }}>{listing.title}</Text>
             <Text>
               {formatCurrency(Number(listing.price) / 100)}/{listing.type}
             </Text>

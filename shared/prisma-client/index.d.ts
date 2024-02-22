@@ -3077,6 +3077,7 @@ export namespace Prisma {
     last_name: string | null
     verification_status: $Enums.Verification_Status | null
     mobile_onboard_status: $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id: string | null
     created_at: Date | null
     last_login: Date | null
   }
@@ -3089,6 +3090,7 @@ export namespace Prisma {
     last_name: string | null
     verification_status: $Enums.Verification_Status | null
     mobile_onboard_status: $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id: string | null
     created_at: Date | null
     last_login: Date | null
   }
@@ -3102,6 +3104,8 @@ export namespace Prisma {
     user_roles: number
     verification_status: number
     mobile_onboard_status: number
+    stripe_customer_id: number
+    stripe_account: number
     created_at: number
     last_login: number
     _all: number
@@ -3116,6 +3120,7 @@ export namespace Prisma {
     last_name?: true
     verification_status?: true
     mobile_onboard_status?: true
+    stripe_customer_id?: true
     created_at?: true
     last_login?: true
   }
@@ -3128,6 +3133,7 @@ export namespace Prisma {
     last_name?: true
     verification_status?: true
     mobile_onboard_status?: true
+    stripe_customer_id?: true
     created_at?: true
     last_login?: true
   }
@@ -3141,6 +3147,8 @@ export namespace Prisma {
     user_roles?: true
     verification_status?: true
     mobile_onboard_status?: true
+    stripe_customer_id?: true
+    stripe_account?: true
     created_at?: true
     last_login?: true
     _all?: true
@@ -3227,6 +3235,8 @@ export namespace Prisma {
     user_roles: $Enums.User_Role[]
     verification_status: $Enums.Verification_Status | null
     mobile_onboard_status: $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id: string | null
+    stripe_account: JsonValue | null
     created_at: Date
     last_login: Date
     _count: UserCountAggregateOutputType | null
@@ -3257,6 +3267,8 @@ export namespace Prisma {
     user_roles?: boolean
     verification_status?: boolean
     mobile_onboard_status?: boolean
+    stripe_customer_id?: boolean
+    stripe_account?: boolean
     created_at?: boolean
     last_login?: boolean
     management?: boolean | User$managementArgs<ExtArgs>
@@ -3276,6 +3288,8 @@ export namespace Prisma {
     user_roles?: boolean
     verification_status?: boolean
     mobile_onboard_status?: boolean
+    stripe_customer_id?: boolean
+    stripe_account?: boolean
     created_at?: boolean
     last_login?: boolean
   }
@@ -3308,6 +3322,8 @@ export namespace Prisma {
       user_roles: $Enums.User_Role[]
       verification_status: $Enums.Verification_Status | null
       mobile_onboard_status: $Enums.Mobile_Onboard_Status | null
+      stripe_customer_id: string | null
+      stripe_account: Prisma.JsonValue | null
       created_at: Date
       last_login: Date
     }, ExtArgs["result"]["user"]>
@@ -3721,6 +3737,8 @@ export namespace Prisma {
     readonly user_roles: FieldRef<"User", 'User_Role[]'>
     readonly verification_status: FieldRef<"User", 'Verification_Status'>
     readonly mobile_onboard_status: FieldRef<"User", 'Mobile_Onboard_Status'>
+    readonly stripe_customer_id: FieldRef<"User", 'String'>
+    readonly stripe_account: FieldRef<"User", 'Json'>
     readonly created_at: FieldRef<"User", 'DateTime'>
     readonly last_login: FieldRef<"User", 'DateTime'>
   }
@@ -13570,6 +13588,8 @@ export namespace Prisma {
     user_roles: 'user_roles',
     verification_status: 'verification_status',
     mobile_onboard_status: 'mobile_onboard_status',
+    stripe_customer_id: 'stripe_customer_id',
+    stripe_account: 'stripe_account',
     created_at: 'created_at',
     last_login: 'last_login'
   };
@@ -13728,12 +13748,29 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+  export const NullableJsonNullValueInput: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull
+  };
+
+  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
   export const QueryMode: {
     default: 'default',
     insensitive: 'insensitive'
   };
 
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+  export const JsonNullValueFilter: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull,
+    AnyNull: typeof AnyNull
+  };
+
+  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
   export const NullsOrder: {
@@ -13816,6 +13853,13 @@ export namespace Prisma {
    * Reference to a field of type 'Mobile_Onboard_Status[]'
    */
   export type ListEnumMobile_Onboard_StatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Mobile_Onboard_Status[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
     
 
 
@@ -14082,6 +14126,8 @@ export namespace Prisma {
     user_roles?: EnumUser_RoleNullableListFilter<"User">
     verification_status?: EnumVerification_StatusNullableFilter<"User"> | $Enums.Verification_Status | null
     mobile_onboard_status?: EnumMobile_Onboard_StatusNullableFilter<"User"> | $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id?: StringNullableFilter<"User"> | string | null
+    stripe_account?: JsonNullableFilter<"User">
     created_at?: DateTimeFilter<"User"> | Date | string
     last_login?: DateTimeFilter<"User"> | Date | string
     management?: XOR<ManagementNullableRelationFilter, ManagementWhereInput> | null
@@ -14100,6 +14146,8 @@ export namespace Prisma {
     user_roles?: SortOrder
     verification_status?: SortOrderInput | SortOrder
     mobile_onboard_status?: SortOrderInput | SortOrder
+    stripe_customer_id?: SortOrderInput | SortOrder
+    stripe_account?: SortOrderInput | SortOrder
     created_at?: SortOrder
     last_login?: SortOrder
     management?: ManagementOrderByWithRelationInput
@@ -14121,6 +14169,8 @@ export namespace Prisma {
     user_roles?: EnumUser_RoleNullableListFilter<"User">
     verification_status?: EnumVerification_StatusNullableFilter<"User"> | $Enums.Verification_Status | null
     mobile_onboard_status?: EnumMobile_Onboard_StatusNullableFilter<"User"> | $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id?: StringNullableFilter<"User"> | string | null
+    stripe_account?: JsonNullableFilter<"User">
     created_at?: DateTimeFilter<"User"> | Date | string
     last_login?: DateTimeFilter<"User"> | Date | string
     management?: XOR<ManagementNullableRelationFilter, ManagementWhereInput> | null
@@ -14139,6 +14189,8 @@ export namespace Prisma {
     user_roles?: SortOrder
     verification_status?: SortOrderInput | SortOrder
     mobile_onboard_status?: SortOrderInput | SortOrder
+    stripe_customer_id?: SortOrderInput | SortOrder
+    stripe_account?: SortOrderInput | SortOrder
     created_at?: SortOrder
     last_login?: SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -14158,6 +14210,8 @@ export namespace Prisma {
     user_roles?: EnumUser_RoleNullableListFilter<"User">
     verification_status?: EnumVerification_StatusNullableWithAggregatesFilter<"User"> | $Enums.Verification_Status | null
     mobile_onboard_status?: EnumMobile_Onboard_StatusNullableWithAggregatesFilter<"User"> | $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id?: StringNullableWithAggregatesFilter<"User"> | string | null
+    stripe_account?: JsonNullableWithAggregatesFilter<"User">
     created_at?: DateTimeWithAggregatesFilter<"User"> | Date | string
     last_login?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
@@ -15015,6 +15069,8 @@ export namespace Prisma {
     user_roles?: UserCreateuser_rolesInput | $Enums.User_Role[]
     verification_status?: $Enums.Verification_Status | null
     mobile_onboard_status?: $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id?: string | null
+    stripe_account?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string
     last_login?: Date | string
     management?: ManagementCreateNestedOneWithoutUserInput
@@ -15033,6 +15089,8 @@ export namespace Prisma {
     user_roles?: UserCreateuser_rolesInput | $Enums.User_Role[]
     verification_status?: $Enums.Verification_Status | null
     mobile_onboard_status?: $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id?: string | null
+    stripe_account?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string
     last_login?: Date | string
     management?: ManagementUncheckedCreateNestedOneWithoutUserInput
@@ -15051,6 +15109,8 @@ export namespace Prisma {
     user_roles?: UserUpdateuser_rolesInput | $Enums.User_Role[]
     verification_status?: NullableEnumVerification_StatusFieldUpdateOperationsInput | $Enums.Verification_Status | null
     mobile_onboard_status?: NullableEnumMobile_Onboard_StatusFieldUpdateOperationsInput | $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id?: NullableStringFieldUpdateOperationsInput | string | null
+    stripe_account?: NullableJsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_login?: DateTimeFieldUpdateOperationsInput | Date | string
     management?: ManagementUpdateOneWithoutUserNestedInput
@@ -15069,6 +15129,8 @@ export namespace Prisma {
     user_roles?: UserUpdateuser_rolesInput | $Enums.User_Role[]
     verification_status?: NullableEnumVerification_StatusFieldUpdateOperationsInput | $Enums.Verification_Status | null
     mobile_onboard_status?: NullableEnumMobile_Onboard_StatusFieldUpdateOperationsInput | $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id?: NullableStringFieldUpdateOperationsInput | string | null
+    stripe_account?: NullableJsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_login?: DateTimeFieldUpdateOperationsInput | Date | string
     management?: ManagementUncheckedUpdateOneWithoutUserNestedInput
@@ -15087,6 +15149,8 @@ export namespace Prisma {
     user_roles?: UserCreateuser_rolesInput | $Enums.User_Role[]
     verification_status?: $Enums.Verification_Status | null
     mobile_onboard_status?: $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id?: string | null
+    stripe_account?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string
     last_login?: Date | string
   }
@@ -15100,6 +15164,8 @@ export namespace Prisma {
     user_roles?: UserUpdateuser_rolesInput | $Enums.User_Role[]
     verification_status?: NullableEnumVerification_StatusFieldUpdateOperationsInput | $Enums.Verification_Status | null
     mobile_onboard_status?: NullableEnumMobile_Onboard_StatusFieldUpdateOperationsInput | $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id?: NullableStringFieldUpdateOperationsInput | string | null
+    stripe_account?: NullableJsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_login?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -15113,6 +15179,8 @@ export namespace Prisma {
     user_roles?: UserUpdateuser_rolesInput | $Enums.User_Role[]
     verification_status?: NullableEnumVerification_StatusFieldUpdateOperationsInput | $Enums.Verification_Status | null
     mobile_onboard_status?: NullableEnumMobile_Onboard_StatusFieldUpdateOperationsInput | $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id?: NullableStringFieldUpdateOperationsInput | string | null
+    stripe_account?: NullableJsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_login?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -16078,6 +16146,28 @@ export namespace Prisma {
     notIn?: $Enums.Mobile_Onboard_Status[] | ListEnumMobile_Onboard_StatusFieldRefInput<$PrismaModel> | null
     not?: NestedEnumMobile_Onboard_StatusNullableFilter<$PrismaModel> | $Enums.Mobile_Onboard_Status | null
   }
+  export type JsonNullableFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type ManagementNullableRelationFilter = {
     is?: ManagementWhereInput | null
@@ -16128,6 +16218,8 @@ export namespace Prisma {
     user_roles?: SortOrder
     verification_status?: SortOrder
     mobile_onboard_status?: SortOrder
+    stripe_customer_id?: SortOrder
+    stripe_account?: SortOrder
     created_at?: SortOrder
     last_login?: SortOrder
   }
@@ -16140,6 +16232,7 @@ export namespace Prisma {
     last_name?: SortOrder
     verification_status?: SortOrder
     mobile_onboard_status?: SortOrder
+    stripe_customer_id?: SortOrder
     created_at?: SortOrder
     last_login?: SortOrder
   }
@@ -16152,6 +16245,7 @@ export namespace Prisma {
     last_name?: SortOrder
     verification_status?: SortOrder
     mobile_onboard_status?: SortOrder
+    stripe_customer_id?: SortOrder
     created_at?: SortOrder
     last_login?: SortOrder
   }
@@ -16192,6 +16286,31 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedEnumMobile_Onboard_StatusNullableFilter<$PrismaModel>
     _max?: NestedEnumMobile_Onboard_StatusNullableFilter<$PrismaModel>
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type FloatNullableFilter<$PrismaModel = never> = {
@@ -18176,6 +18295,28 @@ export namespace Prisma {
     _min?: NestedEnumMobile_Onboard_StatusNullableFilter<$PrismaModel>
     _max?: NestedEnumMobile_Onboard_StatusNullableFilter<$PrismaModel>
   }
+  export type NestedJsonNullableFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type NestedFloatNullableFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null
@@ -18891,6 +19032,8 @@ export namespace Prisma {
     user_roles?: UserCreateuser_rolesInput | $Enums.User_Role[]
     verification_status?: $Enums.Verification_Status | null
     mobile_onboard_status?: $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id?: string | null
+    stripe_account?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string
     last_login?: Date | string
     community_members?: CommunityMembersCreateNestedManyWithoutUserInput
@@ -18908,6 +19051,8 @@ export namespace Prisma {
     user_roles?: UserCreateuser_rolesInput | $Enums.User_Role[]
     verification_status?: $Enums.Verification_Status | null
     mobile_onboard_status?: $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id?: string | null
+    stripe_account?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string
     last_login?: Date | string
     community_members?: CommunityMembersUncheckedCreateNestedManyWithoutUserInput
@@ -19006,6 +19151,8 @@ export namespace Prisma {
     user_roles?: UserUpdateuser_rolesInput | $Enums.User_Role[]
     verification_status?: NullableEnumVerification_StatusFieldUpdateOperationsInput | $Enums.Verification_Status | null
     mobile_onboard_status?: NullableEnumMobile_Onboard_StatusFieldUpdateOperationsInput | $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id?: NullableStringFieldUpdateOperationsInput | string | null
+    stripe_account?: NullableJsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_login?: DateTimeFieldUpdateOperationsInput | Date | string
     community_members?: CommunityMembersUpdateManyWithoutUserNestedInput
@@ -19023,6 +19170,8 @@ export namespace Prisma {
     user_roles?: UserUpdateuser_rolesInput | $Enums.User_Role[]
     verification_status?: NullableEnumVerification_StatusFieldUpdateOperationsInput | $Enums.Verification_Status | null
     mobile_onboard_status?: NullableEnumMobile_Onboard_StatusFieldUpdateOperationsInput | $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id?: NullableStringFieldUpdateOperationsInput | string | null
+    stripe_account?: NullableJsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_login?: DateTimeFieldUpdateOperationsInput | Date | string
     community_members?: CommunityMembersUncheckedUpdateManyWithoutUserNestedInput
@@ -19521,6 +19670,8 @@ export namespace Prisma {
     user_roles?: UserCreateuser_rolesInput | $Enums.User_Role[]
     verification_status?: $Enums.Verification_Status | null
     mobile_onboard_status?: $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id?: string | null
+    stripe_account?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string
     last_login?: Date | string
     management?: ManagementCreateNestedOneWithoutUserInput
@@ -19538,6 +19689,8 @@ export namespace Prisma {
     user_roles?: UserCreateuser_rolesInput | $Enums.User_Role[]
     verification_status?: $Enums.Verification_Status | null
     mobile_onboard_status?: $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id?: string | null
+    stripe_account?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string
     last_login?: Date | string
     management?: ManagementUncheckedCreateNestedOneWithoutUserInput
@@ -19667,6 +19820,8 @@ export namespace Prisma {
     user_roles?: UserUpdateuser_rolesInput | $Enums.User_Role[]
     verification_status?: NullableEnumVerification_StatusFieldUpdateOperationsInput | $Enums.Verification_Status | null
     mobile_onboard_status?: NullableEnumMobile_Onboard_StatusFieldUpdateOperationsInput | $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id?: NullableStringFieldUpdateOperationsInput | string | null
+    stripe_account?: NullableJsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_login?: DateTimeFieldUpdateOperationsInput | Date | string
     management?: ManagementUpdateOneWithoutUserNestedInput
@@ -19684,6 +19839,8 @@ export namespace Prisma {
     user_roles?: UserUpdateuser_rolesInput | $Enums.User_Role[]
     verification_status?: NullableEnumVerification_StatusFieldUpdateOperationsInput | $Enums.Verification_Status | null
     mobile_onboard_status?: NullableEnumMobile_Onboard_StatusFieldUpdateOperationsInput | $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id?: NullableStringFieldUpdateOperationsInput | string | null
+    stripe_account?: NullableJsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_login?: DateTimeFieldUpdateOperationsInput | Date | string
     management?: ManagementUncheckedUpdateOneWithoutUserNestedInput
@@ -20253,6 +20410,8 @@ export namespace Prisma {
     user_roles?: UserCreateuser_rolesInput | $Enums.User_Role[]
     verification_status?: $Enums.Verification_Status | null
     mobile_onboard_status?: $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id?: string | null
+    stripe_account?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string
     last_login?: Date | string
     management?: ManagementCreateNestedOneWithoutUserInput
@@ -20270,6 +20429,8 @@ export namespace Prisma {
     user_roles?: UserCreateuser_rolesInput | $Enums.User_Role[]
     verification_status?: $Enums.Verification_Status | null
     mobile_onboard_status?: $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id?: string | null
+    stripe_account?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string
     last_login?: Date | string
     management?: ManagementUncheckedCreateNestedOneWithoutUserInput
@@ -20368,6 +20529,8 @@ export namespace Prisma {
     user_roles?: UserUpdateuser_rolesInput | $Enums.User_Role[]
     verification_status?: NullableEnumVerification_StatusFieldUpdateOperationsInput | $Enums.Verification_Status | null
     mobile_onboard_status?: NullableEnumMobile_Onboard_StatusFieldUpdateOperationsInput | $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id?: NullableStringFieldUpdateOperationsInput | string | null
+    stripe_account?: NullableJsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_login?: DateTimeFieldUpdateOperationsInput | Date | string
     management?: ManagementUpdateOneWithoutUserNestedInput
@@ -20385,6 +20548,8 @@ export namespace Prisma {
     user_roles?: UserUpdateuser_rolesInput | $Enums.User_Role[]
     verification_status?: NullableEnumVerification_StatusFieldUpdateOperationsInput | $Enums.Verification_Status | null
     mobile_onboard_status?: NullableEnumMobile_Onboard_StatusFieldUpdateOperationsInput | $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id?: NullableStringFieldUpdateOperationsInput | string | null
+    stripe_account?: NullableJsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_login?: DateTimeFieldUpdateOperationsInput | Date | string
     management?: ManagementUncheckedUpdateOneWithoutUserNestedInput
@@ -20492,6 +20657,8 @@ export namespace Prisma {
     user_roles?: UserCreateuser_rolesInput | $Enums.User_Role[]
     verification_status?: $Enums.Verification_Status | null
     mobile_onboard_status?: $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id?: string | null
+    stripe_account?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string
     last_login?: Date | string
     management?: ManagementCreateNestedOneWithoutUserInput
@@ -20509,6 +20676,8 @@ export namespace Prisma {
     user_roles?: UserCreateuser_rolesInput | $Enums.User_Role[]
     verification_status?: $Enums.Verification_Status | null
     mobile_onboard_status?: $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id?: string | null
+    stripe_account?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string
     last_login?: Date | string
     management?: ManagementUncheckedCreateNestedOneWithoutUserInput
@@ -20531,6 +20700,8 @@ export namespace Prisma {
     user_roles?: UserCreateuser_rolesInput | $Enums.User_Role[]
     verification_status?: $Enums.Verification_Status | null
     mobile_onboard_status?: $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id?: string | null
+    stripe_account?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string
     last_login?: Date | string
     management?: ManagementCreateNestedOneWithoutUserInput
@@ -20548,6 +20719,8 @@ export namespace Prisma {
     user_roles?: UserCreateuser_rolesInput | $Enums.User_Role[]
     verification_status?: $Enums.Verification_Status | null
     mobile_onboard_status?: $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id?: string | null
+    stripe_account?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string
     last_login?: Date | string
     management?: ManagementUncheckedCreateNestedOneWithoutUserInput
@@ -20700,6 +20873,8 @@ export namespace Prisma {
     user_roles?: UserUpdateuser_rolesInput | $Enums.User_Role[]
     verification_status?: NullableEnumVerification_StatusFieldUpdateOperationsInput | $Enums.Verification_Status | null
     mobile_onboard_status?: NullableEnumMobile_Onboard_StatusFieldUpdateOperationsInput | $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id?: NullableStringFieldUpdateOperationsInput | string | null
+    stripe_account?: NullableJsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_login?: DateTimeFieldUpdateOperationsInput | Date | string
     management?: ManagementUpdateOneWithoutUserNestedInput
@@ -20717,6 +20892,8 @@ export namespace Prisma {
     user_roles?: UserUpdateuser_rolesInput | $Enums.User_Role[]
     verification_status?: NullableEnumVerification_StatusFieldUpdateOperationsInput | $Enums.Verification_Status | null
     mobile_onboard_status?: NullableEnumMobile_Onboard_StatusFieldUpdateOperationsInput | $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id?: NullableStringFieldUpdateOperationsInput | string | null
+    stripe_account?: NullableJsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_login?: DateTimeFieldUpdateOperationsInput | Date | string
     management?: ManagementUncheckedUpdateOneWithoutUserNestedInput
@@ -20745,6 +20922,8 @@ export namespace Prisma {
     user_roles?: UserUpdateuser_rolesInput | $Enums.User_Role[]
     verification_status?: NullableEnumVerification_StatusFieldUpdateOperationsInput | $Enums.Verification_Status | null
     mobile_onboard_status?: NullableEnumMobile_Onboard_StatusFieldUpdateOperationsInput | $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id?: NullableStringFieldUpdateOperationsInput | string | null
+    stripe_account?: NullableJsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_login?: DateTimeFieldUpdateOperationsInput | Date | string
     management?: ManagementUpdateOneWithoutUserNestedInput
@@ -20762,6 +20941,8 @@ export namespace Prisma {
     user_roles?: UserUpdateuser_rolesInput | $Enums.User_Role[]
     verification_status?: NullableEnumVerification_StatusFieldUpdateOperationsInput | $Enums.Verification_Status | null
     mobile_onboard_status?: NullableEnumMobile_Onboard_StatusFieldUpdateOperationsInput | $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id?: NullableStringFieldUpdateOperationsInput | string | null
+    stripe_account?: NullableJsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_login?: DateTimeFieldUpdateOperationsInput | Date | string
     management?: ManagementUncheckedUpdateOneWithoutUserNestedInput

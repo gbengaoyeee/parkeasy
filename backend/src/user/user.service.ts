@@ -3,13 +3,16 @@ import { ErrorService } from 'src/exceptions/error.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDto, GetUserByPhone, GetUserDto } from './dto/user.dto';
 import { IResponseData } from 'src/response';
+import Stripe from 'stripe';
+import { StripeService } from 'src/stripe/stripe.service';
 
 @Injectable()
 export class UserService {
 
     constructor(
         private prisma: PrismaService, 
-        private errorService: ErrorService
+        private errorService: ErrorService,
+        private stripeService: StripeService
     ) {}
 
     async getUser(dto: GetUserDto) {
@@ -105,6 +108,10 @@ export class UserService {
     //update user
     async updateUser(id: string, dto: CreateUserDto) {
         try {
+            let customer: Stripe.Response<Stripe.Customer>
+            if(dto.createStripeCustomer){
+                customer = await this.stripeService.createCustomer(dto.email, dto.firstName + ' ' + dto.lastName)
+            }
             const user = await this.prisma.user.update({
                 where: {
                     id
@@ -115,7 +122,8 @@ export class UserService {
                     first_name: dto.firstName,
                     last_name: dto.lastName,
                     user_roles: dto.userRoles,
-                    mobile_onboard_status: dto.mobileOnboardStatus
+                    mobile_onboard_status: dto.mobileOnboardStatus,
+                    stripe_customer_id: customer.id
                 }
             })
             return new IResponseData(

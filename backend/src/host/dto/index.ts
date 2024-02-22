@@ -1,7 +1,19 @@
-import { IsEnum, IsNumber, IsOptional, Max, Min } from "class-validator"
+import { IsEnum, IsNumber, IsOptional, IsString, Max, Min } from "class-validator"
 import { Active_State, Confirmation_Type, Listing_Type } from "../../../../shared/prisma-client"
 import { Type } from "class-transformer"
 
+export class EnableHostingDto {
+    @IsString()
+    userId: string
+
+    @IsString()
+    @IsOptional()
+    countryISOCode: string
+}
+export class GetAccountLink {
+    @IsString()
+    userId: string
+}
 export class UpdateListingDto {
     @IsOptional()
     hostId: string

@@ -1,8 +1,7 @@
-import { View, Text, StyleSheet, SafeAreaView, LayoutChangeEvent } from "react-native";
+import { View, Text, StyleSheet, SafeAreaView, LayoutChangeEvent, TouchableOpacity } from "react-native";
 import React, { useLayoutEffect, useState } from "react";
 import { NavigationProp, useNavigation, useRoute } from "@react-navigation/native";
 import { VisitorHomeStackParamList } from "./VisitorHomeNavigator";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { AntDesign } from "@expo/vector-icons";
 import Colors from "@/constants/Colors";
 import Calendar from "react-native-calendar-range-picker";
@@ -58,7 +57,6 @@ const SelectDate = () => {
           startDate={startDate}
           endDate={endDate}
           onChange={({ startDate, endDate }) => {
-            console.log({ startDate, endDate });
             setStartDate(startDate);
             setEndDate(endDate);
           }}
@@ -78,7 +76,7 @@ const SelectDate = () => {
       </View>
 
       <Button style={styles.button} disabled={!startDate || !endDate} onPress={handleSave}>
-        <Text className="text-white">Save</Text>
+        <Text style={{ color: "white" }}>Save</Text>
       </Button>
     </SafeAreaView>
   );

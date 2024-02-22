@@ -1,63 +1,117 @@
-import { View, Text, SafeAreaView, Alert } from 'react-native'
-import React, { useEffect } from 'react'
-import { usePaymentIntent } from '@/app/lib/react-query/queryAndMutations'
-import { useStripe } from '@stripe/stripe-react-native'
+import { View, Text, SafeAreaView, StyleSheet, ScrollView } from "react-native";
+import React, { useEffect } from "react";
+import { useGetCheckoutDetails, } from "@/app/lib/react-query/queryAndMutations";
+import { useStripe } from "@stripe/stripe-react-native";
+import { Listing } from "@/app/types";
+import { NavigationProp, useNavigation, useRoute } from "@react-navigation/native";
+import { VisitorHomeStackParamList } from "./VisitorHomeNavigator";
+import moment from "moment";
+import { createDateWithTime } from "@/app/utils/reusable";
+import Button from "@/components/shared/Button";
+import Loader from "@/components/shared/Loader";
+import useToast from "@/app/hooks/useToast";
 
-const VisitorListingDetails = () => {
-  const {mutateAsync: createPaymentIntent, isPending: isPaymentIntentPending} = usePaymentIntent()
-  const { initPaymentSheet, presentPaymentSheet } = useStripe();
-  // useEffect(() => {
-  //   onCheckOut()
-
-  // }, [])
-
-  const onCheckOut = () => {
-    // 1. Create a payment intent
-    createPaymentIntent()
-    .then(res => {
-      // 2. Initialize the Payment sheet
-      return initPaymentSheet({
-        paymentIntentClientSecret: res.client_secret,
-        merchantDisplayName: "Parkeasy, Inc.",
-        applePay: {
-          merchantCountryCode: "US",
-        },
-        googlePay: {
-          merchantCountryCode: "US",
-          currencyCode: "USD",
-        },
-      })
-    })
-    .then(res => {
-      if(res.error) {
-        Alert.alert("Error", res.error.message)
-        return
-      }
-      // 3. Present the Payment Sheet from Stripe
-      return presentPaymentSheet()
-    })
-    .then(res => {
-      if(!res) {
-        throw new Error("Could not display payment sheet")
-      }
-      if(res.error) {
-        Alert.alert("Error", res.error.message)
-        return
-      }
-    })
-    .catch(err => {
-      Alert.alert("Error", err.message)
-      console.log("ERROR", err)
-    })
-    
-    
-    // 4. If payment ok -> create the order
-  }
-  return (
-    <SafeAreaView>
-      <Text>VisitorListingDetails</Text>
-    </SafeAreaView>
-  )
+interface RouteParams {
+  listing: Listing;
+  tripDates: {
+    startDate: Date;
+    endDate: Date;
+    startTime: number;
+    endTime: number;
+  };
 }
 
-export default VisitorListingDetails
+const VisitorListingDetails = () => {
+  const DATE_FORMAT = "ddd, MMM D [at] h:mm A";
+  const route = useRoute();
+  const { listing, tripDates } = route.params as RouteParams;
+  const navigation = useNavigation<NavigationProp<VisitorHomeStackParamList>>();
+  const { showToast } = useToast();
+  const {
+    refetch: getCheckoutDetails,
+    data: checkoutDetails,
+    isFetching,
+  } = useGetCheckoutDetails(
+    listing.id,
+    createDateWithTime(
+      moment(tripDates.startDate).format("YYYY-MM-DD"),
+      tripDates.startTime
+    ).getTime(),
+    createDateWithTime(moment(tripDates.endDate).format("YYYY-MM-DD"), tripDates.endTime).getTime()
+  );
+
+  const goToCheckout = () => {
+    getCheckoutDetails().then((res) => {
+      if (!res.data) {
+        showToast({ type: "error", message: "Error getting checkout details" });
+        return;
+      }
+      navigation.navigate("VisitorCheckout", {
+        checkoutDetails: {...res.data, listing},
+      });
+    });
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+      {isFetching && (
+        <View style={styles.loaderContainer}>
+          <Loader />
+        </View>
+      )}
+      <ScrollView>
+        <Text>{listing.title}</Text>
+        <Text>BOOKING DATES</Text>
+        <View>
+          <View>
+            <Text>
+              {moment(
+                createDateWithTime(
+                  moment(tripDates.startDate).format("YYYY-MM-DD"),
+                  tripDates.startTime
+                )
+              ).format(DATE_FORMAT)}
+            </Text>
+          </View>
+          <View>
+            <Text>
+              {moment(
+                createDateWithTime(
+                  moment(tripDates.endDate).format("YYYY-MM-DD"),
+                  tripDates.endTime
+                )
+              ).format(DATE_FORMAT)}
+            </Text>
+          </View>
+        </View>
+      </ScrollView>
+      <Button
+        style={styles.continueButton}
+        onPress={() => {
+          goToCheckout();
+        }}
+      >
+        <Text style={{ color: "white" }}>Continue</Text>
+      </Button>
+    </SafeAreaView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    position: "relative",
+    height: "100%",
+  },
+
+  loaderContainer: {
+    marginBottom: 3,
+    alignItems: "center",
+  },
+
+  continueButton: {
+    position: "absolute",
+    bottom: 2,
+  },
+});
+export default VisitorListingDetails;

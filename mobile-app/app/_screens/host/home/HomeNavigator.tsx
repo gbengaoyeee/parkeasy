@@ -6,7 +6,7 @@ import { Building, CommunityMembers, ParkingSpot, User } from "../../../types";
 import AddParkingSpotScreen from "./AddParkingSpotScreen";
 import ParkingLotList from "./ParkingLotList";
 import ParkingSpotDetails from "./ParkingSpotDetails";
-import OnboardUser from "../onboarding/OnboardUser";
+import OnboardUser from "../../visitor/onboarding/OnboardUser";
 import UnitDetails from "./UnitDetails";
 import CreateAListing from "../menu/CreateAListing";
 
@@ -28,9 +28,6 @@ export type HomeStackParamList = {
   };
   ParkingSpotDetails: {
     parkingSpot: ParkingSpot;
-  };
-  OnboardUser: {
-    user: User;
   };
   CreateAListing: {
     communityMembers: CommunityMembers[];
@@ -74,9 +71,6 @@ export default function HomeNavigator() {
           component={CreateAListing}
           options={{ headerShown: true, headerTitle: "Create a Parking Spot Listing" }}
         />
-      </Stack.Group>
-      <Stack.Group screenOptions={{ presentation: "modal", gestureEnabled: false }}>
-        <Stack.Screen name="OnboardUser" component={OnboardUser} options={{ headerShown: false }} />
       </Stack.Group>
     </Stack.Navigator>
   );

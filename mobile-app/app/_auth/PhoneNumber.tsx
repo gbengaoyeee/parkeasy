@@ -76,7 +76,10 @@ const PhoneNumber = () => {
   return (
     <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
       <SafeAreaView style={styles.container}>
-        <FirebaseRecaptchaVerifierModal ref={recaptchaVerifier} firebaseConfig={FIREBASE_APP.options} />
+        <FirebaseRecaptchaVerifierModal
+          ref={recaptchaVerifier}
+          firebaseConfig={FIREBASE_APP.options}
+        />
         <Controller
           control={control}
           rules={{
@@ -91,11 +94,11 @@ const PhoneNumber = () => {
           }}
           render={({ field: { onChange, onBlur, value } }) => (
             <>
-              <Text className="font-bold text-lg">Enter your phone number</Text>
+              <Text style={{ fontWeight: "bold", fontSize: 20 }}>Enter your phone number</Text>
               <View>
                 <View
                   style={styles.phoneInputContainer}
-                  className="border-gray-300 rounded-md border"
+                  // className="border-gray-300 rounded-md border"
                 >
                   <CountryPicker
                     containerButtonStyle={{
@@ -119,7 +122,7 @@ const PhoneNumber = () => {
                   />
                 </View>
                 {errors.phoneNumber && (
-                  <Text className="text-red">{errors.phoneNumber.message}</Text>
+                  <Text style={{ color: "red" }}>{errors.phoneNumber.message}</Text>
                 )}
               </View>
             </>
@@ -128,7 +131,7 @@ const PhoneNumber = () => {
         />
 
         <Button onPress={handleSubmit(onSubmit)}>
-          <Text className="text-white">Next</Text>
+          <Text style={{ color: "white" }}>Next</Text>
         </Button>
       </SafeAreaView>
     </KeyboardAvoidingView>
@@ -149,6 +152,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 15,
     columnGap: 5,
+    borderColor: "gray",
+    borderRadius: 8,
+    borderWidth: 1,
   },
   phoneInput: {
     flexGrow: 1,

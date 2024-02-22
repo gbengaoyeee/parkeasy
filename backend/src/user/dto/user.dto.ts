@@ -1,4 +1,4 @@
-import { IsArray, IsEmail, IsEnum, IsOptional, IsString } from "class-validator"
+import { IsArray, IsBoolean, IsEmail, IsEnum, IsOptional, IsString } from "class-validator"
 import { Mobile_Onboard_Status, User_Role } from "../../../../shared/prisma-client"
 
 
@@ -10,9 +10,6 @@ export class GetUserDto {
 export class GetUserByPhone {
     @IsString()
     phone: string
-
-    @IsEnum(User_Role)
-    role: User_Role
 }
 
 export class CreateUserDto {
@@ -40,4 +37,8 @@ export class CreateUserDto {
     @IsOptional()
     @IsEnum(User_Role, { each: true })
     userRoles: User_Role[]
+
+    @IsBoolean()
+    @IsOptional()
+    createStripeCustomer: boolean
 }

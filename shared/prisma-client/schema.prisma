@@ -50,6 +50,8 @@ model User {
   user_roles            User_Role[]            @default([])
   verification_status   Verification_Status?   @default(not_started)
   mobile_onboard_status Mobile_Onboard_Status? @default(not_started)
+  stripe_customer_id    String?
+  stripe_account        Json?
 
   created_at DateTime @default(now())
   last_login DateTime @default(now())

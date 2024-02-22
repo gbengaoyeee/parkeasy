@@ -6,6 +6,7 @@ import CreateAListing from "../menu/CreateAListing";
 import { CommunityMembers, Listing } from "@/app/types";
 import ListingDetails from "./ListingDetails";
 import EditListing from "./EditListing";
+import EnableHosting from "./EnableHosting";
 
 const Stack = createNativeStackNavigator();
 
@@ -20,6 +21,7 @@ export type HostListingsStackParamList = {
   EditListing: {
     listing: Listing;
   }
+  EnableHosting: undefined
   // ... other screens
 };
 
@@ -45,6 +47,7 @@ const HostListingsNavigator = () => {
       </Stack.Group>
       <Stack.Group screenOptions={{ presentation: "modal", }}>
         <Stack.Screen name="EditListing" component={EditListing} options={{ headerShown: false }} />
+        <Stack.Screen name="EnableHosting" component={EnableHosting} options={{ headerShown: false }} />
       </Stack.Group>
     </Stack.Navigator>
   );

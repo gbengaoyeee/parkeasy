@@ -11,14 +11,14 @@ export const createUser = async (phone: string, userRoles: User_Role[]): Promise
     const response = await client.post(``, { phone, userRoles })
     return response.data.data as User
 }
-export const updateUser = async (userId: string, dto: z.infer<typeof UpdateUserValidation>, extra:{mobileOnboardStatus?: Mobile_Onboard_Status}): Promise<User> => {
+export const updateUser = async (userId: string, dto: z.infer<typeof UpdateUserValidation>, extra:{mobileOnboardStatus?: Mobile_Onboard_Status, createStripeCustomer: boolean}): Promise<User> => {
     const response = await client.put(`/${userId}`, {...dto, ...extra})
     return response.data.data as User
 }
 
-export const getUser = async (phone: string, role: User_Role): Promise<User|null> => {
+export const getUser = async (phone: string): Promise<User|null> => {
     const encodedPhone = encodeURIComponent(phone)
-    const response = await client.get(`/phone/?phone=${encodedPhone}&role=${role}`)
+    const response = await client.get(`/phone/?phone=${encodedPhone}`)
     return response.data.data as User | null
 }
 

@@ -1,7 +1,7 @@
 import AuthNavigator from "./_auth/AuthNavigator";
 import { useAuthContext } from "./contexts/AuthProvider";
 import HostTabController from "./_screens/host/HostTabController";
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import Loader from "@/components/shared/Loader";
 import { useSelector } from "react-redux";
 import { RootState } from "./_store/store";
@@ -13,7 +13,7 @@ export default function MainNavigator() {
   const appSection = useSelector((state: RootState) => state.appSection.appSection);
   if (isLoading) {
     return (
-      <View className="flex-1 items-center p-8">
+      <View style={styles.loaderContainer}>
         <Loader />
       </View>
     );
@@ -26,3 +26,11 @@ export default function MainNavigator() {
     <AuthNavigator />
   );
 }
+
+const styles = StyleSheet.create({
+  loaderContainer: {
+    flex: 1,
+    alignItems: "center",
+    padding: 8,
+  },
+});

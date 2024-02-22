@@ -9,12 +9,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface UserContextData {
   user: User | null;
+  setUser: Dispatch<SetStateAction<User | null>>;
   isLoading: boolean;
   refreshUser: () => Promise<void>;
 }
 
 export const UserContext = createContext<UserContextData>({
   user: null,
+  setUser: () => {},
   isLoading: false,
   refreshUser: async () => {},
 });
@@ -25,7 +27,6 @@ export const UserContextProvider = ({ children }: { children: React.ReactNode })
   const [verifLink, setVerifLink] = useState<string | null>(null);
   const { showToast } = useToast();
   const cacheKey = "user-data";
-  const role: User_Role = "owner";
   const {
     data,
     isFetching,
@@ -36,12 +37,12 @@ export const UserContextProvider = ({ children }: { children: React.ReactNode })
     queryKey: [cacheKey],
     queryFn: async (): Promise<User | null> => {
       if (authUser && authUser.phoneNumber) {
-        const response = getUser(authUser.phoneNumber, role)
-          .then((response) => {
+        const response = getUser(authUser.phoneNumber)
+        .then((response) => {
             return response as User;
           })
           .catch((error) => {
-            console.error("useUser", error.response.data);
+            // console.error("useUser", error.response.data);
             showToast({ type: "error", message: error.response.data.message });
             return null;
           });
@@ -53,6 +54,7 @@ export const UserContextProvider = ({ children }: { children: React.ReactNode })
     refetchOnWindowFocus: true,
     refetchOnMount: true,
     retry: 2,
+    refetchInterval: 30000,
   });
 
   useEffect(() => {
@@ -83,10 +85,11 @@ export const UserContextProvider = ({ children }: { children: React.ReactNode })
   }, [data]);
 
   const refreshUser = async () => {
-    refetch();
+    await refetch();
   };
   const value = {
     user,
+    setUser,
     refreshUser,
     isLoading: isFetching || isLoading,
   };

@@ -1,0 +1,1 @@
+export const APP_BOOKING_FEE_PERCENTAGE = 0.05

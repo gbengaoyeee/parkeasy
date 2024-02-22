@@ -1,6 +1,15 @@
-import { View, Text, StyleSheet, Pressable, TouchableOpacity, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  TouchableOpacity,
+  TextInput,
+  ScrollView,
+  Platform,
+  RefreshControl,
+} from "react-native";
 import React, { useEffect, useState } from "react";
-import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { AntDesign, Feather, MaterialIcons } from "@expo/vector-icons";
 import Colors from "@/constants/Colors";
@@ -9,16 +18,55 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { VisitorHomeStackParamList } from "./VisitorHomeNavigator";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import useToast from "@/app/hooks/useToast";
+import * as Location from "expo-location";
+import { useUserContext } from "@/app/contexts/UserContext";
 
 const VisitorHomePage = () => {
   const navigation = useNavigation<NavigationProp<VisitorHomeStackParamList>>();
-  const [showSearchLocation, setShowSearchLocation] = useState(true);
+  const [showSearchLocation, setShowSearchLocation] = useState(false);
+  const { user, refreshUser, isLoading } = useUserContext();
+  const [refreshing, setRefreshing] = useState(false);
+  useEffect(() => {
+    if (
+      (user && user?.mobile_onboard_status !== "completed") ||
+      user?.stripe_customer_id === null
+    ) {
+      console.log("user", user.mobile_onboard_status, user?.stripe_customer_id);
+      navigation.navigate("OnboardUser", { user });
+    }
+  }, [user]);
+
+  useEffect(() => {
+    const getLocation = async () => {
+      try {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+
+        if (status !== "granted") {
+          console.error("Permission to access location was denied");
+          return;
+        }
+
+        // let location = await Location.getCurrentPositionAsync({
+        //   accuracy: Platform.OS == "android" ? Location.Accuracy.Low : Location.Accuracy.Lowest,
+        // });
+      } catch (error) {
+        console.error("Error requesting location permission:", error);
+      }
+    };
+
+    getLocation();
+  }, []);
   return (
     <>
       {showSearchLocation ? (
         <SearchLocationPage navigation={navigation} setShowSearchLocation={setShowSearchLocation} />
       ) : (
-        <ScrollView className="flex-1">
+        <ScrollView
+          style={styles.scrollView}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={() => refreshUser()} />
+          }
+        >
           <SafeAreaView style={styles.container}>
             <View style={styles.heroSection}>
               <Pressable
@@ -132,6 +180,9 @@ const SearchLocationPage = ({
 };
 
 const styles = StyleSheet.create({
+  scrollView: {
+    flex: 1,
+  },
   searchLocationContainer: {
     width: "100%",
     height: "100%",

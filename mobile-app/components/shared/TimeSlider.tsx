@@ -23,7 +23,6 @@ const TimeSlider = (props: TimeSliderProps) => {
     setWidth(event.nativeEvent.layout.width - SliderPad * 2);
   };
   const onValuesChangeFinish = (values: number[]) => {
-    console.log({ values });
     setSelected(values);
   };
 

@@ -5,12 +5,12 @@ import { Mobile_Onboard_Status, User_Role } from '../../../../shared/prisma-clie
 import { z } from 'zod'
 import { AddParkingValidation, CreateParkingListingValidation, UpdateParkingListingValidation, UpdateUserValidation } from '../validation'
 import { addParkingSpot } from '@/app/services/building'
-import { createParkingListing, getListings, updateListing } from '@/app/services/host'
+import { createParkingListing, enableHosting, getAccountLink, getListings, updateListing } from '@/app/services/host'
 import { Listing } from '@/app/types'
 import useToast from '@/app/hooks/useToast'
 import { getVisitorListings } from '@/app/services/visitor'
 import { ConfirmationResult } from 'firebase/auth'
-import { createPaymentIntent } from '@/app/services/payment'
+import { CheckoutDetails, createPaymentIntent, getCheckoutDetails } from '@/app/services/payment'
 
 export const useStartPhoneVerification = () => {
     return useMutation({
@@ -23,7 +23,7 @@ export const useFinishPhoneVerification = () => {
             console.log('finishing phone verification')
             return confirmResult.confirm(otpcode)
             .then((resp) => {
-                return getUser(phone, userRoles[0])
+                return getUser(phone)
             })
             .then((resp) => {
                 if(!resp) {
@@ -32,19 +32,6 @@ export const useFinishPhoneVerification = () => {
                 return resp
             })
         },
-        // mutationFn: ({otpcode, sessionId, phone, userRoles}: {otpcode: string, sessionId: string, phone: string, userRoles: User_Role[]}) => {
-        //     console.log('finishing phone verification')
-        //     return appwriteClient.updatePhoneSession(sessionId, otpcode)
-        //     .then((resp) => {
-        //         return getUser(phone, userRoles[0])
-        //     })
-        //     .then((resp) => {
-        //         if(!resp) {
-        //             return createUser(phone, userRoles)
-        //         }
-        //         return resp
-        //     })
-        // },
     })
 }
 
@@ -64,7 +51,11 @@ export const useCreateParkingListing = () => {
 }
 export const useUpdateUser = () => {
     return useMutation({
-        mutationFn: ({userId, dto, extra}:{userId: string, extra:{mobileOnboardStatus?: Mobile_Onboard_Status}, dto: z.infer<typeof UpdateUserValidation> }) => {
+        mutationFn: ({userId, dto, extra}:{
+            userId: string, 
+            extra:{mobileOnboardStatus?: Mobile_Onboard_Status, createStripeCustomer: boolean}, 
+            dto: z.infer<typeof UpdateUserValidation> 
+        }) => {
             return updateUser(userId, dto, extra)
         }
     })
@@ -117,11 +108,52 @@ export const useGetVisitorListings = (lat: number, lng: number, startDate: numbe
         // enabled: false
     })
 }
+export const useGetCheckoutDetails = (listingId: string, startDate: number, endDate: number) => {
+    const {showToast} = useToast()
+    return useQuery({
+        queryKey: ['checkout-details'],
+        queryFn: async (): Promise<CheckoutDetails> => {
+            return getCheckoutDetails(listingId, startDate, endDate)
+            .catch((error) => {
+                console.error(error.response.data.message);
+                showToast({ type: "error", message: error.response.data.message });
+                return error;
+            })
+        },
+        retry: 3,
+        enabled: false
+    })
+}
 
 export const usePaymentIntent = () => {
     return useMutation({
-        mutationFn: () => {
-            return createPaymentIntent()
+        mutationFn: ({amount, customerId, listingId}:{amount: number, customerId: string, listingId: string}) => {
+            return createPaymentIntent(amount, customerId, listingId)
         }
+    })
+}
+export const useEnableHosting = () => {
+    return useMutation({
+        mutationFn: ({userId}:{userId: string}) => {
+            return enableHosting(userId)
+        }
+    })
+}
+
+
+export const useGetAccountLink = (userId: string) => {
+    const {showToast} = useToast()
+    return useQuery({
+        queryKey: ['account-link'],
+        queryFn: async (): Promise<{url: string}> => {
+            return getAccountLink(userId)
+            .catch((error) => {
+                console.error(error.response.data.message);
+                showToast({ type: "error", message: error.response.data.message });
+                return error;
+            })
+        },
+        retry: 3,
+        enabled: false
     })
 }

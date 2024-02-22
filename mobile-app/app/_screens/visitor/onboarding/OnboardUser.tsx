@@ -20,7 +20,7 @@ import Loader from "@/components/shared/Loader";
 import { User } from "@/app/types";
 import { NavigationProp, useNavigation, useRoute } from "@react-navigation/native";
 import useToast from "@/app/hooks/useToast";
-import { HomeStackParamList } from "../home/HomeNavigator";
+import { HomeStackParamList } from "../../host/home/HomeNavigator";
 import { useUserContext } from "@/app/contexts/UserContext";
 
 interface RouteParams {
@@ -48,7 +48,11 @@ const OnboardUser = () => {
 
   const onSubmit = (values: any) => {
     let data = values as z.infer<typeof UpdateUserValidation>;
-    handleUpdateUser({ userId: user.id, dto: data, extra: { mobileOnboardStatus: "completed" } })
+    handleUpdateUser({
+      userId: user.id,
+      dto: data,
+      extra: { mobileOnboardStatus: "completed", createStripeCustomer: true },
+    })
       .then((resp) => {
         toast.hide();
         setTimeout(() => {
@@ -56,32 +60,34 @@ const OnboardUser = () => {
         }, 500);
         return refreshUser();
       })
-      .then(() => navigation.goBack())
+      .then((re) => navigation.goBack())
       .catch((error) => {
         console.error(error.response.data.message);
         showToast({ type: "error", message: error.response.data.message });
       });
   };
   return (
-    <SafeAreaView className="flex-1">
-      <ScrollView className="p-5">
+    <SafeAreaView style={{ flex: 1 }}>
+      <ScrollView style={{ padding: 5 }}>
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={{ flex: 1 }}
           keyboardVerticalOffset={100}
         >
           {isUpdating && (
-            <View className="mb-3 items-center">
+            <View style={styles.loaderContainer}>
               <Loader />
             </View>
           )}
 
-          <View className="mb-3">
-            <Text className="text-xl font-bold">Please enter your information</Text>
+          <View style={{ marginBottom: 12 }}>
+            <Text style={{ fontSize: 20, lineHeight: 28, fontWeight: "700" }}>
+              Please enter your information
+            </Text>
             <Controller
               control={form.control}
               render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
-                <View className="mb-3">
+                <View style={{ marginBottom: 12 }}>
                   <Text>First name</Text>
                   <Input
                     placeholder="John"
@@ -98,7 +104,7 @@ const OnboardUser = () => {
             <Controller
               control={form.control}
               render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
-                <View className="mb-3">
+                <View style={{ marginBottom: 12 }}>
                   <Text>Last name</Text>
                   <Input
                     placeholder="Doe"
@@ -115,7 +121,7 @@ const OnboardUser = () => {
             <Controller
               control={form.control}
               render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
-                <View className="mb-3">
+                <View style={{ marginBottom: 12 }}>
                   <Text>Email</Text>
                   <Input
                     placeholder="Email"
@@ -133,17 +139,30 @@ const OnboardUser = () => {
 
           <Button
             disabled={isUpdating}
-            className="mt-5"
+            style={{ marginBottom: 20 }}
             onPress={() => {
               form.handleSubmit(onSubmit)();
             }}
           >
-            <Text className="text-white">Next</Text>
+            <Text style={{ color: "white" }}>Next</Text>
           </Button>
         </KeyboardAvoidingView>
       </ScrollView>
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  loaderContainer: {
+    marginBottom: 3,
+    alignItems: "center",
+  },
+  safeAreaContainer: {
+    flex: 1,
+  },
+  scrollView: {
+    padding: 5,
+  },
+});
 
 export default OnboardUser;

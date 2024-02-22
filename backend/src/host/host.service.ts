@@ -1,15 +1,69 @@
 import { Injectable } from '@nestjs/common';
 import { ErrorService } from 'src/exceptions/error.service';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { UpdateListingDto } from './dto';
+import { EnableHostingDto, GetAccountLink, UpdateListingDto } from './dto';
 import { IResponseData } from 'src/response';
+import { StripeService } from 'src/stripe/stripe.service';
 
 @Injectable()
 export class HostService {
     constructor(
         private prisma: PrismaService, 
-        private errorService: ErrorService
+        private errorService: ErrorService,
+        private stripeService: StripeService
     ) {}
+
+    async enableHosting(dto: EnableHostingDto) {
+        try {
+            let user = await this.prisma.user.findUniqueOrThrow({
+                where: {
+                    id: dto.userId
+                }
+            })
+            if(!user.email) {
+                throw this.errorService.handleException(new Error('user email not found'))
+            }
+
+            const account = await this.stripeService.createAccount(user.email)
+
+            user = await this.prisma.user.update({
+                where: {
+                    id: dto.userId
+                },
+                data: {
+                    stripe_account: account as any
+                }
+            })
+
+
+            return new IResponseData(
+                `Hosting enabled successfully`,
+                user
+            ).json
+        } catch (error) {
+            throw this.errorService.handleException(error)
+        }
+    }
+
+    async createAccountLink(dto: GetAccountLink) {
+        try {
+            let user = await this.prisma.user.findUniqueOrThrow({
+                where: {
+                    id: dto.userId
+                }
+            })
+            if(!user.stripe_account) {
+                throw this.errorService.handleException(new Error('User payout account not found'))
+            }
+            const accountLink = await this.stripeService.createAccountLink(user.stripe_account["id"])
+            return new IResponseData(
+                `Account link created successfully`,
+                accountLink
+            ).json
+        } catch (error) {
+            throw this.errorService.handleException(error)
+        }
+    }
 
     async createListing(dto: UpdateListingDto) {
         try {
