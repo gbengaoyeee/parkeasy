@@ -16,6 +16,7 @@ import SSORedirect from "./_auth/redirect-pages/SSORedirect";
 import { Toaster } from "sonner";
 import { UserContextProvider } from "./context/UserContext";
 import { AppContextProvider } from "./context/AppContext";
+import ApartmentUnits from "./_root/pages/ApartmentUnits";
 
 const App = () => {
   return (
@@ -38,9 +39,10 @@ const App = () => {
             {/* private routes */}
             <Route element={<RootLayout />}>
               <Route index element={<Dashboard />} />
+              <Route path="/apartment-units" element={<ApartmentUnits />} />
+              <Route path="/parking-spots" element={<ParkingSpots />} />
               <Route path="/community-members/:buildingId" element={<CommunityMembersPage />} />
               <Route path="/community-members/:buildingId/:communityMemberId" element={<CommunityMemberPage />} />
-              <Route path="/parking-spots" element={<ParkingSpots />} />
               <Route path="/violations" element={<Violations />} />
             </Route>
           </Routes>

@@ -60,7 +60,7 @@ const ForgotPasswordForm = () => {
                 <FormControl>
                   <Input placeholder="xyz@company.com" {...field} />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className="text-red" />
               </FormItem>
             )}
           />

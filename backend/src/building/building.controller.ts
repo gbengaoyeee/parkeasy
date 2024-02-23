@@ -73,9 +73,8 @@ export class BuildingController {
     }
 
     //Add parking spot
-    @Post('parking-spots/:buildingId')
+    @Post('parking-spots/:buildingId/')
     async addParkingSpot(@Param('buildingId') buildingId: string, @Body() dto: AddParkingSpotDto) {
         return await this.buildingService.addParkingSpot(buildingId, dto);
     }
-
 }

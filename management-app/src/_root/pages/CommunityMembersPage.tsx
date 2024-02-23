@@ -31,8 +31,8 @@ import {
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CreateCommunityMemberValidation } from "@/lib/validation";
 import { z } from "zod";
+import { CreateCommunityMemberValidation } from "@/lib/validation";
 import {
   Select,
   SelectContent,
@@ -407,7 +407,7 @@ const AddMemberManuallyModal = ({
   return (
     <Dialog open={openActivateMembersManualModal} onOpenChange={setOpenActivateMembersManualModal}>
       <DialogTrigger asChild data-state="closed">
-        <Button className="shad-button_primary w-[250px]">Activate manually</Button>
+        <Button className="shad-button_primary w-[250px]">Add new community member</Button>
       </DialogTrigger>
       <DialogContent className="bg-light-1">
         <DialogHeader>
@@ -426,7 +426,7 @@ const AddMemberManuallyModal = ({
                     <FormControl>
                       <Input placeholder="John Doe" {...field} />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-red" />
                   </FormItem>
                 )}
               />
@@ -439,7 +439,7 @@ const AddMemberManuallyModal = ({
                     <FormControl>
                       <Input placeholder="john@example.com" {...field} />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-red" />
                   </FormItem>
                 )}
               />
@@ -452,7 +452,7 @@ const AddMemberManuallyModal = ({
                     <FormControl>
                       <Input placeholder="+1234567890" {...field} />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-red" />
                   </FormItem>
                 )}
               />
@@ -465,7 +465,7 @@ const AddMemberManuallyModal = ({
                     <FormControl>
                       <Input placeholder="1104, 1105" {...field} />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-red" />
                   </FormItem>
                 )}
               />
@@ -504,7 +504,7 @@ const AddMemberManuallyModal = ({
                     <FormControl>
                       <Input placeholder="P1-1122" {...field} />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-red" />
                   </FormItem>
                 )}
               />
@@ -517,7 +517,7 @@ const AddMemberManuallyModal = ({
                     <FormControl>
                       <Input placeholder="P1-1122" {...field} />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-red" />
                   </FormItem>
                 )}
               />

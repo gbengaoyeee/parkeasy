@@ -12,6 +12,7 @@ const SideBar = () => {
     handleSideBarOptionSelection: handleOptionSelection,
   } = useAppContext();
 
+
   return (
     <div className="leftsidebar">
       <div>
@@ -25,11 +26,11 @@ const SideBar = () => {
               key={item.name}
               disabled={user?.management?.onboard_state !== "finish"}
               className={`grid grid-flow-col justify-start items-center gap-3 ${
-                index === selectedSideBarOption.id ? "bg-primary-3" : ""
+                index === selectedSideBarOption?.id ? "bg-primary-3" : ""
               } hover:bg-primary-3 cursor-pointer mb-[1px] w-full `}
             >
               <span className="grid grid-flow-col justify-start items-center gap-3 ">
-                <img width={20} src={item.icon} />
+                <span>{item.ic}</span>
                 {item.name}
               </span>
             </Button>

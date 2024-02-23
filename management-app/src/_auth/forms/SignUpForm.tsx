@@ -60,7 +60,7 @@ const SignUpForm = () => {
                 <FormControl>
                   <Input placeholder="ABC Management Company" {...field} />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className="text-red" />
               </FormItem>
             )}
           />
@@ -73,7 +73,7 @@ const SignUpForm = () => {
                 <FormControl>
                   <Input placeholder="xyz@company.com" {...field} />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className="text-red" />
               </FormItem>
             )}
           />
@@ -86,7 +86,7 @@ const SignUpForm = () => {
                 <FormControl>
                   <Input placeholder="Enter your contact phone number" {...field} />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className="text-red" />
               </FormItem>
             )}
           />

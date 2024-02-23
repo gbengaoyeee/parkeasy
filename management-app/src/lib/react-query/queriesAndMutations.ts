@@ -1,10 +1,11 @@
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
 import { z } from 'zod'
-import { LoginValidation, OnboardBuildingValidation, OnboardManagementValidation, PasswordRecoveryValidation, SSOValidation, SignUpValidation } from '../validation'
+import { AddApartmentUnitValidation, CreateCommunityMemberValidation, LoginValidation, OnboardBuildingValidation, OnboardManagementValidation, PasswordRecoveryValidation, SSOValidation, SignUpValidation } from '../validation'
 import { onboardBuilding, onboardManagement, preSignUp } from '@/api/management'
 import appwriteClient from '@/api/appwrite'
-import { activateAllCommunityMembers, updateCommunityMember, uploadCommunityMembers } from '@/api/building'
+import { activateAllCommunityMembers, addApartmentUnit, addCommunityMember, updateCommunityMember, uploadCommunityMembers } from '@/api/building'
 import { CommunityMembers } from '@/types'
+import { toast } from 'sonner'
 
 export const usePreSignUp = () => {
     return useMutation({
@@ -62,6 +63,25 @@ export const useUpdateCommunityMember = () => {
     return useMutation({
         mutationFn: ({buildingId, memberId, member}:{buildingId: string, memberId: string, member: Partial<CommunityMembers>}) => {
             return updateCommunityMember(buildingId, memberId, member)
+        }
+    })
+}
+
+export const useAddCommunityMember = () => {
+    return useMutation({
+        mutationFn: ({buildingId, member}:{buildingId: string, member: z.infer<typeof CreateCommunityMemberValidation>}) => {
+            return addCommunityMember(buildingId, member)
+        }
+    })
+}
+
+export const useAddApartmentUnit = () => {
+    return useMutation({
+        mutationFn: ({buildingId, unit}:{buildingId: string, unit: z.infer<typeof AddApartmentUnitValidation>}) => {
+            return addApartmentUnit(buildingId, unit)
+            .catch((error) => {
+                toast.error(error.response.data.message);
+            })
         }
     })
 }
