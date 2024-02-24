@@ -1,9 +1,9 @@
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
 import { z } from 'zod'
-import { AddApartmentUnitValidation, CreateCommunityMemberValidation, LoginValidation, OnboardBuildingValidation, OnboardManagementValidation, PasswordRecoveryValidation, SSOValidation, SignUpValidation } from '../validation'
+import { AddApartmentUnitValidation, AddParkingSpotValidation, CreateCommunityMemberValidation, LoginValidation, OnboardBuildingValidation, OnboardManagementValidation, PasswordRecoveryValidation, SSOValidation, SignUpValidation } from '../validation'
 import { onboardBuilding, onboardManagement, preSignUp } from '@/api/management'
 import appwriteClient from '@/api/appwrite'
-import { activateAllCommunityMembers, addApartmentUnit, addCommunityMember, updateCommunityMember, uploadCommunityMembers } from '@/api/building'
+import { activateAllCommunityMembers, addApartmentUnit, addCommunityMember, addParkingSpot, getApartmentUnits, getParkingSpot, getParkingSpots, updateCommunityMember, uploadCommunityMembers } from '@/api/building'
 import { CommunityMembers } from '@/types'
 import { toast } from 'sonner'
 
@@ -77,11 +77,64 @@ export const useAddCommunityMember = () => {
 
 export const useAddApartmentUnit = () => {
     return useMutation({
-        mutationFn: ({buildingId, unit}:{buildingId: string, unit: z.infer<typeof AddApartmentUnitValidation>}) => {
-            return addApartmentUnit(buildingId, unit)
-            .catch((error) => {
-                toast.error(error.response.data.message);
-            })
+        mutationFn: ({buildingId, dto}:{buildingId: string, dto: z.infer<typeof AddApartmentUnitValidation>}) => {
+            return addApartmentUnit(buildingId, dto)
         }
+    })
+}
+
+export const useGetApartmentUnits = (buildingId?: string) => {
+    if(!buildingId) {
+        return useQuery({
+            queryKey: ['apartment-units'],
+            queryFn: () => {
+                throw new Error('buildingId is required')
+            },
+        })
+    }
+    return useQuery({
+        queryKey: ['apartment-units', buildingId],
+        queryFn: () => getApartmentUnits(buildingId),
+        enabled: !!buildingId
+    })
+}
+
+export const useAddParkingSpot = () => {
+    return useMutation({
+        mutationFn: ({buildingId, dto}:{buildingId: string, dto: z.infer<typeof AddParkingSpotValidation>}) => {
+            return addParkingSpot(buildingId, dto)
+        }
+    })
+}
+
+export const useGetParkingSpots = (buildingId?: string, queries?: string) => {
+    if(!buildingId) {
+        return useQuery({
+            queryKey: ['parking-spots'],
+            queryFn: () => {
+                throw new Error('buildingId is required')
+            },
+        })
+    }
+    return useQuery({
+        queryKey: ['parking-spots', buildingId],
+        queryFn: () => getParkingSpots(buildingId, queries),
+        enabled: !!buildingId
+    })
+}
+
+export const useGetParkingSpot = (buildingId?: string, spotId?: string) => {
+    if(!buildingId || !spotId) {
+        return useQuery({
+            queryKey: ['parking-spot'],
+            queryFn: () => {
+                throw new Error('buildingId and spotId are required')
+            },
+        })
+    }
+    return useQuery({
+        queryKey: ['parking-spot', buildingId, spotId],
+        queryFn: () => getParkingSpot(buildingId, spotId),
+        enabled: !!spotId && !!buildingId
     })
 }

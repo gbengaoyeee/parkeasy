@@ -17,6 +17,7 @@ import { Toaster } from "sonner";
 import { UserContextProvider } from "./context/UserContext";
 import { AppContextProvider } from "./context/AppContext";
 import ApartmentUnits from "./_root/pages/ApartmentUnits";
+import ParkingSpot from "./_root/pages/ParkingSpot";
 
 const App = () => {
   return (
@@ -41,6 +42,7 @@ const App = () => {
               <Route index element={<Dashboard />} />
               <Route path="/apartment-units" element={<ApartmentUnits />} />
               <Route path="/parking-spots" element={<ParkingSpots />} />
+              <Route path="/parking-spots/:buildingId/:parkingSpotId" element={<ParkingSpot />} />
               <Route path="/community-members/:buildingId" element={<CommunityMembersPage />} />
               <Route path="/community-members/:buildingId/:communityMemberId" element={<CommunityMemberPage />} />
               <Route path="/violations" element={<Violations />} />

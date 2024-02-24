@@ -68,6 +68,11 @@ export type Listing = $Result.DefaultSelection<Prisma.$ListingPayload>
  * 
  */
 export type Reservation = $Result.DefaultSelection<Prisma.$ReservationPayload>
+/**
+ * Model ApartmentUnit
+ * 
+ */
+export type ApartmentUnit = $Result.DefaultSelection<Prisma.$ApartmentUnitPayload>
 
 /**
  * Enums
@@ -506,6 +511,16 @@ export class PrismaClient<
     * ```
     */
   get reservation(): Prisma.ReservationDelegate<ExtArgs>;
+
+  /**
+   * `prisma.apartmentUnit`: Exposes CRUD operations for the **ApartmentUnit** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ApartmentUnits
+    * const apartmentUnits = await prisma.apartmentUnit.findMany()
+    * ```
+    */
+  get apartmentUnit(): Prisma.ApartmentUnitDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -986,7 +1001,8 @@ export namespace Prisma {
     QRCode: 'QRCode',
     Vehicle: 'Vehicle',
     Listing: 'Listing',
-    Reservation: 'Reservation'
+    Reservation: 'Reservation',
+    ApartmentUnit: 'ApartmentUnit'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1003,7 +1019,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     meta: {
-      modelProps: 'preSignUpManagement' | 'user' | 'management' | 'managementStaff' | 'building' | 'communityMembers' | 'parkingSpot' | 'qRCode' | 'vehicle' | 'listing' | 'reservation'
+      modelProps: 'preSignUpManagement' | 'user' | 'management' | 'managementStaff' | 'building' | 'communityMembers' | 'parkingSpot' | 'qRCode' | 'vehicle' | 'listing' | 'reservation' | 'apartmentUnit'
       txIsolationLevel: Prisma.TransactionIsolationLevel
     },
     model: {
@@ -1733,6 +1749,72 @@ export namespace Prisma {
           }
         }
       }
+      ApartmentUnit: {
+        payload: Prisma.$ApartmentUnitPayload<ExtArgs>
+        fields: Prisma.ApartmentUnitFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ApartmentUnitFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$ApartmentUnitPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ApartmentUnitFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$ApartmentUnitPayload>
+          }
+          findFirst: {
+            args: Prisma.ApartmentUnitFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$ApartmentUnitPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ApartmentUnitFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$ApartmentUnitPayload>
+          }
+          findMany: {
+            args: Prisma.ApartmentUnitFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$ApartmentUnitPayload>[]
+          }
+          create: {
+            args: Prisma.ApartmentUnitCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$ApartmentUnitPayload>
+          }
+          createMany: {
+            args: Prisma.ApartmentUnitCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          delete: {
+            args: Prisma.ApartmentUnitDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$ApartmentUnitPayload>
+          }
+          update: {
+            args: Prisma.ApartmentUnitUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$ApartmentUnitPayload>
+          }
+          deleteMany: {
+            args: Prisma.ApartmentUnitDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ApartmentUnitUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          upsert: {
+            args: Prisma.ApartmentUnitUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$ApartmentUnitPayload>
+          }
+          aggregate: {
+            args: Prisma.ApartmentUnitAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateApartmentUnit>
+          }
+          groupBy: {
+            args: Prisma.ApartmentUnitGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<ApartmentUnitGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ApartmentUnitCountArgs<ExtArgs>,
+            result: $Utils.Optional<ApartmentUnitCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1993,12 +2075,14 @@ export namespace Prisma {
     community_members: number
     parking_spots: number
     reservations: number
+    apartment_units: number
   }
 
   export type BuildingCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     community_members?: boolean | BuildingCountOutputTypeCountCommunity_membersArgs
     parking_spots?: boolean | BuildingCountOutputTypeCountParking_spotsArgs
     reservations?: boolean | BuildingCountOutputTypeCountReservationsArgs
+    apartment_units?: boolean | BuildingCountOutputTypeCountApartment_unitsArgs
   }
 
   // Custom InputTypes
@@ -2035,6 +2119,14 @@ export namespace Prisma {
    */
   export type BuildingCountOutputTypeCountReservationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ReservationWhereInput
+  }
+
+
+  /**
+   * BuildingCountOutputType without action
+   */
+  export type BuildingCountOutputTypeCountApartment_unitsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ApartmentUnitWhereInput
   }
 
 
@@ -6548,6 +6640,7 @@ export namespace Prisma {
     community_members?: boolean | Building$community_membersArgs<ExtArgs>
     parking_spots?: boolean | Building$parking_spotsArgs<ExtArgs>
     reservations?: boolean | Building$reservationsArgs<ExtArgs>
+    apartment_units?: boolean | Building$apartment_unitsArgs<ExtArgs>
     _count?: boolean | BuildingCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["building"]>
 
@@ -6574,6 +6667,7 @@ export namespace Prisma {
     community_members?: boolean | Building$community_membersArgs<ExtArgs>
     parking_spots?: boolean | Building$parking_spotsArgs<ExtArgs>
     reservations?: boolean | Building$reservationsArgs<ExtArgs>
+    apartment_units?: boolean | Building$apartment_unitsArgs<ExtArgs>
     _count?: boolean | BuildingCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -6585,6 +6679,7 @@ export namespace Prisma {
       community_members: Prisma.$CommunityMembersPayload<ExtArgs>[]
       parking_spots: Prisma.$ParkingSpotPayload<ExtArgs>[]
       reservations: Prisma.$ReservationPayload<ExtArgs>[]
+      apartment_units: Prisma.$ApartmentUnitPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6974,6 +7069,8 @@ export namespace Prisma {
     parking_spots<T extends Building$parking_spotsArgs<ExtArgs> = {}>(args?: Subset<T, Building$parking_spotsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParkingSpotPayload<ExtArgs>, T, 'findMany'> | Null>;
 
     reservations<T extends Building$reservationsArgs<ExtArgs> = {}>(args?: Subset<T, Building$reservationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservationPayload<ExtArgs>, T, 'findMany'> | Null>;
+
+    apartment_units<T extends Building$apartment_unitsArgs<ExtArgs> = {}>(args?: Subset<T, Building$apartment_unitsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApartmentUnitPayload<ExtArgs>, T, 'findMany'> | Null>;
 
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -7389,6 +7486,27 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ReservationScalarFieldEnum | ReservationScalarFieldEnum[]
+  }
+
+
+  /**
+   * Building.apartment_units
+   */
+  export type Building$apartment_unitsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApartmentUnit
+     */
+    select?: ApartmentUnitSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ApartmentUnitInclude<ExtArgs> | null
+    where?: ApartmentUnitWhereInput
+    orderBy?: ApartmentUnitOrderByWithRelationInput | ApartmentUnitOrderByWithRelationInput[]
+    cursor?: ApartmentUnitWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ApartmentUnitScalarFieldEnum | ApartmentUnitScalarFieldEnum[]
   }
 
 
@@ -13555,6 +13673,978 @@ export namespace Prisma {
 
 
   /**
+   * Model ApartmentUnit
+   */
+
+  export type AggregateApartmentUnit = {
+    _count: ApartmentUnitCountAggregateOutputType | null
+    _avg: ApartmentUnitAvgAggregateOutputType | null
+    _sum: ApartmentUnitSumAggregateOutputType | null
+    _min: ApartmentUnitMinAggregateOutputType | null
+    _max: ApartmentUnitMaxAggregateOutputType | null
+  }
+
+  export type ApartmentUnitAvgAggregateOutputType = {
+    no_of_bedrooms: number | null
+    no_of_baths: number | null
+  }
+
+  export type ApartmentUnitSumAggregateOutputType = {
+    no_of_bedrooms: number | null
+    no_of_baths: number | null
+  }
+
+  export type ApartmentUnitMinAggregateOutputType = {
+    id: string | null
+    unit_number: string | null
+    no_of_bedrooms: number | null
+    no_of_baths: number | null
+    building_id: string | null
+  }
+
+  export type ApartmentUnitMaxAggregateOutputType = {
+    id: string | null
+    unit_number: string | null
+    no_of_bedrooms: number | null
+    no_of_baths: number | null
+    building_id: string | null
+  }
+
+  export type ApartmentUnitCountAggregateOutputType = {
+    id: number
+    unit_number: number
+    no_of_bedrooms: number
+    no_of_baths: number
+    building_id: number
+    _all: number
+  }
+
+
+  export type ApartmentUnitAvgAggregateInputType = {
+    no_of_bedrooms?: true
+    no_of_baths?: true
+  }
+
+  export type ApartmentUnitSumAggregateInputType = {
+    no_of_bedrooms?: true
+    no_of_baths?: true
+  }
+
+  export type ApartmentUnitMinAggregateInputType = {
+    id?: true
+    unit_number?: true
+    no_of_bedrooms?: true
+    no_of_baths?: true
+    building_id?: true
+  }
+
+  export type ApartmentUnitMaxAggregateInputType = {
+    id?: true
+    unit_number?: true
+    no_of_bedrooms?: true
+    no_of_baths?: true
+    building_id?: true
+  }
+
+  export type ApartmentUnitCountAggregateInputType = {
+    id?: true
+    unit_number?: true
+    no_of_bedrooms?: true
+    no_of_baths?: true
+    building_id?: true
+    _all?: true
+  }
+
+  export type ApartmentUnitAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ApartmentUnit to aggregate.
+     */
+    where?: ApartmentUnitWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ApartmentUnits to fetch.
+     */
+    orderBy?: ApartmentUnitOrderByWithRelationInput | ApartmentUnitOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ApartmentUnitWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ApartmentUnits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ApartmentUnits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ApartmentUnits
+    **/
+    _count?: true | ApartmentUnitCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ApartmentUnitAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ApartmentUnitSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ApartmentUnitMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ApartmentUnitMaxAggregateInputType
+  }
+
+  export type GetApartmentUnitAggregateType<T extends ApartmentUnitAggregateArgs> = {
+        [P in keyof T & keyof AggregateApartmentUnit]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateApartmentUnit[P]>
+      : GetScalarType<T[P], AggregateApartmentUnit[P]>
+  }
+
+
+
+
+  export type ApartmentUnitGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ApartmentUnitWhereInput
+    orderBy?: ApartmentUnitOrderByWithAggregationInput | ApartmentUnitOrderByWithAggregationInput[]
+    by: ApartmentUnitScalarFieldEnum[] | ApartmentUnitScalarFieldEnum
+    having?: ApartmentUnitScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ApartmentUnitCountAggregateInputType | true
+    _avg?: ApartmentUnitAvgAggregateInputType
+    _sum?: ApartmentUnitSumAggregateInputType
+    _min?: ApartmentUnitMinAggregateInputType
+    _max?: ApartmentUnitMaxAggregateInputType
+  }
+
+  export type ApartmentUnitGroupByOutputType = {
+    id: string
+    unit_number: string | null
+    no_of_bedrooms: number | null
+    no_of_baths: number | null
+    building_id: string
+    _count: ApartmentUnitCountAggregateOutputType | null
+    _avg: ApartmentUnitAvgAggregateOutputType | null
+    _sum: ApartmentUnitSumAggregateOutputType | null
+    _min: ApartmentUnitMinAggregateOutputType | null
+    _max: ApartmentUnitMaxAggregateOutputType | null
+  }
+
+  type GetApartmentUnitGroupByPayload<T extends ApartmentUnitGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ApartmentUnitGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ApartmentUnitGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ApartmentUnitGroupByOutputType[P]>
+            : GetScalarType<T[P], ApartmentUnitGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ApartmentUnitSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    unit_number?: boolean
+    no_of_bedrooms?: boolean
+    no_of_baths?: boolean
+    building_id?: boolean
+    building?: boolean | ApartmentUnit$buildingArgs<ExtArgs>
+  }, ExtArgs["result"]["apartmentUnit"]>
+
+  export type ApartmentUnitSelectScalar = {
+    id?: boolean
+    unit_number?: boolean
+    no_of_bedrooms?: boolean
+    no_of_baths?: boolean
+    building_id?: boolean
+  }
+
+  export type ApartmentUnitInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    building?: boolean | ApartmentUnit$buildingArgs<ExtArgs>
+  }
+
+
+  export type $ApartmentUnitPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ApartmentUnit"
+    objects: {
+      building: Prisma.$BuildingPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      unit_number: string | null
+      no_of_bedrooms: number | null
+      no_of_baths: number | null
+      building_id: string
+    }, ExtArgs["result"]["apartmentUnit"]>
+    composites: {}
+  }
+
+
+  type ApartmentUnitGetPayload<S extends boolean | null | undefined | ApartmentUnitDefaultArgs> = $Result.GetResult<Prisma.$ApartmentUnitPayload, S>
+
+  type ApartmentUnitCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<ApartmentUnitFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: ApartmentUnitCountAggregateInputType | true
+    }
+
+  export interface ApartmentUnitDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ApartmentUnit'], meta: { name: 'ApartmentUnit' } }
+    /**
+     * Find zero or one ApartmentUnit that matches the filter.
+     * @param {ApartmentUnitFindUniqueArgs} args - Arguments to find a ApartmentUnit
+     * @example
+     * // Get one ApartmentUnit
+     * const apartmentUnit = await prisma.apartmentUnit.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends ApartmentUnitFindUniqueArgs<ExtArgs>>(
+      args: SelectSubset<T, ApartmentUnitFindUniqueArgs<ExtArgs>>
+    ): Prisma__ApartmentUnitClient<$Result.GetResult<Prisma.$ApartmentUnitPayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
+
+    /**
+     * Find one ApartmentUnit that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {ApartmentUnitFindUniqueOrThrowArgs} args - Arguments to find a ApartmentUnit
+     * @example
+     * // Get one ApartmentUnit
+     * const apartmentUnit = await prisma.apartmentUnit.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends ApartmentUnitFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, ApartmentUnitFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__ApartmentUnitClient<$Result.GetResult<Prisma.$ApartmentUnitPayload<ExtArgs>, T, 'findUniqueOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find the first ApartmentUnit that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApartmentUnitFindFirstArgs} args - Arguments to find a ApartmentUnit
+     * @example
+     * // Get one ApartmentUnit
+     * const apartmentUnit = await prisma.apartmentUnit.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends ApartmentUnitFindFirstArgs<ExtArgs>>(
+      args?: SelectSubset<T, ApartmentUnitFindFirstArgs<ExtArgs>>
+    ): Prisma__ApartmentUnitClient<$Result.GetResult<Prisma.$ApartmentUnitPayload<ExtArgs>, T, 'findFirst'> | null, null, ExtArgs>
+
+    /**
+     * Find the first ApartmentUnit that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApartmentUnitFindFirstOrThrowArgs} args - Arguments to find a ApartmentUnit
+     * @example
+     * // Get one ApartmentUnit
+     * const apartmentUnit = await prisma.apartmentUnit.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends ApartmentUnitFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, ApartmentUnitFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__ApartmentUnitClient<$Result.GetResult<Prisma.$ApartmentUnitPayload<ExtArgs>, T, 'findFirstOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find zero or more ApartmentUnits that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApartmentUnitFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ApartmentUnits
+     * const apartmentUnits = await prisma.apartmentUnit.findMany()
+     * 
+     * // Get first 10 ApartmentUnits
+     * const apartmentUnits = await prisma.apartmentUnit.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const apartmentUnitWithIdOnly = await prisma.apartmentUnit.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends ApartmentUnitFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, ApartmentUnitFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApartmentUnitPayload<ExtArgs>, T, 'findMany'>>
+
+    /**
+     * Create a ApartmentUnit.
+     * @param {ApartmentUnitCreateArgs} args - Arguments to create a ApartmentUnit.
+     * @example
+     * // Create one ApartmentUnit
+     * const ApartmentUnit = await prisma.apartmentUnit.create({
+     *   data: {
+     *     // ... data to create a ApartmentUnit
+     *   }
+     * })
+     * 
+    **/
+    create<T extends ApartmentUnitCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, ApartmentUnitCreateArgs<ExtArgs>>
+    ): Prisma__ApartmentUnitClient<$Result.GetResult<Prisma.$ApartmentUnitPayload<ExtArgs>, T, 'create'>, never, ExtArgs>
+
+    /**
+     * Create many ApartmentUnits.
+     *     @param {ApartmentUnitCreateManyArgs} args - Arguments to create many ApartmentUnits.
+     *     @example
+     *     // Create many ApartmentUnits
+     *     const apartmentUnit = await prisma.apartmentUnit.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends ApartmentUnitCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, ApartmentUnitCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a ApartmentUnit.
+     * @param {ApartmentUnitDeleteArgs} args - Arguments to delete one ApartmentUnit.
+     * @example
+     * // Delete one ApartmentUnit
+     * const ApartmentUnit = await prisma.apartmentUnit.delete({
+     *   where: {
+     *     // ... filter to delete one ApartmentUnit
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends ApartmentUnitDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, ApartmentUnitDeleteArgs<ExtArgs>>
+    ): Prisma__ApartmentUnitClient<$Result.GetResult<Prisma.$ApartmentUnitPayload<ExtArgs>, T, 'delete'>, never, ExtArgs>
+
+    /**
+     * Update one ApartmentUnit.
+     * @param {ApartmentUnitUpdateArgs} args - Arguments to update one ApartmentUnit.
+     * @example
+     * // Update one ApartmentUnit
+     * const apartmentUnit = await prisma.apartmentUnit.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends ApartmentUnitUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, ApartmentUnitUpdateArgs<ExtArgs>>
+    ): Prisma__ApartmentUnitClient<$Result.GetResult<Prisma.$ApartmentUnitPayload<ExtArgs>, T, 'update'>, never, ExtArgs>
+
+    /**
+     * Delete zero or more ApartmentUnits.
+     * @param {ApartmentUnitDeleteManyArgs} args - Arguments to filter ApartmentUnits to delete.
+     * @example
+     * // Delete a few ApartmentUnits
+     * const { count } = await prisma.apartmentUnit.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends ApartmentUnitDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, ApartmentUnitDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ApartmentUnits.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApartmentUnitUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ApartmentUnits
+     * const apartmentUnit = await prisma.apartmentUnit.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends ApartmentUnitUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, ApartmentUnitUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ApartmentUnit.
+     * @param {ApartmentUnitUpsertArgs} args - Arguments to update or create a ApartmentUnit.
+     * @example
+     * // Update or create a ApartmentUnit
+     * const apartmentUnit = await prisma.apartmentUnit.upsert({
+     *   create: {
+     *     // ... data to create a ApartmentUnit
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ApartmentUnit we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends ApartmentUnitUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, ApartmentUnitUpsertArgs<ExtArgs>>
+    ): Prisma__ApartmentUnitClient<$Result.GetResult<Prisma.$ApartmentUnitPayload<ExtArgs>, T, 'upsert'>, never, ExtArgs>
+
+    /**
+     * Count the number of ApartmentUnits.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApartmentUnitCountArgs} args - Arguments to filter ApartmentUnits to count.
+     * @example
+     * // Count the number of ApartmentUnits
+     * const count = await prisma.apartmentUnit.count({
+     *   where: {
+     *     // ... the filter for the ApartmentUnits we want to count
+     *   }
+     * })
+    **/
+    count<T extends ApartmentUnitCountArgs>(
+      args?: Subset<T, ApartmentUnitCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ApartmentUnitCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ApartmentUnit.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApartmentUnitAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ApartmentUnitAggregateArgs>(args: Subset<T, ApartmentUnitAggregateArgs>): Prisma.PrismaPromise<GetApartmentUnitAggregateType<T>>
+
+    /**
+     * Group by ApartmentUnit.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApartmentUnitGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ApartmentUnitGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ApartmentUnitGroupByArgs['orderBy'] }
+        : { orderBy?: ApartmentUnitGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ApartmentUnitGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetApartmentUnitGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ApartmentUnit model
+   */
+  readonly fields: ApartmentUnitFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ApartmentUnit.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ApartmentUnitClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+
+    building<T extends ApartmentUnit$buildingArgs<ExtArgs> = {}>(args?: Subset<T, ApartmentUnit$buildingArgs<ExtArgs>>): Prisma__BuildingClient<$Result.GetResult<Prisma.$BuildingPayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
+
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
+  }
+
+
+
+  /**
+   * Fields of the ApartmentUnit model
+   */ 
+  interface ApartmentUnitFieldRefs {
+    readonly id: FieldRef<"ApartmentUnit", 'String'>
+    readonly unit_number: FieldRef<"ApartmentUnit", 'String'>
+    readonly no_of_bedrooms: FieldRef<"ApartmentUnit", 'Int'>
+    readonly no_of_baths: FieldRef<"ApartmentUnit", 'Int'>
+    readonly building_id: FieldRef<"ApartmentUnit", 'String'>
+  }
+    
+
+  // Custom InputTypes
+
+  /**
+   * ApartmentUnit findUnique
+   */
+  export type ApartmentUnitFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApartmentUnit
+     */
+    select?: ApartmentUnitSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ApartmentUnitInclude<ExtArgs> | null
+    /**
+     * Filter, which ApartmentUnit to fetch.
+     */
+    where: ApartmentUnitWhereUniqueInput
+  }
+
+
+  /**
+   * ApartmentUnit findUniqueOrThrow
+   */
+  export type ApartmentUnitFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApartmentUnit
+     */
+    select?: ApartmentUnitSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ApartmentUnitInclude<ExtArgs> | null
+    /**
+     * Filter, which ApartmentUnit to fetch.
+     */
+    where: ApartmentUnitWhereUniqueInput
+  }
+
+
+  /**
+   * ApartmentUnit findFirst
+   */
+  export type ApartmentUnitFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApartmentUnit
+     */
+    select?: ApartmentUnitSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ApartmentUnitInclude<ExtArgs> | null
+    /**
+     * Filter, which ApartmentUnit to fetch.
+     */
+    where?: ApartmentUnitWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ApartmentUnits to fetch.
+     */
+    orderBy?: ApartmentUnitOrderByWithRelationInput | ApartmentUnitOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ApartmentUnits.
+     */
+    cursor?: ApartmentUnitWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ApartmentUnits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ApartmentUnits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ApartmentUnits.
+     */
+    distinct?: ApartmentUnitScalarFieldEnum | ApartmentUnitScalarFieldEnum[]
+  }
+
+
+  /**
+   * ApartmentUnit findFirstOrThrow
+   */
+  export type ApartmentUnitFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApartmentUnit
+     */
+    select?: ApartmentUnitSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ApartmentUnitInclude<ExtArgs> | null
+    /**
+     * Filter, which ApartmentUnit to fetch.
+     */
+    where?: ApartmentUnitWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ApartmentUnits to fetch.
+     */
+    orderBy?: ApartmentUnitOrderByWithRelationInput | ApartmentUnitOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ApartmentUnits.
+     */
+    cursor?: ApartmentUnitWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ApartmentUnits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ApartmentUnits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ApartmentUnits.
+     */
+    distinct?: ApartmentUnitScalarFieldEnum | ApartmentUnitScalarFieldEnum[]
+  }
+
+
+  /**
+   * ApartmentUnit findMany
+   */
+  export type ApartmentUnitFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApartmentUnit
+     */
+    select?: ApartmentUnitSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ApartmentUnitInclude<ExtArgs> | null
+    /**
+     * Filter, which ApartmentUnits to fetch.
+     */
+    where?: ApartmentUnitWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ApartmentUnits to fetch.
+     */
+    orderBy?: ApartmentUnitOrderByWithRelationInput | ApartmentUnitOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ApartmentUnits.
+     */
+    cursor?: ApartmentUnitWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ApartmentUnits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ApartmentUnits.
+     */
+    skip?: number
+    distinct?: ApartmentUnitScalarFieldEnum | ApartmentUnitScalarFieldEnum[]
+  }
+
+
+  /**
+   * ApartmentUnit create
+   */
+  export type ApartmentUnitCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApartmentUnit
+     */
+    select?: ApartmentUnitSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ApartmentUnitInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ApartmentUnit.
+     */
+    data: XOR<ApartmentUnitCreateInput, ApartmentUnitUncheckedCreateInput>
+  }
+
+
+  /**
+   * ApartmentUnit createMany
+   */
+  export type ApartmentUnitCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ApartmentUnits.
+     */
+    data: ApartmentUnitCreateManyInput | ApartmentUnitCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * ApartmentUnit update
+   */
+  export type ApartmentUnitUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApartmentUnit
+     */
+    select?: ApartmentUnitSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ApartmentUnitInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ApartmentUnit.
+     */
+    data: XOR<ApartmentUnitUpdateInput, ApartmentUnitUncheckedUpdateInput>
+    /**
+     * Choose, which ApartmentUnit to update.
+     */
+    where: ApartmentUnitWhereUniqueInput
+  }
+
+
+  /**
+   * ApartmentUnit updateMany
+   */
+  export type ApartmentUnitUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ApartmentUnits.
+     */
+    data: XOR<ApartmentUnitUpdateManyMutationInput, ApartmentUnitUncheckedUpdateManyInput>
+    /**
+     * Filter which ApartmentUnits to update
+     */
+    where?: ApartmentUnitWhereInput
+  }
+
+
+  /**
+   * ApartmentUnit upsert
+   */
+  export type ApartmentUnitUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApartmentUnit
+     */
+    select?: ApartmentUnitSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ApartmentUnitInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ApartmentUnit to update in case it exists.
+     */
+    where: ApartmentUnitWhereUniqueInput
+    /**
+     * In case the ApartmentUnit found by the `where` argument doesn't exist, create a new ApartmentUnit with this data.
+     */
+    create: XOR<ApartmentUnitCreateInput, ApartmentUnitUncheckedCreateInput>
+    /**
+     * In case the ApartmentUnit was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ApartmentUnitUpdateInput, ApartmentUnitUncheckedUpdateInput>
+  }
+
+
+  /**
+   * ApartmentUnit delete
+   */
+  export type ApartmentUnitDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApartmentUnit
+     */
+    select?: ApartmentUnitSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ApartmentUnitInclude<ExtArgs> | null
+    /**
+     * Filter which ApartmentUnit to delete.
+     */
+    where: ApartmentUnitWhereUniqueInput
+  }
+
+
+  /**
+   * ApartmentUnit deleteMany
+   */
+  export type ApartmentUnitDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ApartmentUnits to delete
+     */
+    where?: ApartmentUnitWhereInput
+  }
+
+
+  /**
+   * ApartmentUnit.building
+   */
+  export type ApartmentUnit$buildingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Building
+     */
+    select?: BuildingSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BuildingInclude<ExtArgs> | null
+    where?: BuildingWhereInput
+  }
+
+
+  /**
+   * ApartmentUnit without action
+   */
+  export type ApartmentUnitDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApartmentUnit
+     */
+    select?: ApartmentUnitSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ApartmentUnitInclude<ExtArgs> | null
+  }
+
+
+
+  /**
    * Enums
    */
 
@@ -13738,6 +14828,17 @@ export namespace Prisma {
   };
 
   export type ReservationScalarFieldEnum = (typeof ReservationScalarFieldEnum)[keyof typeof ReservationScalarFieldEnum]
+
+
+  export const ApartmentUnitScalarFieldEnum: {
+    id: 'id',
+    unit_number: 'unit_number',
+    no_of_bedrooms: 'no_of_bedrooms',
+    no_of_baths: 'no_of_baths',
+    building_id: 'building_id'
+  };
+
+  export type ApartmentUnitScalarFieldEnum = (typeof ApartmentUnitScalarFieldEnum)[keyof typeof ApartmentUnitScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -14427,6 +15528,7 @@ export namespace Prisma {
     community_members?: CommunityMembersListRelationFilter
     parking_spots?: ParkingSpotListRelationFilter
     reservations?: ReservationListRelationFilter
+    apartment_units?: ApartmentUnitListRelationFilter
   }
 
   export type BuildingOrderByWithRelationInput = {
@@ -14449,6 +15551,7 @@ export namespace Prisma {
     community_members?: CommunityMembersOrderByRelationAggregateInput
     parking_spots?: ParkingSpotOrderByRelationAggregateInput
     reservations?: ReservationOrderByRelationAggregateInput
+    apartment_units?: ApartmentUnitOrderByRelationAggregateInput
   }
 
   export type BuildingWhereUniqueInput = Prisma.AtLeast<{
@@ -14474,6 +15577,7 @@ export namespace Prisma {
     community_members?: CommunityMembersListRelationFilter
     parking_spots?: ParkingSpotListRelationFilter
     reservations?: ReservationListRelationFilter
+    apartment_units?: ApartmentUnitListRelationFilter
   }, "id" | "id">
 
   export type BuildingOrderByWithAggregationInput = {
@@ -15004,6 +16108,64 @@ export namespace Prisma {
     status?: EnumReservation_StatusWithAggregatesFilter<"Reservation"> | $Enums.Reservation_Status
   }
 
+  export type ApartmentUnitWhereInput = {
+    AND?: ApartmentUnitWhereInput | ApartmentUnitWhereInput[]
+    OR?: ApartmentUnitWhereInput[]
+    NOT?: ApartmentUnitWhereInput | ApartmentUnitWhereInput[]
+    id?: StringFilter<"ApartmentUnit"> | string
+    unit_number?: StringNullableFilter<"ApartmentUnit"> | string | null
+    no_of_bedrooms?: IntNullableFilter<"ApartmentUnit"> | number | null
+    no_of_baths?: IntNullableFilter<"ApartmentUnit"> | number | null
+    building_id?: StringFilter<"ApartmentUnit"> | string
+    building?: XOR<BuildingNullableRelationFilter, BuildingWhereInput> | null
+  }
+
+  export type ApartmentUnitOrderByWithRelationInput = {
+    id?: SortOrder
+    unit_number?: SortOrderInput | SortOrder
+    no_of_bedrooms?: SortOrderInput | SortOrder
+    no_of_baths?: SortOrderInput | SortOrder
+    building_id?: SortOrder
+    building?: BuildingOrderByWithRelationInput
+  }
+
+  export type ApartmentUnitWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    building_id_unit_number?: ApartmentUnitBuilding_idUnit_numberCompoundUniqueInput
+    AND?: ApartmentUnitWhereInput | ApartmentUnitWhereInput[]
+    OR?: ApartmentUnitWhereInput[]
+    NOT?: ApartmentUnitWhereInput | ApartmentUnitWhereInput[]
+    unit_number?: StringNullableFilter<"ApartmentUnit"> | string | null
+    no_of_bedrooms?: IntNullableFilter<"ApartmentUnit"> | number | null
+    no_of_baths?: IntNullableFilter<"ApartmentUnit"> | number | null
+    building_id?: StringFilter<"ApartmentUnit"> | string
+    building?: XOR<BuildingNullableRelationFilter, BuildingWhereInput> | null
+  }, "id" | "id" | "building_id_unit_number">
+
+  export type ApartmentUnitOrderByWithAggregationInput = {
+    id?: SortOrder
+    unit_number?: SortOrderInput | SortOrder
+    no_of_bedrooms?: SortOrderInput | SortOrder
+    no_of_baths?: SortOrderInput | SortOrder
+    building_id?: SortOrder
+    _count?: ApartmentUnitCountOrderByAggregateInput
+    _avg?: ApartmentUnitAvgOrderByAggregateInput
+    _max?: ApartmentUnitMaxOrderByAggregateInput
+    _min?: ApartmentUnitMinOrderByAggregateInput
+    _sum?: ApartmentUnitSumOrderByAggregateInput
+  }
+
+  export type ApartmentUnitScalarWhereWithAggregatesInput = {
+    AND?: ApartmentUnitScalarWhereWithAggregatesInput | ApartmentUnitScalarWhereWithAggregatesInput[]
+    OR?: ApartmentUnitScalarWhereWithAggregatesInput[]
+    NOT?: ApartmentUnitScalarWhereWithAggregatesInput | ApartmentUnitScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ApartmentUnit"> | string
+    unit_number?: StringNullableWithAggregatesFilter<"ApartmentUnit"> | string | null
+    no_of_bedrooms?: IntNullableWithAggregatesFilter<"ApartmentUnit"> | number | null
+    no_of_baths?: IntNullableWithAggregatesFilter<"ApartmentUnit"> | number | null
+    building_id?: StringWithAggregatesFilter<"ApartmentUnit"> | string
+  }
+
   export type PreSignUpManagementCreateInput = {
     email: string
     company_name: string
@@ -15420,6 +16582,7 @@ export namespace Prisma {
     community_members?: CommunityMembersCreateNestedManyWithoutBuildingInput
     parking_spots?: ParkingSpotCreateNestedManyWithoutBuildingInput
     reservations?: ReservationCreateNestedManyWithoutBuildingInput
+    apartment_units?: ApartmentUnitCreateNestedManyWithoutBuildingInput
   }
 
   export type BuildingUncheckedCreateInput = {
@@ -15441,6 +16604,7 @@ export namespace Prisma {
     community_members?: CommunityMembersUncheckedCreateNestedManyWithoutBuildingInput
     parking_spots?: ParkingSpotUncheckedCreateNestedManyWithoutBuildingInput
     reservations?: ReservationUncheckedCreateNestedManyWithoutBuildingInput
+    apartment_units?: ApartmentUnitUncheckedCreateNestedManyWithoutBuildingInput
   }
 
   export type BuildingUpdateInput = {
@@ -15462,6 +16626,7 @@ export namespace Prisma {
     community_members?: CommunityMembersUpdateManyWithoutBuildingNestedInput
     parking_spots?: ParkingSpotUpdateManyWithoutBuildingNestedInput
     reservations?: ReservationUpdateManyWithoutBuildingNestedInput
+    apartment_units?: ApartmentUnitUpdateManyWithoutBuildingNestedInput
   }
 
   export type BuildingUncheckedUpdateInput = {
@@ -15483,6 +16648,7 @@ export namespace Prisma {
     community_members?: CommunityMembersUncheckedUpdateManyWithoutBuildingNestedInput
     parking_spots?: ParkingSpotUncheckedUpdateManyWithoutBuildingNestedInput
     reservations?: ReservationUncheckedUpdateManyWithoutBuildingNestedInput
+    apartment_units?: ApartmentUnitUncheckedUpdateManyWithoutBuildingNestedInput
   }
 
   export type BuildingCreateManyInput = {
@@ -16028,6 +17194,61 @@ export namespace Prisma {
     status?: EnumReservation_StatusFieldUpdateOperationsInput | $Enums.Reservation_Status
   }
 
+  export type ApartmentUnitCreateInput = {
+    id?: string
+    unit_number?: string | null
+    no_of_bedrooms?: number | null
+    no_of_baths?: number | null
+    building?: BuildingCreateNestedOneWithoutApartment_unitsInput
+  }
+
+  export type ApartmentUnitUncheckedCreateInput = {
+    id?: string
+    unit_number?: string | null
+    no_of_bedrooms?: number | null
+    no_of_baths?: number | null
+    building_id: string
+  }
+
+  export type ApartmentUnitUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    unit_number?: NullableStringFieldUpdateOperationsInput | string | null
+    no_of_bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    no_of_baths?: NullableIntFieldUpdateOperationsInput | number | null
+    building?: BuildingUpdateOneWithoutApartment_unitsNestedInput
+  }
+
+  export type ApartmentUnitUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    unit_number?: NullableStringFieldUpdateOperationsInput | string | null
+    no_of_bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    no_of_baths?: NullableIntFieldUpdateOperationsInput | number | null
+    building_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ApartmentUnitCreateManyInput = {
+    id?: string
+    unit_number?: string | null
+    no_of_bedrooms?: number | null
+    no_of_baths?: number | null
+    building_id: string
+  }
+
+  export type ApartmentUnitUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    unit_number?: NullableStringFieldUpdateOperationsInput | string | null
+    no_of_bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    no_of_baths?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type ApartmentUnitUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    unit_number?: NullableStringFieldUpdateOperationsInput | string | null
+    no_of_bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    no_of_baths?: NullableIntFieldUpdateOperationsInput | number | null
+    building_id?: StringFieldUpdateOperationsInput | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -16553,7 +17774,17 @@ export namespace Prisma {
     none?: ParkingSpotWhereInput
   }
 
+  export type ApartmentUnitListRelationFilter = {
+    every?: ApartmentUnitWhereInput
+    some?: ApartmentUnitWhereInput
+    none?: ApartmentUnitWhereInput
+  }
+
   export type ParkingSpotOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ApartmentUnitOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -17104,6 +18335,45 @@ export namespace Prisma {
     _max?: NestedEnumReservation_StatusFilter<$PrismaModel>
   }
 
+  export type ApartmentUnitBuilding_idUnit_numberCompoundUniqueInput = {
+    building_id: string
+    unit_number: string
+  }
+
+  export type ApartmentUnitCountOrderByAggregateInput = {
+    id?: SortOrder
+    unit_number?: SortOrder
+    no_of_bedrooms?: SortOrder
+    no_of_baths?: SortOrder
+    building_id?: SortOrder
+  }
+
+  export type ApartmentUnitAvgOrderByAggregateInput = {
+    no_of_bedrooms?: SortOrder
+    no_of_baths?: SortOrder
+  }
+
+  export type ApartmentUnitMaxOrderByAggregateInput = {
+    id?: SortOrder
+    unit_number?: SortOrder
+    no_of_bedrooms?: SortOrder
+    no_of_baths?: SortOrder
+    building_id?: SortOrder
+  }
+
+  export type ApartmentUnitMinOrderByAggregateInput = {
+    id?: SortOrder
+    unit_number?: SortOrder
+    no_of_bedrooms?: SortOrder
+    no_of_baths?: SortOrder
+    building_id?: SortOrder
+  }
+
+  export type ApartmentUnitSumOrderByAggregateInput = {
+    no_of_bedrooms?: SortOrder
+    no_of_baths?: SortOrder
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -17496,6 +18766,13 @@ export namespace Prisma {
     connect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
   }
 
+  export type ApartmentUnitCreateNestedManyWithoutBuildingInput = {
+    create?: XOR<ApartmentUnitCreateWithoutBuildingInput, ApartmentUnitUncheckedCreateWithoutBuildingInput> | ApartmentUnitCreateWithoutBuildingInput[] | ApartmentUnitUncheckedCreateWithoutBuildingInput[]
+    connectOrCreate?: ApartmentUnitCreateOrConnectWithoutBuildingInput | ApartmentUnitCreateOrConnectWithoutBuildingInput[]
+    createMany?: ApartmentUnitCreateManyBuildingInputEnvelope
+    connect?: ApartmentUnitWhereUniqueInput | ApartmentUnitWhereUniqueInput[]
+  }
+
   export type CommunityMembersUncheckedCreateNestedManyWithoutBuildingInput = {
     create?: XOR<CommunityMembersCreateWithoutBuildingInput, CommunityMembersUncheckedCreateWithoutBuildingInput> | CommunityMembersCreateWithoutBuildingInput[] | CommunityMembersUncheckedCreateWithoutBuildingInput[]
     connectOrCreate?: CommunityMembersCreateOrConnectWithoutBuildingInput | CommunityMembersCreateOrConnectWithoutBuildingInput[]
@@ -17515,6 +18792,13 @@ export namespace Prisma {
     connectOrCreate?: ReservationCreateOrConnectWithoutBuildingInput | ReservationCreateOrConnectWithoutBuildingInput[]
     createMany?: ReservationCreateManyBuildingInputEnvelope
     connect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
+  }
+
+  export type ApartmentUnitUncheckedCreateNestedManyWithoutBuildingInput = {
+    create?: XOR<ApartmentUnitCreateWithoutBuildingInput, ApartmentUnitUncheckedCreateWithoutBuildingInput> | ApartmentUnitCreateWithoutBuildingInput[] | ApartmentUnitUncheckedCreateWithoutBuildingInput[]
+    connectOrCreate?: ApartmentUnitCreateOrConnectWithoutBuildingInput | ApartmentUnitCreateOrConnectWithoutBuildingInput[]
+    createMany?: ApartmentUnitCreateManyBuildingInputEnvelope
+    connect?: ApartmentUnitWhereUniqueInput | ApartmentUnitWhereUniqueInput[]
   }
 
   export type NullableEnumBuildingTypeFieldUpdateOperationsInput = {
@@ -17584,6 +18868,20 @@ export namespace Prisma {
     deleteMany?: ReservationScalarWhereInput | ReservationScalarWhereInput[]
   }
 
+  export type ApartmentUnitUpdateManyWithoutBuildingNestedInput = {
+    create?: XOR<ApartmentUnitCreateWithoutBuildingInput, ApartmentUnitUncheckedCreateWithoutBuildingInput> | ApartmentUnitCreateWithoutBuildingInput[] | ApartmentUnitUncheckedCreateWithoutBuildingInput[]
+    connectOrCreate?: ApartmentUnitCreateOrConnectWithoutBuildingInput | ApartmentUnitCreateOrConnectWithoutBuildingInput[]
+    upsert?: ApartmentUnitUpsertWithWhereUniqueWithoutBuildingInput | ApartmentUnitUpsertWithWhereUniqueWithoutBuildingInput[]
+    createMany?: ApartmentUnitCreateManyBuildingInputEnvelope
+    set?: ApartmentUnitWhereUniqueInput | ApartmentUnitWhereUniqueInput[]
+    disconnect?: ApartmentUnitWhereUniqueInput | ApartmentUnitWhereUniqueInput[]
+    delete?: ApartmentUnitWhereUniqueInput | ApartmentUnitWhereUniqueInput[]
+    connect?: ApartmentUnitWhereUniqueInput | ApartmentUnitWhereUniqueInput[]
+    update?: ApartmentUnitUpdateWithWhereUniqueWithoutBuildingInput | ApartmentUnitUpdateWithWhereUniqueWithoutBuildingInput[]
+    updateMany?: ApartmentUnitUpdateManyWithWhereWithoutBuildingInput | ApartmentUnitUpdateManyWithWhereWithoutBuildingInput[]
+    deleteMany?: ApartmentUnitScalarWhereInput | ApartmentUnitScalarWhereInput[]
+  }
+
   export type CommunityMembersUncheckedUpdateManyWithoutBuildingNestedInput = {
     create?: XOR<CommunityMembersCreateWithoutBuildingInput, CommunityMembersUncheckedCreateWithoutBuildingInput> | CommunityMembersCreateWithoutBuildingInput[] | CommunityMembersUncheckedCreateWithoutBuildingInput[]
     connectOrCreate?: CommunityMembersCreateOrConnectWithoutBuildingInput | CommunityMembersCreateOrConnectWithoutBuildingInput[]
@@ -17624,6 +18922,20 @@ export namespace Prisma {
     update?: ReservationUpdateWithWhereUniqueWithoutBuildingInput | ReservationUpdateWithWhereUniqueWithoutBuildingInput[]
     updateMany?: ReservationUpdateManyWithWhereWithoutBuildingInput | ReservationUpdateManyWithWhereWithoutBuildingInput[]
     deleteMany?: ReservationScalarWhereInput | ReservationScalarWhereInput[]
+  }
+
+  export type ApartmentUnitUncheckedUpdateManyWithoutBuildingNestedInput = {
+    create?: XOR<ApartmentUnitCreateWithoutBuildingInput, ApartmentUnitUncheckedCreateWithoutBuildingInput> | ApartmentUnitCreateWithoutBuildingInput[] | ApartmentUnitUncheckedCreateWithoutBuildingInput[]
+    connectOrCreate?: ApartmentUnitCreateOrConnectWithoutBuildingInput | ApartmentUnitCreateOrConnectWithoutBuildingInput[]
+    upsert?: ApartmentUnitUpsertWithWhereUniqueWithoutBuildingInput | ApartmentUnitUpsertWithWhereUniqueWithoutBuildingInput[]
+    createMany?: ApartmentUnitCreateManyBuildingInputEnvelope
+    set?: ApartmentUnitWhereUniqueInput | ApartmentUnitWhereUniqueInput[]
+    disconnect?: ApartmentUnitWhereUniqueInput | ApartmentUnitWhereUniqueInput[]
+    delete?: ApartmentUnitWhereUniqueInput | ApartmentUnitWhereUniqueInput[]
+    connect?: ApartmentUnitWhereUniqueInput | ApartmentUnitWhereUniqueInput[]
+    update?: ApartmentUnitUpdateWithWhereUniqueWithoutBuildingInput | ApartmentUnitUpdateWithWhereUniqueWithoutBuildingInput[]
+    updateMany?: ApartmentUnitUpdateManyWithWhereWithoutBuildingInput | ApartmentUnitUpdateManyWithWhereWithoutBuildingInput[]
+    deleteMany?: ApartmentUnitScalarWhereInput | ApartmentUnitScalarWhereInput[]
   }
 
   export type CommunityMembersCreateunit_numbersInput = {
@@ -18151,6 +19463,22 @@ export namespace Prisma {
     upsert?: ParkingSpotUpsertWithoutReservationsInput
     connect?: ParkingSpotWhereUniqueInput
     update?: XOR<XOR<ParkingSpotUpdateToOneWithWhereWithoutReservationsInput, ParkingSpotUpdateWithoutReservationsInput>, ParkingSpotUncheckedUpdateWithoutReservationsInput>
+  }
+
+  export type BuildingCreateNestedOneWithoutApartment_unitsInput = {
+    create?: XOR<BuildingCreateWithoutApartment_unitsInput, BuildingUncheckedCreateWithoutApartment_unitsInput>
+    connectOrCreate?: BuildingCreateOrConnectWithoutApartment_unitsInput
+    connect?: BuildingWhereUniqueInput
+  }
+
+  export type BuildingUpdateOneWithoutApartment_unitsNestedInput = {
+    create?: XOR<BuildingCreateWithoutApartment_unitsInput, BuildingUncheckedCreateWithoutApartment_unitsInput>
+    connectOrCreate?: BuildingCreateOrConnectWithoutApartment_unitsInput
+    upsert?: BuildingUpsertWithoutApartment_unitsInput
+    disconnect?: BuildingWhereInput | boolean
+    delete?: BuildingWhereInput | boolean
+    connect?: BuildingWhereUniqueInput
+    update?: XOR<XOR<BuildingUpdateToOneWithWhereWithoutApartment_unitsInput, BuildingUpdateWithoutApartment_unitsInput>, BuildingUncheckedUpdateWithoutApartment_unitsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -18991,6 +20319,7 @@ export namespace Prisma {
     community_members?: CommunityMembersCreateNestedManyWithoutBuildingInput
     parking_spots?: ParkingSpotCreateNestedManyWithoutBuildingInput
     reservations?: ReservationCreateNestedManyWithoutBuildingInput
+    apartment_units?: ApartmentUnitCreateNestedManyWithoutBuildingInput
   }
 
   export type BuildingUncheckedCreateWithoutManagementInput = {
@@ -19011,6 +20340,7 @@ export namespace Prisma {
     community_members?: CommunityMembersUncheckedCreateNestedManyWithoutBuildingInput
     parking_spots?: ParkingSpotUncheckedCreateNestedManyWithoutBuildingInput
     reservations?: ReservationUncheckedCreateNestedManyWithoutBuildingInput
+    apartment_units?: ApartmentUnitUncheckedCreateNestedManyWithoutBuildingInput
   }
 
   export type BuildingCreateOrConnectWithoutManagementInput = {
@@ -19439,6 +20769,30 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ApartmentUnitCreateWithoutBuildingInput = {
+    id?: string
+    unit_number?: string | null
+    no_of_bedrooms?: number | null
+    no_of_baths?: number | null
+  }
+
+  export type ApartmentUnitUncheckedCreateWithoutBuildingInput = {
+    id?: string
+    unit_number?: string | null
+    no_of_bedrooms?: number | null
+    no_of_baths?: number | null
+  }
+
+  export type ApartmentUnitCreateOrConnectWithoutBuildingInput = {
+    where: ApartmentUnitWhereUniqueInput
+    create: XOR<ApartmentUnitCreateWithoutBuildingInput, ApartmentUnitUncheckedCreateWithoutBuildingInput>
+  }
+
+  export type ApartmentUnitCreateManyBuildingInputEnvelope = {
+    data: ApartmentUnitCreateManyBuildingInput | ApartmentUnitCreateManyBuildingInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ManagementUpsertWithoutBuildingsInput = {
     update: XOR<ManagementUpdateWithoutBuildingsInput, ManagementUncheckedUpdateWithoutBuildingsInput>
     create: XOR<ManagementCreateWithoutBuildingsInput, ManagementUncheckedCreateWithoutBuildingsInput>
@@ -19557,6 +20911,33 @@ export namespace Prisma {
     data: XOR<ReservationUpdateManyMutationInput, ReservationUncheckedUpdateManyWithoutBuildingInput>
   }
 
+  export type ApartmentUnitUpsertWithWhereUniqueWithoutBuildingInput = {
+    where: ApartmentUnitWhereUniqueInput
+    update: XOR<ApartmentUnitUpdateWithoutBuildingInput, ApartmentUnitUncheckedUpdateWithoutBuildingInput>
+    create: XOR<ApartmentUnitCreateWithoutBuildingInput, ApartmentUnitUncheckedCreateWithoutBuildingInput>
+  }
+
+  export type ApartmentUnitUpdateWithWhereUniqueWithoutBuildingInput = {
+    where: ApartmentUnitWhereUniqueInput
+    data: XOR<ApartmentUnitUpdateWithoutBuildingInput, ApartmentUnitUncheckedUpdateWithoutBuildingInput>
+  }
+
+  export type ApartmentUnitUpdateManyWithWhereWithoutBuildingInput = {
+    where: ApartmentUnitScalarWhereInput
+    data: XOR<ApartmentUnitUpdateManyMutationInput, ApartmentUnitUncheckedUpdateManyWithoutBuildingInput>
+  }
+
+  export type ApartmentUnitScalarWhereInput = {
+    AND?: ApartmentUnitScalarWhereInput | ApartmentUnitScalarWhereInput[]
+    OR?: ApartmentUnitScalarWhereInput[]
+    NOT?: ApartmentUnitScalarWhereInput | ApartmentUnitScalarWhereInput[]
+    id?: StringFilter<"ApartmentUnit"> | string
+    unit_number?: StringNullableFilter<"ApartmentUnit"> | string | null
+    no_of_bedrooms?: IntNullableFilter<"ApartmentUnit"> | number | null
+    no_of_baths?: IntNullableFilter<"ApartmentUnit"> | number | null
+    building_id?: StringFilter<"ApartmentUnit"> | string
+  }
+
   export type BuildingCreateWithoutCommunity_membersInput = {
     id?: string
     building_name?: string | null
@@ -19575,6 +20956,7 @@ export namespace Prisma {
     management: ManagementCreateNestedOneWithoutBuildingsInput
     parking_spots?: ParkingSpotCreateNestedManyWithoutBuildingInput
     reservations?: ReservationCreateNestedManyWithoutBuildingInput
+    apartment_units?: ApartmentUnitCreateNestedManyWithoutBuildingInput
   }
 
   export type BuildingUncheckedCreateWithoutCommunity_membersInput = {
@@ -19595,6 +20977,7 @@ export namespace Prisma {
     facilities?: BuildingCreatefacilitiesInput | $Enums.BuildingFacility[]
     parking_spots?: ParkingSpotUncheckedCreateNestedManyWithoutBuildingInput
     reservations?: ReservationUncheckedCreateNestedManyWithoutBuildingInput
+    apartment_units?: ApartmentUnitUncheckedCreateNestedManyWithoutBuildingInput
   }
 
   export type BuildingCreateOrConnectWithoutCommunity_membersInput = {
@@ -19733,6 +21116,7 @@ export namespace Prisma {
     management?: ManagementUpdateOneRequiredWithoutBuildingsNestedInput
     parking_spots?: ParkingSpotUpdateManyWithoutBuildingNestedInput
     reservations?: ReservationUpdateManyWithoutBuildingNestedInput
+    apartment_units?: ApartmentUnitUpdateManyWithoutBuildingNestedInput
   }
 
   export type BuildingUncheckedUpdateWithoutCommunity_membersInput = {
@@ -19753,6 +21137,7 @@ export namespace Prisma {
     facilities?: BuildingUpdatefacilitiesInput | $Enums.BuildingFacility[]
     parking_spots?: ParkingSpotUncheckedUpdateManyWithoutBuildingNestedInput
     reservations?: ReservationUncheckedUpdateManyWithoutBuildingNestedInput
+    apartment_units?: ApartmentUnitUncheckedUpdateManyWithoutBuildingNestedInput
   }
 
   export type QRCodeUpsertWithoutOwnerInput = {
@@ -19867,6 +21252,7 @@ export namespace Prisma {
     management: ManagementCreateNestedOneWithoutBuildingsInput
     community_members?: CommunityMembersCreateNestedManyWithoutBuildingInput
     reservations?: ReservationCreateNestedManyWithoutBuildingInput
+    apartment_units?: ApartmentUnitCreateNestedManyWithoutBuildingInput
   }
 
   export type BuildingUncheckedCreateWithoutParking_spotsInput = {
@@ -19887,6 +21273,7 @@ export namespace Prisma {
     facilities?: BuildingCreatefacilitiesInput | $Enums.BuildingFacility[]
     community_members?: CommunityMembersUncheckedCreateNestedManyWithoutBuildingInput
     reservations?: ReservationUncheckedCreateNestedManyWithoutBuildingInput
+    apartment_units?: ApartmentUnitUncheckedCreateNestedManyWithoutBuildingInput
   }
 
   export type BuildingCreateOrConnectWithoutParking_spotsInput = {
@@ -20070,6 +21457,7 @@ export namespace Prisma {
     management?: ManagementUpdateOneRequiredWithoutBuildingsNestedInput
     community_members?: CommunityMembersUpdateManyWithoutBuildingNestedInput
     reservations?: ReservationUpdateManyWithoutBuildingNestedInput
+    apartment_units?: ApartmentUnitUpdateManyWithoutBuildingNestedInput
   }
 
   export type BuildingUncheckedUpdateWithoutParking_spotsInput = {
@@ -20090,6 +21478,7 @@ export namespace Prisma {
     facilities?: BuildingUpdatefacilitiesInput | $Enums.BuildingFacility[]
     community_members?: CommunityMembersUncheckedUpdateManyWithoutBuildingNestedInput
     reservations?: ReservationUncheckedUpdateManyWithoutBuildingNestedInput
+    apartment_units?: ApartmentUnitUncheckedUpdateManyWithoutBuildingNestedInput
   }
 
   export type CommunityMembersUpsertWithoutParking_spotsInput = {
@@ -20752,6 +22141,7 @@ export namespace Prisma {
     management: ManagementCreateNestedOneWithoutBuildingsInput
     community_members?: CommunityMembersCreateNestedManyWithoutBuildingInput
     parking_spots?: ParkingSpotCreateNestedManyWithoutBuildingInput
+    apartment_units?: ApartmentUnitCreateNestedManyWithoutBuildingInput
   }
 
   export type BuildingUncheckedCreateWithoutReservationsInput = {
@@ -20772,6 +22162,7 @@ export namespace Prisma {
     facilities?: BuildingCreatefacilitiesInput | $Enums.BuildingFacility[]
     community_members?: CommunityMembersUncheckedCreateNestedManyWithoutBuildingInput
     parking_spots?: ParkingSpotUncheckedCreateNestedManyWithoutBuildingInput
+    apartment_units?: ApartmentUnitUncheckedCreateNestedManyWithoutBuildingInput
   }
 
   export type BuildingCreateOrConnectWithoutReservationsInput = {
@@ -20980,6 +22371,7 @@ export namespace Prisma {
     management?: ManagementUpdateOneRequiredWithoutBuildingsNestedInput
     community_members?: CommunityMembersUpdateManyWithoutBuildingNestedInput
     parking_spots?: ParkingSpotUpdateManyWithoutBuildingNestedInput
+    apartment_units?: ApartmentUnitUpdateManyWithoutBuildingNestedInput
   }
 
   export type BuildingUncheckedUpdateWithoutReservationsInput = {
@@ -21000,6 +22392,7 @@ export namespace Prisma {
     facilities?: BuildingUpdatefacilitiesInput | $Enums.BuildingFacility[]
     community_members?: CommunityMembersUncheckedUpdateManyWithoutBuildingNestedInput
     parking_spots?: ParkingSpotUncheckedUpdateManyWithoutBuildingNestedInput
+    apartment_units?: ApartmentUnitUncheckedUpdateManyWithoutBuildingNestedInput
   }
 
   export type ParkingSpotUpsertWithoutReservationsInput = {
@@ -21037,6 +22430,106 @@ export namespace Prisma {
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
     listings?: ListingUncheckedUpdateManyWithoutParking_spotNestedInput
+  }
+
+  export type BuildingCreateWithoutApartment_unitsInput = {
+    id?: string
+    building_name?: string | null
+    building_type?: $Enums.BuildingType | null
+    address?: string | null
+    city?: string | null
+    state?: string | null
+    country?: string | null
+    lat?: number | null
+    lng?: number | null
+    no_of_units?: number | null
+    no_of_parking_floors?: number | null
+    no_of_parking_spots?: number | null
+    no_of_developer_parking_spots?: number | null
+    facilities?: BuildingCreatefacilitiesInput | $Enums.BuildingFacility[]
+    management: ManagementCreateNestedOneWithoutBuildingsInput
+    community_members?: CommunityMembersCreateNestedManyWithoutBuildingInput
+    parking_spots?: ParkingSpotCreateNestedManyWithoutBuildingInput
+    reservations?: ReservationCreateNestedManyWithoutBuildingInput
+  }
+
+  export type BuildingUncheckedCreateWithoutApartment_unitsInput = {
+    id?: string
+    management_id: string
+    building_name?: string | null
+    building_type?: $Enums.BuildingType | null
+    address?: string | null
+    city?: string | null
+    state?: string | null
+    country?: string | null
+    lat?: number | null
+    lng?: number | null
+    no_of_units?: number | null
+    no_of_parking_floors?: number | null
+    no_of_parking_spots?: number | null
+    no_of_developer_parking_spots?: number | null
+    facilities?: BuildingCreatefacilitiesInput | $Enums.BuildingFacility[]
+    community_members?: CommunityMembersUncheckedCreateNestedManyWithoutBuildingInput
+    parking_spots?: ParkingSpotUncheckedCreateNestedManyWithoutBuildingInput
+    reservations?: ReservationUncheckedCreateNestedManyWithoutBuildingInput
+  }
+
+  export type BuildingCreateOrConnectWithoutApartment_unitsInput = {
+    where: BuildingWhereUniqueInput
+    create: XOR<BuildingCreateWithoutApartment_unitsInput, BuildingUncheckedCreateWithoutApartment_unitsInput>
+  }
+
+  export type BuildingUpsertWithoutApartment_unitsInput = {
+    update: XOR<BuildingUpdateWithoutApartment_unitsInput, BuildingUncheckedUpdateWithoutApartment_unitsInput>
+    create: XOR<BuildingCreateWithoutApartment_unitsInput, BuildingUncheckedCreateWithoutApartment_unitsInput>
+    where?: BuildingWhereInput
+  }
+
+  export type BuildingUpdateToOneWithWhereWithoutApartment_unitsInput = {
+    where?: BuildingWhereInput
+    data: XOR<BuildingUpdateWithoutApartment_unitsInput, BuildingUncheckedUpdateWithoutApartment_unitsInput>
+  }
+
+  export type BuildingUpdateWithoutApartment_unitsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    building_name?: NullableStringFieldUpdateOperationsInput | string | null
+    building_type?: NullableEnumBuildingTypeFieldUpdateOperationsInput | $Enums.BuildingType | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    no_of_units?: NullableIntFieldUpdateOperationsInput | number | null
+    no_of_parking_floors?: NullableIntFieldUpdateOperationsInput | number | null
+    no_of_parking_spots?: NullableIntFieldUpdateOperationsInput | number | null
+    no_of_developer_parking_spots?: NullableIntFieldUpdateOperationsInput | number | null
+    facilities?: BuildingUpdatefacilitiesInput | $Enums.BuildingFacility[]
+    management?: ManagementUpdateOneRequiredWithoutBuildingsNestedInput
+    community_members?: CommunityMembersUpdateManyWithoutBuildingNestedInput
+    parking_spots?: ParkingSpotUpdateManyWithoutBuildingNestedInput
+    reservations?: ReservationUpdateManyWithoutBuildingNestedInput
+  }
+
+  export type BuildingUncheckedUpdateWithoutApartment_unitsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    management_id?: StringFieldUpdateOperationsInput | string
+    building_name?: NullableStringFieldUpdateOperationsInput | string | null
+    building_type?: NullableEnumBuildingTypeFieldUpdateOperationsInput | $Enums.BuildingType | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    no_of_units?: NullableIntFieldUpdateOperationsInput | number | null
+    no_of_parking_floors?: NullableIntFieldUpdateOperationsInput | number | null
+    no_of_parking_spots?: NullableIntFieldUpdateOperationsInput | number | null
+    no_of_developer_parking_spots?: NullableIntFieldUpdateOperationsInput | number | null
+    facilities?: BuildingUpdatefacilitiesInput | $Enums.BuildingFacility[]
+    community_members?: CommunityMembersUncheckedUpdateManyWithoutBuildingNestedInput
+    parking_spots?: ParkingSpotUncheckedUpdateManyWithoutBuildingNestedInput
+    reservations?: ReservationUncheckedUpdateManyWithoutBuildingNestedInput
   }
 
   export type CommunityMembersCreateManyUserInput = {
@@ -21314,6 +22807,7 @@ export namespace Prisma {
     community_members?: CommunityMembersUpdateManyWithoutBuildingNestedInput
     parking_spots?: ParkingSpotUpdateManyWithoutBuildingNestedInput
     reservations?: ReservationUpdateManyWithoutBuildingNestedInput
+    apartment_units?: ApartmentUnitUpdateManyWithoutBuildingNestedInput
   }
 
   export type BuildingUncheckedUpdateWithoutManagementInput = {
@@ -21334,6 +22828,7 @@ export namespace Prisma {
     community_members?: CommunityMembersUncheckedUpdateManyWithoutBuildingNestedInput
     parking_spots?: ParkingSpotUncheckedUpdateManyWithoutBuildingNestedInput
     reservations?: ReservationUncheckedUpdateManyWithoutBuildingNestedInput
+    apartment_units?: ApartmentUnitUncheckedUpdateManyWithoutBuildingNestedInput
   }
 
   export type BuildingUncheckedUpdateManyWithoutManagementInput = {
@@ -21386,6 +22881,13 @@ export namespace Prisma {
     start_date: Date | string
     end_date: Date | string
     status?: $Enums.Reservation_Status
+  }
+
+  export type ApartmentUnitCreateManyBuildingInput = {
+    id?: string
+    unit_number?: string | null
+    no_of_bedrooms?: number | null
+    no_of_baths?: number | null
   }
 
   export type CommunityMembersUpdateWithoutBuildingInput = {
@@ -21497,6 +22999,27 @@ export namespace Prisma {
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumReservation_StatusFieldUpdateOperationsInput | $Enums.Reservation_Status
+  }
+
+  export type ApartmentUnitUpdateWithoutBuildingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    unit_number?: NullableStringFieldUpdateOperationsInput | string | null
+    no_of_bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    no_of_baths?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type ApartmentUnitUncheckedUpdateWithoutBuildingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    unit_number?: NullableStringFieldUpdateOperationsInput | string | null
+    no_of_bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    no_of_baths?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type ApartmentUnitUncheckedUpdateManyWithoutBuildingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    unit_number?: NullableStringFieldUpdateOperationsInput | string | null
+    no_of_bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    no_of_baths?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type ParkingSpotCreateManyOwnerInput = {
@@ -21830,6 +23353,10 @@ export namespace Prisma {
      * @deprecated Use ReservationDefaultArgs instead
      */
     export type ReservationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ReservationDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ApartmentUnitDefaultArgs instead
+     */
+    export type ApartmentUnitArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ApartmentUnitDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

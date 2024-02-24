@@ -140,9 +140,17 @@ export const AddApartmentUnitValidation = z.object({
   unitNumber: z.string().min(1, 'Please enter a valid unit number'),
   noOfRooms: z.string().regex(/^\d+/, {
     message: "Please enter a valid number",
-  }),
+  }).transform((val) => parseInt(val)),
   noOfBaths: z.string().regex(/^\d+/, {
     message: "Please enter a valid number",
-  }),
+  }).transform((val) => parseInt(val),),
   // amenities: z.array(z.string()).optional(),
+})
+
+export const AddParkingSpotValidation = z.object({
+  spotNumber: z.string().min(1, 'Please enter a valid parking spot number'),
+  spotLevel: z.string().regex(/^\d+/, {
+    message: "Please enter a valid number",
+  }).transform((val) => parseInt(val)),
+  spotType: z.union([z.literal('regular'), z.literal('electric'), z.literal('hybrid')]),
 })

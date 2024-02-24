@@ -1,6 +1,6 @@
-import { Building, CommunityMembers, ParkingSpot } from "@/types"
+import { ApartmentUnit, Building, CommunityMembers, ParkingSpot } from "@/types"
 import ApiClient from "./client"
-import { AddApartmentUnitValidation, CreateCommunityMemberValidation } from "@/lib/validation";
+import { AddApartmentUnitValidation, AddParkingSpotValidation, CreateCommunityMemberValidation } from "@/lib/validation";
 import { z } from "zod";
 
 let client = new ApiClient('building').client
@@ -56,6 +56,11 @@ export const getParkingSpots = async (buildingId: string, queries: string=''): P
     return data.data as ParkingSpot[]
 }
 
+export const addParkingSpot = async (buildingId: string, dto: z.infer<typeof AddParkingSpotValidation>) => {
+    const response = await client.post(`/parking-spot/${buildingId}`, dto)
+    return response.data
+}
+
 //search parking spots by spot number
 export const searchParkingSpots = async (buildingId: string, spotNumber: string): Promise<ParkingSpot[]> => {
     const {data} = await client.get(`/search-parking-spots/${buildingId}?spotNumber=${spotNumber}`)
@@ -66,4 +71,14 @@ export const searchParkingSpots = async (buildingId: string, spotNumber: string)
 export const addApartmentUnit = async (buildingId: string, dto: z.infer<typeof AddApartmentUnitValidation>) => {
     const response = await client.post(`/apartment-unit/${buildingId}`, dto)
     return response.data
+}
+
+export const getApartmentUnits = async (buildingId: string): Promise<ApartmentUnit[]> => {
+    const {data} = await client.get(`/apartment-units/${buildingId}`)
+    return data.data
+}
+
+export const getParkingSpot = async (buildingId: string, spotId: string): Promise<ParkingSpot> => {
+    const {data} = await client.get(`/parking-spot/${buildingId}/${spotId}`)
+    return data.data
 }

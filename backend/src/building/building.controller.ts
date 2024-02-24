@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post, Put, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { BuildingService } from './building.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { AddParkingSpotDto, CreateCommunityMemberDto, GetBuildingQueryDto, GetBuildingsDto, GetCommunityMembersDto, GetParkingsDto, UpdateCommunityMemberDto } from './dto';
+import { AddApartmentUnitDto, AddParkingSpotDto, CreateCommunityMemberDto, GetBuildingQueryDto, GetBuildingsDto, GetCommunityMembersDto, GetParkingsDto, UpdateCommunityMemberDto } from './dto';
 
 @Controller('building')
 export class BuildingController {
@@ -73,8 +73,23 @@ export class BuildingController {
     }
 
     //Add parking spot
-    @Post('parking-spots/:buildingId/')
+    @Post('parking-spot/:buildingId/')
     async addParkingSpot(@Param('buildingId') buildingId: string, @Body() dto: AddParkingSpotDto) {
         return await this.buildingService.addParkingSpot(buildingId, dto);
+    }
+
+    @Get('parking-spot/:buildingId/:parkingSpotId')
+    async getParkingSpot(@Param('buildingId') buildingId: string, @Param('parkingSpotId') parkingSpotId: string) {
+        return await this.buildingService.getParkingSpot(buildingId, parkingSpotId)
+    }
+
+    @Post('apartment-unit/:buildingId')
+    async addApartmentUnit(@Param('buildingId') buildingId: string, @Body() dto: AddApartmentUnitDto) {
+        return await this.buildingService.addApartmentUnit(buildingId, dto)
+    }
+
+    @Get('apartment-units/:buildingId')
+    async getApartmentUnits(@Param('buildingId') buildingId: string) {
+        return await this.buildingService.getApartmentUnits(buildingId)
     }
 }

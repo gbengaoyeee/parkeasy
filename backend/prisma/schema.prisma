@@ -4,7 +4,7 @@
 generator client {
   provider = "prisma-client-js"
   output   = "../../shared/prisma-client"
-} 
+}
 
 datasource db {
   provider = "postgresql"
@@ -160,7 +160,8 @@ model Building {
   management        Management         @relation(fields: [management_id], references: [id], onDelete: Cascade) // Relation attribute
   community_members CommunityMembers[] // Relation field
   parking_spots     ParkingSpot[] // Relation field
-  reservations       Reservation[]
+  reservations      Reservation[]
+  apartment_units     ApartmentUnit[]
 }
 
 model CommunityMembers {
@@ -201,10 +202,10 @@ model ParkingSpot {
   parking_spot_type    Parking_Spot_Type @default(regular)
   parking_instructions String?           @default("")
 
-  building    Building          @relation(fields: [building_id], references: [id], onDelete: Cascade) // Relation attribute
-  owner       CommunityMembers? @relation(fields: [owner_id], references: [id], onDelete: Cascade) // Relation attribute
-  qr_code     QRCode?           @relation(fields: [qr_code_id], references: [id], onDelete: Cascade) // Relation attribute
-  vehicle     Vehicle?          @relation(fields: [vehicle_id], references: [id], onDelete: Cascade) // Relation attribute
+  building     Building          @relation(fields: [building_id], references: [id], onDelete: Cascade) // Relation attribute
+  owner        CommunityMembers? @relation(fields: [owner_id], references: [id], onDelete: Cascade) // Relation attribute
+  qr_code      QRCode?           @relation(fields: [qr_code_id], references: [id], onDelete: Cascade) // Relation attribute
+  vehicle      Vehicle?          @relation(fields: [vehicle_id], references: [id], onDelete: Cascade) // Relation attribute
   listings     Listing[]
   reservations Reservation[]
 
@@ -277,7 +278,7 @@ model Listing {
 
   host         User          @relation(fields: [host_id], references: [id], onDelete: Cascade) // Relation attribute
   parking_spot ParkingSpot   @relation(fields: [parking_id], references: [id], onDelete: Cascade) // Relation attribute
-  reservations  Reservation[]
+  reservations Reservation[]
 
   @@unique([host_id, parking_id])
 }
@@ -290,20 +291,32 @@ enum Reservation_Status {
 }
 
 model Reservation {
-  id          String   @id @unique @default(uuid())
-  listing_id  String
-  host_id     String
-  visitor_id  String
-  building_id String?
-  parking_spot_id  String
-  price       Int? // In cents
-  start_date       DateTime
-  end_date         DateTime
-  status      Reservation_Status @default(pending)
+  id              String             @id @unique @default(uuid())
+  listing_id      String
+  host_id         String
+  visitor_id      String
+  building_id     String?
+  parking_spot_id String
+  price           Int? // In cents
+  start_date      DateTime
+  end_date        DateTime
+  status          Reservation_Status @default(pending)
 
   listing  Listing     @relation(fields: [listing_id], references: [id], onDelete: Cascade)
   host     User        @relation(name: "HostRelation", fields: [host_id], references: [id], onDelete: Cascade)
   visitor  User        @relation(name: "VisitorRelation", fields: [visitor_id], references: [id], onDelete: Cascade)
-  building Building?    @relation(fields: [building_id], references: [id], onDelete: Cascade)
+  building Building?   @relation(fields: [building_id], references: [id], onDelete: Cascade)
   parking  ParkingSpot @relation(fields: [parking_spot_id], references: [id], onDelete: Cascade)
+}
+
+model ApartmentUnit {
+  id             String  @id @unique @default(uuid())
+  unit_number    String?
+  no_of_bedrooms Int?
+  no_of_baths    Int?
+  building_id    String // Foreign key
+
+  building Building? @relation(fields: [building_id], references: [id], onDelete: Cascade)
+
+  @@unique([building_id, unit_number])
 }

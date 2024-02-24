@@ -134,9 +134,20 @@ export class AddParkingSpotDto {
     spotType: Parking_Spot_Type
 
     @IsString()
-    userId: string
+    @IsOptional()
+    communityMemberId: string
 
     @IsString()
     @IsOptional()
     parkingInstructions: string
+}
+
+export class AddApartmentUnitDto {
+    @IsString()
+    unitNumber: string
+    @IsNumber()
+    noOfRooms: number
+    @IsNumber()
+    noOfBaths: number
+    // amenities: string[]
 }

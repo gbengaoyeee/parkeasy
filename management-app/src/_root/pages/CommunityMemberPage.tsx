@@ -1,9 +1,5 @@
 import useCommunityMember from "@/hooks/useCommunityMember";
-import { UpdateCommunityMemberValidation } from "@/lib/validation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
-import { z } from "zod";
 import { $Enums } from "../../../../shared/prisma-client";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";

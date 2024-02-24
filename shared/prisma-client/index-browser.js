@@ -246,6 +246,14 @@ exports.Prisma.ReservationScalarFieldEnum = {
   status: 'status'
 };
 
+exports.Prisma.ApartmentUnitScalarFieldEnum = {
+  id: 'id',
+  unit_number: 'unit_number',
+  no_of_bedrooms: 'no_of_bedrooms',
+  no_of_baths: 'no_of_baths',
+  building_id: 'building_id'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -378,7 +386,8 @@ exports.Prisma.ModelName = {
   QRCode: 'QRCode',
   Vehicle: 'Vehicle',
   Listing: 'Listing',
-  Reservation: 'Reservation'
+  Reservation: 'Reservation',
+  ApartmentUnit: 'ApartmentUnit'
 };
 
 /**
