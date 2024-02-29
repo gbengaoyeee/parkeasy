@@ -63,6 +63,7 @@ model User {
   hostReservations    Reservation[]      @relation(name: "HostRelation")
   visitorReservations Reservation[]      @relation(name: "VisitorRelation")
 
+  @@unique([email, phone_number])
   @@map("Users")
 }
 
@@ -161,7 +162,7 @@ model Building {
   community_members CommunityMembers[] // Relation field
   parking_spots     ParkingSpot[] // Relation field
   reservations      Reservation[]
-  apartment_units     ApartmentUnit[]
+  apartment_units   ApartmentUnit[]
 }
 
 model CommunityMembers {
@@ -172,15 +173,16 @@ model CommunityMembers {
   email        String?
   name         String?
   phone        String?
-  unit_numbers String[]     @default([])
   status       Active_State @default(inactive)
 
-  qr_code_id String? @unique
+  qr_code_id String?  @unique
+  created_at DateTime @default(now())
 
-  building      Building      @relation(fields: [building_id], references: [id], onDelete: Cascade) // Relation attribute
-  qr_code       QRCode?       @relation(fields: [qr_code_id], references: [id], onDelete: Cascade) // Relation attribute
+  building      Building        @relation(fields: [building_id], references: [id], onDelete: Cascade) // Relation attribute
+  qr_code       QRCode?         @relation(fields: [qr_code_id], references: [id], onDelete: Cascade) // Relation attribute
   parking_spots ParkingSpot[] // A community member can have multiple parking spots
-  user          User?         @relation(fields: [user_id], references: [id]) // Relation attribute
+  user          User?           @relation(fields: [user_id], references: [id]) // Relation attribute
+  apartment_units ApartmentUnit[] 
 
   @@unique([building_id, phone, email])
 }
@@ -203,7 +205,7 @@ model ParkingSpot {
   parking_instructions String?           @default("")
 
   building     Building          @relation(fields: [building_id], references: [id], onDelete: Cascade) // Relation attribute
-  owner        CommunityMembers? @relation(fields: [owner_id], references: [id], onDelete: Cascade) // Relation attribute
+  owner        CommunityMembers? @relation(fields: [owner_id], references: [id]) // Relation attribute
   qr_code      QRCode?           @relation(fields: [qr_code_id], references: [id], onDelete: Cascade) // Relation attribute
   vehicle      Vehicle?          @relation(fields: [vehicle_id], references: [id], onDelete: Cascade) // Relation attribute
   listings     Listing[]
@@ -292,31 +294,40 @@ enum Reservation_Status {
 
 model Reservation {
   id              String             @id @unique @default(uuid())
-  listing_id      String
-  host_id         String
-  visitor_id      String
+  listing_id      String?
+  host_id         String?
+  visitor_id      String?
   building_id     String?
-  parking_spot_id String
+  parking_spot_id String?
   price           Int? // In cents
-  start_date      DateTime
-  end_date        DateTime
+  app_fees        Int? // In cents
+  start_date      DateTime?
+  end_date        DateTime?
   status          Reservation_Status @default(pending)
+  stripe_payment_intent_id String?
 
-  listing  Listing     @relation(fields: [listing_id], references: [id], onDelete: Cascade)
-  host     User        @relation(name: "HostRelation", fields: [host_id], references: [id], onDelete: Cascade)
-  visitor  User        @relation(name: "VisitorRelation", fields: [visitor_id], references: [id], onDelete: Cascade)
+  charge          Json?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  listing  Listing?     @relation(fields: [listing_id], references: [id], onDelete: Cascade)
+  host     User?        @relation(name: "HostRelation", fields: [host_id], references: [id], onDelete: Cascade)
+  visitor  User?        @relation(name: "VisitorRelation", fields: [visitor_id], references: [id], onDelete: Cascade)
   building Building?   @relation(fields: [building_id], references: [id], onDelete: Cascade)
-  parking  ParkingSpot @relation(fields: [parking_spot_id], references: [id], onDelete: Cascade)
+  parking  ParkingSpot? @relation(fields: [parking_spot_id], references: [id], onDelete: Cascade)
 }
 
 model ApartmentUnit {
-  id             String  @id @unique @default(uuid())
-  unit_number    String?
-  no_of_bedrooms Int?
-  no_of_baths    Int?
-  building_id    String // Foreign key
+  id                  String  @id @unique @default(uuid())
+  building_id         String // Foreign key
+  unit_number         String?
+  no_of_bedrooms      Int?
+  no_of_baths         Int?
+  community_member_id String?
 
-  building Building? @relation(fields: [building_id], references: [id], onDelete: Cascade)
+  building          Building         @relation(fields: [building_id], references: [id], onDelete: Cascade)
+  community_member CommunityMembers? @relation(fields: [community_member_id], references: [id])
 
   @@unique([building_id, unit_number])
 }

@@ -1,22 +1,43 @@
 import useCommunityMember from "@/hooks/useCommunityMember";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { $Enums } from "../../../../shared/prisma-client";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { useUpdateCommunityMember } from "@/lib/react-query/queriesAndMutations";
+import {
+  useDeleteCommunityMember,
+  useGetBuilding,
+  useGetCommunityMember,
+  useToggleCommunityMemberStatus,
+  useUpdateCommunityMember,
+} from "@/lib/react-query/queriesAndMutations";
 import { toast } from "sonner";
 import { useState } from "react";
 import Loader from "@/components/shared/Loader";
+import { AddMemberManuallyModal } from "./CommunityMembersPage";
 
 const CommunityMemberPage = () => {
   const { buildingId, communityMemberId } = useParams();
-  const { member, isFetchingMember, refetchMember } = useCommunityMember({
-    buildingId,
-    communityMemberId,
-  });
-  const [modalOpen, setModalOpen] = useState(false);
-  const { mutateAsync: updateMember, isPending: isUpdatingMember } = useUpdateCommunityMember();
+  // const { member, isFetchingMember, refetchMember } = useCommunityMember({
+  //   buildingId,
+  //   communityMemberId,
+  // });
+
+  const {
+    data: member,
+    isFetching: isFetchingMember,
+    refetch: refetchMember,
+  } = useGetCommunityMember(buildingId, communityMemberId);
+  const { data: building, isFetching: isFetchingBuilding } = useGetBuilding(buildingId);
+  const [openToggleStatusModal, setOpenToggleStatusModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const { mutateAsync: toggleMemberStatus, isPending: isToggling } =
+    useToggleCommunityMemberStatus();
+
+  const { mutateAsync: deleteMember, isPending: isDeleting } = useDeleteCommunityMember();
+
+  const [openEditMemberModal, setOpenEditMemberModal] = useState(false);
+  const navigate = useNavigate();
 
   const getAppropriateUserRole = (role: $Enums.User_Role | null) => {
     switch (role) {
@@ -28,17 +49,20 @@ const CommunityMemberPage = () => {
         return "tenant";
     }
   };
-  
-  if (isFetchingMember) {
+
+  if (isFetchingMember || isFetchingBuilding) {
     return <>Loading</>;
   }
   if (!member) {
     return <h1>Could not find your this member. contact {import.meta.env.VITE_SUPPORT_EMAIL}</h1>;
   }
 
-  const handleUpdateMemberStatus = async (status: "active" | "inactive") => {
+  const handleUpdateMemberStatus = async () => {
     if (buildingId) {
-      updateMember({ buildingId, memberId: member.id, member: { status } })
+      toggleMemberStatus({
+        buildingId,
+        memberId: member.id,
+      })
         .then((resp) => {
           toast.success(resp.message);
           refetchMember();
@@ -47,7 +71,26 @@ const CommunityMemberPage = () => {
           toast.error(error.response.data.message);
         })
         .finally(() => {
-          setModalOpen(false);
+          setOpenToggleStatusModal(false);
+        });
+    }
+  };
+
+  const handleDeleteMember = async () => {
+    if (buildingId) {
+      deleteMember({
+        buildingId,
+        memberId: member.id,
+      })
+        .then((resp) => {
+          toast.success(resp.message);
+          navigate(`/community-members/${buildingId}`);
+        })
+        .catch((error) => {
+          toast.error(error.response.data.message);
+        })
+        .finally(() => {
+          setOpenDeleteModal(false);
         });
     }
   };
@@ -79,16 +122,30 @@ const CommunityMemberPage = () => {
           </div>
 
           <div className="flex flex-col gap-2">
-            <Label className="base-semibold">Unit Number</Label>
-            <p>{member.unit_numbers}</p>
+            <Label className="base-semibold">Unit Numbers</Label>
+            {member.apartment_units?.map((unit) => <p key={unit.id}>{unit.unit_number}</p>)}
           </div>
 
           <div className="flex flex-col gap-2">
             <Label className="base-semibold">Status</Label>
             <p>{member.status}</p>
           </div>
+          <div className="flex flex-col gap-2">
+            <Label className="base-semibold">Parking spots</Label>
+            {member.parking_spots.length > 0 ? (
+              member.parking_spots?.map((spot) => <p key={spot.id}>{spot.parking_spot_number}</p>)
+            ) : (
+              <p>No parking spots</p>
+            )}
+          </div>
         </div>
-        <Button className="shad-button_secondary border-gray-400 text-gray-500 w-10">edit</Button>
+        <AddMemberManuallyModal
+          openActivateMembersManualModal={openEditMemberModal}
+          setOpenActivateMembersManualModal={setOpenEditMemberModal}
+          building={building}
+          communityMember={member}
+          refetchMembers={refetchMember}
+        />
       </div>
 
       <div className="flex flex-col gap-2 text-gray-500 shadow-md rounded-lg p-4 border">
@@ -106,7 +163,7 @@ const CommunityMemberPage = () => {
           </div>
         </div>
       </div>
-      <Dialog open={modalOpen} onOpenChange={setModalOpen}>
+      <Dialog open={openToggleStatusModal} onOpenChange={setOpenToggleStatusModal}>
         <DialogTrigger asChild>
           <Button className="shad-button_primary border-gray-400 text-gray-500 min-w-fit max-w-fit">
             {member.status === "active" ? "Deactivate member" : "Activate member"}
@@ -120,18 +177,45 @@ const CommunityMemberPage = () => {
           </p>
           <Button
             onClick={() => {
-              handleUpdateMemberStatus(member.status === "active" ? "inactive" : "active");
+              handleUpdateMemberStatus();
             }}
             className="shad-button_primary"
-            disabled={isUpdatingMember}
+            disabled={isToggling}
           >
-            {isUpdatingMember ? (
+            {isToggling ? (
               <div className="flex-center gap-3">
                 <Loader />
                 {member.status === "active" ? "Deactivating..." : "Activating..."}
               </div>
             ) : (
               <span>{member.status === "active" ? "Deactivate" : "Activate"}</span>
+            )}
+          </Button>
+        </DialogContent>
+      </Dialog>
+      <Dialog open={openDeleteModal} onOpenChange={setOpenDeleteModal}>
+        <DialogTrigger asChild>
+          <Button className="bg-red border-gray-400 text-white min-w-fit max-w-fit">
+            Delete member
+          </Button>
+        </DialogTrigger>
+
+        <DialogContent className="bg-light-1">
+          <p>Are you sure you want to delete this member?</p>
+          <Button
+            onClick={() => {
+              handleDeleteMember();
+            }}
+            className="bg-red text-white"
+            disabled={isDeleting}
+          >
+            {isDeleting ? (
+              <div className="flex-center gap-3">
+                <Loader />
+                Deleting...
+              </div>
+            ) : (
+              <span>Delete</span>
             )}
           </Button>
         </DialogContent>

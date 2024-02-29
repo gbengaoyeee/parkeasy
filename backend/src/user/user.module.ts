@@ -5,6 +5,6 @@ import { StripeService } from 'src/stripe/stripe.service';
 
 @Module({
   controllers: [UserController],
-  providers: [UserService, StripeService]
+  providers: [UserService, StripeService],
 })
 export class UserModule {}

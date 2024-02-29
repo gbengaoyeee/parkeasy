@@ -31,7 +31,6 @@ const VisitorHomePage = () => {
       (user && user?.mobile_onboard_status !== "completed") ||
       user?.stripe_customer_id === null
     ) {
-      console.log("user", user.mobile_onboard_status, user?.stripe_customer_id);
       navigation.navigate("OnboardUser", { user });
     }
   }, [user]);

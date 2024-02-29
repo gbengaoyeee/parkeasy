@@ -1,35 +1,53 @@
 import { View, Text, SafeAreaView, ScrollView, StyleSheet, Alert } from "react-native";
 import React from "react";
 import { CheckoutDetails } from "@/app/services/payment";
-import { useRoute } from "@react-navigation/native";
+import { NavigationProp, useNavigation, useRoute } from "@react-navigation/native";
 import { formatCurrency } from "@/app/utils/formatter";
 import Button from "@/components/shared/Button";
-import { usePaymentIntent } from "@/app/lib/react-query/queryAndMutations";
+import { useCreateReservation, useDeleteReservation, usePaymentIntent, useUpdateReservation } from "@/app/lib/react-query/queryAndMutations";
 import { useStripe } from "@stripe/stripe-react-native";
 import { useUserContext } from "@/app/contexts/UserContext";
+import { createDateWithTime } from "@/app/utils/reusable";
+import moment from "moment";
+import { VisitorTabParamList } from "../VisitorTabController";
 
 interface RouteParams {
   checkoutDetails: CheckoutDetails;
+  tripDates: {
+    startDate: Date;
+    endDate: Date;
+    startTime: number;
+    endTime: number;
+  };
 }
 
 const VisitorCheckout = () => {
   const route = useRoute();
-  const { checkoutDetails } = route.params as RouteParams;
-  const { mutateAsync: createPaymentIntent, isPending: isPaymentIntentPending } =
-    usePaymentIntent();
-  const { initPaymentSheet, presentPaymentSheet } = useStripe();
+  const { checkoutDetails, tripDates } = route.params as RouteParams;
+  const { mutateAsync: createPaymentIntent, isPending: isPaymentIntentPending } = usePaymentIntent();
+  const { mutateAsync: createReservation } = useCreateReservation();
+  const { mutateAsync: updateReservation } = useUpdateReservation();
+  const { mutateAsync: deleteReservation } = useDeleteReservation();
   const { user } = useUserContext();
+  const navigation = useNavigation<NavigationProp<VisitorTabParamList>>();
+
+  
+  const { initPaymentSheet, presentPaymentSheet, confirmPaymentSheetPayment } = useStripe();
 
   const onCheckOut = () => {
+    if (!user) {
+      Alert.alert("Error", `Could not find user. Please contact support at ${process.env.EXPO_PUBLIC_SUPPORT_EMAIL}`);
+      return;
+    }
     // 1. Create a payment intent
     createPaymentIntent({
       amount: checkoutDetails.totalAmount,
       customerId: user?.stripe_customer_id || "",
-      listingId: checkoutDetails.listing.id
+      listingId: checkoutDetails.listing.id,
     })
-      .then((res) => {
+      .then(async (res) => {
         // 2. Initialize the Payment sheet
-        return initPaymentSheet({
+        const paymentSheet = await initPaymentSheet({
           paymentIntentClientSecret: res.client_secret,
           merchantDisplayName: "Parkeasy, Inc.",
           applePay: {
@@ -39,23 +57,74 @@ const VisitorCheckout = () => {
             merchantCountryCode: "US",
             currencyCode: "USD",
           },
-        });
+        })
+
+        return {
+          paymentSheet,
+          paymentIntent: res
+        };
       })
-      .then((res) => {
-        if (res.error) {
-          Alert.alert("Error", res.error.message);
-          return;
-        }
-        // 3. Present the Payment Sheet from Stripe
-        return presentPaymentSheet();
-      })
-      .then((res) => {
+      .then(async (res) => {
         if (!res) {
           throw new Error("Could not display payment sheet");
         }
-        if (res.error) {
-          Alert.alert("Error", res.error.message);
+
+        if (res.paymentSheet.error) {
+          Alert.alert("Error", res.paymentSheet.error.message);
           return;
+        }
+
+        if(!res.paymentIntent) {
+          throw new Error("Could not create payment intent");
+        }
+
+        const reservation = await createReservation({
+          dto: {
+            listingId: checkoutDetails.listing.id,
+            hostId: checkoutDetails.listing.host_id,
+            parkingSpotId: checkoutDetails.listing.parking_id,
+            visitorId: user.id,
+            totalPrice: checkoutDetails.totalPrice,
+            totalFees: checkoutDetails.totalFees,
+            paymentIntentId: res.paymentIntent.id,
+            startDate: createDateWithTime(moment(tripDates.startDate).format("YYYY-MM-DD"), tripDates.startTime).getTime(),
+            endDate: createDateWithTime(moment(tripDates.endDate).format("YYYY-MM-DD"), tripDates.endTime).getTime(),
+          },
+        });
+
+        const paymentSheetPresented = await presentPaymentSheet({timeout:60000});
+        // 3. Present the Payment Sheet from Stripe
+        return {
+          reservation,
+          paymentSheetPresented
+        };
+      })
+      .then(async (res) => {
+        if (!res) {
+          throw new Error("Could not display payment sheet");
+        }
+        if(res.paymentSheetPresented.error){
+          if(res.reservation){
+            await deleteReservation(res.reservation.id);
+          }
+          Alert.alert("Error", res.paymentSheetPresented.error.message);
+          return
+        }
+        console.log("Payment successful");
+        if (res.reservation) {
+          await updateReservation({
+            reservationId: res.reservation.id,
+            dto: {
+              status: 'confirmed'
+            },
+          });
+          
+          navigation.reset({
+            index: 0,
+            routes: [{ name: "VisitorHomeTab" }],
+          })
+
+          navigation.navigate('VisitorReservationsTab')
         }
       })
       .catch((err) => {

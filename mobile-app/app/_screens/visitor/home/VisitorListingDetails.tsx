@@ -48,6 +48,7 @@ const VisitorListingDetails = () => {
       }
       navigation.navigate("VisitorCheckout", {
         checkoutDetails: {...res.data, listing},
+        tripDates: tripDates
       });
     });
   };

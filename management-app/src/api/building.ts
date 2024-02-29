@@ -33,8 +33,17 @@ export const activateAllCommunityMembers = async (buildingId: string) => {
     return response.data
 }
 
+export const toggleMemberStatus = async (buildingId: string, memberId: string) => {
+    const response = await client.put(`/toggle-member-status/${buildingId}/${memberId}`)
+    return response.data
+}
+export const deleteCommunityMember = async (buildingId: string, memberId: string) => {
+    const response = await client.delete(`/delete-community-member/${buildingId}/${memberId}`)
+    return response.data
+}
+
 //update a community member
-export const updateCommunityMember = async (buildingId: string, memberId: string, dto: Partial<CommunityMembers>) => {
+export const updateCommunityMember = async (buildingId: string, memberId: string, dto: Partial<z.infer<typeof CreateCommunityMemberValidation>>) => {
     const response = await client.put(`/community-member/${buildingId}/${memberId}`, dto)
     return response.data
 }
@@ -51,7 +60,17 @@ export const searchCommunityMembers = async (buildingId: string, name: string=''
 }
 
 
-export const getParkingSpots = async (buildingId: string, queries: string=''): Promise<ParkingSpot[]> => {
+export const getParkingSpots = async (
+    buildingId: string, 
+    queriesDto?: {
+        state?: 'occupied' | 'empty'
+        page?: number,
+        pageSize?: number
+        userId?: string
+        phone?: string
+    }
+): Promise<ParkingSpot[]> => {
+    const queries = queriesDto && Object.entries(queriesDto).map(([key, value]) => `${key}=${value}`).join('&')
     const {data} = await client.get(`/parking-spots/${buildingId}?${queries}`)
     return data.data as ParkingSpot[]
 }
@@ -73,8 +92,12 @@ export const addApartmentUnit = async (buildingId: string, dto: z.infer<typeof A
     return response.data
 }
 
-export const getApartmentUnits = async (buildingId: string): Promise<ApartmentUnit[]> => {
-    const {data} = await client.get(`/apartment-units/${buildingId}`)
+export const getApartmentUnits = async (
+    buildingId: string, 
+    queriesDto?: {state?: 'occupied' | 'empty'}
+): Promise<ApartmentUnit[]> => {
+    const queries = queriesDto && Object.entries(queriesDto).map(([key, value]) => `${key}=${value}`).join('&')
+    const {data} = await client.get(`/apartment-units/${buildingId}/?${queries}`)
     return data.data
 }
 

@@ -5,6 +5,6 @@ import { StripeService } from 'src/stripe/stripe.service';
 
 @Module({
   providers: [HostService, StripeService],
-  controllers: [HostController,]
+  controllers: [HostController],
 })
 export class HostModule {}

@@ -1,1 +1,1 @@
-import * as SchemaTypes from '@prisma/client'
+import * as SchemaTypes from '@prisma/client';

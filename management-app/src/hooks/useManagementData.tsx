@@ -1,6 +1,7 @@
 import { getBuilding, getCommunityMembers, getParkingSpots } from "@/api/building";
 import { getManagement } from "@/api/management";
 import { useUserContext } from "@/context/UserContext";
+import { useGetParkingSpots } from "@/lib/react-query/queriesAndMutations";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
@@ -102,7 +103,10 @@ const useManagementData = () => {
     queryFn: async () => {
       if (currentBuilding) {
         const buildingId = currentBuilding.id;
-        const spots = await getParkingSpots(buildingId, `page=${parkingSpotsPage}&pageSize=${pageSize}`);
+        const spots = await getParkingSpots(buildingId, {
+          page: parkingSpotsPage,
+          pageSize: pageSize,
+        });
         return spots;
       }
       return null;
@@ -117,7 +121,7 @@ const useManagementData = () => {
       const buildingId = currentBuilding.id;
       queryClient.prefetchQuery({
         queryKey: ["parking-spots-data"],
-        queryFn: () => getParkingSpots(buildingId, `page=${parkingSpotsPage}&pageSize=${pageSize}`),
+        queryFn: () => getParkingSpots(buildingId, {page: parkingSpotsPage, pageSize}),
       });
     }
   }

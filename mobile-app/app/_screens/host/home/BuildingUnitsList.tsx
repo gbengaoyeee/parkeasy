@@ -3,6 +3,7 @@ import React, { useLayoutEffect } from "react";
 import { NavigationProp, useNavigation, useRoute } from "@react-navigation/native";
 import { CommunityMembers } from "@/app/types";
 import { HomeStackParamList } from "./HomeNavigator";
+import Colors from "@/constants/Colors";
 
 interface RouteParams {
   communityMember: CommunityMembers;
@@ -21,16 +22,16 @@ const BuildingUnitsList = () => {
 
   return (
     <FlatList
-      data={communityMember.unit_numbers}
+      data={communityMember.apartment_units}
       renderItem={({ item }) => (
         <TouchableOpacity
-          className="bg-gray-200 p-3 flex-row justify-between"
+          style={{ backgroundColor: "#E5E7EB", padding: 12, flexDirection: "row", justifyContent: "space-between" }}
           onPress={() => {
             navigation.navigate("UnitDetails", { building: communityMember.building, unit: item });
           }}
         >
           {/* <Text>{member.building.building_name}</Text> */}
-          <Text className="text-primary-3">Unit {item}</Text>
+          <Text style={{ color: Colors.light["primary-3"] }}>Unit {item.unit_number}</Text>
         </TouchableOpacity>
       )}
     />

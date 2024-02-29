@@ -4,6 +4,6 @@ import { AppwriteService } from './appwrite.service';
 @Global()
 @Module({
   providers: [AppwriteService],
-  exports: [AppwriteService]
+  exports: [AppwriteService],
 })
 export class AppwriteModule {}

@@ -22,7 +22,7 @@ const Home = () => {
           <li>{building.address}</li>
           <li>{building.no_of_units} Units</li>
           <li>{management?.company_name}</li>
-          <li>{building.no_of_parking_floors} parking floors</li>
+          <li>{building.no_of_parking_floors} Parking floors</li>
         </ul>
       </div>
       <div className="mt-5 grid grid-cols-3 gap-3">

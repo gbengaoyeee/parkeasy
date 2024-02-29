@@ -1,12 +1,4 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  ScrollView,
-  KeyboardAvoidingView,
-  Platform,
-  StyleSheet,
-} from "react-native";
+import { View, Text, SafeAreaView, ScrollView, KeyboardAvoidingView, Platform, StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
 import { NavigationProp, useNavigation, useRoute } from "@react-navigation/native";
 import { Controller, useForm } from "react-hook-form";
@@ -52,9 +44,7 @@ const CreateAListing = () => {
   const watchedParkingType = form.watch("type");
 
   useEffect(() => {
-    const pSpots = communityMembers.find(
-      (member) => member.building.id === watchedBuildingId
-    )?.parking_spots;
+    const pSpots = communityMembers.find((member) => member.building.id === watchedBuildingId)?.parking_spots;
     setParkingSpots(pSpots || []);
   }, [watchedBuildingId]);
 
@@ -84,20 +74,16 @@ const CreateAListing = () => {
   };
 
   return (
-    <SafeAreaView className="flex-1">
-      <ScrollView className="p-5">
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={{ flex: 1 }}
-          keyboardVerticalOffset={100}
-        >
+    <SafeAreaView style={{ flex: 1 }}>
+      <ScrollView style={{ padding: 5 }}>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }} keyboardVerticalOffset={100}>
           {isAdding && (
-            <View className="mb-3 items-center">
+            <View style={{ marginBottom: 3, alignItems: "center" }}>
               <Loader />
             </View>
           )}
-          <View className="mb-3">
-            <Text className="text-xl font-bold">Select a building</Text>
+          <View style={{ marginBottom: 3 }}>
+            <Text style={{ fontSize: 20, fontWeight: "bold" }}>Select a building</Text>
             <Controller
               control={form.control}
               render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => {
@@ -120,7 +106,7 @@ const CreateAListing = () => {
                         onChange(item.value);
                       }}
                     />
-                    {error && <Text className="text-error">{error.message}</Text>}
+                    {error && <Text style={{ color: "rgb(184 29 29)" }}>{error.message}</Text>}
                   </>
                 );
               }}
@@ -149,7 +135,7 @@ const CreateAListing = () => {
                           onChange(item.value);
                         }}
                       />
-                      {error && <Text className="text-error">{error.message}</Text>}
+                      {error && <Text style={{ color: "rgb(184 29 29)" }}>{error.message}</Text>}
                     </>
                   );
                 }}
@@ -160,8 +146,8 @@ const CreateAListing = () => {
             <Controller
               control={form.control}
               render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
-                <View className="mb-3">
-                  <Text>Parking spot type</Text>
+                <View style={{ marginBottom: 3 }}>
+                  <Text>Listing type</Text>
                   <Dropdown
                     style={styles.dropdown}
                     data={Object.values(Listing_Type).map((type) => {
@@ -177,26 +163,21 @@ const CreateAListing = () => {
                       onChange(item.value);
                     }}
                   />
-                  {error && <Text className="text-error">{error.message}</Text>}
+                  {error && <Text style={{ color: "rgb(184 29 29)" }}>{error.message}</Text>}
                 </View>
               )}
               name="type"
             />
           </View>
 
-          <View className="mb-3">
-            <Text className="text-xl font-bold">Parking spot information</Text>
+          <View style={{ marginBottom: 3 }}>
+            <Text style={{ fontSize: 20, fontWeight: "bold" }}>Parking spot information</Text>
             <Controller
               control={form.control}
               render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
-                <View className="mb-3">
+                <View style={{ marginBottom: 3 }}>
                   <Text>Give your listing an enticing title</Text>
-                  <Input
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    value={value}
-                    errors={error?.message}
-                  />
+                  <Input onBlur={onBlur} onChangeText={onChange} value={value} errors={error?.message} />
                 </View>
               )}
               name="title"
@@ -205,16 +186,9 @@ const CreateAListing = () => {
             <Controller
               control={form.control}
               render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
-                <View className="mb-3">
+                <View style={{ marginBottom: 3 }}>
                   <Text>Give your listing an eye catching description</Text>
-                  <Input
-                    multiline
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    value={value}
-                    errors={error?.message}
-                    className="h-32"
-                  />
+                  <Input multiline onBlur={onBlur} onChangeText={onChange} value={value} errors={error?.message} style={{ height: 128 }} />
                 </View>
               )}
               name="description"
@@ -222,19 +196,12 @@ const CreateAListing = () => {
             <Controller
               control={form.control}
               render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
-                <View className="mb-3">
+                <View style={{ marginBottom: 3 }}>
                   <Text>Enter a price for your listing per {watchedParkingType}</Text>
-                  <Input
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    value={value}
-                    errors={error?.message}
-                    keyboardType="decimal-pad"
-                  />
+                  <Input onBlur={onBlur} onChangeText={onChange} value={value} errors={error?.message} keyboardType="decimal-pad" />
                   {watchedParkingType && (
                     <Text>
-                      Price limit per {watchedParkingType} is $
-                      {PRICE_LIMITS[watchedParkingType as keyof typeof PRICE_LIMITS]}
+                      Price limit per {watchedParkingType} is ${PRICE_LIMITS[watchedParkingType as keyof typeof PRICE_LIMITS]}
                     </Text>
                   )}
                 </View>
@@ -245,13 +212,13 @@ const CreateAListing = () => {
 
           <Button
             disabled={isAdding}
-            className="mt-5"
+            style={{ marginTop: 5 }}
             onPress={() => {
               // console.error(errors, isValid);
               form.handleSubmit(onSubmit)();
             }}
           >
-            <Text className="text-white">Next</Text>
+            <Text style={{ color: "white" }}>Next</Text>
           </Button>
         </KeyboardAvoidingView>
       </ScrollView>

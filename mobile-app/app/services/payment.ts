@@ -3,13 +3,18 @@ import ApiClient from "./client";
 
 let client = new ApiClient('payment').client
 
-export const createPaymentIntent = async (amount: number, customerId: string, listingId: string): Promise<{client_secret: string}> => {
+interface StripePaymentIntent {
+    id: string
+    client_secret: string
+}
+
+export const createPaymentIntent = async (amount: number, customerId: string, listingId: string): Promise<StripePaymentIntent> => {
     const response = await client.post(`/intent`, {
         amount,
         customerId: customerId,
         listingId
     })
-    return response.data.data as {client_secret: string}
+    return response.data.data as StripePaymentIntent
 }
 
 export interface CheckoutDetails {

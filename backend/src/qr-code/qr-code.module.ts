@@ -11,10 +11,10 @@ import { HttpModule } from '@nestjs/axios';
       timeout: 5000,
       maxRedirects: 5,
       headers: {
-        'Authorization': `Token ${process.env.BEACON_STACK_API_TOKEN}`,
+        Authorization: `Token ${process.env.BEACON_STACK_API_TOKEN}`,
         'Content-Type': 'application/json',
       },
-      baseURL: process.env.BEACON_STACK_BASE_URL
+      baseURL: process.env.BEACON_STACK_BASE_URL,
     }),
   ],
 })

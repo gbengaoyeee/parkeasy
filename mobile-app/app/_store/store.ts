@@ -18,7 +18,7 @@ const persistConfig = {
 
 const reducer = combineReducers({
   appSection: appSectionReducer,
-  authUser: authUserReducer
+  // authUser: authUserReducer
 })
 const persistedReducer = persistReducer(persistConfig, reducer)
 
@@ -27,9 +27,7 @@ const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
+      serializableCheck: false
     }),
 });
 

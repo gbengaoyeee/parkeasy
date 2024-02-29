@@ -5,6 +5,6 @@ import { StripeService } from 'src/stripe/stripe.service';
 
 @Module({
   controllers: [WebhooksController],
-  providers: [WebhooksService, StripeService]
+  providers: [WebhooksService, StripeService],
 })
 export class WebhooksModule {}

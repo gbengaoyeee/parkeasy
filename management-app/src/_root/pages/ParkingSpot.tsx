@@ -1,7 +1,7 @@
 import React from "react";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useGetParkingSpot } from "@/lib/react-query/queriesAndMutations";
 import Loader from "@/components/shared/Loader";
 
@@ -12,6 +12,7 @@ const ParkingSpot = () => {
     isFetching: isFetchingParkingSpot,
     refetch: refetchParkingSpot,
   } = useGetParkingSpot(buildingId, parkingSpotId);
+  const navigate = useNavigate();
   if (isFetchingParkingSpot) {
     return <Loader />;
   }
@@ -36,6 +37,19 @@ const ParkingSpot = () => {
           <div className="flex flex-col gap-2">
             <Label className="base-semibold">Parking spot type</Label>
             <p>{parkingSpot.parking_spot_type}</p>
+          </div>
+          <div className="flex flex-col gap-2">
+            <Label className="base-semibold">Assigned to</Label>
+            <p 
+            className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm"
+            onClick={() => {
+                if(parkingSpot.owner) {
+                    navigate(`/community-members/${buildingId}/${parkingSpot.owner?.id}`)
+                }
+            }}
+            >
+              {parkingSpot.owner ? parkingSpot.owner.name : "N/A"}
+            </p>
           </div>
         </div>
         <Button className="shad-button_secondary border-gray-400 text-gray-500 w-10">edit</Button>

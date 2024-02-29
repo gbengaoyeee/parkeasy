@@ -29,12 +29,16 @@ export const CreateParkingListingValidation = z.object({
             .min(1, 'Please enter a price')
             .regex(/^\d+(\.\d+)?$/, 'Please enter a valid number for the price')
             .transform((str) => parseFloat(str)),
-    type: z.nativeEnum(Listing_Type).refine((val) => ['weekly', 'monthly', 'hourly',].includes(val), {
+    type: z.nativeEnum(Listing_Type).refine((val) => [
+        'monthly',
+        'weekly', 
+        'hourly',].includes(val), {
         message: 'Please select a spot type',
     })
 }).refine((data) => {
     // Set the price limit based on the type
-    const priceLimit = data.type === 'weekly' ? PRICE_LIMITS.weekly : data.type === 'monthly' ? PRICE_LIMITS.monthly : PRICE_LIMITS.hourly;
+    // const priceLimit = data.type === 'weekly' ? PRICE_LIMITS.weekly : data.type === 'monthly' ? PRICE_LIMITS.monthly : PRICE_LIMITS.hourly;
+    const priceLimit = PRICE_LIMITS.monthly
     return data.price <= priceLimit;
   }, {
     message: `Price exceeds the maximum limit for the selected type`,
@@ -53,7 +57,8 @@ export const UpdateParkingListingValidation = z.object({
     })
 }).refine((data) => {
     // Set the price limit based on the type
-    const priceLimit = data.type === 'weekly' ? PRICE_LIMITS.weekly : data.type === 'monthly' ? PRICE_LIMITS.monthly : PRICE_LIMITS.hourly;
+    // const priceLimit = data.type === 'weekly' ? PRICE_LIMITS.weekly : data.type === 'monthly' ? PRICE_LIMITS.monthly : PRICE_LIMITS.hourly;
+    const priceLimit = PRICE_LIMITS.monthly
     return data.price <= priceLimit;
   }, {
     message: `Price exceeds the maximum limit for the selected type`,

@@ -15,6 +15,21 @@ import { StripeModule } from './stripe/stripe.module';
 import { WebhooksModule } from './webhooks/webhooks.module';
 
 @Module({
-  imports: [ManagementModule, UserModule, PrismaModule, AppwriteModule, ErrorModule, BuildingModule, QrCodeModule, VerificationModule, InvitesModule, HostModule, VisitorModule, PaymentModule, StripeModule, WebhooksModule,],
+  imports: [
+    ManagementModule,
+    UserModule,
+    PrismaModule,
+    AppwriteModule,
+    ErrorModule,
+    BuildingModule,
+    QrCodeModule,
+    VerificationModule,
+    InvitesModule,
+    HostModule,
+    VisitorModule,
+    PaymentModule,
+    StripeModule,
+    WebhooksModule,
+  ],
 })
-export class AppModule  {}
+export class AppModule {}

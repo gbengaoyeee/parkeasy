@@ -8,7 +8,7 @@ import { addParkingSpot } from '@/app/services/building'
 import { createParkingListing, enableHosting, getAccountLink, getListings, updateListing } from '@/app/services/host'
 import { Listing } from '@/app/types'
 import useToast from '@/app/hooks/useToast'
-import { getVisitorListings } from '@/app/services/visitor'
+import { CreateReservationParams, createReservation, deleteReservation, getVisitorListings, updateReservation } from '@/app/services/visitor'
 import { ConfirmationResult } from 'firebase/auth'
 import { CheckoutDetails, createPaymentIntent, getCheckoutDetails } from '@/app/services/payment'
 
@@ -25,13 +25,15 @@ export const useFinishPhoneVerification = () => {
             .then((resp) => {
                 return getUser(phone)
             })
-            .then((resp) => {
-                if(!resp) {
-                    return createUser(phone, userRoles)
-                }
-                return resp
-            })
         },
+    })
+}
+
+export const useCreateUser = () => {
+    return useMutation({
+        mutationFn: ({phone, userRoles}:{phone: string, userRoles: User_Role[]}) => {
+            return createUser(phone, userRoles)
+        }
     })
 }
 
@@ -155,5 +157,29 @@ export const useGetAccountLink = (userId: string) => {
         },
         retry: 3,
         enabled: false
+    })
+}
+
+export const useCreateReservation = () => {
+    return useMutation({
+        mutationFn: ({dto}:{ dto: CreateReservationParams }) => {
+            return createReservation( dto)
+        }
+    })
+}
+
+export const useUpdateReservation = () => {
+    return useMutation({
+        mutationFn: ({reservationId, dto}:{ reservationId: string, dto: Partial<CreateReservationParams> }) => {
+            return updateReservation(reservationId, dto)
+        }
+    })
+}
+
+export const useDeleteReservation = () => {
+    return useMutation({
+        mutationFn: (reservationId: string) => {
+            return deleteReservation(reservationId)
+        }
     })
 }

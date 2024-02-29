@@ -11,6 +11,10 @@ import {
 import { Input } from "@/components/ui/input";
 import {
   useActivateAllCommunityMembers,
+  useAddCommunityMember,
+  useGetApartmentUnits,
+  useGetParkingSpots,
+  useUpdateCommunityMember,
   useUploadCommunityMembers,
 } from "@/lib/react-query/queriesAndMutations";
 import Loader from "@/components/shared/Loader";
@@ -19,7 +23,7 @@ import Header from "@/components/shared/Header";
 import useManagementData from "@/hooks/useManagementData";
 import { searchCommunityMembers } from "@/api/building";
 import { useDebounce } from "@/hooks/useDebounce";
-import { CommunityMembers } from "@/types";
+import { Building, CommunityMembers } from "@/types";
 import { useNavigate } from "react-router-dom";
 import {
   Form,
@@ -40,6 +44,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Select as AntSelect } from "antd";
+import RSelect from "react-select";
 
 const CommunityMembersPage = () => {
   const navigate = useNavigate();
@@ -47,6 +53,7 @@ const CommunityMembersPage = () => {
     refetchBuilding,
     currentBuilding,
     communityMembers,
+    refetchCommunityMembers,
     communityMemberPage,
     setCommunityMemberPage,
     pageSize,
@@ -211,7 +218,8 @@ const CommunityMembersPage = () => {
               <AddMemberManuallyModal
                 openActivateMembersManualModal={openActivateMembersManualModal}
                 setOpenActivateMembersManualModal={setOpenActivateMembersManualModal}
-                isSubmitting={isUploading}
+                building={currentBuilding}
+                refetchMembers={refetchCommunityMembers}
               />
             </div>
           </span>
@@ -260,7 +268,7 @@ const CommunityMembersPage = () => {
                     Email
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Unit Number
+                    Unit Numbers
                   </th>
                   <th scope="col" className="px-6 py-3">
                     QR Code
@@ -282,7 +290,9 @@ const CommunityMembersPage = () => {
                   >
                     <td className="px-6 py-4">{member.name}</td>
                     <td className="px-6 py-4">{member.email}</td>
-                    <td className="px-6 py-4">{member.unit_numbers}</td>
+                    <td className="px-6 py-4">
+                      {member.apartment_units.map((unit) => unit.unit_number).join(", ")}
+                    </td>
                     <td className="px-6 py-4">
                       <img src={member?.qr_code?.image_url || ""} width={50} alt="" />
                     </td>
@@ -355,7 +365,8 @@ const CommunityMembersPage = () => {
           <AddMemberManuallyModal
             openActivateMembersManualModal={openActivateMembersManualModal}
             setOpenActivateMembersManualModal={setOpenActivateMembersManualModal}
-            isSubmitting={isUploading}
+            building={currentBuilding}
+            refetchMembers={refetchCommunityMembers}
           />
         </div>
       )}
@@ -363,51 +374,94 @@ const CommunityMembersPage = () => {
   );
 };
 
-const AddMemberManuallyModal = ({
+export const AddMemberManuallyModal = ({
   openActivateMembersManualModal,
   setOpenActivateMembersManualModal,
-  isSubmitting,
+  refetchMembers,
+  building,
+  communityMember,
 }: {
   openActivateMembersManualModal: boolean;
-  isSubmitting: boolean;
+  refetchMembers: () => void;
   setOpenActivateMembersManualModal: (open: boolean) => void;
+  building: Building | undefined | null;
+  communityMember?: CommunityMembers;
 }) => {
   const form = useForm<z.infer<typeof CreateCommunityMemberValidation>>({
     resolver: zodResolver(CreateCommunityMemberValidation),
     defaultValues: {
-      email: "",
-      name: "",
-      phone: "",
-      unitNumbers: "",
-      userRole: "owner",
-      parkingSpotNumber: "",
-      parkingLevel: 1,
-      parkingSpotType: "regular",
-      vehiclePlate: "",
-      vehicleType: "regular",
+      email: communityMember?.email ? communityMember.email : "",
+      name: communityMember?.name ? communityMember.name : "",
+      phone: communityMember?.phone ? communityMember.phone : "",
+      unitNumbers: communityMember?.apartment_units
+        ? communityMember.apartment_units.map((unit) => {
+            if (!unit.id) return;
+            return unit.id;
+          })
+        : [],
+      parkingSpots: communityMember?.parking_spots
+        ? communityMember.parking_spots.map((spot) => {
+            if (!spot.id) return;
+            return spot.id;
+          })
+        : [],
+      userRole: communityMember?.user_role
+        ? (communityMember.user_role as "tenant" | "owner")
+        : "owner",
     },
   });
+
+  const watchedParkingSpots = form.watch("parkingSpots");
+  const watchedUnitNumbers = form.watch("unitNumbers");
+
+  const { data: apartmentUnits } = useGetApartmentUnits(building?.id, {
+    state: "empty",
+  });
+  const { data: parkingSpots } = useGetParkingSpots(building?.id, {
+    state: "empty",
+  });
+  const { mutateAsync: addCommunityMember, isPending: isAddingMember } = useAddCommunityMember();
+  const { mutateAsync: updateCommunityMember, isPending: isUpdatingMember } =
+    useUpdateCommunityMember();
 
   function onSubmit(values: z.infer<typeof CreateCommunityMemberValidation>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    // handleSubmit(values)
-    //   .then((_) => {
-    //     toast.success("Please check your email for a reset link");
-    //   })
-    //   .catch((error) => {
-    //     console.error(error.message);
-    //     if (error instanceof AppwriteException) {
-    //       toast.error(error.message);
-    //       return;
-    //     }
-    //     toast.error(error.response.data.message);
-    //   });
+    if (!building) {
+      toast.error(`Could not find your building. contact ${import.meta.env.VITE_SUPPORT_EMAIL}`);
+      return;
+    }
+    if (!communityMember) {
+      addCommunityMember({ buildingId: building.id, member: values })
+        .then((_) => {
+          toast.success("Community member added successfully");
+          refetchMembers();
+          setOpenActivateMembersManualModal(false);
+        })
+        .catch((error) => {
+          console.error(error.message);
+          toast.error(error.response.data.message);
+        });
+    } else {
+      updateCommunityMember({ buildingId: building.id, memberId: communityMember.id, member: values })
+        .then((_) => {
+          toast.success("Community member updated successfully");
+          refetchMembers();
+          setOpenActivateMembersManualModal(false);
+        })
+        .catch((error) => {
+          console.error(error.message);
+          toast.error(error.response.data.message);
+        });
+    }
   }
+
   return (
     <Dialog open={openActivateMembersManualModal} onOpenChange={setOpenActivateMembersManualModal}>
       <DialogTrigger asChild data-state="closed">
-        <Button className="shad-button_primary w-[250px]">Add new community member</Button>
+        <Button className="shad-button_primary w-[250px]">
+          {communityMember ? "Edit" : "Add"} member
+        </Button>
       </DialogTrigger>
       <DialogContent className="bg-light-1">
         <DialogHeader>
@@ -461,10 +515,24 @@ const AddMemberManuallyModal = ({
                 name="unitNumbers"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Unit numbers(comma separated, if multiple)</FormLabel>
-                    <FormControl>
-                      <Input placeholder="1104, 1105" {...field} />
-                    </FormControl>
+                    <FormLabel>Unit numbers(Optional)</FormLabel>
+                    <RSelect
+                      isMulti
+                      options={apartmentUnits?.map((unit) => ({
+                        label: unit.unit_number,
+                        value: unit.id,
+                      }))}
+                      value={watchedUnitNumbers.map((id) => {
+                        const aUnit = apartmentUnits?.find((spot) => spot.id === id);
+                        return {
+                          value: id,
+                          label: aUnit?.unit_number,
+                        };
+                      })}
+                      onChange={(options) => {
+                        field.onChange(options.map((o) => o.value));
+                      }}
+                    ></RSelect>
                     <FormMessage className="text-red" />
                   </FormItem>
                 )}
@@ -494,8 +562,34 @@ const AddMemberManuallyModal = ({
                 )}
               />
 
-              <DialogTitle>Parking(optional)</DialogTitle>
               <FormField
+                control={form.control}
+                name="parkingSpots"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Parking(Optional)</FormLabel>
+                    <RSelect
+                      isMulti
+                      options={parkingSpots?.map((spot) => ({
+                        label: spot.parking_spot_number,
+                        value: spot.id,
+                      }))}
+                      value={watchedParkingSpots.map((id) => {
+                        const pSpot = parkingSpots?.find((spot) => spot.id === id);
+                        return {
+                          value: id,
+                          label: pSpot?.parking_spot_number,
+                        };
+                      })}
+                      onChange={(options) => {
+                        field.onChange(options.map((o) => o.value));
+                      }}
+                    ></RSelect>
+                    <FormMessage className="text-red" />
+                  </FormItem>
+                )}
+              />
+              {/* <FormField
                 control={form.control}
                 name="parkingSpotNumber"
                 render={({ field }) => (
@@ -507,8 +601,8 @@ const AddMemberManuallyModal = ({
                     <FormMessage className="text-red" />
                   </FormItem>
                 )}
-              />
-              <FormField
+              /> */}
+              {/* <FormField
                 control={form.control}
                 name="parkingLevel"
                 render={({ field }) => (
@@ -520,11 +614,11 @@ const AddMemberManuallyModal = ({
                     <FormMessage className="text-red" />
                   </FormItem>
                 )}
-              />
+              /> */}
 
               <DialogFooter>
-                <Button type="submit" disabled={isSubmitting} className="shad-button_primary">
-                  {isSubmitting ? (
+                <Button type="submit" disabled={isAddingMember} className="shad-button_primary">
+                  {isAddingMember ? (
                     <div className="flex-center gap-3">
                       <Loader />
                       Submitting...

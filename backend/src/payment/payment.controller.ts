@@ -4,15 +4,21 @@ import { GetCheckoutDetailsDto, PaymentIntentDto } from './dto';
 
 @Controller('payment')
 export class PaymentController {
-    constructor(private paymentService: PaymentService) {}
+  constructor(private paymentService: PaymentService) {}
 
-    @Post('/intent')
-    async createPaymentIntent(@Body() dto: PaymentIntentDto) {
-        return await this.paymentService.createPaymentIntent(dto)
-    }
+  @Post('/intent')
+  async createPaymentIntent(
+    @Body()
+    dto: PaymentIntentDto,
+  ) {
+    return await this.paymentService.createPaymentIntent(dto);
+  }
 
-    @Get('/checkout-details')
-    async getCheckoutDetails(@Query() dto: GetCheckoutDetailsDto) {
-        return await this.paymentService.getCheckoutDetails(dto)
-    }
+  @Get('/checkout-details')
+  async getCheckoutDetails(
+    @Query()
+    dto: GetCheckoutDetailsDto,
+  ) {
+    return await this.paymentService.getCheckoutDetails(dto);
+  }
 }

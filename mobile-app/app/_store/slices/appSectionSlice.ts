@@ -6,7 +6,7 @@ interface AppSectionState {
 }
 
 const initialState: AppSectionState = {
-  appSection: 'visitor', // initial value is 'host'
+  appSection: 'visitor', // initial value is 'visitor'
 };
 
 // Create a slice of the store for handling appSection with types
@@ -18,11 +18,14 @@ const appSectionSlice = createSlice({
     toggleAppSection(state) {
       state.appSection = state.appSection === 'host' ? 'visitor' : 'host';
     },
+    setAppSection(state, action) {
+      state.appSection = action.payload;
+    }
   },
 });
 
 // Export the action
-export const { toggleAppSection } = appSectionSlice.actions;
+export const { toggleAppSection, setAppSection } = appSectionSlice.actions;
 
 // Export the reducer
 export default appSectionSlice.reducer;

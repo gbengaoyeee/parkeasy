@@ -2137,10 +2137,12 @@ export namespace Prisma {
 
   export type CommunityMembersCountOutputType = {
     parking_spots: number
+    apartment_units: number
   }
 
   export type CommunityMembersCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     parking_spots?: boolean | CommunityMembersCountOutputTypeCountParking_spotsArgs
+    apartment_units?: boolean | CommunityMembersCountOutputTypeCountApartment_unitsArgs
   }
 
   // Custom InputTypes
@@ -2161,6 +2163,14 @@ export namespace Prisma {
    */
   export type CommunityMembersCountOutputTypeCountParking_spotsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ParkingSpotWhereInput
+  }
+
+
+  /**
+   * CommunityMembersCountOutputType without action
+   */
+  export type CommunityMembersCountOutputTypeCountApartment_unitsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ApartmentUnitWhereInput
   }
 
 
@@ -7546,6 +7556,7 @@ export namespace Prisma {
     phone: string | null
     status: $Enums.Active_State | null
     qr_code_id: string | null
+    created_at: Date | null
   }
 
   export type CommunityMembersMaxAggregateOutputType = {
@@ -7558,6 +7569,7 @@ export namespace Prisma {
     phone: string | null
     status: $Enums.Active_State | null
     qr_code_id: string | null
+    created_at: Date | null
   }
 
   export type CommunityMembersCountAggregateOutputType = {
@@ -7568,9 +7580,9 @@ export namespace Prisma {
     email: number
     name: number
     phone: number
-    unit_numbers: number
     status: number
     qr_code_id: number
+    created_at: number
     _all: number
   }
 
@@ -7585,6 +7597,7 @@ export namespace Prisma {
     phone?: true
     status?: true
     qr_code_id?: true
+    created_at?: true
   }
 
   export type CommunityMembersMaxAggregateInputType = {
@@ -7597,6 +7610,7 @@ export namespace Prisma {
     phone?: true
     status?: true
     qr_code_id?: true
+    created_at?: true
   }
 
   export type CommunityMembersCountAggregateInputType = {
@@ -7607,9 +7621,9 @@ export namespace Prisma {
     email?: true
     name?: true
     phone?: true
-    unit_numbers?: true
     status?: true
     qr_code_id?: true
+    created_at?: true
     _all?: true
   }
 
@@ -7693,9 +7707,9 @@ export namespace Prisma {
     email: string | null
     name: string | null
     phone: string | null
-    unit_numbers: string[]
     status: $Enums.Active_State
     qr_code_id: string | null
+    created_at: Date
     _count: CommunityMembersCountAggregateOutputType | null
     _min: CommunityMembersMinAggregateOutputType | null
     _max: CommunityMembersMaxAggregateOutputType | null
@@ -7723,13 +7737,14 @@ export namespace Prisma {
     email?: boolean
     name?: boolean
     phone?: boolean
-    unit_numbers?: boolean
     status?: boolean
     qr_code_id?: boolean
+    created_at?: boolean
     building?: boolean | BuildingDefaultArgs<ExtArgs>
     qr_code?: boolean | CommunityMembers$qr_codeArgs<ExtArgs>
     parking_spots?: boolean | CommunityMembers$parking_spotsArgs<ExtArgs>
     user?: boolean | CommunityMembers$userArgs<ExtArgs>
+    apartment_units?: boolean | CommunityMembers$apartment_unitsArgs<ExtArgs>
     _count?: boolean | CommunityMembersCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["communityMembers"]>
 
@@ -7741,9 +7756,9 @@ export namespace Prisma {
     email?: boolean
     name?: boolean
     phone?: boolean
-    unit_numbers?: boolean
     status?: boolean
     qr_code_id?: boolean
+    created_at?: boolean
   }
 
   export type CommunityMembersInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7751,6 +7766,7 @@ export namespace Prisma {
     qr_code?: boolean | CommunityMembers$qr_codeArgs<ExtArgs>
     parking_spots?: boolean | CommunityMembers$parking_spotsArgs<ExtArgs>
     user?: boolean | CommunityMembers$userArgs<ExtArgs>
+    apartment_units?: boolean | CommunityMembers$apartment_unitsArgs<ExtArgs>
     _count?: boolean | CommunityMembersCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -7762,6 +7778,7 @@ export namespace Prisma {
       qr_code: Prisma.$QRCodePayload<ExtArgs> | null
       parking_spots: Prisma.$ParkingSpotPayload<ExtArgs>[]
       user: Prisma.$UserPayload<ExtArgs> | null
+      apartment_units: Prisma.$ApartmentUnitPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -7771,9 +7788,9 @@ export namespace Prisma {
       email: string | null
       name: string | null
       phone: string | null
-      unit_numbers: string[]
       status: $Enums.Active_State
       qr_code_id: string | null
+      created_at: Date
     }, ExtArgs["result"]["communityMembers"]>
     composites: {}
   }
@@ -8147,6 +8164,8 @@ export namespace Prisma {
 
     user<T extends CommunityMembers$userArgs<ExtArgs> = {}>(args?: Subset<T, CommunityMembers$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
 
+    apartment_units<T extends CommunityMembers$apartment_unitsArgs<ExtArgs> = {}>(args?: Subset<T, CommunityMembers$apartment_unitsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApartmentUnitPayload<ExtArgs>, T, 'findMany'> | Null>;
+
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8182,9 +8201,9 @@ export namespace Prisma {
     readonly email: FieldRef<"CommunityMembers", 'String'>
     readonly name: FieldRef<"CommunityMembers", 'String'>
     readonly phone: FieldRef<"CommunityMembers", 'String'>
-    readonly unit_numbers: FieldRef<"CommunityMembers", 'String[]'>
     readonly status: FieldRef<"CommunityMembers", 'Active_State'>
     readonly qr_code_id: FieldRef<"CommunityMembers", 'String'>
+    readonly created_at: FieldRef<"CommunityMembers", 'DateTime'>
   }
     
 
@@ -8546,6 +8565,27 @@ export namespace Prisma {
      */
     include?: UserInclude<ExtArgs> | null
     where?: UserWhereInput
+  }
+
+
+  /**
+   * CommunityMembers.apartment_units
+   */
+  export type CommunityMembers$apartment_unitsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApartmentUnit
+     */
+    select?: ApartmentUnitSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ApartmentUnitInclude<ExtArgs> | null
+    where?: ApartmentUnitWhereInput
+    orderBy?: ApartmentUnitOrderByWithRelationInput | ApartmentUnitOrderByWithRelationInput[]
+    cursor?: ApartmentUnitWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ApartmentUnitScalarFieldEnum | ApartmentUnitScalarFieldEnum[]
   }
 
 
@@ -12643,10 +12683,12 @@ export namespace Prisma {
 
   export type ReservationAvgAggregateOutputType = {
     price: number | null
+    app_fees: number | null
   }
 
   export type ReservationSumAggregateOutputType = {
     price: number | null
+    app_fees: number | null
   }
 
   export type ReservationMinAggregateOutputType = {
@@ -12657,9 +12699,13 @@ export namespace Prisma {
     building_id: string | null
     parking_spot_id: string | null
     price: number | null
+    app_fees: number | null
     start_date: Date | null
     end_date: Date | null
     status: $Enums.Reservation_Status | null
+    stripe_payment_intent_id: string | null
+    created_at: Date | null
+    updated_at: Date | null
   }
 
   export type ReservationMaxAggregateOutputType = {
@@ -12670,9 +12716,13 @@ export namespace Prisma {
     building_id: string | null
     parking_spot_id: string | null
     price: number | null
+    app_fees: number | null
     start_date: Date | null
     end_date: Date | null
     status: $Enums.Reservation_Status | null
+    stripe_payment_intent_id: string | null
+    created_at: Date | null
+    updated_at: Date | null
   }
 
   export type ReservationCountAggregateOutputType = {
@@ -12683,19 +12733,26 @@ export namespace Prisma {
     building_id: number
     parking_spot_id: number
     price: number
+    app_fees: number
     start_date: number
     end_date: number
     status: number
+    stripe_payment_intent_id: number
+    charge: number
+    created_at: number
+    updated_at: number
     _all: number
   }
 
 
   export type ReservationAvgAggregateInputType = {
     price?: true
+    app_fees?: true
   }
 
   export type ReservationSumAggregateInputType = {
     price?: true
+    app_fees?: true
   }
 
   export type ReservationMinAggregateInputType = {
@@ -12706,9 +12763,13 @@ export namespace Prisma {
     building_id?: true
     parking_spot_id?: true
     price?: true
+    app_fees?: true
     start_date?: true
     end_date?: true
     status?: true
+    stripe_payment_intent_id?: true
+    created_at?: true
+    updated_at?: true
   }
 
   export type ReservationMaxAggregateInputType = {
@@ -12719,9 +12780,13 @@ export namespace Prisma {
     building_id?: true
     parking_spot_id?: true
     price?: true
+    app_fees?: true
     start_date?: true
     end_date?: true
     status?: true
+    stripe_payment_intent_id?: true
+    created_at?: true
+    updated_at?: true
   }
 
   export type ReservationCountAggregateInputType = {
@@ -12732,9 +12797,14 @@ export namespace Prisma {
     building_id?: true
     parking_spot_id?: true
     price?: true
+    app_fees?: true
     start_date?: true
     end_date?: true
     status?: true
+    stripe_payment_intent_id?: true
+    charge?: true
+    created_at?: true
+    updated_at?: true
     _all?: true
   }
 
@@ -12826,15 +12896,20 @@ export namespace Prisma {
 
   export type ReservationGroupByOutputType = {
     id: string
-    listing_id: string
-    host_id: string
-    visitor_id: string
+    listing_id: string | null
+    host_id: string | null
+    visitor_id: string | null
     building_id: string | null
-    parking_spot_id: string
+    parking_spot_id: string | null
     price: number | null
-    start_date: Date
-    end_date: Date
+    app_fees: number | null
+    start_date: Date | null
+    end_date: Date | null
     status: $Enums.Reservation_Status
+    stripe_payment_intent_id: string | null
+    charge: JsonValue | null
+    created_at: Date
+    updated_at: Date
     _count: ReservationCountAggregateOutputType | null
     _avg: ReservationAvgAggregateOutputType | null
     _sum: ReservationSumAggregateOutputType | null
@@ -12864,14 +12939,19 @@ export namespace Prisma {
     building_id?: boolean
     parking_spot_id?: boolean
     price?: boolean
+    app_fees?: boolean
     start_date?: boolean
     end_date?: boolean
     status?: boolean
-    listing?: boolean | ListingDefaultArgs<ExtArgs>
-    host?: boolean | UserDefaultArgs<ExtArgs>
-    visitor?: boolean | UserDefaultArgs<ExtArgs>
+    stripe_payment_intent_id?: boolean
+    charge?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    listing?: boolean | Reservation$listingArgs<ExtArgs>
+    host?: boolean | Reservation$hostArgs<ExtArgs>
+    visitor?: boolean | Reservation$visitorArgs<ExtArgs>
     building?: boolean | Reservation$buildingArgs<ExtArgs>
-    parking?: boolean | ParkingSpotDefaultArgs<ExtArgs>
+    parking?: boolean | Reservation$parkingArgs<ExtArgs>
   }, ExtArgs["result"]["reservation"]>
 
   export type ReservationSelectScalar = {
@@ -12882,40 +12962,50 @@ export namespace Prisma {
     building_id?: boolean
     parking_spot_id?: boolean
     price?: boolean
+    app_fees?: boolean
     start_date?: boolean
     end_date?: boolean
     status?: boolean
+    stripe_payment_intent_id?: boolean
+    charge?: boolean
+    created_at?: boolean
+    updated_at?: boolean
   }
 
   export type ReservationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    listing?: boolean | ListingDefaultArgs<ExtArgs>
-    host?: boolean | UserDefaultArgs<ExtArgs>
-    visitor?: boolean | UserDefaultArgs<ExtArgs>
+    listing?: boolean | Reservation$listingArgs<ExtArgs>
+    host?: boolean | Reservation$hostArgs<ExtArgs>
+    visitor?: boolean | Reservation$visitorArgs<ExtArgs>
     building?: boolean | Reservation$buildingArgs<ExtArgs>
-    parking?: boolean | ParkingSpotDefaultArgs<ExtArgs>
+    parking?: boolean | Reservation$parkingArgs<ExtArgs>
   }
 
 
   export type $ReservationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Reservation"
     objects: {
-      listing: Prisma.$ListingPayload<ExtArgs>
-      host: Prisma.$UserPayload<ExtArgs>
-      visitor: Prisma.$UserPayload<ExtArgs>
+      listing: Prisma.$ListingPayload<ExtArgs> | null
+      host: Prisma.$UserPayload<ExtArgs> | null
+      visitor: Prisma.$UserPayload<ExtArgs> | null
       building: Prisma.$BuildingPayload<ExtArgs> | null
-      parking: Prisma.$ParkingSpotPayload<ExtArgs>
+      parking: Prisma.$ParkingSpotPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      listing_id: string
-      host_id: string
-      visitor_id: string
+      listing_id: string | null
+      host_id: string | null
+      visitor_id: string | null
       building_id: string | null
-      parking_spot_id: string
+      parking_spot_id: string | null
       price: number | null
-      start_date: Date
-      end_date: Date
+      app_fees: number | null
+      start_date: Date | null
+      end_date: Date | null
       status: $Enums.Reservation_Status
+      stripe_payment_intent_id: string | null
+      charge: Prisma.JsonValue | null
+      created_at: Date
+      updated_at: Date
     }, ExtArgs["result"]["reservation"]>
     composites: {}
   }
@@ -13281,15 +13371,15 @@ export namespace Prisma {
   export interface Prisma__ReservationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
 
-    listing<T extends ListingDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ListingDefaultArgs<ExtArgs>>): Prisma__ListingClient<$Result.GetResult<Prisma.$ListingPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
+    listing<T extends Reservation$listingArgs<ExtArgs> = {}>(args?: Subset<T, Reservation$listingArgs<ExtArgs>>): Prisma__ListingClient<$Result.GetResult<Prisma.$ListingPayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
 
-    host<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
+    host<T extends Reservation$hostArgs<ExtArgs> = {}>(args?: Subset<T, Reservation$hostArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
 
-    visitor<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
+    visitor<T extends Reservation$visitorArgs<ExtArgs> = {}>(args?: Subset<T, Reservation$visitorArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
 
     building<T extends Reservation$buildingArgs<ExtArgs> = {}>(args?: Subset<T, Reservation$buildingArgs<ExtArgs>>): Prisma__BuildingClient<$Result.GetResult<Prisma.$BuildingPayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
 
-    parking<T extends ParkingSpotDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ParkingSpotDefaultArgs<ExtArgs>>): Prisma__ParkingSpotClient<$Result.GetResult<Prisma.$ParkingSpotPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
+    parking<T extends Reservation$parkingArgs<ExtArgs> = {}>(args?: Subset<T, Reservation$parkingArgs<ExtArgs>>): Prisma__ParkingSpotClient<$Result.GetResult<Prisma.$ParkingSpotPayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
 
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -13326,9 +13416,14 @@ export namespace Prisma {
     readonly building_id: FieldRef<"Reservation", 'String'>
     readonly parking_spot_id: FieldRef<"Reservation", 'String'>
     readonly price: FieldRef<"Reservation", 'Int'>
+    readonly app_fees: FieldRef<"Reservation", 'Int'>
     readonly start_date: FieldRef<"Reservation", 'DateTime'>
     readonly end_date: FieldRef<"Reservation", 'DateTime'>
     readonly status: FieldRef<"Reservation", 'Reservation_Status'>
+    readonly stripe_payment_intent_id: FieldRef<"Reservation", 'String'>
+    readonly charge: FieldRef<"Reservation", 'Json'>
+    readonly created_at: FieldRef<"Reservation", 'DateTime'>
+    readonly updated_at: FieldRef<"Reservation", 'DateTime'>
   }
     
 
@@ -13529,7 +13624,7 @@ export namespace Prisma {
     /**
      * The data needed to create a Reservation.
      */
-    data: XOR<ReservationCreateInput, ReservationUncheckedCreateInput>
+    data?: XOR<ReservationCreateInput, ReservationUncheckedCreateInput>
   }
 
 
@@ -13641,6 +13736,54 @@ export namespace Prisma {
 
 
   /**
+   * Reservation.listing
+   */
+  export type Reservation$listingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Listing
+     */
+    select?: ListingSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ListingInclude<ExtArgs> | null
+    where?: ListingWhereInput
+  }
+
+
+  /**
+   * Reservation.host
+   */
+  export type Reservation$hostArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+
+  /**
+   * Reservation.visitor
+   */
+  export type Reservation$visitorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+
+  /**
    * Reservation.building
    */
   export type Reservation$buildingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -13653,6 +13796,22 @@ export namespace Prisma {
      */
     include?: BuildingInclude<ExtArgs> | null
     where?: BuildingWhereInput
+  }
+
+
+  /**
+   * Reservation.parking
+   */
+  export type Reservation$parkingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParkingSpot
+     */
+    select?: ParkingSpotSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ParkingSpotInclude<ExtArgs> | null
+    where?: ParkingSpotWhereInput
   }
 
 
@@ -13696,26 +13855,29 @@ export namespace Prisma {
 
   export type ApartmentUnitMinAggregateOutputType = {
     id: string | null
+    building_id: string | null
     unit_number: string | null
     no_of_bedrooms: number | null
     no_of_baths: number | null
-    building_id: string | null
+    community_member_id: string | null
   }
 
   export type ApartmentUnitMaxAggregateOutputType = {
     id: string | null
+    building_id: string | null
     unit_number: string | null
     no_of_bedrooms: number | null
     no_of_baths: number | null
-    building_id: string | null
+    community_member_id: string | null
   }
 
   export type ApartmentUnitCountAggregateOutputType = {
     id: number
+    building_id: number
     unit_number: number
     no_of_bedrooms: number
     no_of_baths: number
-    building_id: number
+    community_member_id: number
     _all: number
   }
 
@@ -13732,26 +13894,29 @@ export namespace Prisma {
 
   export type ApartmentUnitMinAggregateInputType = {
     id?: true
+    building_id?: true
     unit_number?: true
     no_of_bedrooms?: true
     no_of_baths?: true
-    building_id?: true
+    community_member_id?: true
   }
 
   export type ApartmentUnitMaxAggregateInputType = {
     id?: true
+    building_id?: true
     unit_number?: true
     no_of_bedrooms?: true
     no_of_baths?: true
-    building_id?: true
+    community_member_id?: true
   }
 
   export type ApartmentUnitCountAggregateInputType = {
     id?: true
+    building_id?: true
     unit_number?: true
     no_of_bedrooms?: true
     no_of_baths?: true
-    building_id?: true
+    community_member_id?: true
     _all?: true
   }
 
@@ -13843,10 +14008,11 @@ export namespace Prisma {
 
   export type ApartmentUnitGroupByOutputType = {
     id: string
+    building_id: string
     unit_number: string | null
     no_of_bedrooms: number | null
     no_of_baths: number | null
-    building_id: string
+    community_member_id: string | null
     _count: ApartmentUnitCountAggregateOutputType | null
     _avg: ApartmentUnitAvgAggregateOutputType | null
     _sum: ApartmentUnitSumAggregateOutputType | null
@@ -13870,37 +14036,43 @@ export namespace Prisma {
 
   export type ApartmentUnitSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    building_id?: boolean
     unit_number?: boolean
     no_of_bedrooms?: boolean
     no_of_baths?: boolean
-    building_id?: boolean
-    building?: boolean | ApartmentUnit$buildingArgs<ExtArgs>
+    community_member_id?: boolean
+    building?: boolean | BuildingDefaultArgs<ExtArgs>
+    community_member?: boolean | ApartmentUnit$community_memberArgs<ExtArgs>
   }, ExtArgs["result"]["apartmentUnit"]>
 
   export type ApartmentUnitSelectScalar = {
     id?: boolean
+    building_id?: boolean
     unit_number?: boolean
     no_of_bedrooms?: boolean
     no_of_baths?: boolean
-    building_id?: boolean
+    community_member_id?: boolean
   }
 
   export type ApartmentUnitInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    building?: boolean | ApartmentUnit$buildingArgs<ExtArgs>
+    building?: boolean | BuildingDefaultArgs<ExtArgs>
+    community_member?: boolean | ApartmentUnit$community_memberArgs<ExtArgs>
   }
 
 
   export type $ApartmentUnitPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "ApartmentUnit"
     objects: {
-      building: Prisma.$BuildingPayload<ExtArgs> | null
+      building: Prisma.$BuildingPayload<ExtArgs>
+      community_member: Prisma.$CommunityMembersPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      building_id: string
       unit_number: string | null
       no_of_bedrooms: number | null
       no_of_baths: number | null
-      building_id: string
+      community_member_id: string | null
     }, ExtArgs["result"]["apartmentUnit"]>
     composites: {}
   }
@@ -14266,7 +14438,9 @@ export namespace Prisma {
   export interface Prisma__ApartmentUnitClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
 
-    building<T extends ApartmentUnit$buildingArgs<ExtArgs> = {}>(args?: Subset<T, ApartmentUnit$buildingArgs<ExtArgs>>): Prisma__BuildingClient<$Result.GetResult<Prisma.$BuildingPayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
+    building<T extends BuildingDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BuildingDefaultArgs<ExtArgs>>): Prisma__BuildingClient<$Result.GetResult<Prisma.$BuildingPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
+
+    community_member<T extends ApartmentUnit$community_memberArgs<ExtArgs> = {}>(args?: Subset<T, ApartmentUnit$community_memberArgs<ExtArgs>>): Prisma__CommunityMembersClient<$Result.GetResult<Prisma.$CommunityMembersPayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
 
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -14297,10 +14471,11 @@ export namespace Prisma {
    */ 
   interface ApartmentUnitFieldRefs {
     readonly id: FieldRef<"ApartmentUnit", 'String'>
+    readonly building_id: FieldRef<"ApartmentUnit", 'String'>
     readonly unit_number: FieldRef<"ApartmentUnit", 'String'>
     readonly no_of_bedrooms: FieldRef<"ApartmentUnit", 'Int'>
     readonly no_of_baths: FieldRef<"ApartmentUnit", 'Int'>
-    readonly building_id: FieldRef<"ApartmentUnit", 'String'>
+    readonly community_member_id: FieldRef<"ApartmentUnit", 'String'>
   }
     
 
@@ -14613,18 +14788,18 @@ export namespace Prisma {
 
 
   /**
-   * ApartmentUnit.building
+   * ApartmentUnit.community_member
    */
-  export type ApartmentUnit$buildingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ApartmentUnit$community_memberArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Building
+     * Select specific fields to fetch from the CommunityMembers
      */
-    select?: BuildingSelect<ExtArgs> | null
+    select?: CommunityMembersSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: BuildingInclude<ExtArgs> | null
-    where?: BuildingWhereInput
+    include?: CommunityMembersInclude<ExtArgs> | null
+    where?: CommunityMembersWhereInput
   }
 
 
@@ -14752,9 +14927,9 @@ export namespace Prisma {
     email: 'email',
     name: 'name',
     phone: 'phone',
-    unit_numbers: 'unit_numbers',
     status: 'status',
-    qr_code_id: 'qr_code_id'
+    qr_code_id: 'qr_code_id',
+    created_at: 'created_at'
   };
 
   export type CommunityMembersScalarFieldEnum = (typeof CommunityMembersScalarFieldEnum)[keyof typeof CommunityMembersScalarFieldEnum]
@@ -14822,9 +14997,14 @@ export namespace Prisma {
     building_id: 'building_id',
     parking_spot_id: 'parking_spot_id',
     price: 'price',
+    app_fees: 'app_fees',
     start_date: 'start_date',
     end_date: 'end_date',
-    status: 'status'
+    status: 'status',
+    stripe_payment_intent_id: 'stripe_payment_intent_id',
+    charge: 'charge',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
   };
 
   export type ReservationScalarFieldEnum = (typeof ReservationScalarFieldEnum)[keyof typeof ReservationScalarFieldEnum]
@@ -14832,10 +15012,11 @@ export namespace Prisma {
 
   export const ApartmentUnitScalarFieldEnum: {
     id: 'id',
+    building_id: 'building_id',
     unit_number: 'unit_number',
     no_of_bedrooms: 'no_of_bedrooms',
     no_of_baths: 'no_of_baths',
-    building_id: 'building_id'
+    community_member_id: 'community_member_id'
   };
 
   export type ApartmentUnitScalarFieldEnum = (typeof ApartmentUnitScalarFieldEnum)[keyof typeof ApartmentUnitScalarFieldEnum]
@@ -15262,6 +15443,7 @@ export namespace Prisma {
     id?: string
     email?: string
     phone_number?: string
+    email_phone_number?: UserEmailPhone_numberCompoundUniqueInput
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
@@ -15279,7 +15461,7 @@ export namespace Prisma {
     listings?: ListingListRelationFilter
     hostReservations?: ReservationListRelationFilter
     visitorReservations?: ReservationListRelationFilter
-  }, "id" | "id" | "email" | "phone_number">
+  }, "id" | "id" | "email" | "phone_number" | "email_phone_number">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
@@ -15635,13 +15817,14 @@ export namespace Prisma {
     email?: StringNullableFilter<"CommunityMembers"> | string | null
     name?: StringNullableFilter<"CommunityMembers"> | string | null
     phone?: StringNullableFilter<"CommunityMembers"> | string | null
-    unit_numbers?: StringNullableListFilter<"CommunityMembers">
     status?: EnumActive_StateFilter<"CommunityMembers"> | $Enums.Active_State
     qr_code_id?: StringNullableFilter<"CommunityMembers"> | string | null
+    created_at?: DateTimeFilter<"CommunityMembers"> | Date | string
     building?: XOR<BuildingRelationFilter, BuildingWhereInput>
     qr_code?: XOR<QRCodeNullableRelationFilter, QRCodeWhereInput> | null
     parking_spots?: ParkingSpotListRelationFilter
     user?: XOR<UserNullableRelationFilter, UserWhereInput> | null
+    apartment_units?: ApartmentUnitListRelationFilter
   }
 
   export type CommunityMembersOrderByWithRelationInput = {
@@ -15652,13 +15835,14 @@ export namespace Prisma {
     email?: SortOrderInput | SortOrder
     name?: SortOrderInput | SortOrder
     phone?: SortOrderInput | SortOrder
-    unit_numbers?: SortOrder
     status?: SortOrder
     qr_code_id?: SortOrderInput | SortOrder
+    created_at?: SortOrder
     building?: BuildingOrderByWithRelationInput
     qr_code?: QRCodeOrderByWithRelationInput
     parking_spots?: ParkingSpotOrderByRelationAggregateInput
     user?: UserOrderByWithRelationInput
+    apartment_units?: ApartmentUnitOrderByRelationAggregateInput
   }
 
   export type CommunityMembersWhereUniqueInput = Prisma.AtLeast<{
@@ -15674,12 +15858,13 @@ export namespace Prisma {
     email?: StringNullableFilter<"CommunityMembers"> | string | null
     name?: StringNullableFilter<"CommunityMembers"> | string | null
     phone?: StringNullableFilter<"CommunityMembers"> | string | null
-    unit_numbers?: StringNullableListFilter<"CommunityMembers">
     status?: EnumActive_StateFilter<"CommunityMembers"> | $Enums.Active_State
+    created_at?: DateTimeFilter<"CommunityMembers"> | Date | string
     building?: XOR<BuildingRelationFilter, BuildingWhereInput>
     qr_code?: XOR<QRCodeNullableRelationFilter, QRCodeWhereInput> | null
     parking_spots?: ParkingSpotListRelationFilter
     user?: XOR<UserNullableRelationFilter, UserWhereInput> | null
+    apartment_units?: ApartmentUnitListRelationFilter
   }, "id" | "id" | "qr_code_id" | "building_id_phone_email">
 
   export type CommunityMembersOrderByWithAggregationInput = {
@@ -15690,9 +15875,9 @@ export namespace Prisma {
     email?: SortOrderInput | SortOrder
     name?: SortOrderInput | SortOrder
     phone?: SortOrderInput | SortOrder
-    unit_numbers?: SortOrder
     status?: SortOrder
     qr_code_id?: SortOrderInput | SortOrder
+    created_at?: SortOrder
     _count?: CommunityMembersCountOrderByAggregateInput
     _max?: CommunityMembersMaxOrderByAggregateInput
     _min?: CommunityMembersMinOrderByAggregateInput
@@ -15709,9 +15894,9 @@ export namespace Prisma {
     email?: StringNullableWithAggregatesFilter<"CommunityMembers"> | string | null
     name?: StringNullableWithAggregatesFilter<"CommunityMembers"> | string | null
     phone?: StringNullableWithAggregatesFilter<"CommunityMembers"> | string | null
-    unit_numbers?: StringNullableListFilter<"CommunityMembers">
     status?: EnumActive_StateWithAggregatesFilter<"CommunityMembers"> | $Enums.Active_State
     qr_code_id?: StringNullableWithAggregatesFilter<"CommunityMembers"> | string | null
+    created_at?: DateTimeWithAggregatesFilter<"CommunityMembers"> | Date | string
   }
 
   export type ParkingSpotWhereInput = {
@@ -16019,33 +16204,43 @@ export namespace Prisma {
     OR?: ReservationWhereInput[]
     NOT?: ReservationWhereInput | ReservationWhereInput[]
     id?: StringFilter<"Reservation"> | string
-    listing_id?: StringFilter<"Reservation"> | string
-    host_id?: StringFilter<"Reservation"> | string
-    visitor_id?: StringFilter<"Reservation"> | string
+    listing_id?: StringNullableFilter<"Reservation"> | string | null
+    host_id?: StringNullableFilter<"Reservation"> | string | null
+    visitor_id?: StringNullableFilter<"Reservation"> | string | null
     building_id?: StringNullableFilter<"Reservation"> | string | null
-    parking_spot_id?: StringFilter<"Reservation"> | string
+    parking_spot_id?: StringNullableFilter<"Reservation"> | string | null
     price?: IntNullableFilter<"Reservation"> | number | null
-    start_date?: DateTimeFilter<"Reservation"> | Date | string
-    end_date?: DateTimeFilter<"Reservation"> | Date | string
+    app_fees?: IntNullableFilter<"Reservation"> | number | null
+    start_date?: DateTimeNullableFilter<"Reservation"> | Date | string | null
+    end_date?: DateTimeNullableFilter<"Reservation"> | Date | string | null
     status?: EnumReservation_StatusFilter<"Reservation"> | $Enums.Reservation_Status
-    listing?: XOR<ListingRelationFilter, ListingWhereInput>
-    host?: XOR<UserRelationFilter, UserWhereInput>
-    visitor?: XOR<UserRelationFilter, UserWhereInput>
+    stripe_payment_intent_id?: StringNullableFilter<"Reservation"> | string | null
+    charge?: JsonNullableFilter<"Reservation">
+    created_at?: DateTimeFilter<"Reservation"> | Date | string
+    updated_at?: DateTimeFilter<"Reservation"> | Date | string
+    listing?: XOR<ListingNullableRelationFilter, ListingWhereInput> | null
+    host?: XOR<UserNullableRelationFilter, UserWhereInput> | null
+    visitor?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     building?: XOR<BuildingNullableRelationFilter, BuildingWhereInput> | null
-    parking?: XOR<ParkingSpotRelationFilter, ParkingSpotWhereInput>
+    parking?: XOR<ParkingSpotNullableRelationFilter, ParkingSpotWhereInput> | null
   }
 
   export type ReservationOrderByWithRelationInput = {
     id?: SortOrder
-    listing_id?: SortOrder
-    host_id?: SortOrder
-    visitor_id?: SortOrder
+    listing_id?: SortOrderInput | SortOrder
+    host_id?: SortOrderInput | SortOrder
+    visitor_id?: SortOrderInput | SortOrder
     building_id?: SortOrderInput | SortOrder
-    parking_spot_id?: SortOrder
+    parking_spot_id?: SortOrderInput | SortOrder
     price?: SortOrderInput | SortOrder
-    start_date?: SortOrder
-    end_date?: SortOrder
+    app_fees?: SortOrderInput | SortOrder
+    start_date?: SortOrderInput | SortOrder
+    end_date?: SortOrderInput | SortOrder
     status?: SortOrder
+    stripe_payment_intent_id?: SortOrderInput | SortOrder
+    charge?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
     listing?: ListingOrderByWithRelationInput
     host?: UserOrderByWithRelationInput
     visitor?: UserOrderByWithRelationInput
@@ -16058,33 +16253,43 @@ export namespace Prisma {
     AND?: ReservationWhereInput | ReservationWhereInput[]
     OR?: ReservationWhereInput[]
     NOT?: ReservationWhereInput | ReservationWhereInput[]
-    listing_id?: StringFilter<"Reservation"> | string
-    host_id?: StringFilter<"Reservation"> | string
-    visitor_id?: StringFilter<"Reservation"> | string
+    listing_id?: StringNullableFilter<"Reservation"> | string | null
+    host_id?: StringNullableFilter<"Reservation"> | string | null
+    visitor_id?: StringNullableFilter<"Reservation"> | string | null
     building_id?: StringNullableFilter<"Reservation"> | string | null
-    parking_spot_id?: StringFilter<"Reservation"> | string
+    parking_spot_id?: StringNullableFilter<"Reservation"> | string | null
     price?: IntNullableFilter<"Reservation"> | number | null
-    start_date?: DateTimeFilter<"Reservation"> | Date | string
-    end_date?: DateTimeFilter<"Reservation"> | Date | string
+    app_fees?: IntNullableFilter<"Reservation"> | number | null
+    start_date?: DateTimeNullableFilter<"Reservation"> | Date | string | null
+    end_date?: DateTimeNullableFilter<"Reservation"> | Date | string | null
     status?: EnumReservation_StatusFilter<"Reservation"> | $Enums.Reservation_Status
-    listing?: XOR<ListingRelationFilter, ListingWhereInput>
-    host?: XOR<UserRelationFilter, UserWhereInput>
-    visitor?: XOR<UserRelationFilter, UserWhereInput>
+    stripe_payment_intent_id?: StringNullableFilter<"Reservation"> | string | null
+    charge?: JsonNullableFilter<"Reservation">
+    created_at?: DateTimeFilter<"Reservation"> | Date | string
+    updated_at?: DateTimeFilter<"Reservation"> | Date | string
+    listing?: XOR<ListingNullableRelationFilter, ListingWhereInput> | null
+    host?: XOR<UserNullableRelationFilter, UserWhereInput> | null
+    visitor?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     building?: XOR<BuildingNullableRelationFilter, BuildingWhereInput> | null
-    parking?: XOR<ParkingSpotRelationFilter, ParkingSpotWhereInput>
+    parking?: XOR<ParkingSpotNullableRelationFilter, ParkingSpotWhereInput> | null
   }, "id" | "id">
 
   export type ReservationOrderByWithAggregationInput = {
     id?: SortOrder
-    listing_id?: SortOrder
-    host_id?: SortOrder
-    visitor_id?: SortOrder
+    listing_id?: SortOrderInput | SortOrder
+    host_id?: SortOrderInput | SortOrder
+    visitor_id?: SortOrderInput | SortOrder
     building_id?: SortOrderInput | SortOrder
-    parking_spot_id?: SortOrder
+    parking_spot_id?: SortOrderInput | SortOrder
     price?: SortOrderInput | SortOrder
-    start_date?: SortOrder
-    end_date?: SortOrder
+    app_fees?: SortOrderInput | SortOrder
+    start_date?: SortOrderInput | SortOrder
+    end_date?: SortOrderInput | SortOrder
     status?: SortOrder
+    stripe_payment_intent_id?: SortOrderInput | SortOrder
+    charge?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
     _count?: ReservationCountOrderByAggregateInput
     _avg?: ReservationAvgOrderByAggregateInput
     _max?: ReservationMaxOrderByAggregateInput
@@ -16097,15 +16302,20 @@ export namespace Prisma {
     OR?: ReservationScalarWhereWithAggregatesInput[]
     NOT?: ReservationScalarWhereWithAggregatesInput | ReservationScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Reservation"> | string
-    listing_id?: StringWithAggregatesFilter<"Reservation"> | string
-    host_id?: StringWithAggregatesFilter<"Reservation"> | string
-    visitor_id?: StringWithAggregatesFilter<"Reservation"> | string
+    listing_id?: StringNullableWithAggregatesFilter<"Reservation"> | string | null
+    host_id?: StringNullableWithAggregatesFilter<"Reservation"> | string | null
+    visitor_id?: StringNullableWithAggregatesFilter<"Reservation"> | string | null
     building_id?: StringNullableWithAggregatesFilter<"Reservation"> | string | null
-    parking_spot_id?: StringWithAggregatesFilter<"Reservation"> | string
+    parking_spot_id?: StringNullableWithAggregatesFilter<"Reservation"> | string | null
     price?: IntNullableWithAggregatesFilter<"Reservation"> | number | null
-    start_date?: DateTimeWithAggregatesFilter<"Reservation"> | Date | string
-    end_date?: DateTimeWithAggregatesFilter<"Reservation"> | Date | string
+    app_fees?: IntNullableWithAggregatesFilter<"Reservation"> | number | null
+    start_date?: DateTimeNullableWithAggregatesFilter<"Reservation"> | Date | string | null
+    end_date?: DateTimeNullableWithAggregatesFilter<"Reservation"> | Date | string | null
     status?: EnumReservation_StatusWithAggregatesFilter<"Reservation"> | $Enums.Reservation_Status
+    stripe_payment_intent_id?: StringNullableWithAggregatesFilter<"Reservation"> | string | null
+    charge?: JsonNullableWithAggregatesFilter<"Reservation">
+    created_at?: DateTimeWithAggregatesFilter<"Reservation"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"Reservation"> | Date | string
   }
 
   export type ApartmentUnitWhereInput = {
@@ -16113,20 +16323,24 @@ export namespace Prisma {
     OR?: ApartmentUnitWhereInput[]
     NOT?: ApartmentUnitWhereInput | ApartmentUnitWhereInput[]
     id?: StringFilter<"ApartmentUnit"> | string
+    building_id?: StringFilter<"ApartmentUnit"> | string
     unit_number?: StringNullableFilter<"ApartmentUnit"> | string | null
     no_of_bedrooms?: IntNullableFilter<"ApartmentUnit"> | number | null
     no_of_baths?: IntNullableFilter<"ApartmentUnit"> | number | null
-    building_id?: StringFilter<"ApartmentUnit"> | string
-    building?: XOR<BuildingNullableRelationFilter, BuildingWhereInput> | null
+    community_member_id?: StringNullableFilter<"ApartmentUnit"> | string | null
+    building?: XOR<BuildingRelationFilter, BuildingWhereInput>
+    community_member?: XOR<CommunityMembersNullableRelationFilter, CommunityMembersWhereInput> | null
   }
 
   export type ApartmentUnitOrderByWithRelationInput = {
     id?: SortOrder
+    building_id?: SortOrder
     unit_number?: SortOrderInput | SortOrder
     no_of_bedrooms?: SortOrderInput | SortOrder
     no_of_baths?: SortOrderInput | SortOrder
-    building_id?: SortOrder
+    community_member_id?: SortOrderInput | SortOrder
     building?: BuildingOrderByWithRelationInput
+    community_member?: CommunityMembersOrderByWithRelationInput
   }
 
   export type ApartmentUnitWhereUniqueInput = Prisma.AtLeast<{
@@ -16135,19 +16349,22 @@ export namespace Prisma {
     AND?: ApartmentUnitWhereInput | ApartmentUnitWhereInput[]
     OR?: ApartmentUnitWhereInput[]
     NOT?: ApartmentUnitWhereInput | ApartmentUnitWhereInput[]
+    building_id?: StringFilter<"ApartmentUnit"> | string
     unit_number?: StringNullableFilter<"ApartmentUnit"> | string | null
     no_of_bedrooms?: IntNullableFilter<"ApartmentUnit"> | number | null
     no_of_baths?: IntNullableFilter<"ApartmentUnit"> | number | null
-    building_id?: StringFilter<"ApartmentUnit"> | string
-    building?: XOR<BuildingNullableRelationFilter, BuildingWhereInput> | null
+    community_member_id?: StringNullableFilter<"ApartmentUnit"> | string | null
+    building?: XOR<BuildingRelationFilter, BuildingWhereInput>
+    community_member?: XOR<CommunityMembersNullableRelationFilter, CommunityMembersWhereInput> | null
   }, "id" | "id" | "building_id_unit_number">
 
   export type ApartmentUnitOrderByWithAggregationInput = {
     id?: SortOrder
+    building_id?: SortOrder
     unit_number?: SortOrderInput | SortOrder
     no_of_bedrooms?: SortOrderInput | SortOrder
     no_of_baths?: SortOrderInput | SortOrder
-    building_id?: SortOrder
+    community_member_id?: SortOrderInput | SortOrder
     _count?: ApartmentUnitCountOrderByAggregateInput
     _avg?: ApartmentUnitAvgOrderByAggregateInput
     _max?: ApartmentUnitMaxOrderByAggregateInput
@@ -16160,10 +16377,11 @@ export namespace Prisma {
     OR?: ApartmentUnitScalarWhereWithAggregatesInput[]
     NOT?: ApartmentUnitScalarWhereWithAggregatesInput | ApartmentUnitScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"ApartmentUnit"> | string
+    building_id?: StringWithAggregatesFilter<"ApartmentUnit"> | string
     unit_number?: StringNullableWithAggregatesFilter<"ApartmentUnit"> | string | null
     no_of_bedrooms?: IntNullableWithAggregatesFilter<"ApartmentUnit"> | number | null
     no_of_baths?: IntNullableWithAggregatesFilter<"ApartmentUnit"> | number | null
-    building_id?: StringWithAggregatesFilter<"ApartmentUnit"> | string
+    community_member_id?: StringNullableWithAggregatesFilter<"ApartmentUnit"> | string | null
   }
 
   export type PreSignUpManagementCreateInput = {
@@ -16710,12 +16928,13 @@ export namespace Prisma {
     email?: string | null
     name?: string | null
     phone?: string | null
-    unit_numbers?: CommunityMembersCreateunit_numbersInput | string[]
     status?: $Enums.Active_State
+    created_at?: Date | string
     building: BuildingCreateNestedOneWithoutCommunity_membersInput
     qr_code?: QRCodeCreateNestedOneWithoutOwnerInput
     parking_spots?: ParkingSpotCreateNestedManyWithoutOwnerInput
     user?: UserCreateNestedOneWithoutCommunity_membersInput
+    apartment_units?: ApartmentUnitCreateNestedManyWithoutCommunity_memberInput
   }
 
   export type CommunityMembersUncheckedCreateInput = {
@@ -16726,10 +16945,11 @@ export namespace Prisma {
     email?: string | null
     name?: string | null
     phone?: string | null
-    unit_numbers?: CommunityMembersCreateunit_numbersInput | string[]
     status?: $Enums.Active_State
     qr_code_id?: string | null
+    created_at?: Date | string
     parking_spots?: ParkingSpotUncheckedCreateNestedManyWithoutOwnerInput
+    apartment_units?: ApartmentUnitUncheckedCreateNestedManyWithoutCommunity_memberInput
   }
 
   export type CommunityMembersUpdateInput = {
@@ -16738,12 +16958,13 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    unit_numbers?: CommunityMembersUpdateunit_numbersInput | string[]
     status?: EnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     building?: BuildingUpdateOneRequiredWithoutCommunity_membersNestedInput
     qr_code?: QRCodeUpdateOneWithoutOwnerNestedInput
     parking_spots?: ParkingSpotUpdateManyWithoutOwnerNestedInput
     user?: UserUpdateOneWithoutCommunity_membersNestedInput
+    apartment_units?: ApartmentUnitUpdateManyWithoutCommunity_memberNestedInput
   }
 
   export type CommunityMembersUncheckedUpdateInput = {
@@ -16754,10 +16975,11 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    unit_numbers?: CommunityMembersUpdateunit_numbersInput | string[]
     status?: EnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State
     qr_code_id?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     parking_spots?: ParkingSpotUncheckedUpdateManyWithoutOwnerNestedInput
+    apartment_units?: ApartmentUnitUncheckedUpdateManyWithoutCommunity_memberNestedInput
   }
 
   export type CommunityMembersCreateManyInput = {
@@ -16768,9 +16990,9 @@ export namespace Prisma {
     email?: string | null
     name?: string | null
     phone?: string | null
-    unit_numbers?: CommunityMembersCreateunit_numbersInput | string[]
     status?: $Enums.Active_State
     qr_code_id?: string | null
+    created_at?: Date | string
   }
 
   export type CommunityMembersUpdateManyMutationInput = {
@@ -16779,8 +17001,8 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    unit_numbers?: CommunityMembersUpdateunit_numbersInput | string[]
     status?: EnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CommunityMembersUncheckedUpdateManyInput = {
@@ -16791,9 +17013,9 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    unit_numbers?: CommunityMembersUpdateunit_numbersInput | string[]
     status?: EnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State
     qr_code_id?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ParkingSpotCreateInput = {
@@ -17111,87 +17333,122 @@ export namespace Prisma {
   export type ReservationCreateInput = {
     id?: string
     price?: number | null
-    start_date: Date | string
-    end_date: Date | string
+    app_fees?: number | null
+    start_date?: Date | string | null
+    end_date?: Date | string | null
     status?: $Enums.Reservation_Status
-    listing: ListingCreateNestedOneWithoutReservationsInput
-    host: UserCreateNestedOneWithoutHostReservationsInput
-    visitor: UserCreateNestedOneWithoutVisitorReservationsInput
+    stripe_payment_intent_id?: string | null
+    charge?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+    listing?: ListingCreateNestedOneWithoutReservationsInput
+    host?: UserCreateNestedOneWithoutHostReservationsInput
+    visitor?: UserCreateNestedOneWithoutVisitorReservationsInput
     building?: BuildingCreateNestedOneWithoutReservationsInput
-    parking: ParkingSpotCreateNestedOneWithoutReservationsInput
+    parking?: ParkingSpotCreateNestedOneWithoutReservationsInput
   }
 
   export type ReservationUncheckedCreateInput = {
     id?: string
-    listing_id: string
-    host_id: string
-    visitor_id: string
+    listing_id?: string | null
+    host_id?: string | null
+    visitor_id?: string | null
     building_id?: string | null
-    parking_spot_id: string
+    parking_spot_id?: string | null
     price?: number | null
-    start_date: Date | string
-    end_date: Date | string
+    app_fees?: number | null
+    start_date?: Date | string | null
+    end_date?: Date | string | null
     status?: $Enums.Reservation_Status
+    stripe_payment_intent_id?: string | null
+    charge?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
   }
 
   export type ReservationUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     price?: NullableIntFieldUpdateOperationsInput | number | null
-    start_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    app_fees?: NullableIntFieldUpdateOperationsInput | number | null
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumReservation_StatusFieldUpdateOperationsInput | $Enums.Reservation_Status
-    listing?: ListingUpdateOneRequiredWithoutReservationsNestedInput
-    host?: UserUpdateOneRequiredWithoutHostReservationsNestedInput
-    visitor?: UserUpdateOneRequiredWithoutVisitorReservationsNestedInput
+    stripe_payment_intent_id?: NullableStringFieldUpdateOperationsInput | string | null
+    charge?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    listing?: ListingUpdateOneWithoutReservationsNestedInput
+    host?: UserUpdateOneWithoutHostReservationsNestedInput
+    visitor?: UserUpdateOneWithoutVisitorReservationsNestedInput
     building?: BuildingUpdateOneWithoutReservationsNestedInput
-    parking?: ParkingSpotUpdateOneRequiredWithoutReservationsNestedInput
+    parking?: ParkingSpotUpdateOneWithoutReservationsNestedInput
   }
 
   export type ReservationUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    listing_id?: StringFieldUpdateOperationsInput | string
-    host_id?: StringFieldUpdateOperationsInput | string
-    visitor_id?: StringFieldUpdateOperationsInput | string
+    listing_id?: NullableStringFieldUpdateOperationsInput | string | null
+    host_id?: NullableStringFieldUpdateOperationsInput | string | null
+    visitor_id?: NullableStringFieldUpdateOperationsInput | string | null
     building_id?: NullableStringFieldUpdateOperationsInput | string | null
-    parking_spot_id?: StringFieldUpdateOperationsInput | string
+    parking_spot_id?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
-    start_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    app_fees?: NullableIntFieldUpdateOperationsInput | number | null
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumReservation_StatusFieldUpdateOperationsInput | $Enums.Reservation_Status
+    stripe_payment_intent_id?: NullableStringFieldUpdateOperationsInput | string | null
+    charge?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ReservationCreateManyInput = {
     id?: string
-    listing_id: string
-    host_id: string
-    visitor_id: string
+    listing_id?: string | null
+    host_id?: string | null
+    visitor_id?: string | null
     building_id?: string | null
-    parking_spot_id: string
+    parking_spot_id?: string | null
     price?: number | null
-    start_date: Date | string
-    end_date: Date | string
+    app_fees?: number | null
+    start_date?: Date | string | null
+    end_date?: Date | string | null
     status?: $Enums.Reservation_Status
+    stripe_payment_intent_id?: string | null
+    charge?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
   }
 
   export type ReservationUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     price?: NullableIntFieldUpdateOperationsInput | number | null
-    start_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    app_fees?: NullableIntFieldUpdateOperationsInput | number | null
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumReservation_StatusFieldUpdateOperationsInput | $Enums.Reservation_Status
+    stripe_payment_intent_id?: NullableStringFieldUpdateOperationsInput | string | null
+    charge?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ReservationUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    listing_id?: StringFieldUpdateOperationsInput | string
-    host_id?: StringFieldUpdateOperationsInput | string
-    visitor_id?: StringFieldUpdateOperationsInput | string
+    listing_id?: NullableStringFieldUpdateOperationsInput | string | null
+    host_id?: NullableStringFieldUpdateOperationsInput | string | null
+    visitor_id?: NullableStringFieldUpdateOperationsInput | string | null
     building_id?: NullableStringFieldUpdateOperationsInput | string | null
-    parking_spot_id?: StringFieldUpdateOperationsInput | string
+    parking_spot_id?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
-    start_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    app_fees?: NullableIntFieldUpdateOperationsInput | number | null
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumReservation_StatusFieldUpdateOperationsInput | $Enums.Reservation_Status
+    stripe_payment_intent_id?: NullableStringFieldUpdateOperationsInput | string | null
+    charge?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ApartmentUnitCreateInput = {
@@ -17199,15 +17456,17 @@ export namespace Prisma {
     unit_number?: string | null
     no_of_bedrooms?: number | null
     no_of_baths?: number | null
-    building?: BuildingCreateNestedOneWithoutApartment_unitsInput
+    building: BuildingCreateNestedOneWithoutApartment_unitsInput
+    community_member?: CommunityMembersCreateNestedOneWithoutApartment_unitsInput
   }
 
   export type ApartmentUnitUncheckedCreateInput = {
     id?: string
+    building_id: string
     unit_number?: string | null
     no_of_bedrooms?: number | null
     no_of_baths?: number | null
-    building_id: string
+    community_member_id?: string | null
   }
 
   export type ApartmentUnitUpdateInput = {
@@ -17215,23 +17474,26 @@ export namespace Prisma {
     unit_number?: NullableStringFieldUpdateOperationsInput | string | null
     no_of_bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
     no_of_baths?: NullableIntFieldUpdateOperationsInput | number | null
-    building?: BuildingUpdateOneWithoutApartment_unitsNestedInput
+    building?: BuildingUpdateOneRequiredWithoutApartment_unitsNestedInput
+    community_member?: CommunityMembersUpdateOneWithoutApartment_unitsNestedInput
   }
 
   export type ApartmentUnitUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    building_id?: StringFieldUpdateOperationsInput | string
     unit_number?: NullableStringFieldUpdateOperationsInput | string | null
     no_of_bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
     no_of_baths?: NullableIntFieldUpdateOperationsInput | number | null
-    building_id?: StringFieldUpdateOperationsInput | string
+    community_member_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ApartmentUnitCreateManyInput = {
     id?: string
+    building_id: string
     unit_number?: string | null
     no_of_bedrooms?: number | null
     no_of_baths?: number | null
-    building_id: string
+    community_member_id?: string | null
   }
 
   export type ApartmentUnitUpdateManyMutationInput = {
@@ -17243,10 +17505,11 @@ export namespace Prisma {
 
   export type ApartmentUnitUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    building_id?: StringFieldUpdateOperationsInput | string
     unit_number?: NullableStringFieldUpdateOperationsInput | string | null
     no_of_bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
     no_of_baths?: NullableIntFieldUpdateOperationsInput | number | null
-    building_id?: StringFieldUpdateOperationsInput | string
+    community_member_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -17428,6 +17691,11 @@ export namespace Prisma {
 
   export type ReservationOrderByRelationAggregateInput = {
     _count?: SortOrder
+  }
+
+  export type UserEmailPhone_numberCompoundUniqueInput = {
+    email: string
+    phone_number: string
   }
 
   export type UserCountOrderByAggregateInput = {
@@ -17891,14 +18159,6 @@ export namespace Prisma {
     not?: NestedEnumUser_RoleNullableFilter<$PrismaModel> | $Enums.User_Role | null
   }
 
-  export type StringNullableListFilter<$PrismaModel = never> = {
-    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    has?: string | StringFieldRefInput<$PrismaModel> | null
-    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
-    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
-    isEmpty?: boolean
-  }
-
   export type EnumActive_StateFilter<$PrismaModel = never> = {
     equals?: $Enums.Active_State | EnumActive_StateFieldRefInput<$PrismaModel>
     in?: $Enums.Active_State[] | ListEnumActive_StateFieldRefInput<$PrismaModel>
@@ -17935,9 +18195,9 @@ export namespace Prisma {
     email?: SortOrder
     name?: SortOrder
     phone?: SortOrder
-    unit_numbers?: SortOrder
     status?: SortOrder
     qr_code_id?: SortOrder
+    created_at?: SortOrder
   }
 
   export type CommunityMembersMaxOrderByAggregateInput = {
@@ -17950,6 +18210,7 @@ export namespace Prisma {
     phone?: SortOrder
     status?: SortOrder
     qr_code_id?: SortOrder
+    created_at?: SortOrder
   }
 
   export type CommunityMembersMinOrderByAggregateInput = {
@@ -17962,6 +18223,7 @@ export namespace Prisma {
     phone?: SortOrder
     status?: SortOrder
     qr_code_id?: SortOrder
+    created_at?: SortOrder
   }
 
   export type EnumUser_RoleNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -18261,6 +18523,17 @@ export namespace Prisma {
     _max?: NestedEnumConfirmation_TypeFilter<$PrismaModel>
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type EnumReservation_StatusFilter<$PrismaModel = never> = {
     equals?: $Enums.Reservation_Status | EnumReservation_StatusFieldRefInput<$PrismaModel>
     in?: $Enums.Reservation_Status[] | ListEnumReservation_StatusFieldRefInput<$PrismaModel>
@@ -18268,9 +18541,9 @@ export namespace Prisma {
     not?: NestedEnumReservation_StatusFilter<$PrismaModel> | $Enums.Reservation_Status
   }
 
-  export type ListingRelationFilter = {
-    is?: ListingWhereInput
-    isNot?: ListingWhereInput
+  export type ListingNullableRelationFilter = {
+    is?: ListingWhereInput | null
+    isNot?: ListingWhereInput | null
   }
 
   export type BuildingNullableRelationFilter = {
@@ -18286,13 +18559,19 @@ export namespace Prisma {
     building_id?: SortOrder
     parking_spot_id?: SortOrder
     price?: SortOrder
+    app_fees?: SortOrder
     start_date?: SortOrder
     end_date?: SortOrder
     status?: SortOrder
+    stripe_payment_intent_id?: SortOrder
+    charge?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
   }
 
   export type ReservationAvgOrderByAggregateInput = {
     price?: SortOrder
+    app_fees?: SortOrder
   }
 
   export type ReservationMaxOrderByAggregateInput = {
@@ -18303,9 +18582,13 @@ export namespace Prisma {
     building_id?: SortOrder
     parking_spot_id?: SortOrder
     price?: SortOrder
+    app_fees?: SortOrder
     start_date?: SortOrder
     end_date?: SortOrder
     status?: SortOrder
+    stripe_payment_intent_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
   }
 
   export type ReservationMinOrderByAggregateInput = {
@@ -18316,13 +18599,32 @@ export namespace Prisma {
     building_id?: SortOrder
     parking_spot_id?: SortOrder
     price?: SortOrder
+    app_fees?: SortOrder
     start_date?: SortOrder
     end_date?: SortOrder
     status?: SortOrder
+    stripe_payment_intent_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
   }
 
   export type ReservationSumOrderByAggregateInput = {
     price?: SortOrder
+    app_fees?: SortOrder
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type EnumReservation_StatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -18342,10 +18644,11 @@ export namespace Prisma {
 
   export type ApartmentUnitCountOrderByAggregateInput = {
     id?: SortOrder
+    building_id?: SortOrder
     unit_number?: SortOrder
     no_of_bedrooms?: SortOrder
     no_of_baths?: SortOrder
-    building_id?: SortOrder
+    community_member_id?: SortOrder
   }
 
   export type ApartmentUnitAvgOrderByAggregateInput = {
@@ -18355,18 +18658,20 @@ export namespace Prisma {
 
   export type ApartmentUnitMaxOrderByAggregateInput = {
     id?: SortOrder
+    building_id?: SortOrder
     unit_number?: SortOrder
     no_of_bedrooms?: SortOrder
     no_of_baths?: SortOrder
-    building_id?: SortOrder
+    community_member_id?: SortOrder
   }
 
   export type ApartmentUnitMinOrderByAggregateInput = {
     id?: SortOrder
+    building_id?: SortOrder
     unit_number?: SortOrder
     no_of_bedrooms?: SortOrder
     no_of_baths?: SortOrder
-    building_id?: SortOrder
+    community_member_id?: SortOrder
   }
 
   export type ApartmentUnitSumOrderByAggregateInput = {
@@ -18938,10 +19243,6 @@ export namespace Prisma {
     deleteMany?: ApartmentUnitScalarWhereInput | ApartmentUnitScalarWhereInput[]
   }
 
-  export type CommunityMembersCreateunit_numbersInput = {
-    set: string[]
-  }
-
   export type BuildingCreateNestedOneWithoutCommunity_membersInput = {
     create?: XOR<BuildingCreateWithoutCommunity_membersInput, BuildingUncheckedCreateWithoutCommunity_membersInput>
     connectOrCreate?: BuildingCreateOrConnectWithoutCommunity_membersInput
@@ -18967,6 +19268,13 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type ApartmentUnitCreateNestedManyWithoutCommunity_memberInput = {
+    create?: XOR<ApartmentUnitCreateWithoutCommunity_memberInput, ApartmentUnitUncheckedCreateWithoutCommunity_memberInput> | ApartmentUnitCreateWithoutCommunity_memberInput[] | ApartmentUnitUncheckedCreateWithoutCommunity_memberInput[]
+    connectOrCreate?: ApartmentUnitCreateOrConnectWithoutCommunity_memberInput | ApartmentUnitCreateOrConnectWithoutCommunity_memberInput[]
+    createMany?: ApartmentUnitCreateManyCommunity_memberInputEnvelope
+    connect?: ApartmentUnitWhereUniqueInput | ApartmentUnitWhereUniqueInput[]
+  }
+
   export type ParkingSpotUncheckedCreateNestedManyWithoutOwnerInput = {
     create?: XOR<ParkingSpotCreateWithoutOwnerInput, ParkingSpotUncheckedCreateWithoutOwnerInput> | ParkingSpotCreateWithoutOwnerInput[] | ParkingSpotUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: ParkingSpotCreateOrConnectWithoutOwnerInput | ParkingSpotCreateOrConnectWithoutOwnerInput[]
@@ -18974,13 +19282,15 @@ export namespace Prisma {
     connect?: ParkingSpotWhereUniqueInput | ParkingSpotWhereUniqueInput[]
   }
 
-  export type NullableEnumUser_RoleFieldUpdateOperationsInput = {
-    set?: $Enums.User_Role | null
+  export type ApartmentUnitUncheckedCreateNestedManyWithoutCommunity_memberInput = {
+    create?: XOR<ApartmentUnitCreateWithoutCommunity_memberInput, ApartmentUnitUncheckedCreateWithoutCommunity_memberInput> | ApartmentUnitCreateWithoutCommunity_memberInput[] | ApartmentUnitUncheckedCreateWithoutCommunity_memberInput[]
+    connectOrCreate?: ApartmentUnitCreateOrConnectWithoutCommunity_memberInput | ApartmentUnitCreateOrConnectWithoutCommunity_memberInput[]
+    createMany?: ApartmentUnitCreateManyCommunity_memberInputEnvelope
+    connect?: ApartmentUnitWhereUniqueInput | ApartmentUnitWhereUniqueInput[]
   }
 
-  export type CommunityMembersUpdateunit_numbersInput = {
-    set?: string[]
-    push?: string | string[]
+  export type NullableEnumUser_RoleFieldUpdateOperationsInput = {
+    set?: $Enums.User_Role | null
   }
 
   export type EnumActive_StateFieldUpdateOperationsInput = {
@@ -19029,6 +19339,20 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCommunity_membersInput, UserUpdateWithoutCommunity_membersInput>, UserUncheckedUpdateWithoutCommunity_membersInput>
   }
 
+  export type ApartmentUnitUpdateManyWithoutCommunity_memberNestedInput = {
+    create?: XOR<ApartmentUnitCreateWithoutCommunity_memberInput, ApartmentUnitUncheckedCreateWithoutCommunity_memberInput> | ApartmentUnitCreateWithoutCommunity_memberInput[] | ApartmentUnitUncheckedCreateWithoutCommunity_memberInput[]
+    connectOrCreate?: ApartmentUnitCreateOrConnectWithoutCommunity_memberInput | ApartmentUnitCreateOrConnectWithoutCommunity_memberInput[]
+    upsert?: ApartmentUnitUpsertWithWhereUniqueWithoutCommunity_memberInput | ApartmentUnitUpsertWithWhereUniqueWithoutCommunity_memberInput[]
+    createMany?: ApartmentUnitCreateManyCommunity_memberInputEnvelope
+    set?: ApartmentUnitWhereUniqueInput | ApartmentUnitWhereUniqueInput[]
+    disconnect?: ApartmentUnitWhereUniqueInput | ApartmentUnitWhereUniqueInput[]
+    delete?: ApartmentUnitWhereUniqueInput | ApartmentUnitWhereUniqueInput[]
+    connect?: ApartmentUnitWhereUniqueInput | ApartmentUnitWhereUniqueInput[]
+    update?: ApartmentUnitUpdateWithWhereUniqueWithoutCommunity_memberInput | ApartmentUnitUpdateWithWhereUniqueWithoutCommunity_memberInput[]
+    updateMany?: ApartmentUnitUpdateManyWithWhereWithoutCommunity_memberInput | ApartmentUnitUpdateManyWithWhereWithoutCommunity_memberInput[]
+    deleteMany?: ApartmentUnitScalarWhereInput | ApartmentUnitScalarWhereInput[]
+  }
+
   export type ParkingSpotUncheckedUpdateManyWithoutOwnerNestedInput = {
     create?: XOR<ParkingSpotCreateWithoutOwnerInput, ParkingSpotUncheckedCreateWithoutOwnerInput> | ParkingSpotCreateWithoutOwnerInput[] | ParkingSpotUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: ParkingSpotCreateOrConnectWithoutOwnerInput | ParkingSpotCreateOrConnectWithoutOwnerInput[]
@@ -19041,6 +19365,20 @@ export namespace Prisma {
     update?: ParkingSpotUpdateWithWhereUniqueWithoutOwnerInput | ParkingSpotUpdateWithWhereUniqueWithoutOwnerInput[]
     updateMany?: ParkingSpotUpdateManyWithWhereWithoutOwnerInput | ParkingSpotUpdateManyWithWhereWithoutOwnerInput[]
     deleteMany?: ParkingSpotScalarWhereInput | ParkingSpotScalarWhereInput[]
+  }
+
+  export type ApartmentUnitUncheckedUpdateManyWithoutCommunity_memberNestedInput = {
+    create?: XOR<ApartmentUnitCreateWithoutCommunity_memberInput, ApartmentUnitUncheckedCreateWithoutCommunity_memberInput> | ApartmentUnitCreateWithoutCommunity_memberInput[] | ApartmentUnitUncheckedCreateWithoutCommunity_memberInput[]
+    connectOrCreate?: ApartmentUnitCreateOrConnectWithoutCommunity_memberInput | ApartmentUnitCreateOrConnectWithoutCommunity_memberInput[]
+    upsert?: ApartmentUnitUpsertWithWhereUniqueWithoutCommunity_memberInput | ApartmentUnitUpsertWithWhereUniqueWithoutCommunity_memberInput[]
+    createMany?: ApartmentUnitCreateManyCommunity_memberInputEnvelope
+    set?: ApartmentUnitWhereUniqueInput | ApartmentUnitWhereUniqueInput[]
+    disconnect?: ApartmentUnitWhereUniqueInput | ApartmentUnitWhereUniqueInput[]
+    delete?: ApartmentUnitWhereUniqueInput | ApartmentUnitWhereUniqueInput[]
+    connect?: ApartmentUnitWhereUniqueInput | ApartmentUnitWhereUniqueInput[]
+    update?: ApartmentUnitUpdateWithWhereUniqueWithoutCommunity_memberInput | ApartmentUnitUpdateWithWhereUniqueWithoutCommunity_memberInput[]
+    updateMany?: ApartmentUnitUpdateManyWithWhereWithoutCommunity_memberInput | ApartmentUnitUpdateManyWithWhereWithoutCommunity_memberInput[]
+    deleteMany?: ApartmentUnitScalarWhereInput | ApartmentUnitScalarWhereInput[]
   }
 
   export type BuildingCreateNestedOneWithoutParking_spotsInput = {
@@ -19419,30 +19757,40 @@ export namespace Prisma {
     connect?: ParkingSpotWhereUniqueInput
   }
 
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
   export type EnumReservation_StatusFieldUpdateOperationsInput = {
     set?: $Enums.Reservation_Status
   }
 
-  export type ListingUpdateOneRequiredWithoutReservationsNestedInput = {
+  export type ListingUpdateOneWithoutReservationsNestedInput = {
     create?: XOR<ListingCreateWithoutReservationsInput, ListingUncheckedCreateWithoutReservationsInput>
     connectOrCreate?: ListingCreateOrConnectWithoutReservationsInput
     upsert?: ListingUpsertWithoutReservationsInput
+    disconnect?: ListingWhereInput | boolean
+    delete?: ListingWhereInput | boolean
     connect?: ListingWhereUniqueInput
     update?: XOR<XOR<ListingUpdateToOneWithWhereWithoutReservationsInput, ListingUpdateWithoutReservationsInput>, ListingUncheckedUpdateWithoutReservationsInput>
   }
 
-  export type UserUpdateOneRequiredWithoutHostReservationsNestedInput = {
+  export type UserUpdateOneWithoutHostReservationsNestedInput = {
     create?: XOR<UserCreateWithoutHostReservationsInput, UserUncheckedCreateWithoutHostReservationsInput>
     connectOrCreate?: UserCreateOrConnectWithoutHostReservationsInput
     upsert?: UserUpsertWithoutHostReservationsInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutHostReservationsInput, UserUpdateWithoutHostReservationsInput>, UserUncheckedUpdateWithoutHostReservationsInput>
   }
 
-  export type UserUpdateOneRequiredWithoutVisitorReservationsNestedInput = {
+  export type UserUpdateOneWithoutVisitorReservationsNestedInput = {
     create?: XOR<UserCreateWithoutVisitorReservationsInput, UserUncheckedCreateWithoutVisitorReservationsInput>
     connectOrCreate?: UserCreateOrConnectWithoutVisitorReservationsInput
     upsert?: UserUpsertWithoutVisitorReservationsInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutVisitorReservationsInput, UserUpdateWithoutVisitorReservationsInput>, UserUncheckedUpdateWithoutVisitorReservationsInput>
   }
@@ -19457,10 +19805,12 @@ export namespace Prisma {
     update?: XOR<XOR<BuildingUpdateToOneWithWhereWithoutReservationsInput, BuildingUpdateWithoutReservationsInput>, BuildingUncheckedUpdateWithoutReservationsInput>
   }
 
-  export type ParkingSpotUpdateOneRequiredWithoutReservationsNestedInput = {
+  export type ParkingSpotUpdateOneWithoutReservationsNestedInput = {
     create?: XOR<ParkingSpotCreateWithoutReservationsInput, ParkingSpotUncheckedCreateWithoutReservationsInput>
     connectOrCreate?: ParkingSpotCreateOrConnectWithoutReservationsInput
     upsert?: ParkingSpotUpsertWithoutReservationsInput
+    disconnect?: ParkingSpotWhereInput | boolean
+    delete?: ParkingSpotWhereInput | boolean
     connect?: ParkingSpotWhereUniqueInput
     update?: XOR<XOR<ParkingSpotUpdateToOneWithWhereWithoutReservationsInput, ParkingSpotUpdateWithoutReservationsInput>, ParkingSpotUncheckedUpdateWithoutReservationsInput>
   }
@@ -19471,14 +19821,28 @@ export namespace Prisma {
     connect?: BuildingWhereUniqueInput
   }
 
-  export type BuildingUpdateOneWithoutApartment_unitsNestedInput = {
+  export type CommunityMembersCreateNestedOneWithoutApartment_unitsInput = {
+    create?: XOR<CommunityMembersCreateWithoutApartment_unitsInput, CommunityMembersUncheckedCreateWithoutApartment_unitsInput>
+    connectOrCreate?: CommunityMembersCreateOrConnectWithoutApartment_unitsInput
+    connect?: CommunityMembersWhereUniqueInput
+  }
+
+  export type BuildingUpdateOneRequiredWithoutApartment_unitsNestedInput = {
     create?: XOR<BuildingCreateWithoutApartment_unitsInput, BuildingUncheckedCreateWithoutApartment_unitsInput>
     connectOrCreate?: BuildingCreateOrConnectWithoutApartment_unitsInput
     upsert?: BuildingUpsertWithoutApartment_unitsInput
-    disconnect?: BuildingWhereInput | boolean
-    delete?: BuildingWhereInput | boolean
     connect?: BuildingWhereUniqueInput
     update?: XOR<XOR<BuildingUpdateToOneWithWhereWithoutApartment_unitsInput, BuildingUpdateWithoutApartment_unitsInput>, BuildingUncheckedUpdateWithoutApartment_unitsInput>
+  }
+
+  export type CommunityMembersUpdateOneWithoutApartment_unitsNestedInput = {
+    create?: XOR<CommunityMembersCreateWithoutApartment_unitsInput, CommunityMembersUncheckedCreateWithoutApartment_unitsInput>
+    connectOrCreate?: CommunityMembersCreateOrConnectWithoutApartment_unitsInput
+    upsert?: CommunityMembersUpsertWithoutApartment_unitsInput
+    disconnect?: CommunityMembersWhereInput | boolean
+    delete?: CommunityMembersWhereInput | boolean
+    connect?: CommunityMembersWhereUniqueInput
+    update?: XOR<XOR<CommunityMembersUpdateToOneWithWhereWithoutApartment_unitsInput, CommunityMembersUpdateWithoutApartment_unitsInput>, CommunityMembersUncheckedUpdateWithoutApartment_unitsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -19893,11 +20257,36 @@ export namespace Prisma {
     _max?: NestedEnumConfirmation_TypeFilter<$PrismaModel>
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type NestedEnumReservation_StatusFilter<$PrismaModel = never> = {
     equals?: $Enums.Reservation_Status | EnumReservation_StatusFieldRefInput<$PrismaModel>
     in?: $Enums.Reservation_Status[] | ListEnumReservation_StatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.Reservation_Status[] | ListEnumReservation_StatusFieldRefInput<$PrismaModel>
     not?: NestedEnumReservation_StatusFilter<$PrismaModel> | $Enums.Reservation_Status
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumReservation_StatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -19965,11 +20354,12 @@ export namespace Prisma {
     email?: string | null
     name?: string | null
     phone?: string | null
-    unit_numbers?: CommunityMembersCreateunit_numbersInput | string[]
     status?: $Enums.Active_State
+    created_at?: Date | string
     building: BuildingCreateNestedOneWithoutCommunity_membersInput
     qr_code?: QRCodeCreateNestedOneWithoutOwnerInput
     parking_spots?: ParkingSpotCreateNestedManyWithoutOwnerInput
+    apartment_units?: ApartmentUnitCreateNestedManyWithoutCommunity_memberInput
   }
 
   export type CommunityMembersUncheckedCreateWithoutUserInput = {
@@ -19979,10 +20369,11 @@ export namespace Prisma {
     email?: string | null
     name?: string | null
     phone?: string | null
-    unit_numbers?: CommunityMembersCreateunit_numbersInput | string[]
     status?: $Enums.Active_State
     qr_code_id?: string | null
+    created_at?: Date | string
     parking_spots?: ParkingSpotUncheckedCreateNestedManyWithoutOwnerInput
+    apartment_units?: ApartmentUnitUncheckedCreateNestedManyWithoutCommunity_memberInput
   }
 
   export type CommunityMembersCreateOrConnectWithoutUserInput = {
@@ -20040,25 +20431,35 @@ export namespace Prisma {
   export type ReservationCreateWithoutHostInput = {
     id?: string
     price?: number | null
-    start_date: Date | string
-    end_date: Date | string
+    app_fees?: number | null
+    start_date?: Date | string | null
+    end_date?: Date | string | null
     status?: $Enums.Reservation_Status
-    listing: ListingCreateNestedOneWithoutReservationsInput
-    visitor: UserCreateNestedOneWithoutVisitorReservationsInput
+    stripe_payment_intent_id?: string | null
+    charge?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+    listing?: ListingCreateNestedOneWithoutReservationsInput
+    visitor?: UserCreateNestedOneWithoutVisitorReservationsInput
     building?: BuildingCreateNestedOneWithoutReservationsInput
-    parking: ParkingSpotCreateNestedOneWithoutReservationsInput
+    parking?: ParkingSpotCreateNestedOneWithoutReservationsInput
   }
 
   export type ReservationUncheckedCreateWithoutHostInput = {
     id?: string
-    listing_id: string
-    visitor_id: string
+    listing_id?: string | null
+    visitor_id?: string | null
     building_id?: string | null
-    parking_spot_id: string
+    parking_spot_id?: string | null
     price?: number | null
-    start_date: Date | string
-    end_date: Date | string
+    app_fees?: number | null
+    start_date?: Date | string | null
+    end_date?: Date | string | null
     status?: $Enums.Reservation_Status
+    stripe_payment_intent_id?: string | null
+    charge?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
   }
 
   export type ReservationCreateOrConnectWithoutHostInput = {
@@ -20074,25 +20475,35 @@ export namespace Prisma {
   export type ReservationCreateWithoutVisitorInput = {
     id?: string
     price?: number | null
-    start_date: Date | string
-    end_date: Date | string
+    app_fees?: number | null
+    start_date?: Date | string | null
+    end_date?: Date | string | null
     status?: $Enums.Reservation_Status
-    listing: ListingCreateNestedOneWithoutReservationsInput
-    host: UserCreateNestedOneWithoutHostReservationsInput
+    stripe_payment_intent_id?: string | null
+    charge?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+    listing?: ListingCreateNestedOneWithoutReservationsInput
+    host?: UserCreateNestedOneWithoutHostReservationsInput
     building?: BuildingCreateNestedOneWithoutReservationsInput
-    parking: ParkingSpotCreateNestedOneWithoutReservationsInput
+    parking?: ParkingSpotCreateNestedOneWithoutReservationsInput
   }
 
   export type ReservationUncheckedCreateWithoutVisitorInput = {
     id?: string
-    listing_id: string
-    host_id: string
+    listing_id?: string | null
+    host_id?: string | null
     building_id?: string | null
-    parking_spot_id: string
+    parking_spot_id?: string | null
     price?: number | null
-    start_date: Date | string
-    end_date: Date | string
+    app_fees?: number | null
+    start_date?: Date | string | null
+    end_date?: Date | string | null
     status?: $Enums.Reservation_Status
+    stripe_payment_intent_id?: string | null
+    charge?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
   }
 
   export type ReservationCreateOrConnectWithoutVisitorInput = {
@@ -20187,9 +20598,9 @@ export namespace Prisma {
     email?: StringNullableFilter<"CommunityMembers"> | string | null
     name?: StringNullableFilter<"CommunityMembers"> | string | null
     phone?: StringNullableFilter<"CommunityMembers"> | string | null
-    unit_numbers?: StringNullableListFilter<"CommunityMembers">
     status?: EnumActive_StateFilter<"CommunityMembers"> | $Enums.Active_State
     qr_code_id?: StringNullableFilter<"CommunityMembers"> | string | null
+    created_at?: DateTimeFilter<"CommunityMembers"> | Date | string
   }
 
   export type ListingUpsertWithWhereUniqueWithoutHostInput = {
@@ -20248,15 +20659,20 @@ export namespace Prisma {
     OR?: ReservationScalarWhereInput[]
     NOT?: ReservationScalarWhereInput | ReservationScalarWhereInput[]
     id?: StringFilter<"Reservation"> | string
-    listing_id?: StringFilter<"Reservation"> | string
-    host_id?: StringFilter<"Reservation"> | string
-    visitor_id?: StringFilter<"Reservation"> | string
+    listing_id?: StringNullableFilter<"Reservation"> | string | null
+    host_id?: StringNullableFilter<"Reservation"> | string | null
+    visitor_id?: StringNullableFilter<"Reservation"> | string | null
     building_id?: StringNullableFilter<"Reservation"> | string | null
-    parking_spot_id?: StringFilter<"Reservation"> | string
+    parking_spot_id?: StringNullableFilter<"Reservation"> | string | null
     price?: IntNullableFilter<"Reservation"> | number | null
-    start_date?: DateTimeFilter<"Reservation"> | Date | string
-    end_date?: DateTimeFilter<"Reservation"> | Date | string
+    app_fees?: IntNullableFilter<"Reservation"> | number | null
+    start_date?: DateTimeNullableFilter<"Reservation"> | Date | string | null
+    end_date?: DateTimeNullableFilter<"Reservation"> | Date | string | null
     status?: EnumReservation_StatusFilter<"Reservation"> | $Enums.Reservation_Status
+    stripe_payment_intent_id?: StringNullableFilter<"Reservation"> | string | null
+    charge?: JsonNullableFilter<"Reservation">
+    created_at?: DateTimeFilter<"Reservation"> | Date | string
+    updated_at?: DateTimeFilter<"Reservation"> | Date | string
   }
 
   export type ReservationUpsertWithWhereUniqueWithoutVisitorInput = {
@@ -20669,11 +21085,12 @@ export namespace Prisma {
     email?: string | null
     name?: string | null
     phone?: string | null
-    unit_numbers?: CommunityMembersCreateunit_numbersInput | string[]
     status?: $Enums.Active_State
+    created_at?: Date | string
     qr_code?: QRCodeCreateNestedOneWithoutOwnerInput
     parking_spots?: ParkingSpotCreateNestedManyWithoutOwnerInput
     user?: UserCreateNestedOneWithoutCommunity_membersInput
+    apartment_units?: ApartmentUnitCreateNestedManyWithoutCommunity_memberInput
   }
 
   export type CommunityMembersUncheckedCreateWithoutBuildingInput = {
@@ -20683,10 +21100,11 @@ export namespace Prisma {
     email?: string | null
     name?: string | null
     phone?: string | null
-    unit_numbers?: CommunityMembersCreateunit_numbersInput | string[]
     status?: $Enums.Active_State
     qr_code_id?: string | null
+    created_at?: Date | string
     parking_spots?: ParkingSpotUncheckedCreateNestedManyWithoutOwnerInput
+    apartment_units?: ApartmentUnitUncheckedCreateNestedManyWithoutCommunity_memberInput
   }
 
   export type CommunityMembersCreateOrConnectWithoutBuildingInput = {
@@ -20738,25 +21156,35 @@ export namespace Prisma {
   export type ReservationCreateWithoutBuildingInput = {
     id?: string
     price?: number | null
-    start_date: Date | string
-    end_date: Date | string
+    app_fees?: number | null
+    start_date?: Date | string | null
+    end_date?: Date | string | null
     status?: $Enums.Reservation_Status
-    listing: ListingCreateNestedOneWithoutReservationsInput
-    host: UserCreateNestedOneWithoutHostReservationsInput
-    visitor: UserCreateNestedOneWithoutVisitorReservationsInput
-    parking: ParkingSpotCreateNestedOneWithoutReservationsInput
+    stripe_payment_intent_id?: string | null
+    charge?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+    listing?: ListingCreateNestedOneWithoutReservationsInput
+    host?: UserCreateNestedOneWithoutHostReservationsInput
+    visitor?: UserCreateNestedOneWithoutVisitorReservationsInput
+    parking?: ParkingSpotCreateNestedOneWithoutReservationsInput
   }
 
   export type ReservationUncheckedCreateWithoutBuildingInput = {
     id?: string
-    listing_id: string
-    host_id: string
-    visitor_id: string
-    parking_spot_id: string
+    listing_id?: string | null
+    host_id?: string | null
+    visitor_id?: string | null
+    parking_spot_id?: string | null
     price?: number | null
-    start_date: Date | string
-    end_date: Date | string
+    app_fees?: number | null
+    start_date?: Date | string | null
+    end_date?: Date | string | null
     status?: $Enums.Reservation_Status
+    stripe_payment_intent_id?: string | null
+    charge?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
   }
 
   export type ReservationCreateOrConnectWithoutBuildingInput = {
@@ -20774,6 +21202,7 @@ export namespace Prisma {
     unit_number?: string | null
     no_of_bedrooms?: number | null
     no_of_baths?: number | null
+    community_member?: CommunityMembersCreateNestedOneWithoutApartment_unitsInput
   }
 
   export type ApartmentUnitUncheckedCreateWithoutBuildingInput = {
@@ -20781,6 +21210,7 @@ export namespace Prisma {
     unit_number?: string | null
     no_of_bedrooms?: number | null
     no_of_baths?: number | null
+    community_member_id?: string | null
   }
 
   export type ApartmentUnitCreateOrConnectWithoutBuildingInput = {
@@ -20932,10 +21362,11 @@ export namespace Prisma {
     OR?: ApartmentUnitScalarWhereInput[]
     NOT?: ApartmentUnitScalarWhereInput | ApartmentUnitScalarWhereInput[]
     id?: StringFilter<"ApartmentUnit"> | string
+    building_id?: StringFilter<"ApartmentUnit"> | string
     unit_number?: StringNullableFilter<"ApartmentUnit"> | string | null
     no_of_bedrooms?: IntNullableFilter<"ApartmentUnit"> | number | null
     no_of_baths?: IntNullableFilter<"ApartmentUnit"> | number | null
-    building_id?: StringFilter<"ApartmentUnit"> | string
+    community_member_id?: StringNullableFilter<"ApartmentUnit"> | string | null
   }
 
   export type BuildingCreateWithoutCommunity_membersInput = {
@@ -21087,6 +21518,32 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutCommunity_membersInput, UserUncheckedCreateWithoutCommunity_membersInput>
   }
 
+  export type ApartmentUnitCreateWithoutCommunity_memberInput = {
+    id?: string
+    unit_number?: string | null
+    no_of_bedrooms?: number | null
+    no_of_baths?: number | null
+    building: BuildingCreateNestedOneWithoutApartment_unitsInput
+  }
+
+  export type ApartmentUnitUncheckedCreateWithoutCommunity_memberInput = {
+    id?: string
+    building_id: string
+    unit_number?: string | null
+    no_of_bedrooms?: number | null
+    no_of_baths?: number | null
+  }
+
+  export type ApartmentUnitCreateOrConnectWithoutCommunity_memberInput = {
+    where: ApartmentUnitWhereUniqueInput
+    create: XOR<ApartmentUnitCreateWithoutCommunity_memberInput, ApartmentUnitUncheckedCreateWithoutCommunity_memberInput>
+  }
+
+  export type ApartmentUnitCreateManyCommunity_memberInputEnvelope = {
+    data: ApartmentUnitCreateManyCommunity_memberInput | ApartmentUnitCreateManyCommunity_memberInput[]
+    skipDuplicates?: boolean
+  }
+
   export type BuildingUpsertWithoutCommunity_membersInput = {
     update: XOR<BuildingUpdateWithoutCommunity_membersInput, BuildingUncheckedUpdateWithoutCommunity_membersInput>
     create: XOR<BuildingCreateWithoutCommunity_membersInput, BuildingUncheckedCreateWithoutCommunity_membersInput>
@@ -21234,6 +21691,22 @@ export namespace Prisma {
     visitorReservations?: ReservationUncheckedUpdateManyWithoutVisitorNestedInput
   }
 
+  export type ApartmentUnitUpsertWithWhereUniqueWithoutCommunity_memberInput = {
+    where: ApartmentUnitWhereUniqueInput
+    update: XOR<ApartmentUnitUpdateWithoutCommunity_memberInput, ApartmentUnitUncheckedUpdateWithoutCommunity_memberInput>
+    create: XOR<ApartmentUnitCreateWithoutCommunity_memberInput, ApartmentUnitUncheckedCreateWithoutCommunity_memberInput>
+  }
+
+  export type ApartmentUnitUpdateWithWhereUniqueWithoutCommunity_memberInput = {
+    where: ApartmentUnitWhereUniqueInput
+    data: XOR<ApartmentUnitUpdateWithoutCommunity_memberInput, ApartmentUnitUncheckedUpdateWithoutCommunity_memberInput>
+  }
+
+  export type ApartmentUnitUpdateManyWithWhereWithoutCommunity_memberInput = {
+    where: ApartmentUnitScalarWhereInput
+    data: XOR<ApartmentUnitUpdateManyMutationInput, ApartmentUnitUncheckedUpdateManyWithoutCommunity_memberInput>
+  }
+
   export type BuildingCreateWithoutParking_spotsInput = {
     id?: string
     building_name?: string | null
@@ -21287,11 +21760,12 @@ export namespace Prisma {
     email?: string | null
     name?: string | null
     phone?: string | null
-    unit_numbers?: CommunityMembersCreateunit_numbersInput | string[]
     status?: $Enums.Active_State
+    created_at?: Date | string
     building: BuildingCreateNestedOneWithoutCommunity_membersInput
     qr_code?: QRCodeCreateNestedOneWithoutOwnerInput
     user?: UserCreateNestedOneWithoutCommunity_membersInput
+    apartment_units?: ApartmentUnitCreateNestedManyWithoutCommunity_memberInput
   }
 
   export type CommunityMembersUncheckedCreateWithoutParking_spotsInput = {
@@ -21302,9 +21776,10 @@ export namespace Prisma {
     email?: string | null
     name?: string | null
     phone?: string | null
-    unit_numbers?: CommunityMembersCreateunit_numbersInput | string[]
     status?: $Enums.Active_State
     qr_code_id?: string | null
+    created_at?: Date | string
+    apartment_units?: ApartmentUnitUncheckedCreateNestedManyWithoutCommunity_memberInput
   }
 
   export type CommunityMembersCreateOrConnectWithoutParking_spotsInput = {
@@ -21397,25 +21872,35 @@ export namespace Prisma {
   export type ReservationCreateWithoutParkingInput = {
     id?: string
     price?: number | null
-    start_date: Date | string
-    end_date: Date | string
+    app_fees?: number | null
+    start_date?: Date | string | null
+    end_date?: Date | string | null
     status?: $Enums.Reservation_Status
-    listing: ListingCreateNestedOneWithoutReservationsInput
-    host: UserCreateNestedOneWithoutHostReservationsInput
-    visitor: UserCreateNestedOneWithoutVisitorReservationsInput
+    stripe_payment_intent_id?: string | null
+    charge?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+    listing?: ListingCreateNestedOneWithoutReservationsInput
+    host?: UserCreateNestedOneWithoutHostReservationsInput
+    visitor?: UserCreateNestedOneWithoutVisitorReservationsInput
     building?: BuildingCreateNestedOneWithoutReservationsInput
   }
 
   export type ReservationUncheckedCreateWithoutParkingInput = {
     id?: string
-    listing_id: string
-    host_id: string
-    visitor_id: string
+    listing_id?: string | null
+    host_id?: string | null
+    visitor_id?: string | null
     building_id?: string | null
     price?: number | null
-    start_date: Date | string
-    end_date: Date | string
+    app_fees?: number | null
+    start_date?: Date | string | null
+    end_date?: Date | string | null
     status?: $Enums.Reservation_Status
+    stripe_payment_intent_id?: string | null
+    charge?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
   }
 
   export type ReservationCreateOrConnectWithoutParkingInput = {
@@ -21498,11 +21983,12 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    unit_numbers?: CommunityMembersUpdateunit_numbersInput | string[]
     status?: EnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     building?: BuildingUpdateOneRequiredWithoutCommunity_membersNestedInput
     qr_code?: QRCodeUpdateOneWithoutOwnerNestedInput
     user?: UserUpdateOneWithoutCommunity_membersNestedInput
+    apartment_units?: ApartmentUnitUpdateManyWithoutCommunity_memberNestedInput
   }
 
   export type CommunityMembersUncheckedUpdateWithoutParking_spotsInput = {
@@ -21513,9 +21999,10 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    unit_numbers?: CommunityMembersUpdateunit_numbersInput | string[]
     status?: EnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State
     qr_code_id?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    apartment_units?: ApartmentUnitUncheckedUpdateManyWithoutCommunity_memberNestedInput
   }
 
   export type QRCodeUpsertWithoutParking_spotInput = {
@@ -21608,11 +22095,12 @@ export namespace Prisma {
     email?: string | null
     name?: string | null
     phone?: string | null
-    unit_numbers?: CommunityMembersCreateunit_numbersInput | string[]
     status?: $Enums.Active_State
+    created_at?: Date | string
     building: BuildingCreateNestedOneWithoutCommunity_membersInput
     parking_spots?: ParkingSpotCreateNestedManyWithoutOwnerInput
     user?: UserCreateNestedOneWithoutCommunity_membersInput
+    apartment_units?: ApartmentUnitCreateNestedManyWithoutCommunity_memberInput
   }
 
   export type CommunityMembersUncheckedCreateWithoutQr_codeInput = {
@@ -21623,9 +22111,10 @@ export namespace Prisma {
     email?: string | null
     name?: string | null
     phone?: string | null
-    unit_numbers?: CommunityMembersCreateunit_numbersInput | string[]
     status?: $Enums.Active_State
+    created_at?: Date | string
     parking_spots?: ParkingSpotUncheckedCreateNestedManyWithoutOwnerInput
+    apartment_units?: ApartmentUnitUncheckedCreateNestedManyWithoutCommunity_memberInput
   }
 
   export type CommunityMembersCreateOrConnectWithoutQr_codeInput = {
@@ -21681,11 +22170,12 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    unit_numbers?: CommunityMembersUpdateunit_numbersInput | string[]
     status?: EnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     building?: BuildingUpdateOneRequiredWithoutCommunity_membersNestedInput
     parking_spots?: ParkingSpotUpdateManyWithoutOwnerNestedInput
     user?: UserUpdateOneWithoutCommunity_membersNestedInput
+    apartment_units?: ApartmentUnitUpdateManyWithoutCommunity_memberNestedInput
   }
 
   export type CommunityMembersUncheckedUpdateWithoutQr_codeInput = {
@@ -21696,9 +22186,10 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    unit_numbers?: CommunityMembersUpdateunit_numbersInput | string[]
     status?: EnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     parking_spots?: ParkingSpotUncheckedUpdateManyWithoutOwnerNestedInput
+    apartment_units?: ApartmentUnitUncheckedUpdateManyWithoutCommunity_memberNestedInput
   }
 
   export type ParkingSpotUpsertWithoutQr_codeInput = {
@@ -21867,25 +22358,35 @@ export namespace Prisma {
   export type ReservationCreateWithoutListingInput = {
     id?: string
     price?: number | null
-    start_date: Date | string
-    end_date: Date | string
+    app_fees?: number | null
+    start_date?: Date | string | null
+    end_date?: Date | string | null
     status?: $Enums.Reservation_Status
-    host: UserCreateNestedOneWithoutHostReservationsInput
-    visitor: UserCreateNestedOneWithoutVisitorReservationsInput
+    stripe_payment_intent_id?: string | null
+    charge?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+    host?: UserCreateNestedOneWithoutHostReservationsInput
+    visitor?: UserCreateNestedOneWithoutVisitorReservationsInput
     building?: BuildingCreateNestedOneWithoutReservationsInput
-    parking: ParkingSpotCreateNestedOneWithoutReservationsInput
+    parking?: ParkingSpotCreateNestedOneWithoutReservationsInput
   }
 
   export type ReservationUncheckedCreateWithoutListingInput = {
     id?: string
-    host_id: string
-    visitor_id: string
+    host_id?: string | null
+    visitor_id?: string | null
     building_id?: string | null
-    parking_spot_id: string
+    parking_spot_id?: string | null
     price?: number | null
-    start_date: Date | string
-    end_date: Date | string
+    app_fees?: number | null
+    start_date?: Date | string | null
+    end_date?: Date | string | null
     status?: $Enums.Reservation_Status
+    stripe_payment_intent_id?: string | null
+    charge?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
   }
 
   export type ReservationCreateOrConnectWithoutListingInput = {
@@ -22479,6 +22980,39 @@ export namespace Prisma {
     create: XOR<BuildingCreateWithoutApartment_unitsInput, BuildingUncheckedCreateWithoutApartment_unitsInput>
   }
 
+  export type CommunityMembersCreateWithoutApartment_unitsInput = {
+    id?: string
+    user_role?: $Enums.User_Role | null
+    email?: string | null
+    name?: string | null
+    phone?: string | null
+    status?: $Enums.Active_State
+    created_at?: Date | string
+    building: BuildingCreateNestedOneWithoutCommunity_membersInput
+    qr_code?: QRCodeCreateNestedOneWithoutOwnerInput
+    parking_spots?: ParkingSpotCreateNestedManyWithoutOwnerInput
+    user?: UserCreateNestedOneWithoutCommunity_membersInput
+  }
+
+  export type CommunityMembersUncheckedCreateWithoutApartment_unitsInput = {
+    id?: string
+    building_id: string
+    user_id?: string | null
+    user_role?: $Enums.User_Role | null
+    email?: string | null
+    name?: string | null
+    phone?: string | null
+    status?: $Enums.Active_State
+    qr_code_id?: string | null
+    created_at?: Date | string
+    parking_spots?: ParkingSpotUncheckedCreateNestedManyWithoutOwnerInput
+  }
+
+  export type CommunityMembersCreateOrConnectWithoutApartment_unitsInput = {
+    where: CommunityMembersWhereUniqueInput
+    create: XOR<CommunityMembersCreateWithoutApartment_unitsInput, CommunityMembersUncheckedCreateWithoutApartment_unitsInput>
+  }
+
   export type BuildingUpsertWithoutApartment_unitsInput = {
     update: XOR<BuildingUpdateWithoutApartment_unitsInput, BuildingUncheckedUpdateWithoutApartment_unitsInput>
     create: XOR<BuildingCreateWithoutApartment_unitsInput, BuildingUncheckedCreateWithoutApartment_unitsInput>
@@ -22532,6 +23066,45 @@ export namespace Prisma {
     reservations?: ReservationUncheckedUpdateManyWithoutBuildingNestedInput
   }
 
+  export type CommunityMembersUpsertWithoutApartment_unitsInput = {
+    update: XOR<CommunityMembersUpdateWithoutApartment_unitsInput, CommunityMembersUncheckedUpdateWithoutApartment_unitsInput>
+    create: XOR<CommunityMembersCreateWithoutApartment_unitsInput, CommunityMembersUncheckedCreateWithoutApartment_unitsInput>
+    where?: CommunityMembersWhereInput
+  }
+
+  export type CommunityMembersUpdateToOneWithWhereWithoutApartment_unitsInput = {
+    where?: CommunityMembersWhereInput
+    data: XOR<CommunityMembersUpdateWithoutApartment_unitsInput, CommunityMembersUncheckedUpdateWithoutApartment_unitsInput>
+  }
+
+  export type CommunityMembersUpdateWithoutApartment_unitsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    user_role?: NullableEnumUser_RoleFieldUpdateOperationsInput | $Enums.User_Role | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    building?: BuildingUpdateOneRequiredWithoutCommunity_membersNestedInput
+    qr_code?: QRCodeUpdateOneWithoutOwnerNestedInput
+    parking_spots?: ParkingSpotUpdateManyWithoutOwnerNestedInput
+    user?: UserUpdateOneWithoutCommunity_membersNestedInput
+  }
+
+  export type CommunityMembersUncheckedUpdateWithoutApartment_unitsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    building_id?: StringFieldUpdateOperationsInput | string
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    user_role?: NullableEnumUser_RoleFieldUpdateOperationsInput | $Enums.User_Role | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State
+    qr_code_id?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    parking_spots?: ParkingSpotUncheckedUpdateManyWithoutOwnerNestedInput
+  }
+
   export type CommunityMembersCreateManyUserInput = {
     id?: string
     building_id: string
@@ -22539,9 +23112,9 @@ export namespace Prisma {
     email?: string | null
     name?: string | null
     phone?: string | null
-    unit_numbers?: CommunityMembersCreateunit_numbersInput | string[]
     status?: $Enums.Active_State
     qr_code_id?: string | null
+    created_at?: Date | string
   }
 
   export type ListingCreateManyHostInput = {
@@ -22561,26 +23134,36 @@ export namespace Prisma {
 
   export type ReservationCreateManyHostInput = {
     id?: string
-    listing_id: string
-    visitor_id: string
+    listing_id?: string | null
+    visitor_id?: string | null
     building_id?: string | null
-    parking_spot_id: string
+    parking_spot_id?: string | null
     price?: number | null
-    start_date: Date | string
-    end_date: Date | string
+    app_fees?: number | null
+    start_date?: Date | string | null
+    end_date?: Date | string | null
     status?: $Enums.Reservation_Status
+    stripe_payment_intent_id?: string | null
+    charge?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
   }
 
   export type ReservationCreateManyVisitorInput = {
     id?: string
-    listing_id: string
-    host_id: string
+    listing_id?: string | null
+    host_id?: string | null
     building_id?: string | null
-    parking_spot_id: string
+    parking_spot_id?: string | null
     price?: number | null
-    start_date: Date | string
-    end_date: Date | string
+    app_fees?: number | null
+    start_date?: Date | string | null
+    end_date?: Date | string | null
     status?: $Enums.Reservation_Status
+    stripe_payment_intent_id?: string | null
+    charge?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
   }
 
   export type CommunityMembersUpdateWithoutUserInput = {
@@ -22589,11 +23172,12 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    unit_numbers?: CommunityMembersUpdateunit_numbersInput | string[]
     status?: EnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     building?: BuildingUpdateOneRequiredWithoutCommunity_membersNestedInput
     qr_code?: QRCodeUpdateOneWithoutOwnerNestedInput
     parking_spots?: ParkingSpotUpdateManyWithoutOwnerNestedInput
+    apartment_units?: ApartmentUnitUpdateManyWithoutCommunity_memberNestedInput
   }
 
   export type CommunityMembersUncheckedUpdateWithoutUserInput = {
@@ -22603,10 +23187,11 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    unit_numbers?: CommunityMembersUpdateunit_numbersInput | string[]
     status?: EnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State
     qr_code_id?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     parking_spots?: ParkingSpotUncheckedUpdateManyWithoutOwnerNestedInput
+    apartment_units?: ApartmentUnitUncheckedUpdateManyWithoutCommunity_memberNestedInput
   }
 
   export type CommunityMembersUncheckedUpdateManyWithoutUserInput = {
@@ -22616,9 +23201,9 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    unit_numbers?: CommunityMembersUpdateunit_numbersInput | string[]
     status?: EnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State
     qr_code_id?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ListingUpdateWithoutHostInput = {
@@ -22671,73 +23256,103 @@ export namespace Prisma {
   export type ReservationUpdateWithoutHostInput = {
     id?: StringFieldUpdateOperationsInput | string
     price?: NullableIntFieldUpdateOperationsInput | number | null
-    start_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    app_fees?: NullableIntFieldUpdateOperationsInput | number | null
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumReservation_StatusFieldUpdateOperationsInput | $Enums.Reservation_Status
-    listing?: ListingUpdateOneRequiredWithoutReservationsNestedInput
-    visitor?: UserUpdateOneRequiredWithoutVisitorReservationsNestedInput
+    stripe_payment_intent_id?: NullableStringFieldUpdateOperationsInput | string | null
+    charge?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    listing?: ListingUpdateOneWithoutReservationsNestedInput
+    visitor?: UserUpdateOneWithoutVisitorReservationsNestedInput
     building?: BuildingUpdateOneWithoutReservationsNestedInput
-    parking?: ParkingSpotUpdateOneRequiredWithoutReservationsNestedInput
+    parking?: ParkingSpotUpdateOneWithoutReservationsNestedInput
   }
 
   export type ReservationUncheckedUpdateWithoutHostInput = {
     id?: StringFieldUpdateOperationsInput | string
-    listing_id?: StringFieldUpdateOperationsInput | string
-    visitor_id?: StringFieldUpdateOperationsInput | string
+    listing_id?: NullableStringFieldUpdateOperationsInput | string | null
+    visitor_id?: NullableStringFieldUpdateOperationsInput | string | null
     building_id?: NullableStringFieldUpdateOperationsInput | string | null
-    parking_spot_id?: StringFieldUpdateOperationsInput | string
+    parking_spot_id?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
-    start_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    app_fees?: NullableIntFieldUpdateOperationsInput | number | null
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumReservation_StatusFieldUpdateOperationsInput | $Enums.Reservation_Status
+    stripe_payment_intent_id?: NullableStringFieldUpdateOperationsInput | string | null
+    charge?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ReservationUncheckedUpdateManyWithoutHostInput = {
     id?: StringFieldUpdateOperationsInput | string
-    listing_id?: StringFieldUpdateOperationsInput | string
-    visitor_id?: StringFieldUpdateOperationsInput | string
+    listing_id?: NullableStringFieldUpdateOperationsInput | string | null
+    visitor_id?: NullableStringFieldUpdateOperationsInput | string | null
     building_id?: NullableStringFieldUpdateOperationsInput | string | null
-    parking_spot_id?: StringFieldUpdateOperationsInput | string
+    parking_spot_id?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
-    start_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    app_fees?: NullableIntFieldUpdateOperationsInput | number | null
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumReservation_StatusFieldUpdateOperationsInput | $Enums.Reservation_Status
+    stripe_payment_intent_id?: NullableStringFieldUpdateOperationsInput | string | null
+    charge?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ReservationUpdateWithoutVisitorInput = {
     id?: StringFieldUpdateOperationsInput | string
     price?: NullableIntFieldUpdateOperationsInput | number | null
-    start_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    app_fees?: NullableIntFieldUpdateOperationsInput | number | null
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumReservation_StatusFieldUpdateOperationsInput | $Enums.Reservation_Status
-    listing?: ListingUpdateOneRequiredWithoutReservationsNestedInput
-    host?: UserUpdateOneRequiredWithoutHostReservationsNestedInput
+    stripe_payment_intent_id?: NullableStringFieldUpdateOperationsInput | string | null
+    charge?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    listing?: ListingUpdateOneWithoutReservationsNestedInput
+    host?: UserUpdateOneWithoutHostReservationsNestedInput
     building?: BuildingUpdateOneWithoutReservationsNestedInput
-    parking?: ParkingSpotUpdateOneRequiredWithoutReservationsNestedInput
+    parking?: ParkingSpotUpdateOneWithoutReservationsNestedInput
   }
 
   export type ReservationUncheckedUpdateWithoutVisitorInput = {
     id?: StringFieldUpdateOperationsInput | string
-    listing_id?: StringFieldUpdateOperationsInput | string
-    host_id?: StringFieldUpdateOperationsInput | string
+    listing_id?: NullableStringFieldUpdateOperationsInput | string | null
+    host_id?: NullableStringFieldUpdateOperationsInput | string | null
     building_id?: NullableStringFieldUpdateOperationsInput | string | null
-    parking_spot_id?: StringFieldUpdateOperationsInput | string
+    parking_spot_id?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
-    start_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    app_fees?: NullableIntFieldUpdateOperationsInput | number | null
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumReservation_StatusFieldUpdateOperationsInput | $Enums.Reservation_Status
+    stripe_payment_intent_id?: NullableStringFieldUpdateOperationsInput | string | null
+    charge?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ReservationUncheckedUpdateManyWithoutVisitorInput = {
     id?: StringFieldUpdateOperationsInput | string
-    listing_id?: StringFieldUpdateOperationsInput | string
-    host_id?: StringFieldUpdateOperationsInput | string
+    listing_id?: NullableStringFieldUpdateOperationsInput | string | null
+    host_id?: NullableStringFieldUpdateOperationsInput | string | null
     building_id?: NullableStringFieldUpdateOperationsInput | string | null
-    parking_spot_id?: StringFieldUpdateOperationsInput | string
+    parking_spot_id?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
-    start_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    app_fees?: NullableIntFieldUpdateOperationsInput | number | null
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumReservation_StatusFieldUpdateOperationsInput | $Enums.Reservation_Status
+    stripe_payment_intent_id?: NullableStringFieldUpdateOperationsInput | string | null
+    charge?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ManagementStaffCreateManyManagementInput = {
@@ -22855,9 +23470,9 @@ export namespace Prisma {
     email?: string | null
     name?: string | null
     phone?: string | null
-    unit_numbers?: CommunityMembersCreateunit_numbersInput | string[]
     status?: $Enums.Active_State
     qr_code_id?: string | null
+    created_at?: Date | string
   }
 
   export type ParkingSpotCreateManyBuildingInput = {
@@ -22873,14 +23488,19 @@ export namespace Prisma {
 
   export type ReservationCreateManyBuildingInput = {
     id?: string
-    listing_id: string
-    host_id: string
-    visitor_id: string
-    parking_spot_id: string
+    listing_id?: string | null
+    host_id?: string | null
+    visitor_id?: string | null
+    parking_spot_id?: string | null
     price?: number | null
-    start_date: Date | string
-    end_date: Date | string
+    app_fees?: number | null
+    start_date?: Date | string | null
+    end_date?: Date | string | null
     status?: $Enums.Reservation_Status
+    stripe_payment_intent_id?: string | null
+    charge?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
   }
 
   export type ApartmentUnitCreateManyBuildingInput = {
@@ -22888,6 +23508,7 @@ export namespace Prisma {
     unit_number?: string | null
     no_of_bedrooms?: number | null
     no_of_baths?: number | null
+    community_member_id?: string | null
   }
 
   export type CommunityMembersUpdateWithoutBuildingInput = {
@@ -22896,11 +23517,12 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    unit_numbers?: CommunityMembersUpdateunit_numbersInput | string[]
     status?: EnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     qr_code?: QRCodeUpdateOneWithoutOwnerNestedInput
     parking_spots?: ParkingSpotUpdateManyWithoutOwnerNestedInput
     user?: UserUpdateOneWithoutCommunity_membersNestedInput
+    apartment_units?: ApartmentUnitUpdateManyWithoutCommunity_memberNestedInput
   }
 
   export type CommunityMembersUncheckedUpdateWithoutBuildingInput = {
@@ -22910,10 +23532,11 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    unit_numbers?: CommunityMembersUpdateunit_numbersInput | string[]
     status?: EnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State
     qr_code_id?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     parking_spots?: ParkingSpotUncheckedUpdateManyWithoutOwnerNestedInput
+    apartment_units?: ApartmentUnitUncheckedUpdateManyWithoutCommunity_memberNestedInput
   }
 
   export type CommunityMembersUncheckedUpdateManyWithoutBuildingInput = {
@@ -22923,9 +23546,9 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    unit_numbers?: CommunityMembersUpdateunit_numbersInput | string[]
     status?: EnumActive_StateFieldUpdateOperationsInput | $Enums.Active_State
     qr_code_id?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ParkingSpotUpdateWithoutBuildingInput = {
@@ -22968,37 +23591,52 @@ export namespace Prisma {
   export type ReservationUpdateWithoutBuildingInput = {
     id?: StringFieldUpdateOperationsInput | string
     price?: NullableIntFieldUpdateOperationsInput | number | null
-    start_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    app_fees?: NullableIntFieldUpdateOperationsInput | number | null
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumReservation_StatusFieldUpdateOperationsInput | $Enums.Reservation_Status
-    listing?: ListingUpdateOneRequiredWithoutReservationsNestedInput
-    host?: UserUpdateOneRequiredWithoutHostReservationsNestedInput
-    visitor?: UserUpdateOneRequiredWithoutVisitorReservationsNestedInput
-    parking?: ParkingSpotUpdateOneRequiredWithoutReservationsNestedInput
+    stripe_payment_intent_id?: NullableStringFieldUpdateOperationsInput | string | null
+    charge?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    listing?: ListingUpdateOneWithoutReservationsNestedInput
+    host?: UserUpdateOneWithoutHostReservationsNestedInput
+    visitor?: UserUpdateOneWithoutVisitorReservationsNestedInput
+    parking?: ParkingSpotUpdateOneWithoutReservationsNestedInput
   }
 
   export type ReservationUncheckedUpdateWithoutBuildingInput = {
     id?: StringFieldUpdateOperationsInput | string
-    listing_id?: StringFieldUpdateOperationsInput | string
-    host_id?: StringFieldUpdateOperationsInput | string
-    visitor_id?: StringFieldUpdateOperationsInput | string
-    parking_spot_id?: StringFieldUpdateOperationsInput | string
+    listing_id?: NullableStringFieldUpdateOperationsInput | string | null
+    host_id?: NullableStringFieldUpdateOperationsInput | string | null
+    visitor_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parking_spot_id?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
-    start_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    app_fees?: NullableIntFieldUpdateOperationsInput | number | null
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumReservation_StatusFieldUpdateOperationsInput | $Enums.Reservation_Status
+    stripe_payment_intent_id?: NullableStringFieldUpdateOperationsInput | string | null
+    charge?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ReservationUncheckedUpdateManyWithoutBuildingInput = {
     id?: StringFieldUpdateOperationsInput | string
-    listing_id?: StringFieldUpdateOperationsInput | string
-    host_id?: StringFieldUpdateOperationsInput | string
-    visitor_id?: StringFieldUpdateOperationsInput | string
-    parking_spot_id?: StringFieldUpdateOperationsInput | string
+    listing_id?: NullableStringFieldUpdateOperationsInput | string | null
+    host_id?: NullableStringFieldUpdateOperationsInput | string | null
+    visitor_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parking_spot_id?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
-    start_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    app_fees?: NullableIntFieldUpdateOperationsInput | number | null
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumReservation_StatusFieldUpdateOperationsInput | $Enums.Reservation_Status
+    stripe_payment_intent_id?: NullableStringFieldUpdateOperationsInput | string | null
+    charge?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ApartmentUnitUpdateWithoutBuildingInput = {
@@ -23006,6 +23644,7 @@ export namespace Prisma {
     unit_number?: NullableStringFieldUpdateOperationsInput | string | null
     no_of_bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
     no_of_baths?: NullableIntFieldUpdateOperationsInput | number | null
+    community_member?: CommunityMembersUpdateOneWithoutApartment_unitsNestedInput
   }
 
   export type ApartmentUnitUncheckedUpdateWithoutBuildingInput = {
@@ -23013,6 +23652,7 @@ export namespace Prisma {
     unit_number?: NullableStringFieldUpdateOperationsInput | string | null
     no_of_bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
     no_of_baths?: NullableIntFieldUpdateOperationsInput | number | null
+    community_member_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ApartmentUnitUncheckedUpdateManyWithoutBuildingInput = {
@@ -23020,6 +23660,7 @@ export namespace Prisma {
     unit_number?: NullableStringFieldUpdateOperationsInput | string | null
     no_of_bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
     no_of_baths?: NullableIntFieldUpdateOperationsInput | number | null
+    community_member_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ParkingSpotCreateManyOwnerInput = {
@@ -23031,6 +23672,14 @@ export namespace Prisma {
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
+  }
+
+  export type ApartmentUnitCreateManyCommunity_memberInput = {
+    id?: string
+    building_id: string
+    unit_number?: string | null
+    no_of_bedrooms?: number | null
+    no_of_baths?: number | null
   }
 
   export type ParkingSpotUpdateWithoutOwnerInput = {
@@ -23070,6 +23719,30 @@ export namespace Prisma {
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type ApartmentUnitUpdateWithoutCommunity_memberInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    unit_number?: NullableStringFieldUpdateOperationsInput | string | null
+    no_of_bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    no_of_baths?: NullableIntFieldUpdateOperationsInput | number | null
+    building?: BuildingUpdateOneRequiredWithoutApartment_unitsNestedInput
+  }
+
+  export type ApartmentUnitUncheckedUpdateWithoutCommunity_memberInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    building_id?: StringFieldUpdateOperationsInput | string
+    unit_number?: NullableStringFieldUpdateOperationsInput | string | null
+    no_of_bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    no_of_baths?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type ApartmentUnitUncheckedUpdateManyWithoutCommunity_memberInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    building_id?: StringFieldUpdateOperationsInput | string
+    unit_number?: NullableStringFieldUpdateOperationsInput | string | null
+    no_of_bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    no_of_baths?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
   export type ListingCreateManyParking_spotInput = {
     id?: string
     host_id: string
@@ -23087,14 +23760,19 @@ export namespace Prisma {
 
   export type ReservationCreateManyParkingInput = {
     id?: string
-    listing_id: string
-    host_id: string
-    visitor_id: string
+    listing_id?: string | null
+    host_id?: string | null
+    visitor_id?: string | null
     building_id?: string | null
     price?: number | null
-    start_date: Date | string
-    end_date: Date | string
+    app_fees?: number | null
+    start_date?: Date | string | null
+    end_date?: Date | string | null
     status?: $Enums.Reservation_Status
+    stripe_payment_intent_id?: string | null
+    charge?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
   }
 
   export type ListingUpdateWithoutParking_spotInput = {
@@ -23147,37 +23825,52 @@ export namespace Prisma {
   export type ReservationUpdateWithoutParkingInput = {
     id?: StringFieldUpdateOperationsInput | string
     price?: NullableIntFieldUpdateOperationsInput | number | null
-    start_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    app_fees?: NullableIntFieldUpdateOperationsInput | number | null
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumReservation_StatusFieldUpdateOperationsInput | $Enums.Reservation_Status
-    listing?: ListingUpdateOneRequiredWithoutReservationsNestedInput
-    host?: UserUpdateOneRequiredWithoutHostReservationsNestedInput
-    visitor?: UserUpdateOneRequiredWithoutVisitorReservationsNestedInput
+    stripe_payment_intent_id?: NullableStringFieldUpdateOperationsInput | string | null
+    charge?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    listing?: ListingUpdateOneWithoutReservationsNestedInput
+    host?: UserUpdateOneWithoutHostReservationsNestedInput
+    visitor?: UserUpdateOneWithoutVisitorReservationsNestedInput
     building?: BuildingUpdateOneWithoutReservationsNestedInput
   }
 
   export type ReservationUncheckedUpdateWithoutParkingInput = {
     id?: StringFieldUpdateOperationsInput | string
-    listing_id?: StringFieldUpdateOperationsInput | string
-    host_id?: StringFieldUpdateOperationsInput | string
-    visitor_id?: StringFieldUpdateOperationsInput | string
+    listing_id?: NullableStringFieldUpdateOperationsInput | string | null
+    host_id?: NullableStringFieldUpdateOperationsInput | string | null
+    visitor_id?: NullableStringFieldUpdateOperationsInput | string | null
     building_id?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
-    start_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    app_fees?: NullableIntFieldUpdateOperationsInput | number | null
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumReservation_StatusFieldUpdateOperationsInput | $Enums.Reservation_Status
+    stripe_payment_intent_id?: NullableStringFieldUpdateOperationsInput | string | null
+    charge?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ReservationUncheckedUpdateManyWithoutParkingInput = {
     id?: StringFieldUpdateOperationsInput | string
-    listing_id?: StringFieldUpdateOperationsInput | string
-    host_id?: StringFieldUpdateOperationsInput | string
-    visitor_id?: StringFieldUpdateOperationsInput | string
+    listing_id?: NullableStringFieldUpdateOperationsInput | string | null
+    host_id?: NullableStringFieldUpdateOperationsInput | string | null
+    visitor_id?: NullableStringFieldUpdateOperationsInput | string | null
     building_id?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
-    start_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    app_fees?: NullableIntFieldUpdateOperationsInput | number | null
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumReservation_StatusFieldUpdateOperationsInput | $Enums.Reservation_Status
+    stripe_payment_intent_id?: NullableStringFieldUpdateOperationsInput | string | null
+    charge?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ParkingSpotCreateManyVehicleInput = {
@@ -23230,50 +23923,70 @@ export namespace Prisma {
 
   export type ReservationCreateManyListingInput = {
     id?: string
-    host_id: string
-    visitor_id: string
+    host_id?: string | null
+    visitor_id?: string | null
     building_id?: string | null
-    parking_spot_id: string
+    parking_spot_id?: string | null
     price?: number | null
-    start_date: Date | string
-    end_date: Date | string
+    app_fees?: number | null
+    start_date?: Date | string | null
+    end_date?: Date | string | null
     status?: $Enums.Reservation_Status
+    stripe_payment_intent_id?: string | null
+    charge?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
   }
 
   export type ReservationUpdateWithoutListingInput = {
     id?: StringFieldUpdateOperationsInput | string
     price?: NullableIntFieldUpdateOperationsInput | number | null
-    start_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    app_fees?: NullableIntFieldUpdateOperationsInput | number | null
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumReservation_StatusFieldUpdateOperationsInput | $Enums.Reservation_Status
-    host?: UserUpdateOneRequiredWithoutHostReservationsNestedInput
-    visitor?: UserUpdateOneRequiredWithoutVisitorReservationsNestedInput
+    stripe_payment_intent_id?: NullableStringFieldUpdateOperationsInput | string | null
+    charge?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    host?: UserUpdateOneWithoutHostReservationsNestedInput
+    visitor?: UserUpdateOneWithoutVisitorReservationsNestedInput
     building?: BuildingUpdateOneWithoutReservationsNestedInput
-    parking?: ParkingSpotUpdateOneRequiredWithoutReservationsNestedInput
+    parking?: ParkingSpotUpdateOneWithoutReservationsNestedInput
   }
 
   export type ReservationUncheckedUpdateWithoutListingInput = {
     id?: StringFieldUpdateOperationsInput | string
-    host_id?: StringFieldUpdateOperationsInput | string
-    visitor_id?: StringFieldUpdateOperationsInput | string
+    host_id?: NullableStringFieldUpdateOperationsInput | string | null
+    visitor_id?: NullableStringFieldUpdateOperationsInput | string | null
     building_id?: NullableStringFieldUpdateOperationsInput | string | null
-    parking_spot_id?: StringFieldUpdateOperationsInput | string
+    parking_spot_id?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
-    start_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    app_fees?: NullableIntFieldUpdateOperationsInput | number | null
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumReservation_StatusFieldUpdateOperationsInput | $Enums.Reservation_Status
+    stripe_payment_intent_id?: NullableStringFieldUpdateOperationsInput | string | null
+    charge?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ReservationUncheckedUpdateManyWithoutListingInput = {
     id?: StringFieldUpdateOperationsInput | string
-    host_id?: StringFieldUpdateOperationsInput | string
-    visitor_id?: StringFieldUpdateOperationsInput | string
+    host_id?: NullableStringFieldUpdateOperationsInput | string | null
+    visitor_id?: NullableStringFieldUpdateOperationsInput | string | null
     building_id?: NullableStringFieldUpdateOperationsInput | string | null
-    parking_spot_id?: StringFieldUpdateOperationsInput | string
+    parking_spot_id?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
-    start_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    app_fees?: NullableIntFieldUpdateOperationsInput | number | null
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: EnumReservation_StatusFieldUpdateOperationsInput | $Enums.Reservation_Status
+    stripe_payment_intent_id?: NullableStringFieldUpdateOperationsInput | string | null
+    charge?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

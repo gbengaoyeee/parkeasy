@@ -95,6 +95,9 @@ const ApartmentUnits = () => {
                   <th scope="col" className="px-6 py-3">
                     Baths
                   </th>
+                  <th scope="col" className="px-6 py-3">
+                    Assigned to
+                  </th>
                 </tr>
               </thead>
               <tbody className="">
@@ -107,6 +110,7 @@ const ApartmentUnits = () => {
                     <td className="px-6 py-4">{unit.unit_number}</td>
                     <td className="px-6 py-4">{unit.no_of_bedrooms}</td>
                     <td className="px-6 py-4">{unit.no_of_baths}</td>
+                    <td className="px-6 py-4">{unit.community_member?.name || "N/A"}</td>
                   </tr>
                 ))}
               </tbody>

@@ -117,16 +117,13 @@ const userRoleSchema = z.union([
   z.literal('tenant'),
 ]);
 export const CreateCommunityMemberValidation = z.object({
-  name: z.string(),
+  name: z.string().min(2, 'Please enter a name'),
   phone: z.string().regex(/^\+?[1-9]\d{1,14}$/, "Invalid phone number format"),
   email: z.string().email(),
-  unitNumbers: z.string().optional(),
+  unitNumbers: z.array(z.string()),
+  parkingSpots: z.array(z.string()),
   userRole: userRoleSchema,
-  parkingSpotNumber: z.string().optional(),
-  parkingLevel: z.number().optional(),
-  parkingSpotType: z.union([z.literal('regular'), z.literal('electric')]).optional(),
-  vehiclePlate: z.string().optional(),
-  vehicleType: z.union([z.literal('regular'), z.literal('electric'), z.literal('hybrid')]).optional(),
+  status: z.string(z.enum(['active', 'inactive'])).optional(),
 })
 export const UpdateCommunityMemberValidation = z.object({
   name: z.string().optional(),

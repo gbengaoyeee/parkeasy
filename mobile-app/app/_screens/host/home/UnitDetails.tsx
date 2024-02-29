@@ -1,22 +1,22 @@
 import { View, Text, ScrollView, SafeAreaView } from "react-native";
 import React from "react";
 import { useRoute } from "@react-navigation/native";
-import { Building } from "@/app/types";
+import { ApartmentUnit, Building } from "@/app/types";
 
 interface RouteParams {
   building: Building;
-  unit: string;
+  unit: ApartmentUnit;
 }
 const UnitDetails = () => {
   const route = useRoute();
   const { building, unit } = route.params as RouteParams;
   return (
-    <SafeAreaView className="flex-1">
-      <ScrollView className="p-5">
-        <View className="bg-gray-200 p-3 rounded-lg">
-          <Text className="text-xl font-bold">{building.building_name}</Text>
-          <Text className="">{building.address}</Text>
-          <Text className="">Unit {unit}</Text>
+    <SafeAreaView style={{ flex: 1 }}>
+      <ScrollView style={{ padding: 20 }}>
+        <View style={{ backgroundColor: "#E5E7EB", padding: 12, borderRadius: 8 }}>
+          <Text style={{ fontSize: 24, fontWeight: "bold" }}>{building.building_name}</Text>
+          <Text>{building.address}</Text>
+          <Text>Unit {unit.unit_number}</Text>
         </View>
       </ScrollView>
     </SafeAreaView>

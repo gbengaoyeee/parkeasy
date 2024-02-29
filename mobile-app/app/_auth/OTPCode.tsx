@@ -1,17 +1,7 @@
-import {
-  View,
-  Text,
-  KeyboardAvoidingView,
-  SafeAreaView,
-  Platform,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, KeyboardAvoidingView, SafeAreaView, Platform, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigation, useRoute } from "@react-navigation/native";
-import {
-  useFinishPhoneVerification,
-  useStartPhoneVerification,
-} from "../lib/react-query/queryAndMutations";
+import { useCreateUser, useFinishPhoneVerification, useStartPhoneVerification } from "../lib/react-query/queryAndMutations";
 import Toast from "react-native-toast-message";
 import { Controller, useForm } from "react-hook-form";
 import Input from "@/components/shared/Input";
@@ -22,12 +12,7 @@ import TouchOpacity from "@/components/shared/TouchOpacity";
 import OTPInput from "@/components/shared/OTPInput";
 import useToast from "../hooks/useToast";
 import { AppwriteException } from "appwrite";
-import {
-  ConfirmationResult,
-  browserLocalPersistence,
-  browserSessionPersistence,
-  setPersistence,
-} from "firebase/auth";
+import { ConfirmationResult } from "firebase/auth";
 import { FIREBASE_AUTH } from "@/firebaseConfig";
 
 interface RouteParams {
@@ -51,8 +36,8 @@ const OTPCode = () => {
   });
   const { showToast } = useToast();
   const { isPending: isSendingCode, mutateAsync: startVerification } = useStartPhoneVerification();
-  const { isPending: isSubmittingCode, mutateAsync: finishVerification } =
-    useFinishPhoneVerification();
+  const { isPending: isSubmittingCode, mutateAsync: finishVerification } = useFinishPhoneVerification();
+  const { isPending: isCreatingUser, mutateAsync: createUser } = useCreateUser();
   const [sessionId, setSessionId] = useState("");
 
   const { confirmationResult, phoneNumber } = route.params as RouteParams;
@@ -73,34 +58,24 @@ const OTPCode = () => {
       })
         .then((resp) => {})
         .catch((error) => {
-          if (error instanceof AppwriteException) {
-            showToast({ type: "error", message: error.message });
+          if (error.response.data.statusCode === 404) {
+            createUser({
+              phone: phoneNumber,
+              userRoles: ["owner", "visitor"],
+            }).catch((error) => {
+              console.error("Could not create user");
+              showToast({ type: "error", message: error.response.data.message });
+              signOut();
+              return;
+            });
             return;
+          } else {
+            console.error('Could not get and create user')
+            showToast({ type: "error", message: error.response.data.message });
+            signOut();
           }
-          showToast({ type: "error", message: error.response.data.message });
-          signOut();
         });
     }
-    //@ts-ignore
-    // finishVerification({
-    //   otpcode: data.otpcode,
-    //   sessionId,
-    //   phone: phoneNumber,
-    //   userRoles: ["owner", "visitor"],
-    // })
-    //   .then((resp) => {})
-    //   .catch((error) => {
-    //     if (error instanceof AppwriteException) {
-    //       showToast({ type: "error", message: error.message });
-    //       return;
-    //     }
-    //     showToast({ type: "error", message: error.response.data.message });
-    //     signOut();
-    //   })
-    //   .finally(() => {
-    //     // refresh user state
-    //     // checkAuthUser();
-    //   });
   };
   const handleResend = async () => {
     // startVerification(phoneNumber)
@@ -118,18 +93,13 @@ const OTPCode = () => {
     //   });
   };
   return (
-    <KeyboardAvoidingView
-      className="flex-1"
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-    >
+    <KeyboardAvoidingView className="flex-1" behavior={Platform.OS === "ios" ? "padding" : "height"}>
       <SafeAreaView className="flex-1 items-center mt-10">
         <View className="w-full px-5">
           <Text className="text-center font-bold text-lg mb-5">Enter OTP code</Text>
 
           <View className="mb-5">
-            <Text className="text-center font-bold ">
-              We have sent a one time code to {phoneNumber}{" "}
-            </Text>
+            <Text className="text-center font-bold ">We have sent a one time code to {phoneNumber} </Text>
 
             <LinkButton className="flex items-center" to={{ screen: "PhoneNumber" }}>
               Enter another number
@@ -162,11 +132,7 @@ const OTPCode = () => {
             name="otpcode"
           />
 
-          <Button
-            disabled={getValues().otpcode.length < 6 || isSendingCode || isSubmittingCode}
-            className="mt-5"
-            onPress={handleSubmit(onSubmit)}
-          >
+          <Button disabled={getValues().otpcode.length < 6 || isSendingCode || isSubmittingCode} className="mt-5" onPress={handleSubmit(onSubmit)}>
             <Text className="text-white">Confirm</Text>
           </Button>
           <View className="flex-row items-center justify-center mt-5">

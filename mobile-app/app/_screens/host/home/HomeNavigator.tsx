@@ -2,7 +2,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "./Home";
 import AssetsList from "./AssetsList";
 import BuildingUnitsList from "./BuildingUnitsList";
-import { Building, CommunityMembers, ParkingSpot, User } from "../../../types";
+import { ApartmentUnit, Building, CommunityMembers, ParkingSpot, User } from "../../../types";
 import AddParkingSpotScreen from "./AddParkingSpotScreen";
 import ParkingLotList from "./ParkingLotList";
 import ParkingSpotDetails from "./ParkingSpotDetails";
@@ -18,7 +18,7 @@ export type HomeStackParamList = {
   BuildingUnitsList: { communityMember: CommunityMembers };
   UnitDetails: {
     building: Building;
-    unit: string;
+    unit: ApartmentUnit;
   };
   AddParkingSpotScreen: {
     buildings: Building[];

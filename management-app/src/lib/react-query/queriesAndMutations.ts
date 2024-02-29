@@ -3,7 +3,7 @@ import { z } from 'zod'
 import { AddApartmentUnitValidation, AddParkingSpotValidation, CreateCommunityMemberValidation, LoginValidation, OnboardBuildingValidation, OnboardManagementValidation, PasswordRecoveryValidation, SSOValidation, SignUpValidation } from '../validation'
 import { onboardBuilding, onboardManagement, preSignUp } from '@/api/management'
 import appwriteClient from '@/api/appwrite'
-import { activateAllCommunityMembers, addApartmentUnit, addCommunityMember, addParkingSpot, getApartmentUnits, getParkingSpot, getParkingSpots, updateCommunityMember, uploadCommunityMembers } from '@/api/building'
+import { activateAllCommunityMembers, addApartmentUnit, addCommunityMember, addParkingSpot, deleteCommunityMember, getApartmentUnits, getBuilding, getCommunityMember, getParkingSpot, getParkingSpots, toggleMemberStatus, updateCommunityMember, uploadCommunityMembers } from '@/api/building'
 import { CommunityMembers } from '@/types'
 import { toast } from 'sonner'
 
@@ -50,6 +50,22 @@ export const useUploadCommunityMembers = () => {
         }
     })
 }
+
+export const useGetBuilding = (buildingId?: string) => {
+    if(!buildingId) {
+        return useQuery({
+            queryKey: ['building'],
+            queryFn: () => {
+                throw new Error('buildingId is required')
+            },
+        })
+    }
+    return useQuery({
+        queryKey: ['building', buildingId],
+        queryFn: () => getBuilding(buildingId),
+        enabled: !!buildingId
+    })
+}
 export const useActivateAllCommunityMembers = () => {
     return useMutation({
         mutationFn: (buildingId: string) => {
@@ -58,12 +74,44 @@ export const useActivateAllCommunityMembers = () => {
     })
 }
 
+export const useToggleCommunityMemberStatus = () => {
+    return useMutation({
+        mutationFn: ({buildingId, memberId}:{buildingId: string, memberId: string}) => {
+            return toggleMemberStatus(buildingId, memberId)
+        }
+    })
+}
+
+export const useDeleteCommunityMember = () => {
+    return useMutation({
+        mutationFn: ({buildingId, memberId}:{buildingId: string, memberId: string}) => {
+            return deleteCommunityMember(buildingId, memberId)
+        }
+    })
+}
+
 // update a community member
 export const useUpdateCommunityMember = () => {
     return useMutation({
-        mutationFn: ({buildingId, memberId, member}:{buildingId: string, memberId: string, member: Partial<CommunityMembers>}) => {
+        mutationFn: ({buildingId, memberId, member}:{buildingId: string, memberId: string, member: Partial<z.infer<typeof CreateCommunityMemberValidation>>}) => {
             return updateCommunityMember(buildingId, memberId, member)
         }
+    })
+}
+
+export const useGetCommunityMember = (buildingId?: string, memberId?: string) => {
+    if(!buildingId || !memberId) {
+        return useQuery({
+            queryKey: ['community-member'],
+            queryFn: () => {
+                throw new Error('buildingId and memberId are required')
+            },
+        })
+    }
+    return useQuery({
+        queryKey: ['community-member', buildingId, memberId],
+        queryFn: () => getCommunityMember(buildingId, memberId),
+        enabled: !!memberId && !!buildingId
     })
 }
 
@@ -83,7 +131,12 @@ export const useAddApartmentUnit = () => {
     })
 }
 
-export const useGetApartmentUnits = (buildingId?: string) => {
+export const useGetApartmentUnits = (
+    buildingId?: string,
+    queries?: {
+        state?: 'occupied' | 'empty'
+    }
+) => {
     if(!buildingId) {
         return useQuery({
             queryKey: ['apartment-units'],
@@ -92,9 +145,9 @@ export const useGetApartmentUnits = (buildingId?: string) => {
             },
         })
     }
-    return useQuery({
+    return useQuery({                   
         queryKey: ['apartment-units', buildingId],
-        queryFn: () => getApartmentUnits(buildingId),
+        queryFn: () => getApartmentUnits(buildingId, queries),
         enabled: !!buildingId
     })
 }
@@ -107,7 +160,16 @@ export const useAddParkingSpot = () => {
     })
 }
 
-export const useGetParkingSpots = (buildingId?: string, queries?: string) => {
+export const useGetParkingSpots = (
+    buildingId?: string, 
+    queries?: {
+        state?: 'occupied' | 'empty'
+        page?: number,
+        pageSize?: number
+        userId?: string
+        phone?: string
+    }
+) => {
     if(!buildingId) {
         return useQuery({
             queryKey: ['parking-spots'],

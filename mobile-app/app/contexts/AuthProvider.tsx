@@ -1,11 +1,12 @@
 import { Dispatch, SetStateAction, createContext, useContext, useEffect, useState } from "react";
 import appwriteClient from "../services/appwrite";
 import { Models } from "appwrite";
-import { User, browserSessionPersistence, onAuthStateChanged, setPersistence } from "firebase/auth";
+import { User, onAuthStateChanged, setPersistence } from "firebase/auth";
 import { FIREBASE_AUTH } from "@/firebaseConfig";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../_store/store";
 import { setAuthUser } from "../_store/slices/authProviderSlice";
+import { setAppSection } from "../_store/slices/appSectionSlice";
 
 interface AuthContextData {
   isLoggedIn: boolean;
@@ -30,45 +31,24 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const authUserSlice = useSelector((state: RootState) => state.authUser.authUser);
+  // const authUserSlice = useSelector((state: RootState) => state.authUser.authUser);
   const dispatch: AppDispatch = useDispatch();
-
-  // const checkAuthUser = async () => {
-  //   try {
-  //     const userData = await appwriteClient.account.get();
-  //     setUser(userData);
-  //     setIsLoggedIn(true);
-  //     return true;
-  //   } catch (error) {
-  //     console.error(error);
-  //     return false;
-  //   }
-  // };
   const signOut = async () => {
     FIREBASE_AUTH.signOut();
     dispatch(setAuthUser(null))
+    dispatch(setAppSection("visitor"))
     setIsLoggedIn(false);
     setUser(null);
     return true;
-    // return appwriteClient.account
-    //   .deleteSession("current")
-    //   .then(() => {
-    //     setIsLoggedIn(false);
-    //     return true;
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //     return false;
-    //   });
   };
 
   useEffect(() => {
-    if(authUserSlice) {
-      setUser(authUserSlice)
-      setIsLoggedIn(true);
-      setIsLoading(false);
-      return;
-    }
+    // if(authUserSlice) {
+    //   setUser(authUserSlice)
+    //   setIsLoggedIn(true);
+    //   setIsLoading(false);
+    //   return;
+    // }
     const subscribe = onAuthStateChanged(FIREBASE_AUTH, async (user) => {
       dispatch(setAuthUser(user))
       if (user) {
@@ -85,18 +65,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
     return () => {
       subscribe();
     };
-    // appwriteClient.account
-    //   .get()
-    //   .then((userData) => {
-    //     setUser(userData);
-    //     setIsLoggedIn(true);
-    //     setIsLoading(false);
-    //   })
-    //   .catch((error) => {
-    //     setIsLoading(false);
-    //     setIsLoggedIn(false);
-    //   });
-  }, [authUserSlice]);
+  }, []);
 
   const value = {
     isLoggedIn,

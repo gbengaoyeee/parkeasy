@@ -3,6 +3,7 @@ import React from "react";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { HomeStackParamList } from "./HomeNavigator";
 import { useUserContext } from "@/app/contexts/UserContext";
+import Colors from "@/constants/Colors";
 
 const AssetsList = () => {
   const { user } = useUserContext();
@@ -15,26 +16,26 @@ const AssetsList = () => {
   }
 
   return (
-    <SafeAreaView className="flex-1">
-      <ScrollView className="p-5">
-        <Text className="text-xl font-bold">My Properties</Text>
+    <SafeAreaView style={{ flex: 1 }}>
+      <ScrollView style={{ padding: 20 }}>
+        <Text style={{ fontSize: 24, fontWeight: "bold" }}>My Properties</Text>
         {user?.community_members?.map((member) => (
           <TouchableOpacity
             key={member.id}
-            className="bg-gray-200 p-3 flex-row justify-between"
+            style={{ backgroundColor: "#E5E7EB", padding: 12, flexDirection: "row", justifyContent: "space-between" }}
             onPress={() => {
               navigation.navigate("BuildingUnitsList", { communityMember: member });
             }}
           >
             <Text>{member.building.building_name}</Text>
-            <Text className="text-primary-3">
-              {member.unit_numbers.length} {member.unit_numbers.length > 1 ? "Units" : "Unit"}
+            <Text style={{ color: Colors.light["primary-3"] }}>
+              {member.apartment_units && `${member.apartment_units.length} Unit ${member.apartment_units.length > 1 ? "s" : ""}`}
             </Text>
           </TouchableOpacity>
         ))}
-        <Text className="text-xl font-bold">My Parkings</Text>
+        <Text style={{ fontSize: 24, fontWeight: "bold" }}>My Parkings</Text>
         {parkingSpots.length > 0 ? (
-          <View className="flex-row justify-between p-3 bg-gray-200">
+          <View style={{ flexDirection: "row", justifyContent: "space-between", padding: 12, backgroundColor: "#E5E7EB" }}>
             <Text>
               {parkingSpots?.length} Parking Spot{parkingSpots?.length > 1 ? "s" : ""}
             </Text>
@@ -45,11 +46,11 @@ const AssetsList = () => {
                 });
               }}
             >
-              <Text className="text-primary-3">View all</Text>
+              <Text style={{ color: Colors.light["primary-3"]  }}>View all</Text>
             </TouchableOpacity>
           </View>
         ) : (
-          <View className="flex-row justify-between p-3 bg-gray-200">
+          <View style={{ flexDirection: "row", justifyContent: "space-between", padding: 12, backgroundColor: "#E5E7EB" }}>
             <Text>No Parking Spot</Text>
             <TouchableOpacity
               onPress={() => {
@@ -58,16 +59,16 @@ const AssetsList = () => {
                 });
               }}
             >
-              <Text className="text-primary-3">+ Add</Text>
+              <Text style={{ color: Colors.light["primary-3"]  }}>+ Add</Text>
             </TouchableOpacity>
           </View>
         )}
 
-        <Text className="text-xl font-bold">My Energy Meter Account</Text>
-        <View className="flex-row justify-between p-3 bg-gray-200">
+        <Text style={{ fontSize: 24, fontWeight: "bold" }}>My Energy Meter Account</Text>
+        <View style={{ flexDirection: "row", justifyContent: "space-between", padding: 12, backgroundColor: "#E5E7EB" }}>
           <Text>You have no Energy Meter linked</Text>
           <TouchableOpacity>
-            <Text className="text-primary-3">+ Add</Text>
+            <Text style={{ color: Colors.light["primary-3"]  }}>coming soon</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

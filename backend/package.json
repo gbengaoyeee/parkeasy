@@ -8,6 +8,7 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "check-format": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\"",
     "tunnel-server": "lt --port 5553 --subdomain gbengaoyeee-parkeasy",
     "ngrok-server": "ngrok http --domain=moccasin-noble-kodiak.ngrok-free.app 5553",
     "tmole-server": "tmole 5553 as gbengaoyeee-parkeasy.tunnelmole.net",

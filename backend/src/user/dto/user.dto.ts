@@ -1,44 +1,45 @@
-import { IsArray, IsBoolean, IsEmail, IsEnum, IsOptional, IsString } from "class-validator"
-import { Mobile_Onboard_Status, User_Role } from "../../../../shared/prisma-client"
-
+import { IsArray, IsBoolean, IsEmail, IsEnum, IsOptional, IsString } from 'class-validator';
+import { Mobile_Onboard_Status, User_Role } from '../../../../shared/prisma-client';
 
 export class GetUserDto {
-    @IsString()
-    email: string
+  @IsString()
+  email: string;
 }
 
 export class GetUserByPhone {
-    @IsString()
-    phone: string
+  @IsString()
+  phone: string;
 }
 
 export class CreateUserDto {
-    @IsEmail()
-    @IsOptional()
-    email: string
+  @IsEmail()
+  @IsOptional()
+  email: string;
 
-    @IsString()
-    @IsOptional()
-    phone: string
+  @IsString()
+  @IsOptional()
+  phone: string;
 
-    @IsString()
-    @IsOptional()
-    firstName: string
+  @IsString()
+  @IsOptional()
+  firstName: string;
 
-    @IsString()
-    @IsOptional()
-    lastName: string
+  @IsString()
+  @IsOptional()
+  lastName: string;
 
-    @IsEnum(Mobile_Onboard_Status)
-    @IsOptional()
-    mobileOnboardStatus: Mobile_Onboard_Status
+  @IsEnum(Mobile_Onboard_Status)
+  @IsOptional()
+  mobileOnboardStatus: Mobile_Onboard_Status;
 
-    @IsArray()
-    @IsOptional()
-    @IsEnum(User_Role, { each: true })
-    userRoles: User_Role[]
+  @IsArray()
+  @IsOptional()
+  @IsEnum(User_Role, {
+    each: true,
+  })
+  userRoles: User_Role[];
 
-    @IsBoolean()
-    @IsOptional()
-    createStripeCustomer: boolean
+  @IsBoolean()
+  @IsOptional()
+  createStripeCustomer: boolean;
 }

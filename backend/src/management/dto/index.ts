@@ -1,1 +1,1 @@
-export * from './management.dto'
+export * from './management.dto';

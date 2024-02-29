@@ -20,6 +20,8 @@ export interface Management extends PrismaManagement {
 }
 export interface CommunityMembers extends PrismaCommunityMembers {
     qr_code: QRCode
+    apartment_units: ApartmentUnit[]
+    parking_spots: ParkingSpot[]
 }
 export interface Building extends PrismaBuilding {
     community_members: CommunityMembers[]
@@ -28,8 +30,9 @@ export interface Building extends PrismaBuilding {
 
 export interface ParkingSpot extends PrismaParkingSpot {
     qr_code: QRCode
+    owner?: CommunityMembers
 }
 
 export interface ApartmentUnit extends PrismaApartmentUnit {
-    
+    community_member?: CommunityMembers
 }

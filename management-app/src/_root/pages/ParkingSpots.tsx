@@ -104,7 +104,7 @@ const ParkingSpots = () => {
       {(currentBuilding?.parking_spots.length ?? 0) > 0 ? (
         <div>
           <span className="flex justify-between">
-            <h3 className="h3-bold">{parkingSpots.length} parking spots</h3>
+            <h3 className="h3-bold">{parkingSpots.length} parking spot{parkingSpots.length > 1 ? "s" : ""}</h3>
             <div>
               <AddParkingSpotModal
                 openAddParkingSpotModal={openAddParkingSpotModal}
@@ -139,6 +139,9 @@ const ParkingSpots = () => {
                   <th scope="col" className="px-6 py-3">
                     QR Code
                   </th>
+                  <th scope="col" className="px-6 py-3">
+                    Assigned to
+                  </th>
                 </tr>
               </thead>
               <tbody className="">
@@ -154,6 +157,7 @@ const ParkingSpots = () => {
                     <td className="px-6 py-4">
                       <img src={spot.qr_code.image_url ?? ""} width={50} alt="" />
                     </td>
+                    <td className="px-6 py-4">{spot.owner ? spot.owner?.name : "N/A"}</td>
                   </tr>
                 ))}
               </tbody>

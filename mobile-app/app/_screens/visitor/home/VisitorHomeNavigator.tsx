@@ -36,6 +36,12 @@ export type VisitorHomeStackParamList = {
     onUpdate: (startDate: Date, endDate: Date, startTime: number, endTime: number) => void;
   };
   VisitorCheckout: {
+    tripDates: {
+      startDate: Date;
+      endDate: Date;
+      startTime: number;
+      endTime: number;
+    };
     checkoutDetails: CheckoutDetails;
   };
   OnboardUser: {

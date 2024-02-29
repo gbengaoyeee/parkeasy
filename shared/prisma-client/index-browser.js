@@ -186,9 +186,9 @@ exports.Prisma.CommunityMembersScalarFieldEnum = {
   email: 'email',
   name: 'name',
   phone: 'phone',
-  unit_numbers: 'unit_numbers',
   status: 'status',
-  qr_code_id: 'qr_code_id'
+  qr_code_id: 'qr_code_id',
+  created_at: 'created_at'
 };
 
 exports.Prisma.ParkingSpotScalarFieldEnum = {
@@ -241,17 +241,23 @@ exports.Prisma.ReservationScalarFieldEnum = {
   building_id: 'building_id',
   parking_spot_id: 'parking_spot_id',
   price: 'price',
+  app_fees: 'app_fees',
   start_date: 'start_date',
   end_date: 'end_date',
-  status: 'status'
+  status: 'status',
+  stripe_payment_intent_id: 'stripe_payment_intent_id',
+  charge: 'charge',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
 };
 
 exports.Prisma.ApartmentUnitScalarFieldEnum = {
   id: 'id',
+  building_id: 'building_id',
   unit_number: 'unit_number',
   no_of_bedrooms: 'no_of_bedrooms',
   no_of_baths: 'no_of_baths',
-  building_id: 'building_id'
+  community_member_id: 'community_member_id'
 };
 
 exports.Prisma.SortOrder = {

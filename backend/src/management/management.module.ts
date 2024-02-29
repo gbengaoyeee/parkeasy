@@ -1,11 +1,9 @@
-import { Module } from "@nestjs/common";
-import { ManagementController } from "./management.controller";
-import { ManagementService } from "./management.service";
+import { Module } from '@nestjs/common';
+import { ManagementController } from './management.controller';
+import { ManagementService } from './management.service';
 
 @Module({
-    controllers: [ManagementController],
-    providers: [ManagementService]
+  controllers: [ManagementController],
+  providers: [ManagementService],
 })
-export class ManagementModule {
-
-}
+export class ManagementModule {}
