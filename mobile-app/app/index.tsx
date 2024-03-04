@@ -35,6 +35,7 @@ function App() {
                       publishableKey={process.env.EXPO_STRIPE_PUBLISHABLE_KEY ?? ""}
                       urlScheme="your-url-scheme"
                       merchantIdentifier="merchant.com.parkeasy"
+                      
                     >
                       <NavigationContainer independent>
                         <MainNavigator />

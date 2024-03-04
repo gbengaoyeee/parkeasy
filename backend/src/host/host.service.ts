@@ -138,12 +138,42 @@ export class HostService {
 
   async getReservations(hostId: string) {
     try {
-      const reservations = await this.prisma.reservation.findMany({
+      const currentTime = new Date().getTime();
+      const allReservations = await this.prisma.reservation.findMany({
         where: {
           host_id: hostId,
         },
+        include: {
+          listing: {
+            select: {
+              id: true,
+              title: true,
+              description: true,
+            }
+          }
+        }
       });
-      return new IResponseData(`reservations retrieved successfully`, reservations).json;
+      const currentReservations = [];
+      const upcomingReservations = [];
+      const pastReservations= [];
+
+      allReservations.forEach((reservation) => {
+        const startTime = reservation.start_date.getTime();
+        const endTime = reservation.end_date.getTime();
+  
+        if (startTime <= currentTime && endTime >= currentTime) {
+          currentReservations.push(reservation);
+        } else if (startTime > currentTime) {
+          upcomingReservations.push(reservation);
+        } else if (endTime < currentTime) {
+          pastReservations.push(reservation);
+        }
+      });
+      return new IResponseData(`reservations retrieved successfully`, {
+        currentReservations,
+        upcomingReservations,
+        pastReservations,
+      }).json;
     } catch (error) {
       throw this.errorService.handleException(error);
     }

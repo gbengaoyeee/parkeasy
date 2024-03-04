@@ -81,7 +81,7 @@ export class HostController {
   }
 
   // get reservations
-  @Get('reservations:hostId')
+  @Get('reservations/:hostId')
   async getReservations(
     @Param('hostId')
     hostId: string,

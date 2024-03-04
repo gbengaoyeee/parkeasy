@@ -11,13 +11,14 @@ const VerifiedScreen = () => {
     <View>
       <Text className="text-3xl font-bold">Welcome{user && ` ${user?.first_name}`}!</Text>
       <Button
-        className="bg-gray-200 h-[160px] w-[160px] p-5"
+        btnTitle="View assets"
+        className=" h-[160px] w-[160px] p-5"
         onPress={() => {
           // @ts-ignore
           navigation.navigate("AssetsList");
         }}
       >
-        <Text className="text-white bg-black p-3 rounded-md">View assets</Text>
+
       </Button>
     </View>
   );

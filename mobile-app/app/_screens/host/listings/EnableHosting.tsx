@@ -51,25 +51,18 @@ const EnableHosting = () => {
           <MaterialIcons name="local-parking" size={20} color={Colors.light["primary-3"]} />
           <View style={styles.featureTextContainer}>
             <Text style={styles.featureTextTitle}>Create your listings</Text>
-            <Text style={styles.featureText}>
-              Showcase your parking spot with photos and details. Set your price and availability to
-              match your preferences.
-            </Text>
+            <Text style={styles.featureText}>Showcase your parking spot with photos and details. Set your price and availability to match your preferences.</Text>
           </View>
         </View>
         <View style={styles.feature}>
           <AntDesign name="Safety" size={24} color={Colors.light["primary-3"]} />
           <View style={styles.featureTextContainer}>
             <Text style={styles.featureTextTitle}>Receive Bookings & Earn</Text>
-            <Text style={styles.featureText}>
-              Watch your earnings grow with the number of bookings you receive.
-            </Text>
+            <Text style={styles.featureText}>Watch your earnings grow with the number of bookings you receive.</Text>
           </View>
         </View>
       </View>
-      <Button style={styles.continueButton} onPress={handleEnableHosting}>
-        <Text style={{ color: "white" }}>Continue</Text>
-      </Button>
+      <Button btnTitle="Continue" style={styles.continueButton} onPress={handleEnableHosting}></Button>
     </SafeAreaView>
   );
 };

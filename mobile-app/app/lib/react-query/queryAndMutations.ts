@@ -6,9 +6,12 @@ import { z } from 'zod'
 import { AddParkingValidation, CreateParkingListingValidation, UpdateParkingListingValidation, UpdateUserValidation } from '../validation'
 import { addParkingSpot } from '@/app/services/building'
 import { createParkingListing, enableHosting, getAccountLink, getListings, updateListing } from '@/app/services/host'
-import { Listing } from '@/app/types'
+import { Listing, Reservation } from '@/app/types'
 import useToast from '@/app/hooks/useToast'
-import { CreateReservationParams, createReservation, deleteReservation, getVisitorListings, updateReservation } from '@/app/services/visitor'
+import { CreateReservationParams, createReservation, deleteReservation, 
+    getReservations as getVisitorReservations, 
+    getVisitorListings, updateReservation 
+} from '@/app/services/visitor'
 import { ConfirmationResult } from 'firebase/auth'
 import { CheckoutDetails, createPaymentIntent, getCheckoutDetails } from '@/app/services/payment'
 
@@ -181,5 +184,29 @@ export const useDeleteReservation = () => {
         mutationFn: (reservationId: string) => {
             return deleteReservation(reservationId)
         }
+    })
+}
+
+export const useGetVisitorReservations = (visitorId?: string) => {
+    const {showToast} = useToast()
+    if(!visitorId) {
+        throw new Error("visitor is required")
+    }
+    return useQuery({
+        queryKey: ['visitor-reservations'],
+        queryFn: async (): Promise<{
+            upcomingReservations: Reservation[]
+            currentReservations: Reservation[]
+            pastReservations: Reservation[]
+        }> => {
+            return getVisitorReservations(visitorId)
+            .catch((error) => {
+                console.error(error.response.data.message);
+                showToast({ type: "error", message: error.response.data.message });
+                return error;
+            })
+        },
+        retry: 3,
+        refetchInterval: 90000,
     })
 }

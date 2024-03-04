@@ -124,8 +124,7 @@ const PhoneNumber = () => {
           name="phoneNumber"
         />
 
-        <Button onPress={handleSubmit(onSubmit)}>
-          <Text style={{ color: "white" }}>Next</Text>
+        <Button btnTitle="Next" onPress={handleSubmit(onSubmit)}>
         </Button>
       </SafeAreaView>
     </KeyboardAvoidingView>

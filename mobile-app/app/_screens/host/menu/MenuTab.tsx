@@ -52,12 +52,8 @@ const MenuTab = () => {
             </View>
             <AntDesign name="right" size={15} color="black" />
           </Button>
-          <Button className="bg-primary-3 mt-5" onPress={() => dispatch(toggleAppSection())}>
-            <Text className="text-white">Switch to Visitor</Text>
-          </Button>
-          <Button className="bg-primary-1" onPress={signOut}>
-            <Text className="text-white">Sign Out</Text>
-          </Button>
+          <Button btnTitle="Switch to Visitor" className="bg-primary-3 mt-5" onPress={() => dispatch(toggleAppSection())}/>
+          <Button btnTitle="Sign Out" className="bg-primary-1" onPress={signOut}/>
         </View>
       </ScrollView>
     </SafeAreaView>

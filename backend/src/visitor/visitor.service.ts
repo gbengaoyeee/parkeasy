@@ -4,10 +4,14 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateReservationDto, GetListingsDto, UpdateReservationDto } from './dto';
 import { IResponseData } from 'src/response';
 import { StripeService } from 'src/stripe/stripe.service';
+import { Queue } from 'bull';
+import { InjectReservationQueue, ReservationQueueType } from 'src/queues/reservation.processor';
+import { InjectTestQueue } from 'src/queues/test.processor';
 
 @Injectable()
 export class VisitorService {
   constructor(
+    @InjectReservationQueue() readonly reservationQueue: Queue,
     private prisma: PrismaService,
     private errorService: ErrorService,
     private stripeService: StripeService,
@@ -46,6 +50,12 @@ export class VisitorService {
           status: dto.status,
         },
       });
+      // add job to queue to send notification once reservation is over
+      let finishQueueType: ReservationQueueType = 'finish';
+      let reminderQueueType: ReservationQueueType = '24-hour-reminder';
+
+      const delay = new Date(dto.endDate).getTime() - new Date().getTime(); // delay until end_date
+      await this.reservationQueue.add(finishQueueType,{id: reservation.id}, {delay});
       const updateListing = await this.prisma.listing.update({
         where: {
           id: dto.listingId,
@@ -95,12 +105,62 @@ export class VisitorService {
 
   async getReservations(visitorId: string) {
     try {
-      const reservations = await this.prisma.reservation.findMany({
+      const currentTime = new Date().getTime();
+
+      const allReservations = await this.prisma.reservation.findMany({
         where: {
           visitor_id: visitorId,
         },
+        include: {
+          listing: {
+            select: {
+              id: true,
+              title: true,
+              description: true,
+              parking_spot:{
+                select: {
+                  building: {
+                    select: {
+                      building_name: true,
+                      lat: true,
+                      lng: true,
+                    }
+                  }
+                }
+              }
+            }
+          },
+          host: {
+            select: {
+              id: true,
+              first_name: true,
+              phone_number: true,
+            }
+          }
+        }
       });
-      return new IResponseData(`reservations retrieved successfully`, reservations).json;
+      const currentReservations = [];
+      const upcomingReservations = [];
+      const pastReservations= [];
+
+      allReservations.forEach((reservation) => {
+        const startTime = reservation.start_date.getTime();
+        const endTime = reservation.end_date.getTime();
+  
+        if (startTime <= currentTime && endTime >= currentTime) {
+          currentReservations.push(reservation);
+        } else if (startTime > currentTime) {
+          upcomingReservations.push(reservation);
+        } else if (endTime < currentTime) {
+          pastReservations.push(reservation);
+        }
+      });
+
+      return new IResponseData(`reservations retrieved successfully`, {
+        currentReservations,
+        upcomingReservations,
+        pastReservations,
+      }).json;
     } catch (error) {
       throw this.errorService.handleException(error);
     }

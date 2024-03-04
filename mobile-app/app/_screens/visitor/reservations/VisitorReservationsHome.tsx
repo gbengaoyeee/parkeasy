@@ -1,33 +1,104 @@
-import { View, Text, SafeAreaView, StyleSheet, ScrollView } from "react-native";
+import { View, Text, SafeAreaView, StyleSheet, ScrollView, FlatList, TouchableOpacity } from "react-native";
 import React from "react";
 import Button from "@/components/shared/Button";
 import { NavigationProp, useNavigation, useRoute } from "@react-navigation/native";
 import { VisitorTabParamList } from "../VisitorTabController";
+import { useGetVisitorReservations } from "@/app/lib/react-query/queryAndMutations";
+import { useUserContext } from "@/app/contexts/UserContext";
+import Loader from "@/components/shared/Loader";
+import { Reservation } from "@/app/types";
+import moment from "moment";
+import { VisitorReservationsStackParamList } from "./VisitorReservationsNavigator";
 
 const VisitorReservationsHome = () => {
   const navigation = useNavigation<NavigationProp<VisitorTabParamList>>();
+  const { user: visitor } = useUserContext();
+  const { data: reservations, isFetching, refetch } = useGetVisitorReservations(visitor?.id);
+  const visitorReservationsNavigation = useNavigation<NavigationProp<VisitorReservationsStackParamList>>();
+
+  if (!reservations) {
+    return (
+      <SafeAreaView style={styles.safeAreaContainer}>
+        <View style={styles.container}>
+          <Text style={styles.header}>Server error</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
+
+  const handlePresentModal = (reservation: Reservation) => {
+    console.log("present modal");
+    if (reservation) {
+      visitorReservationsNavigation.navigate("VisitorReservationDetails", { reservation });
+    }
+  };
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
-      <ScrollView>
-        <View style={styles.container}>
-          <Text style={styles.header}>Reservations</Text>
-          <Text style={styles.subHeader}>Upcoming Reservations</Text>
-          <NoReservations seachAction={() => {navigation.navigate('VisitorHomeTab')}} type="upcoming" />
-          <Text style={styles.subHeader}>Past Reservations</Text>
-          <NoReservations seachAction={() => {}} type="past" />
+      <View style={styles.container}>
+        <Text style={styles.header}>Reservations</Text>
+        {isFetching ? (
+          <Loader />
+        ) : (
+          <ScrollView>
+            {reservations?.currentReservations.length > 0 && (
+              <>
+                <Text style={styles.subHeader}>Current Reservations</Text>
+                {reservations?.currentReservations.map((reservation) => (
+                  <TouchableOpacity
+                    onPress={() => {
+                      handlePresentModal(reservation);
+                    }}
+                  >
+                    <ReservationItem key={reservation.id} reservation={reservation} />
+                  </TouchableOpacity>
+                ))}
+              </>
+            )}
+            <Text style={styles.subHeader}>Upcoming Reservations</Text>
+            {reservations?.upcomingReservations.length > 0 ? (
+              reservations?.upcomingReservations.map((reservation) => (
+                <TouchableOpacity
+                  onPress={() => {
+                    handlePresentModal(reservation);
+                  }}
+                >
+                  <ReservationItem key={reservation.id} reservation={reservation} />
+                </TouchableOpacity>
+              ))
+            ) : (
+              <NoReservations
+                seachAction={() => {
+                  navigation.reset({
+                    index: 0,
+                    routes: [{ name: "VisitorHomeTab" }],
+                  })
+                }}
+                type="upcoming"
+              />
+            )}
 
-          <View style={styles.reservationComponent}>
-            <Text style={{ fontSize: 16, fontWeight: "600" }}>Listing.title</Text>
-            <Text>Hosted by host.name</Text>
-            <Text>Aug. 18, 2022 - Aug. 20, 2022</Text>
-          </View>
-        </View>
-      </ScrollView>
+            <Text style={styles.subHeader}>Past Reservations</Text>
+            {reservations?.pastReservations.length > 0 ? (
+              reservations?.pastReservations.map((reservation) => (
+                <TouchableOpacity
+                  onPress={() => {
+                    handlePresentModal(reservation);
+                  }}
+                >
+                  <ReservationItem key={reservation.id} reservation={reservation} />
+                </TouchableOpacity>
+              ))
+            ) : (
+              <NoReservations seachAction={() => {}} type="past" />
+            )}
+          </ScrollView>
+        )}
+      </View>
     </SafeAreaView>
   );
 };
 
-const NoReservations = ({ seachAction, type }: { seachAction: () => void; type: "upcoming" | "past" }) => {
+const NoReservations = ({ seachAction, type }: { seachAction: () => void; type: "upcoming" | "current" | "past" }) => {
   return (
     <View style={styles.noReservationsContainer}>
       <Text style={{ fontSize: 15, fontWeight: "600" }}>No Reservations made yet</Text>
@@ -38,7 +109,18 @@ const NoReservations = ({ seachAction, type }: { seachAction: () => void; type: 
   );
 };
 
-
+const ReservationItem = ({ reservation }: { reservation: Reservation }) => {
+  const { listing, host, ...rest } = reservation;
+  return (
+    <View style={styles.reservationComponent}>
+      <Text style={{ fontSize: 16, fontWeight: "600" }}>{listing?.title}</Text>
+      <Text>Hosted by {host?.first_name}</Text>
+      <Text>
+        {moment(rest?.start_date).format("MMM. DD, YYYY")} - {moment(rest?.end_date).format("MMM. DD, YYYY")}
+      </Text>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   safeAreaContainer: {
@@ -46,6 +128,7 @@ const styles = StyleSheet.create({
   },
   container: {
     padding: 15,
+    flex: 1,
   },
   header: {
     fontSize: 24,

@@ -217,9 +217,8 @@ const CreateAListing = () => {
               // console.error(errors, isValid);
               form.handleSubmit(onSubmit)();
             }}
-          >
-            <Text style={{ color: "white" }}>Next</Text>
-          </Button>
+            btnTitle="Next"
+          ></Button>
         </KeyboardAvoidingView>
       </ScrollView>
     </SafeAreaView>

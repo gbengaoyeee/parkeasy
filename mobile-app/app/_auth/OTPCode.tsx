@@ -132,8 +132,7 @@ const OTPCode = () => {
             name="otpcode"
           />
 
-          <Button disabled={getValues().otpcode.length < 6 || isSendingCode || isSubmittingCode} className="mt-5" onPress={handleSubmit(onSubmit)}>
-            <Text className="text-white">Confirm</Text>
+          <Button btnTitle="Confirm" disabled={getValues().otpcode.length < 6 || isSendingCode || isSubmittingCode} className="mt-5" onPress={handleSubmit(onSubmit)}>
           </Button>
           <View className="flex-row items-center justify-center mt-5">
             <Text className="mr-1">Didn't receive the code?</Text>

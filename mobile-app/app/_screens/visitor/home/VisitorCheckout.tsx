@@ -32,7 +32,7 @@ const VisitorCheckout = () => {
   const navigation = useNavigation<NavigationProp<VisitorTabParamList>>();
 
   
-  const { initPaymentSheet, presentPaymentSheet, confirmPaymentSheetPayment } = useStripe();
+  const { initPaymentSheet, presentPaymentSheet } = useStripe();
 
   const onCheckOut = () => {
     if (!user) {
@@ -57,6 +57,7 @@ const VisitorCheckout = () => {
             merchantCountryCode: "US",
             currencyCode: "USD",
           },
+          returnURL: "stripe-redirect://stripe-redirect",
         })
 
         return {
@@ -93,6 +94,8 @@ const VisitorCheckout = () => {
         });
 
         const paymentSheetPresented = await presentPaymentSheet({timeout:60000});
+
+        console.log("paymentSheetPresented", paymentSheetPresented);
         // 3. Present the Payment Sheet from Stripe
         return {
           reservation,

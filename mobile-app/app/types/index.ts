@@ -45,11 +45,13 @@ export interface Building extends PrismaBuilding {
 }
 export interface ParkingSpot extends PrismaParkingSpot {
     qr_code: QRCode
+    building: Building
 }
 
 export interface Listing extends PrismaListing {
     lat: number
     lng: number
+    parking_spot?: ParkingSpot
 }
 
 export interface ApartmentUnit extends PrismaApartmentUnit {
@@ -57,5 +59,6 @@ export interface ApartmentUnit extends PrismaApartmentUnit {
 }
 
 export interface Reservation extends PrismaReservation {
-
+    listing?: Listing
+    host?: User
 }

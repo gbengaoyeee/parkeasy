@@ -53,3 +53,12 @@ export const deleteReservation = async (reservationId: string) => {
     const response = await client.delete(`/reservation/${reservationId}`)
     return response.data.data
 }
+
+export const getReservations = async (visitorId: string): Promise<{
+    upcomingReservations: Reservation[]
+    currentReservations: Reservation[]
+    pastReservations: Reservation[]
+}> => {
+    const response = await client.get(`/reservations/${visitorId}`)
+    return response.data.data
+}

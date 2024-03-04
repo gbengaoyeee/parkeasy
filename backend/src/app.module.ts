@@ -13,6 +13,7 @@ import { VisitorModule } from './visitor/visitor.module';
 import { PaymentModule } from './payment/payment.module';
 import { StripeModule } from './stripe/stripe.module';
 import { WebhooksModule } from './webhooks/webhooks.module';
+import { QueuesModule } from './queues/queues.module';
 
 @Module({
   imports: [
@@ -30,6 +31,17 @@ import { WebhooksModule } from './webhooks/webhooks.module';
     PaymentModule,
     StripeModule,
     WebhooksModule,
+    // BullModule.forRoot({
+    //   redis: {
+    //     host: process.env.REDIS_HOST,
+    //     port: Number(process.env.REDIS_PORT),
+    //   },
+    // }),
+    // BullBoardModule.forRoot({
+    //   route: '/queues',
+    //   adapter: ExpressAdapter
+    // }),
+    // QueuesModule.register(),
   ],
 })
 export class AppModule {}

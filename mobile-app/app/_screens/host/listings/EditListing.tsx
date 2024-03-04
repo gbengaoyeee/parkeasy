@@ -1,12 +1,4 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  ScrollView,
-  KeyboardAvoidingView,
-  Platform,
-  StyleSheet,
-} from "react-native";
+import { View, Text, SafeAreaView, ScrollView, KeyboardAvoidingView, Platform, StyleSheet } from "react-native";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import Input from "@/components/shared/Input";
@@ -32,9 +24,7 @@ const EditListing = () => {
   const { listing } = route.params as RouteParams;
   const { isPending: isUpdating, mutateAsync: handleUpdateListing } = useUpdateListing();
   const { user } = useUserContext();
-  const { isFetching: listingLoading, refetch: refetchListings } = useGetHostListings(
-    user?.id ?? ""
-  );
+  const { isFetching: listingLoading, refetch: refetchListings } = useGetHostListings(user?.id ?? "");
   const { showToast, toast } = useToast();
   const navigation = useNavigation<NavigationProp<HostListingsStackParamList>>();
 
@@ -69,11 +59,7 @@ const EditListing = () => {
   return (
     <SafeAreaView className="flex-1">
       <ScrollView className="p-5">
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={{ flex: 1 }}
-          keyboardVerticalOffset={100}
-        >
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }} keyboardVerticalOffset={100}>
           {isUpdating && (
             <View className="mb-3 items-center">
               <Loader />
@@ -114,12 +100,7 @@ const EditListing = () => {
               render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
                 <View className="mb-3">
                   <Text>Give your listing an enticing title</Text>
-                  <Input
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    value={value}
-                    errors={error?.message}
-                  />
+                  <Input onBlur={onBlur} onChangeText={onChange} value={value} errors={error?.message} />
                 </View>
               )}
               name="title"
@@ -130,14 +111,7 @@ const EditListing = () => {
               render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
                 <View className="mb-3">
                   <Text>Give your listing an eye catching description</Text>
-                  <Input
-                    multiline
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    value={value}
-                    errors={error?.message}
-                    className="h-32"
-                  />
+                  <Input multiline onBlur={onBlur} onChangeText={onChange} value={value} errors={error?.message} className="h-32" />
                 </View>
               )}
               name="description"
@@ -159,8 +133,7 @@ const EditListing = () => {
                     keyboardType="decimal-pad"
                   />
                   <Text>
-                    Price limit per {watchedParkingType} is $
-                    {PRICE_LIMITS[watchedParkingType as keyof typeof PRICE_LIMITS]}
+                    Price limit per {watchedParkingType} is ${PRICE_LIMITS[watchedParkingType as keyof typeof PRICE_LIMITS]}
                   </Text>
                 </View>
               )}
@@ -169,6 +142,7 @@ const EditListing = () => {
           </View>
 
           <Button
+            btnTitle="Next"
             disabled={isUpdating}
             className="mt-5"
             onPress={() => {
@@ -176,7 +150,6 @@ const EditListing = () => {
               form.handleSubmit(onSubmit)();
             }}
           >
-            <Text className="text-white">Next</Text>
           </Button>
         </KeyboardAvoidingView>
       </ScrollView>

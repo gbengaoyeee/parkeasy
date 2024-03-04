@@ -42,11 +42,11 @@ const NotVerifiedScreen = () => {
       <Text>Welcome to Parkeasy</Text>
       <Text>To access to the following by verifying your identity</Text>
       {featureList.map((item, index) => (
-        <Text key={index} className="text-gray-500 text-lg">{item.title}</Text>
+        <Text key={index} className="text-gray-500 text-lg">
+          {item.title}
+        </Text>
       ))}
-      <Button onPress={openURL}>
-        <Text className="text-white">Get verified now</Text>
-      </Button>
+      <Button btnTitle="Get verified now" onPress={openURL}></Button>
     </View>
   );
 };

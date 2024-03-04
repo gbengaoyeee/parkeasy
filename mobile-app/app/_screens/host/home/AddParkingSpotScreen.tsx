@@ -1,13 +1,4 @@
-import {
-  View,
-  Text,
-  ScrollView,
-  StyleSheet,
-  StatusBar,
-  SafeAreaView,
-  Platform,
-  KeyboardAvoidingView,
-} from "react-native";
+import { View, Text, ScrollView, StyleSheet, StatusBar, SafeAreaView, Platform, KeyboardAvoidingView } from "react-native";
 import React, { useEffect } from "react";
 import { NavigationProp, useNavigation, useRoute } from "@react-navigation/native";
 import { HomeStackParamList } from "./HomeNavigator";
@@ -80,11 +71,7 @@ const AddParkingSpotScreen = () => {
   return (
     <SafeAreaView className="flex-1">
       <ScrollView className="p-5">
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={{ flex: 1 }}
-          keyboardVerticalOffset={100}
-        >
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }} keyboardVerticalOffset={100}>
           {isAdding && (
             <View className="mb-3 items-center">
               <Loader />
@@ -128,13 +115,7 @@ const AddParkingSpotScreen = () => {
               render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
                 <View className="mb-3">
                   <Text>Parking floor level</Text>
-                  <Input
-                    placeholder="Enter your parking floor level"
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    value={value}
-                    errors={error?.message}
-                  />
+                  <Input placeholder="Enter your parking floor level" onBlur={onBlur} onChangeText={onChange} value={value} errors={error?.message} />
                 </View>
               )}
               name="spotLevel"
@@ -145,13 +126,7 @@ const AddParkingSpotScreen = () => {
               render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
                 <View className="mb-3">
                   <Text>Parking spot number</Text>
-                  <Input
-                    placeholder="Enter your parking spot number"
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    value={value}
-                    errors={error?.message}
-                  />
+                  <Input placeholder="Enter your parking spot number" onBlur={onBlur} onChangeText={onChange} value={value} errors={error?.message} />
                 </View>
               )}
               name="spotNumber"
@@ -188,15 +163,7 @@ const AddParkingSpotScreen = () => {
               render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
                 <View className="mb-3">
                   <Text>Location instructions</Text>
-                  <Input
-                    placeholder="Enter parking instructions"
-                    multiline
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    value={value}
-                    errors={error?.message}
-                    className="h-32"
-                  />
+                  <Input placeholder="Enter parking instructions" multiline onBlur={onBlur} onChangeText={onChange} value={value} errors={error?.message} className="h-32" />
                 </View>
               )}
               name="parkingInstructions"
@@ -204,15 +171,14 @@ const AddParkingSpotScreen = () => {
           </View>
 
           <Button
+            btnTitle="Next"
             disabled={isAdding}
             className="mt-5"
             onPress={() => {
               // console.error(errors, isValid);
               form.handleSubmit(onSubmit)();
             }}
-          >
-            <Text className="text-white">Next</Text>
-          </Button>
+          ></Button>
         </KeyboardAvoidingView>
       </ScrollView>
     </SafeAreaView>
