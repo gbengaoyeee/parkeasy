@@ -110,3 +110,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+
+backend/.env*
+mobile-app/.env*
