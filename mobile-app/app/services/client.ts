@@ -11,6 +11,7 @@ export class ApiClient {
       headers: {
         "ngrok-skip-browser-warning": "69420",
         "bypass-tunnel-reminder": "69420",
+        'x-api-key': process.env.EXPO_PUBLIC_SERVER_API_KEY
       }
     });
   }

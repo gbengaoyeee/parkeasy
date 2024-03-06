@@ -16,6 +16,11 @@ export const updateUser = async (userId: string, dto: z.infer<typeof UpdateUserV
     return response.data.data as User
 }
 
+export const storeNotificationToken = async (userId: string, notificationToken: string) => {
+    const response = await client.put(`/${userId}`, { notificationToken })
+    return response.data.data
+}
+
 export const getUser = async (phone: string): Promise<User|null> => {
     const encodedPhone = encodeURIComponent(phone)
     const response = await client.get(`/phone/?phone=${encodedPhone}`)

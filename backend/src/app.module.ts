@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { ManagementModule } from './management/management.module';
 import { UserModule } from './user/user.module';
 import { PrismaModule } from './prisma/prisma.module';
@@ -13,7 +13,15 @@ import { VisitorModule } from './visitor/visitor.module';
 import { PaymentModule } from './payment/payment.module';
 import { StripeModule } from './stripe/stripe.module';
 import { WebhooksModule } from './webhooks/webhooks.module';
-import { QueuesModule } from './queues/queues.module';
+import { ApiKeyAuthMiddleware } from './middleware/api-key-auth.middleware';
+import { VisitorController } from './visitor/visitor.controller';
+import { ManagementController } from './management/management.controller';
+import { UserController } from './user/user.controller';
+import { BuildingController } from './building/building.controller';
+import { VerificationController } from './verification/verification.controller';
+import { HostController } from './host/host.controller';
+import { PaymentController } from './payment/payment.controller';
+import { AppController } from './app.controller';
 
 @Module({
   imports: [
@@ -31,17 +39,21 @@ import { QueuesModule } from './queues/queues.module';
     PaymentModule,
     StripeModule,
     WebhooksModule,
-    // BullModule.forRoot({
-    //   redis: {
-    //     host: process.env.REDIS_HOST,
-    //     port: Number(process.env.REDIS_PORT),
-    //   },
-    // }),
-    // BullBoardModule.forRoot({
-    //   route: '/queues',
-    //   adapter: ExpressAdapter
-    // }),
-    // QueuesModule.register(),
   ],
+  controllers: [AppController],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+    .apply(ApiKeyAuthMiddleware)
+    .forRoutes(
+      ManagementController,
+      UserController,
+      BuildingController,
+      VerificationController,
+      HostController,
+      VisitorController,
+      PaymentController,
+    ) // Apply to all routes
+  }
+}

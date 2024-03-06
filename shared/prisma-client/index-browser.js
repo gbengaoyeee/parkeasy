@@ -126,6 +126,7 @@ exports.Prisma.UserScalarFieldEnum = {
   mobile_onboard_status: 'mobile_onboard_status',
   stripe_customer_id: 'stripe_customer_id',
   stripe_account: 'stripe_account',
+  notification_token: 'notification_token',
   created_at: 'created_at',
   last_login: 'last_login'
 };

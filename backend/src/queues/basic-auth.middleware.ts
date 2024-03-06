@@ -2,8 +2,8 @@ import { NestMiddleware } from '@nestjs/common';
 import { NextFunction, Request, Response } from 'express';
 
 export class BasicAuthMiddleware implements NestMiddleware {
-  private readonly username = 'user';
-  private readonly password = 'password';
+  private readonly username = process.env.QUEUE_USERNAME;
+  private readonly password = process.env.QUEUE_PASSWORD;
   private readonly encodedCreds = Buffer.from(
     this.username + ':' + this.password,
   ).toString('base64');

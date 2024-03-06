@@ -42,4 +42,8 @@ export class CreateUserDto {
   @IsBoolean()
   @IsOptional()
   createStripeCustomer: boolean;
+
+  @IsString()
+  @IsOptional()
+  notificationToken: string;
 }

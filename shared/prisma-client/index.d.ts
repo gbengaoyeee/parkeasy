@@ -3180,6 +3180,7 @@ export namespace Prisma {
     verification_status: $Enums.Verification_Status | null
     mobile_onboard_status: $Enums.Mobile_Onboard_Status | null
     stripe_customer_id: string | null
+    notification_token: string | null
     created_at: Date | null
     last_login: Date | null
   }
@@ -3193,6 +3194,7 @@ export namespace Prisma {
     verification_status: $Enums.Verification_Status | null
     mobile_onboard_status: $Enums.Mobile_Onboard_Status | null
     stripe_customer_id: string | null
+    notification_token: string | null
     created_at: Date | null
     last_login: Date | null
   }
@@ -3208,6 +3210,7 @@ export namespace Prisma {
     mobile_onboard_status: number
     stripe_customer_id: number
     stripe_account: number
+    notification_token: number
     created_at: number
     last_login: number
     _all: number
@@ -3223,6 +3226,7 @@ export namespace Prisma {
     verification_status?: true
     mobile_onboard_status?: true
     stripe_customer_id?: true
+    notification_token?: true
     created_at?: true
     last_login?: true
   }
@@ -3236,6 +3240,7 @@ export namespace Prisma {
     verification_status?: true
     mobile_onboard_status?: true
     stripe_customer_id?: true
+    notification_token?: true
     created_at?: true
     last_login?: true
   }
@@ -3251,6 +3256,7 @@ export namespace Prisma {
     mobile_onboard_status?: true
     stripe_customer_id?: true
     stripe_account?: true
+    notification_token?: true
     created_at?: true
     last_login?: true
     _all?: true
@@ -3339,6 +3345,7 @@ export namespace Prisma {
     mobile_onboard_status: $Enums.Mobile_Onboard_Status | null
     stripe_customer_id: string | null
     stripe_account: JsonValue | null
+    notification_token: string | null
     created_at: Date
     last_login: Date
     _count: UserCountAggregateOutputType | null
@@ -3371,6 +3378,7 @@ export namespace Prisma {
     mobile_onboard_status?: boolean
     stripe_customer_id?: boolean
     stripe_account?: boolean
+    notification_token?: boolean
     created_at?: boolean
     last_login?: boolean
     management?: boolean | User$managementArgs<ExtArgs>
@@ -3392,6 +3400,7 @@ export namespace Prisma {
     mobile_onboard_status?: boolean
     stripe_customer_id?: boolean
     stripe_account?: boolean
+    notification_token?: boolean
     created_at?: boolean
     last_login?: boolean
   }
@@ -3426,6 +3435,7 @@ export namespace Prisma {
       mobile_onboard_status: $Enums.Mobile_Onboard_Status | null
       stripe_customer_id: string | null
       stripe_account: Prisma.JsonValue | null
+      notification_token: string | null
       created_at: Date
       last_login: Date
     }, ExtArgs["result"]["user"]>
@@ -3841,6 +3851,7 @@ export namespace Prisma {
     readonly mobile_onboard_status: FieldRef<"User", 'Mobile_Onboard_Status'>
     readonly stripe_customer_id: FieldRef<"User", 'String'>
     readonly stripe_account: FieldRef<"User", 'Json'>
+    readonly notification_token: FieldRef<"User", 'String'>
     readonly created_at: FieldRef<"User", 'DateTime'>
     readonly last_login: FieldRef<"User", 'DateTime'>
   }
@@ -14855,6 +14866,7 @@ export namespace Prisma {
     mobile_onboard_status: 'mobile_onboard_status',
     stripe_customer_id: 'stripe_customer_id',
     stripe_account: 'stripe_account',
+    notification_token: 'notification_token',
     created_at: 'created_at',
     last_login: 'last_login'
   };
@@ -15410,6 +15422,7 @@ export namespace Prisma {
     mobile_onboard_status?: EnumMobile_Onboard_StatusNullableFilter<"User"> | $Enums.Mobile_Onboard_Status | null
     stripe_customer_id?: StringNullableFilter<"User"> | string | null
     stripe_account?: JsonNullableFilter<"User">
+    notification_token?: StringNullableFilter<"User"> | string | null
     created_at?: DateTimeFilter<"User"> | Date | string
     last_login?: DateTimeFilter<"User"> | Date | string
     management?: XOR<ManagementNullableRelationFilter, ManagementWhereInput> | null
@@ -15430,6 +15443,7 @@ export namespace Prisma {
     mobile_onboard_status?: SortOrderInput | SortOrder
     stripe_customer_id?: SortOrderInput | SortOrder
     stripe_account?: SortOrderInput | SortOrder
+    notification_token?: SortOrderInput | SortOrder
     created_at?: SortOrder
     last_login?: SortOrder
     management?: ManagementOrderByWithRelationInput
@@ -15454,6 +15468,7 @@ export namespace Prisma {
     mobile_onboard_status?: EnumMobile_Onboard_StatusNullableFilter<"User"> | $Enums.Mobile_Onboard_Status | null
     stripe_customer_id?: StringNullableFilter<"User"> | string | null
     stripe_account?: JsonNullableFilter<"User">
+    notification_token?: StringNullableFilter<"User"> | string | null
     created_at?: DateTimeFilter<"User"> | Date | string
     last_login?: DateTimeFilter<"User"> | Date | string
     management?: XOR<ManagementNullableRelationFilter, ManagementWhereInput> | null
@@ -15474,6 +15489,7 @@ export namespace Prisma {
     mobile_onboard_status?: SortOrderInput | SortOrder
     stripe_customer_id?: SortOrderInput | SortOrder
     stripe_account?: SortOrderInput | SortOrder
+    notification_token?: SortOrderInput | SortOrder
     created_at?: SortOrder
     last_login?: SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -15495,6 +15511,7 @@ export namespace Prisma {
     mobile_onboard_status?: EnumMobile_Onboard_StatusNullableWithAggregatesFilter<"User"> | $Enums.Mobile_Onboard_Status | null
     stripe_customer_id?: StringNullableWithAggregatesFilter<"User"> | string | null
     stripe_account?: JsonNullableWithAggregatesFilter<"User">
+    notification_token?: StringNullableWithAggregatesFilter<"User"> | string | null
     created_at?: DateTimeWithAggregatesFilter<"User"> | Date | string
     last_login?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
@@ -16451,6 +16468,7 @@ export namespace Prisma {
     mobile_onboard_status?: $Enums.Mobile_Onboard_Status | null
     stripe_customer_id?: string | null
     stripe_account?: NullableJsonNullValueInput | InputJsonValue
+    notification_token?: string | null
     created_at?: Date | string
     last_login?: Date | string
     management?: ManagementCreateNestedOneWithoutUserInput
@@ -16471,6 +16489,7 @@ export namespace Prisma {
     mobile_onboard_status?: $Enums.Mobile_Onboard_Status | null
     stripe_customer_id?: string | null
     stripe_account?: NullableJsonNullValueInput | InputJsonValue
+    notification_token?: string | null
     created_at?: Date | string
     last_login?: Date | string
     management?: ManagementUncheckedCreateNestedOneWithoutUserInput
@@ -16491,6 +16510,7 @@ export namespace Prisma {
     mobile_onboard_status?: NullableEnumMobile_Onboard_StatusFieldUpdateOperationsInput | $Enums.Mobile_Onboard_Status | null
     stripe_customer_id?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_account?: NullableJsonNullValueInput | InputJsonValue
+    notification_token?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_login?: DateTimeFieldUpdateOperationsInput | Date | string
     management?: ManagementUpdateOneWithoutUserNestedInput
@@ -16511,6 +16531,7 @@ export namespace Prisma {
     mobile_onboard_status?: NullableEnumMobile_Onboard_StatusFieldUpdateOperationsInput | $Enums.Mobile_Onboard_Status | null
     stripe_customer_id?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_account?: NullableJsonNullValueInput | InputJsonValue
+    notification_token?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_login?: DateTimeFieldUpdateOperationsInput | Date | string
     management?: ManagementUncheckedUpdateOneWithoutUserNestedInput
@@ -16531,6 +16552,7 @@ export namespace Prisma {
     mobile_onboard_status?: $Enums.Mobile_Onboard_Status | null
     stripe_customer_id?: string | null
     stripe_account?: NullableJsonNullValueInput | InputJsonValue
+    notification_token?: string | null
     created_at?: Date | string
     last_login?: Date | string
   }
@@ -16546,6 +16568,7 @@ export namespace Prisma {
     mobile_onboard_status?: NullableEnumMobile_Onboard_StatusFieldUpdateOperationsInput | $Enums.Mobile_Onboard_Status | null
     stripe_customer_id?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_account?: NullableJsonNullValueInput | InputJsonValue
+    notification_token?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_login?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -16561,6 +16584,7 @@ export namespace Prisma {
     mobile_onboard_status?: NullableEnumMobile_Onboard_StatusFieldUpdateOperationsInput | $Enums.Mobile_Onboard_Status | null
     stripe_customer_id?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_account?: NullableJsonNullValueInput | InputJsonValue
+    notification_token?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_login?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17709,6 +17733,7 @@ export namespace Prisma {
     mobile_onboard_status?: SortOrder
     stripe_customer_id?: SortOrder
     stripe_account?: SortOrder
+    notification_token?: SortOrder
     created_at?: SortOrder
     last_login?: SortOrder
   }
@@ -17722,6 +17747,7 @@ export namespace Prisma {
     verification_status?: SortOrder
     mobile_onboard_status?: SortOrder
     stripe_customer_id?: SortOrder
+    notification_token?: SortOrder
     created_at?: SortOrder
     last_login?: SortOrder
   }
@@ -17735,6 +17761,7 @@ export namespace Prisma {
     verification_status?: SortOrder
     mobile_onboard_status?: SortOrder
     stripe_customer_id?: SortOrder
+    notification_token?: SortOrder
     created_at?: SortOrder
     last_login?: SortOrder
   }
@@ -20780,6 +20807,7 @@ export namespace Prisma {
     mobile_onboard_status?: $Enums.Mobile_Onboard_Status | null
     stripe_customer_id?: string | null
     stripe_account?: NullableJsonNullValueInput | InputJsonValue
+    notification_token?: string | null
     created_at?: Date | string
     last_login?: Date | string
     community_members?: CommunityMembersCreateNestedManyWithoutUserInput
@@ -20799,6 +20827,7 @@ export namespace Prisma {
     mobile_onboard_status?: $Enums.Mobile_Onboard_Status | null
     stripe_customer_id?: string | null
     stripe_account?: NullableJsonNullValueInput | InputJsonValue
+    notification_token?: string | null
     created_at?: Date | string
     last_login?: Date | string
     community_members?: CommunityMembersUncheckedCreateNestedManyWithoutUserInput
@@ -20899,6 +20928,7 @@ export namespace Prisma {
     mobile_onboard_status?: NullableEnumMobile_Onboard_StatusFieldUpdateOperationsInput | $Enums.Mobile_Onboard_Status | null
     stripe_customer_id?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_account?: NullableJsonNullValueInput | InputJsonValue
+    notification_token?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_login?: DateTimeFieldUpdateOperationsInput | Date | string
     community_members?: CommunityMembersUpdateManyWithoutUserNestedInput
@@ -20918,6 +20948,7 @@ export namespace Prisma {
     mobile_onboard_status?: NullableEnumMobile_Onboard_StatusFieldUpdateOperationsInput | $Enums.Mobile_Onboard_Status | null
     stripe_customer_id?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_account?: NullableJsonNullValueInput | InputJsonValue
+    notification_token?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_login?: DateTimeFieldUpdateOperationsInput | Date | string
     community_members?: CommunityMembersUncheckedUpdateManyWithoutUserNestedInput
@@ -21486,6 +21517,7 @@ export namespace Prisma {
     mobile_onboard_status?: $Enums.Mobile_Onboard_Status | null
     stripe_customer_id?: string | null
     stripe_account?: NullableJsonNullValueInput | InputJsonValue
+    notification_token?: string | null
     created_at?: Date | string
     last_login?: Date | string
     management?: ManagementCreateNestedOneWithoutUserInput
@@ -21505,6 +21537,7 @@ export namespace Prisma {
     mobile_onboard_status?: $Enums.Mobile_Onboard_Status | null
     stripe_customer_id?: string | null
     stripe_account?: NullableJsonNullValueInput | InputJsonValue
+    notification_token?: string | null
     created_at?: Date | string
     last_login?: Date | string
     management?: ManagementUncheckedCreateNestedOneWithoutUserInput
@@ -21664,6 +21697,7 @@ export namespace Prisma {
     mobile_onboard_status?: NullableEnumMobile_Onboard_StatusFieldUpdateOperationsInput | $Enums.Mobile_Onboard_Status | null
     stripe_customer_id?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_account?: NullableJsonNullValueInput | InputJsonValue
+    notification_token?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_login?: DateTimeFieldUpdateOperationsInput | Date | string
     management?: ManagementUpdateOneWithoutUserNestedInput
@@ -21683,6 +21717,7 @@ export namespace Prisma {
     mobile_onboard_status?: NullableEnumMobile_Onboard_StatusFieldUpdateOperationsInput | $Enums.Mobile_Onboard_Status | null
     stripe_customer_id?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_account?: NullableJsonNullValueInput | InputJsonValue
+    notification_token?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_login?: DateTimeFieldUpdateOperationsInput | Date | string
     management?: ManagementUncheckedUpdateOneWithoutUserNestedInput
@@ -22292,6 +22327,7 @@ export namespace Prisma {
     mobile_onboard_status?: $Enums.Mobile_Onboard_Status | null
     stripe_customer_id?: string | null
     stripe_account?: NullableJsonNullValueInput | InputJsonValue
+    notification_token?: string | null
     created_at?: Date | string
     last_login?: Date | string
     management?: ManagementCreateNestedOneWithoutUserInput
@@ -22311,6 +22347,7 @@ export namespace Prisma {
     mobile_onboard_status?: $Enums.Mobile_Onboard_Status | null
     stripe_customer_id?: string | null
     stripe_account?: NullableJsonNullValueInput | InputJsonValue
+    notification_token?: string | null
     created_at?: Date | string
     last_login?: Date | string
     management?: ManagementUncheckedCreateNestedOneWithoutUserInput
@@ -22421,6 +22458,7 @@ export namespace Prisma {
     mobile_onboard_status?: NullableEnumMobile_Onboard_StatusFieldUpdateOperationsInput | $Enums.Mobile_Onboard_Status | null
     stripe_customer_id?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_account?: NullableJsonNullValueInput | InputJsonValue
+    notification_token?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_login?: DateTimeFieldUpdateOperationsInput | Date | string
     management?: ManagementUpdateOneWithoutUserNestedInput
@@ -22440,6 +22478,7 @@ export namespace Prisma {
     mobile_onboard_status?: NullableEnumMobile_Onboard_StatusFieldUpdateOperationsInput | $Enums.Mobile_Onboard_Status | null
     stripe_customer_id?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_account?: NullableJsonNullValueInput | InputJsonValue
+    notification_token?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_login?: DateTimeFieldUpdateOperationsInput | Date | string
     management?: ManagementUncheckedUpdateOneWithoutUserNestedInput
@@ -22549,6 +22588,7 @@ export namespace Prisma {
     mobile_onboard_status?: $Enums.Mobile_Onboard_Status | null
     stripe_customer_id?: string | null
     stripe_account?: NullableJsonNullValueInput | InputJsonValue
+    notification_token?: string | null
     created_at?: Date | string
     last_login?: Date | string
     management?: ManagementCreateNestedOneWithoutUserInput
@@ -22568,6 +22608,7 @@ export namespace Prisma {
     mobile_onboard_status?: $Enums.Mobile_Onboard_Status | null
     stripe_customer_id?: string | null
     stripe_account?: NullableJsonNullValueInput | InputJsonValue
+    notification_token?: string | null
     created_at?: Date | string
     last_login?: Date | string
     management?: ManagementUncheckedCreateNestedOneWithoutUserInput
@@ -22592,6 +22633,7 @@ export namespace Prisma {
     mobile_onboard_status?: $Enums.Mobile_Onboard_Status | null
     stripe_customer_id?: string | null
     stripe_account?: NullableJsonNullValueInput | InputJsonValue
+    notification_token?: string | null
     created_at?: Date | string
     last_login?: Date | string
     management?: ManagementCreateNestedOneWithoutUserInput
@@ -22611,6 +22653,7 @@ export namespace Prisma {
     mobile_onboard_status?: $Enums.Mobile_Onboard_Status | null
     stripe_customer_id?: string | null
     stripe_account?: NullableJsonNullValueInput | InputJsonValue
+    notification_token?: string | null
     created_at?: Date | string
     last_login?: Date | string
     management?: ManagementUncheckedCreateNestedOneWithoutUserInput
@@ -22767,6 +22810,7 @@ export namespace Prisma {
     mobile_onboard_status?: NullableEnumMobile_Onboard_StatusFieldUpdateOperationsInput | $Enums.Mobile_Onboard_Status | null
     stripe_customer_id?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_account?: NullableJsonNullValueInput | InputJsonValue
+    notification_token?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_login?: DateTimeFieldUpdateOperationsInput | Date | string
     management?: ManagementUpdateOneWithoutUserNestedInput
@@ -22786,6 +22830,7 @@ export namespace Prisma {
     mobile_onboard_status?: NullableEnumMobile_Onboard_StatusFieldUpdateOperationsInput | $Enums.Mobile_Onboard_Status | null
     stripe_customer_id?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_account?: NullableJsonNullValueInput | InputJsonValue
+    notification_token?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_login?: DateTimeFieldUpdateOperationsInput | Date | string
     management?: ManagementUncheckedUpdateOneWithoutUserNestedInput
@@ -22816,6 +22861,7 @@ export namespace Prisma {
     mobile_onboard_status?: NullableEnumMobile_Onboard_StatusFieldUpdateOperationsInput | $Enums.Mobile_Onboard_Status | null
     stripe_customer_id?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_account?: NullableJsonNullValueInput | InputJsonValue
+    notification_token?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_login?: DateTimeFieldUpdateOperationsInput | Date | string
     management?: ManagementUpdateOneWithoutUserNestedInput
@@ -22835,6 +22881,7 @@ export namespace Prisma {
     mobile_onboard_status?: NullableEnumMobile_Onboard_StatusFieldUpdateOperationsInput | $Enums.Mobile_Onboard_Status | null
     stripe_customer_id?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_account?: NullableJsonNullValueInput | InputJsonValue
+    notification_token?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     last_login?: DateTimeFieldUpdateOperationsInput | Date | string
     management?: ManagementUncheckedUpdateOneWithoutUserNestedInput

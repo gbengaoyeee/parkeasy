@@ -107,29 +107,37 @@ export class UserService {
   //update user
   async updateUser(id: string, dto: CreateUserDto) {
     try {
+      let user = await this.prisma.user.findUniqueOrThrow({
+        where: {
+          id,
+        },
+      });
       let customer: Stripe.Response<Stripe.Customer>;
-      if (dto.createStripeCustomer) {
+      if (dto.createStripeCustomer && !user.stripe_customer_id) {
         customer = await this.stripeService.createCustomer(
           dto.email.toLowerCase(),
           dto.firstName + ' ' + dto.lastName,
         );
       }
-      const user = await this.prisma.user.update({
+      
+      user = await this.prisma.user.update({
         where: {
           id,
         },
         data: {
-          email: dto.email.toLowerCase().toLowerCase(),
-          phone_number: dto.phone,
-          first_name: dto.firstName,
-          last_name: dto.lastName,
-          user_roles: dto.userRoles,
-          mobile_onboard_status: dto.mobileOnboardStatus,
-          stripe_customer_id: customer.id,
+          email: dto.email ? dto.email.toLowerCase().toLowerCase() : user.email,
+          phone_number: dto.phone ? dto.phone : user.phone_number,
+          first_name: dto.firstName ? dto.firstName : user.first_name,
+          last_name: dto.lastName ? dto.lastName : user.last_name,
+          user_roles: dto.userRoles ? dto.userRoles : user.user_roles,
+          mobile_onboard_status: dto.mobileOnboardStatus ? dto.mobileOnboardStatus : user.mobile_onboard_status,
+          stripe_customer_id: customer ? customer.id : user.stripe_customer_id,
+          notification_token: dto.notificationToken ? dto.notificationToken : user.notification_token
         },
       });
       return new IResponseData(`user updated successfully`, user).json;
     } catch (error) {
+      console.log(error);
       throw this.errorService.handleException(error);
     }
   }
