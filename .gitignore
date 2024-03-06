@@ -114,3 +114,5 @@ dist-ssr
 
 backend/.env*
 mobile-app/.env*
+backend/terraform/.terraform*
+backend/terraform/terraform.tf*
