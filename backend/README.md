@@ -22,9 +22,16 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
+## Important links for Redis setup
 
-## Important videos
+https://www.youtube.com/watch?v=Seot6Z6yZcE
 https://www.youtube.com/watch?v=efyEna_oOIQ
+
+sudo apt update
+sudo apt install build-essential
+sudo apt install libssl-dev
+
+https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ParameterGroups.Modifying.html
 
 ## Description
 

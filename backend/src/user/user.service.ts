@@ -73,26 +73,30 @@ export class UserService {
       console.log('creating user at', new Date().toISOString());
       const user = await this.prisma.user.create({
         data: {
-          email: dto.email.toLowerCase(),
-          phone_number: dto.phone,
-          first_name: dto.firstName,
-          last_name: dto.lastName,
-          user_roles: dto.userRoles,
+          email: dto.email ? dto.email.toLowerCase() : null,
+          phone_number: dto.phone ? dto.phone : null,
+          first_name: dto.firstName ? dto.firstName : null,
+          last_name: dto.lastName ? dto.lastName : null,
+          user_roles: dto.userRoles ? dto.userRoles : [],
         },
       });
 
+      let whereClause = {
+        
+      }
+      if(dto.email){
+        whereClause = {
+          email: dto.email.toLowerCase(),
+        }
+      }
+      if(dto.phone){
+        whereClause = {
+          phone: dto.phone
+        }
+      }
       //update all community members with phone
       await this.prisma.communityMembers.updateMany({
-        where: {
-          OR: [
-            {
-              phone: dto.phone,
-            },
-            {
-              email: dto.email.toLowerCase(),
-            },
-          ],
-        },
+        where: whereClause,
         data: {
           user_id: user.id,
         },

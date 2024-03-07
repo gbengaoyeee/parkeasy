@@ -36,8 +36,8 @@ export class QrCodeService {
   async create(dto: ICreateQRCodeDto) {
     let redirectUrl =
       dto.qr_for === 'community_member'
-        ? `${process.env.ENDPOINT_URL}/building/community-member/${dto.buildingId}/?memberId=${dto.id_for}`
-        : `${process.env.ENDPOINT_URL}/parking/${dto.buildingId}/?parkingId=${dto.id_for}`;
+        ? `${process.env.SERVER_URL}/building/community-member/${dto.buildingId}/?memberId=${dto.id_for}`
+        : `${process.env.SERVER_URL}/parking/${dto.buildingId}/?parkingId=${dto.id_for}`;
     let body = {
       name: dto.name,
       qr_type: dto.qr_type === QRCode_Type.static ? 1 : 2,

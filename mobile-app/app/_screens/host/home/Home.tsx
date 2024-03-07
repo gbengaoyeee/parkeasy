@@ -19,11 +19,8 @@ const Home = () => {
 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
-      <ScrollView
-        style={styles.scrollView}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => refreshUser()} />}
-      >
-        {user?.verification_status !== "completed" ? <NotVerifiedScreen /> : <VerifiedScreen />}
+      <ScrollView style={styles.scrollView} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => refreshUser()} />}>
+        <VerifiedScreen />
       </ScrollView>
     </SafeAreaView>
   );
