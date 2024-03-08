@@ -33,6 +33,16 @@ sudo apt install libssl-dev
 
 https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ParameterGroups.Modifying.html
 
+ssh -i parkeasy-ec2-dev-key.pem -f -N -L 6379:redis-db-dev.hrxbrz.0001.use1.cache.amazonaws.com:6379 ubuntu@ec2-50-16-49-125.compute-1.amazonaws.com -v
+
+## Important Notes on seting up your serverless api
+
+https://www.youtube.com/watch?v=9a74LuU2EoU
+
+## Other important notes
+
+https://stackoverflow.com/questions/30790666/error-with-not-existing-instance-profile-while-trying-to-get-a-django-project-ru
+
 ## Description
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.

@@ -32,7 +32,7 @@ function App() {
                 <UserContextProvider>
                   <View style={{ flex: 1, marginTop: -insets.top }}>
                     <StripeProvider
-                      publishableKey={process.env.EXPO_STRIPE_PUBLISHABLE_KEY ?? ""}
+                      publishableKey={process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? ""}
                       urlScheme="your-url-scheme"
                       merchantIdentifier="merchant.com.parkeasy"
                       

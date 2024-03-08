@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { ErrorService } from 'src/exceptions/error.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDto, GetUserByPhone, GetUserDto } from './dto/user.dto';
@@ -8,6 +8,7 @@ import { StripeService } from 'src/stripe/stripe.service';
 
 @Injectable()
 export class UserService {
+  private readonly logger = new Logger(UserService.name);
   constructor(
     private prisma: PrismaService,
     private errorService: ErrorService,
@@ -64,6 +65,7 @@ export class UserService {
 
       return new IResponseData(`user retrieved successfully`, user).json;
     } catch (error) {
+      this.logger.error(error);
       throw this.errorService.handleException(error);
     }
   }

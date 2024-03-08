@@ -16,7 +16,7 @@ const Home = () => {
       </View>
     );
   }
-
+ 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <ScrollView style={styles.scrollView} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => refreshUser()} />}>

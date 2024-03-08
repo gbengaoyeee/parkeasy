@@ -1,0 +1,48 @@
+service: parkeasy
+
+useDotenv: true
+
+plugins:
+  - serverless-offline
+custom:
+  serverless-offline:
+    httpPort: 5553
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  timeout: 15
+  environment:
+    DATABASE_URL: ${env:DATABASE_URL}
+    APPWRITE_ENDPOINT: ${env:APPWRITE_ENDPOINT}
+    APPWRITE_PROJECT_ID: ${env:APPWRITE_PROJECT_ID}
+    APPWRITE_SECRET_KEY: ${env:APPWRITE_SECRET_KEY}
+    CORS_ALLOW: ${env:CORS_ALLOW}
+    BEACON_STACK_BASE_URL: ${env:BEACON_STACK_BASE_URL}
+    BEACON_STACK_API_TOKEN: ${env:BEACON_STACK_API_TOKEN}
+    BEACON_STACK_ORG_ID: ${env:BEACON_STACK_ORG_ID}
+    PERSONA_TEMPLATE_ID: ${env:PERSONA_TEMPLATE_ID}
+    PERSONA_ENV_ID: ${env:PERSONA_ENV_ID}
+    STRIPE_PUBLISHABLE_KEY: ${env:STRIPE_PUBLISHABLE_KEY}
+    STRIPE_SECRET_KEY: ${env:STRIPE_SECRET_KEY}
+    STRIPE_ACCOUNT_WEBHOOK_SECRET: ${env:STRIPE_ACCOUNT_WEBHOOK_SECRET}
+    STRIPE_CHARGES_WEBHOOK_SECRET: ${env:STRIPE_CHARGES_WEBHOOK_SECRET}
+    SERVER_URL: ${env:SERVER_URL}
+    SUPPORT_EMAIL: ${env:SUPPORT_EMAIL}
+    REDIS_HOST: ${env:REDIS_HOST}
+    REDIS_PORT: ${env:REDIS_PORT}
+    VALID_API_KEY: ${env:VALID_API_KEY}
+    QUEUE_USERNAME: ${env:QUEUE_USERNAME}
+    QUEUE_PASSWORD: ${env:QUEUE_PASSWORD}
+
+functions:
+  main:
+    handler: dist/serverless.handler
+
+    events:
+      - http:
+          method: ANY
+          path: /
+      - http:
+          method: ANY
+          path: '{proxy+}'
