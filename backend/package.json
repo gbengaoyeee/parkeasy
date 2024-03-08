@@ -12,7 +12,7 @@
     "tunnel-server": "lt --port 5553 --subdomain gbengaoyeee-parkeasy",
     "ngrok-server": "ngrok http --domain=moccasin-noble-kodiak.ngrok-free.app 5553",
     "tmole-server": "tmole 5553 as gbengaoyeee-parkeasy.tunnelmole.net",
-    "start": "node dist/main",
+    "start": "nest start",
     "generate-types": "tsc -p tsconfig-export.json && cp ./dist/export-api-types.d.ts ../management-app/src/types",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",

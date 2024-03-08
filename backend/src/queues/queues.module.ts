@@ -42,6 +42,8 @@ export class QueuesModule implements NestModule {
           connection: {
             host: process.env.REDIS_HOST,
             port: Number(process.env.REDIS_PORT),
+            username: process.env.REDIS_USER,
+            password: process.env.REDIS_PASSWORD
           },
           defaultJobOptions: {
             attempts: 3,
