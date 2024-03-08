@@ -5,10 +5,10 @@ import * as fs from 'fs';
 import { json, raw } from 'body-parser';
 import { stripeRawBodyMiddleware } from './middleware/stripe-webhook.middleware';
 
-const httpsOptions = {
-  key: fs.readFileSync('./secrets/cert.key'),
-  cert: fs.readFileSync('./secrets/cert.crt'),
-};
+// const httpsOptions = {
+//   key: fs.readFileSync('./secrets/cert.key'),
+//   cert: fs.readFileSync('./secrets/cert.crt'),
+// };
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {cors: true});
   app.enableCors({
