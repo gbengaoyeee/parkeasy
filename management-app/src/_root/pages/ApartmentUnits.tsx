@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -35,7 +35,6 @@ const ApartmentUnits = () => {
     refetch: refetchApartmentUnits,
     isFetching: isFetchingApartmentUnits,
     data: apartmentUnits,
-    error: apartmentUnitsError,
   } = useGetApartmentUnits(currentBuilding?.id);
   const [searchTerm, setSearchTerm] = useState<string>("");
 

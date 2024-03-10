@@ -5,7 +5,6 @@ import { MdApartment } from "react-icons/md";
 import { AiOutlineHome } from "react-icons/ai";
 import { FaPeopleGroup } from "react-icons/fa6";
 import { FaParking } from "react-icons/fa";
-import { RiErrorWarningLine } from "react-icons/ri";
 
 interface ISideBarOption {
   id: number;

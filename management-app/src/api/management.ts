@@ -17,7 +17,7 @@ export const getManagementByEmail = async (email: string) => {
 }
 
 export const onboardManagement = async (dto: z.infer<typeof OnboardManagementValidation>) => {
-    const {password, confirmPassword, oldPassword, ...restDto} = dto
+    const { ...restDto} = dto
     const response = await client.post('/onboard-management', {...restDto})
     return response.data
 }

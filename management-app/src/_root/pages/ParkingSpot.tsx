@@ -1,4 +1,3 @@
-import React from "react";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useNavigate, useParams } from "react-router-dom";
@@ -10,7 +9,6 @@ const ParkingSpot = () => {
   const {
     data: parkingSpot,
     isFetching: isFetchingParkingSpot,
-    refetch: refetchParkingSpot,
   } = useGetParkingSpot(buildingId, parkingSpotId);
   const navigate = useNavigate();
   if (isFetchingParkingSpot) {

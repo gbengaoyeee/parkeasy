@@ -44,7 +44,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Select as AntSelect } from "antd";
 import RSelect from "react-select";
 
 const CommunityMembersPage = () => {
@@ -421,7 +420,7 @@ export const AddMemberManuallyModal = ({
     state: "empty",
   });
   const { mutateAsync: addCommunityMember, isPending: isAddingMember } = useAddCommunityMember();
-  const { mutateAsync: updateCommunityMember, isPending: isUpdatingMember } =
+  const { mutateAsync: updateCommunityMember, } =
     useUpdateCommunityMember();
 
   function onSubmit(values: z.infer<typeof CreateCommunityMemberValidation>) {

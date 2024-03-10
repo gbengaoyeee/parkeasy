@@ -13,7 +13,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
 import Loader from "@/components/shared/Loader";
 
 import { toast } from "sonner";
@@ -35,7 +34,7 @@ const SignUpForm = () => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     preSignUp(values)
-      .then((resp) => {
+      .then((_) => {
         navigate("/request-success");
       })
       .catch((error) => {

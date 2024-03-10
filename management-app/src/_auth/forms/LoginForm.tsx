@@ -4,9 +4,8 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { LoginValidation, SSOValidation } from "@/lib/validation";
-import { Link, useNavigate } from "react-router-dom";
-import { useLoginByEmail } from "@/lib/react-query/queriesAndMutations";
+import {  SSOValidation } from "@/lib/validation";
+import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import Loader from "@/components/shared/Loader";
 import { useAuthContext } from "@/context/AuthContext";
@@ -14,8 +13,8 @@ import { getManagementByEmail } from "@/api/management";
 
 const LoginForm = () => {
   // const { isPending: isSigningIn, mutateAsync: handleSignIn } = useLoginByEmail();
-  const { signInWithEmailPassword: signInWithEmail, signInPasswordless, isLoading: isSigningIn } = useAuthContext();
-  const navigate = useNavigate();
+  const { signInPasswordless, isLoading: isSigningIn } = useAuthContext();
+
   const form = useForm<z.infer<typeof SSOValidation>>({
     resolver: zodResolver(SSOValidation),
     defaultValues: {

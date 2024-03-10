@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import useManagementData from "@/hooks/useManagementData";
-import React, { useCallback, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDebounce } from "@/hooks/useDebounce";
 import Header from "@/components/shared/Header";
 import { Building, ParkingSpot } from "@/types";
@@ -46,7 +46,6 @@ const ParkingSpots = () => {
     setParkingSpotsPage,
     pageSize,
     refetchParkingSpots,
-    isFetchingParkingSpots,
   } = useManagementData();
   const navigate = useNavigate();
 

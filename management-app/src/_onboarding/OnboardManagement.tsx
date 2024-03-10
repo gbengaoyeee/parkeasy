@@ -1,4 +1,3 @@
-import Divider from "@/components/shared/Divider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useFieldArray, useForm } from "react-hook-form";
 import {
@@ -16,7 +15,6 @@ import { OnboardManagementValidation } from "@/lib/validation";
 import { useSubmitManagementOnboard } from "@/lib/react-query/queriesAndMutations";
 import Loader from "@/components/shared/Loader";
 import { toast } from "sonner";
-import { useAuthContext } from "@/context/AuthContext";
 import {
   Select,
   SelectContent,
@@ -33,7 +31,6 @@ interface OnboardingProps {
   onNext: () => void;
 }
 const OnboardManagement = ({ onNext }: OnboardingProps) => {
-  const { user } = useAuthContext();
   const form = useForm<z.infer<typeof OnboardManagementValidation>>({
     resolver: zodResolver(OnboardManagementValidation),
     defaultValues: {
@@ -106,7 +103,7 @@ const OnboardManagement = ({ onNext }: OnboardingProps) => {
             <FormField
               control={form.control}
               name="address"
-              render={({ field, formState: { errors } }) => (
+              render={({ field, formState: {  } }) => (
                 <FormItem className="flex flex-col mt-2">
                   <FormLabel>Company address</FormLabel>
                   <FormControl>

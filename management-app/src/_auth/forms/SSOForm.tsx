@@ -44,7 +44,7 @@ const SSOForm = () => {
             values.email,
             `${import.meta.env.VITE_APP_URL}/sso-redirect`
           )
-          .then((result) => {
+          .then((_) => {
             toast.success("Please check your email from login link");
           });
       })

@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 import {} from 'firebase/app'
 import { firAuth } from "@/api/firebase";
-import { User, isSignInWithEmailLink, onAuthStateChanged, sendSignInLinkToEmail } from "firebase/auth";
+import { User, onAuthStateChanged, sendSignInLinkToEmail } from "firebase/auth";
 
 interface AuthContextData {
   user: Models.User<Models.Preferences> | User | null;
@@ -36,7 +36,6 @@ export const AuthContext = createContext<AuthContextData>({
 
 export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<Models.User<Models.Preferences> | User | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const { isPending: isSigningIn, mutateAsync: handleSignIn } = useLoginByEmail();
 

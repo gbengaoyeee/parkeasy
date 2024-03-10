@@ -1,6 +1,4 @@
-import useCommunityMember from "@/hooks/useCommunityMember";
 import { useNavigate, useParams } from "react-router-dom";
-import { $Enums } from "../../../../shared/prisma-client";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
@@ -9,7 +7,6 @@ import {
   useGetBuilding,
   useGetCommunityMember,
   useToggleCommunityMemberStatus,
-  useUpdateCommunityMember,
 } from "@/lib/react-query/queriesAndMutations";
 import { toast } from "sonner";
 import { useState } from "react";
@@ -38,17 +35,6 @@ const CommunityMemberPage = () => {
 
   const [openEditMemberModal, setOpenEditMemberModal] = useState(false);
   const navigate = useNavigate();
-
-  const getAppropriateUserRole = (role: $Enums.User_Role | null) => {
-    switch (role) {
-      case "owner":
-        return "owner";
-      case "tenant":
-        return "tenant";
-      default:
-        return "tenant";
-    }
-  };
 
   if (isFetchingMember || isFetchingBuilding) {
     return <>Loading</>;
