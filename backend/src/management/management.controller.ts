@@ -28,6 +28,11 @@ export class ManagementController {
     return await this.managementService.registerManagment(dto);
   }
 
+  @Get('/email/:email')
+  async getManagementByEmail(@Param('email') email: string) {
+    return await this.managementService.getManagementByEmail(email);
+  }
+
   @Post('onboard-management')
   async onboardManagement(
     @Body()

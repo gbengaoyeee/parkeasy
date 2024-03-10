@@ -57,19 +57,20 @@ const staffMembersSchema = z.array(staffMemberSchema);
 export const OnboardManagementValidation = z.object({
   // password set/reset
   email: z.string().email(),
-  oldPassword: z.string(),
-  password: passwordSchema,
-  confirmPassword: passwordSchema,
+  // oldPassword: z.string(),
+  // password: passwordSchema,
+  // confirmPassword: passwordSchema,
   phoneNumber: z.string().regex(/^\+?[1-9]\d{1,14}$/, "Invalid phone number format"),
   address: z.string().min(4, 'Please enter a valid address'),
   address2: z.string().optional(),
   lat: z.number(),
   lng: z.number(),
   staffMembers: staffMembersSchema.optional()
-}).refine(({password, confirmPassword}) => password === confirmPassword, {
-  message: "Passwords don't match",
-  path: ["confirmPassword"], // This adds the error to `confirmPassword` field
 })
+// .refine(({password, confirmPassword}) => password === confirmPassword, {
+//   message: "Passwords don't match",
+//   path: ["confirmPassword"], // This adds the error to `confirmPassword` field
+// })
 
 
 // Create a Zod schema for each building facility

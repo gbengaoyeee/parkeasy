@@ -1,15 +1,20 @@
-import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
+import { useQuery, useMutation } from '@tanstack/react-query'
 import { z } from 'zod'
 import { AddApartmentUnitValidation, AddParkingSpotValidation, CreateCommunityMemberValidation, LoginValidation, OnboardBuildingValidation, OnboardManagementValidation, PasswordRecoveryValidation, SSOValidation, SignUpValidation } from '../validation'
-import { onboardBuilding, onboardManagement, preSignUp } from '@/api/management'
+import { getManagementByEmail, onboardBuilding, onboardManagement, preSignUp } from '@/api/management'
 import appwriteClient from '@/api/appwrite'
 import { activateAllCommunityMembers, addApartmentUnit, addCommunityMember, addParkingSpot, deleteCommunityMember, getApartmentUnits, getBuilding, getCommunityMember, getParkingSpot, getParkingSpots, toggleMemberStatus, updateCommunityMember, uploadCommunityMembers } from '@/api/building'
-import { CommunityMembers } from '@/types'
-import { toast } from 'sonner'
 
 export const usePreSignUp = () => {
     return useMutation({
         mutationFn: (dto: z.infer<typeof SignUpValidation>) => preSignUp(dto)
+    })
+}
+
+export const useGetManagement = (email: string) => {
+    return useQuery({
+        queryKey: ['management'],
+        queryFn: () => getManagementByEmail(email)
     })
 }
 export const useLoginByEmail = () => {
@@ -32,7 +37,9 @@ export const useFinishPasswordRecovery = (userId: string, secret: string) => {
 export const useSubmitManagementOnboard = () => {
     return useMutation({
         mutationFn: (dto: z.infer<typeof OnboardManagementValidation>) => {
-            return Promise.all([appwriteClient.resetPassword(dto.password, dto.oldPassword.length ? dto.oldPassword : undefined), onboardManagement(dto)])
+            return Promise.all([
+                // appwriteClient.resetPassword(dto.password, dto.oldPassword.length ? dto.oldPassword : undefined), 
+                onboardManagement(dto)])
         }
     })
 }

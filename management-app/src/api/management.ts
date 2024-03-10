@@ -11,6 +11,11 @@ export const preSignUp = async (dto: z.infer<typeof SignUpValidation>) => {
     return response
 }
 
+export const getManagementByEmail = async (email: string) => {
+    const response = await client.get(`/email/${email}`)
+    return response.data
+}
+
 export const onboardManagement = async (dto: z.infer<typeof OnboardManagementValidation>) => {
     const {password, confirmPassword, oldPassword, ...restDto} = dto
     const response = await client.post('/onboard-management', {...restDto})

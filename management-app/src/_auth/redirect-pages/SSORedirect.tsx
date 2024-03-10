@@ -1,5 +1,7 @@
 import appwriteClient from "@/api/appwrite";
+import { firAuth } from "@/api/firebase";
 import { AuthContext } from "@/context/AuthContext";
+import { isSignInWithEmailLink, signInWithEmailLink } from "firebase/auth";
 import { Loader2 } from "lucide-react";
 import { useContext, useEffect } from "react";
 import toast from "react-hot-toast";
@@ -16,27 +18,45 @@ const SSORedirect = () => {
   const navigate = useNavigate()
   const { setUser } = useContext(AuthContext)
 
+  // useEffect(() => {
+  //   const secret = query.get("secret");
+  //   const userId = query.get("userId");
+  //   if(userId && secret) {
+  //       appwriteClient.account.updateMagicURLSession(userId, secret)
+  //       .then((session) => {
+  //           appwriteClient.account.get()
+  //           .then((user) => {
+  //               setUser(user)
+  //               navigate('/')
+  //           })
+  //       })
+  //       .catch((error) => {
+  //           console.error(error)
+  //           toast.error('An error occurred and you could not be signed in')
+  //           navigate('/login')
+  //       })
+  //   } else {
+  //       navigate('/login')
+  //   }
+  // }, [])
+
+
   useEffect(() => {
-    const secret = query.get("secret");
-    const userId = query.get("userId");
-    if(userId && secret) {
-        appwriteClient.account.updateMagicURLSession(userId, secret)
-        .then((session) => {
-            appwriteClient.account.get()
-            .then((user) => {
-                setUser(user)
-                navigate('/')
-            })
-        })
-        .catch((error) => {
-            console.error(error)
-            toast.error('An error occurred and you could not be signed in')
-            navigate('/login')
-        })
-    } else {
+    if(isSignInWithEmailLink(firAuth, window.location.href)) {
+      let email = localStorage.getItem('emailForSignIn');
+      if (!email) {
+        // User opened the link on a different device. To prevent session fixation
+        // attacks, ask the user to provide the associated email again. For example:
         navigate('/login')
+      } else {
+        signInWithEmailLink(firAuth, email, window.location.href)
+        .then((result) => {
+          setUser(result.user)
+          navigate('/')
+        })
+      }
     }
-  }, [])
+  }, []);
 
   return (
     <div>

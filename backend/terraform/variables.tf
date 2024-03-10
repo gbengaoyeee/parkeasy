@@ -14,3 +14,9 @@ variable "db-dev-username" {
 variable "db-dev-password" {
   description = "Dev DB password"
 }
+variable "db-prod-username" {
+  description = "Dev DB username"
+}
+variable "db-prod-password" {
+  description = "Dev DB password"
+}

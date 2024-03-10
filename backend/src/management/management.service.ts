@@ -69,10 +69,10 @@ export class ManagementService {
       });
       const newId = v4();
       // create user with appwrite
-      const userExists = await this.authProvider.getUserByEmail(contact.email.toLowerCase());
-      if (!userExists) {
-        await this.authProvider.createUser(contact.email.toLowerCase());
-      }
+      // const userExists = await this.authProvider.getUserByEmail(contact.email.toLowerCase());
+      // if (!userExists) {
+      //   await this.authProvider.createUser(contact.email.toLowerCase());
+      // }
 
       // save user to db after success of above
       if (user && !user.user_roles.includes('building_manager')) {
@@ -108,6 +108,19 @@ export class ManagementService {
       ).json;
     } catch (error) {
       console.error(error);
+      throw this.errorService.handleException(error);
+    }
+  }
+
+  async getManagementByEmail(email: string) {
+    try {
+      
+      return await this.prisma.management.findUniqueOrThrow({
+        where: {
+          business_email: email.toLowerCase(),
+        },
+      });
+    } catch (error) {
       throw this.errorService.handleException(error);
     }
   }

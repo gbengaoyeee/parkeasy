@@ -38,9 +38,9 @@ const OnboardManagement = ({ onNext }: OnboardingProps) => {
     resolver: zodResolver(OnboardManagementValidation),
     defaultValues: {
       email: "",
-      oldPassword: "",
-      password: "",
-      confirmPassword: "",
+      // oldPassword: "",
+      // password: "",
+      // confirmPassword: "",
       phoneNumber: "",
       address: "",
       address2: "",
@@ -156,7 +156,7 @@ const OnboardManagement = ({ onNext }: OnboardingProps) => {
               )}
             />
           </div>
-          <Divider orientation="vertical" />
+          {/* <Divider orientation="vertical" /> */}
           <div>
             <h2 className="h3-bold mb-3">Set your username & password</h2>
             <FormField
@@ -172,7 +172,7 @@ const OnboardManagement = ({ onNext }: OnboardingProps) => {
                 </FormItem>
               )}
             />
-            {user && user.passwordUpdate.length > 0 && (
+            {/* {user && user.passwordUpdate.length > 0 && (
               <FormField
                 control={form.control}
                 name="oldPassword"
@@ -186,8 +186,8 @@ const OnboardManagement = ({ onNext }: OnboardingProps) => {
                   </FormItem>
                 )}
               />
-            )}
-            <FormField
+            )} */}
+            {/* <FormField
               control={form.control}
               name="password"
               render={({ field }) => (
@@ -212,7 +212,7 @@ const OnboardManagement = ({ onNext }: OnboardingProps) => {
                   <FormMessage className="shad-form_message" />
                 </FormItem>
               )}
-            />
+            /> */}
           </div>
         </section>
         <section>

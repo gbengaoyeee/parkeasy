@@ -2,38 +2,48 @@ import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { LoginValidation } from "@/lib/validation";
+import { LoginValidation, SSOValidation } from "@/lib/validation";
 import { Link, useNavigate } from "react-router-dom";
 import { useLoginByEmail } from "@/lib/react-query/queriesAndMutations";
 import { toast } from "sonner";
 import Loader from "@/components/shared/Loader";
 import { useAuthContext } from "@/context/AuthContext";
+import { getManagementByEmail } from "@/api/management";
 
 const LoginForm = () => {
   // const { isPending: isSigningIn, mutateAsync: handleSignIn } = useLoginByEmail();
-  const {signInWithEmail, isLoading: isSigningIn} = useAuthContext()
+  const { signInWithEmailPassword: signInWithEmail, signInPasswordless, isLoading: isSigningIn } = useAuthContext();
   const navigate = useNavigate();
-  const form = useForm<z.infer<typeof LoginValidation>>({
-    resolver: zodResolver(LoginValidation),
+  const form = useForm<z.infer<typeof SSOValidation>>({
+    resolver: zodResolver(SSOValidation),
     defaultValues: {
       email: "",
-      password: "",
     },
   });
+  // const form = useForm<z.infer<typeof LoginValidation>>({
+  //   resolver: zodResolver(LoginValidation),
+  //   defaultValues: {
+  //     email: "",
+  //     password: "",
+  //   },
+  // });
 
-  function onSubmit(values: z.infer<typeof LoginValidation>) {
+  function onSubmit(values: z.infer<typeof SSOValidation>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    signInWithEmail(values)
+    // signInWithEmail(values);
+    getManagementByEmail(values.email)
+      .then((_) => {
+        signInPasswordless(values).then((_) => {
+          toast.success("Please check your email from login link");
+        });
+      })
+      .catch((error) => {
+        console.error(error.message);
+        toast.error(error.response.data.message);
+      });
   }
   return (
     <Form {...form}>
@@ -56,24 +66,6 @@ const LoginForm = () => {
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <span className="flex text-sm justify-between">
-                  <FormLabel>Password</FormLabel>
-                  <Link className="text-blue-500 cursor-pointer" to={"/forgot-password"}>
-                    Forgot password?
-                  </Link>
-                </span>
-                <FormControl>
-                  <Input type="password" placeholder="Enter your password" {...field} />
-                </FormControl>
-                <FormMessage className="shad-form_message" />
-              </FormItem>
-            )}
-          />
           <Button type="submit" disabled={isSigningIn} className="shad-button_primary">
             {isSigningIn ? (
               <div className="flex-center gap-3">
@@ -86,7 +78,7 @@ const LoginForm = () => {
           </Button>
         </form>
 
-        <span className="flex flex-center m-9 w-full">
+        {/* <span className="flex flex-center m-9 w-full">
           <hr className="w-full border-gray-1" /> <hr />
           <span className="px-2 text-xs text-gray-1">OR</span>
           <hr className="w-full border-gray-1" /> <hr />
@@ -96,7 +88,7 @@ const LoginForm = () => {
           <Link to={"/sso"} className="w-full h-full">
             Use single sign-on(SSO) instead
           </Link>
-        </Button>
+        </Button> */}
         <span className="text-gray-1 text-sm w-full flex-center flex-col mt-2">
           <p>Trouble logging in?</p>
           <p>Contact us: support@parkeasy.com</p>
