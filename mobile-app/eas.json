@@ -6,7 +6,12 @@
     "development": {
       "developmentClient": true,
       "distribution": "internal",
+      "android": {
+        "gradleCommand": ":app:assembleRelease",
+        "buildType": "apk"
+      },
       "env": {
+        "APP_VARIANT": "development",
         "EXPO_PUBLIC_APPWRITE_ENDPOINT": "https://cloud.appwrite.io/v1",
         "EXPO_PUBLIC_APPWRITE_PROJECT_ID": "656d74d2808bca1159bd",
         "EXPO_PUBLIC_SUPPORT_EMAIL": "support@parkeasy.com",
@@ -26,7 +31,14 @@
     "preview": {
       "distribution": "internal"
     },
-    "production": {}
+    "production": {
+      "android": {
+        "gradleCommand": ":app:assembleRelease"
+      },
+      "env": {
+        "APP_VARIANT": "production"
+      }
+    }
   },
   "submit": {
     "production": {}

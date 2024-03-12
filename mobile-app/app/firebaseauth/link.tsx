@@ -1,10 +1,7 @@
 import { View, Text, KeyboardAvoidingView, SafeAreaView, Platform, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigation, useRoute } from "@react-navigation/native";
-import { useCreateUser, useFinishPhoneVerification, useStartPhoneVerification } from "../lib/react-query/queryAndMutations";
-import Toast from "react-native-toast-message";
 import { Controller, useForm } from "react-hook-form";
-import Input from "@/components/shared/Input";
 import Button from "@/components/shared/Button";
 import { useAuthContext } from "../contexts/AuthProvider";
 import LinkButton from "@/components/shared/LinkButton";
@@ -12,7 +9,7 @@ import TouchOpacity from "@/components/shared/TouchOpacity";
 import OTPInput from "@/components/shared/OTPInput";
 import useToast from "../hooks/useToast";
 import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { createUser, getUser } from "../services/user";
 
 interface RouteParams {
   phoneNumber: string;
@@ -33,25 +30,15 @@ const OTPCode = () => {
     },
   });
   const { showToast } = useToast();
-  const { isPending: isSendingCode, mutateAsync: startVerification } = useStartPhoneVerification();
-  const { isPending: isSubmittingCode, mutateAsync: finishVerification } = useFinishPhoneVerification();
-  const { isPending: isCreatingUser, mutateAsync: createUser } = useCreateUser();
   const [confirmationResult, setConfirmationResult] = useState<FirebaseAuthTypes.ConfirmationResult | null>(null);
 
   const { phoneNumber } = route.params as RouteParams;
 
-  const deleteStoredConfirmationResult = async () => {
-    await AsyncStorage.removeItem("confirmationResult");
-  };
   useEffect(() => {
     setTimeout(() => {
       signInWithPhoneNumber(phoneNumber);
     }, 2000);
-    return () => {
-      console.log("Cleanup");
-      deleteStoredConfirmationResult();
-    };
-  }, []);
+  }, [phoneNumber]);
 
   async function signInWithPhoneNumber(phoneNumber: string) {
     try {
@@ -64,33 +51,65 @@ const OTPCode = () => {
   }
 
   const onSubmit = async (data: any) => {
-    if (confirmationResult) {
-      finishVerification({
-        otpcode: otpCodeValues.join(""),
-        confirmResult: confirmationResult,
-        phone: phoneNumber,
-        userRoles: ["owner", "visitor"],
+    confirmationResult
+      ?.confirm(data.otpcode)
+      .then((resp) => {
+        return getUser(phoneNumber);
       })
-        .then((resp) => {})
-        .catch((error) => {
-          if (error.response.data.statusCode === 404) {
-            createUser({
-              phone: phoneNumber,
-              userRoles: ["owner", "visitor"],
-            }).catch((error) => {
+      .catch((error) => {
+        if (error.response && error.response.data.statusCode === 404) {
+          createUser(phoneNumber, ["owner", "visitor"])
+            .then(() => {
+              // Handle user creation success
+              showToast({
+                type: "success",
+                message: "Welcome to Parkeasy!",
+              })
+            })
+            .catch((createUserError) => {
+              // Handle error from createUser
               console.error("Could not create user");
-              showToast({ type: "error", message: error.response.data.message });
+              if (createUserError.response && createUserError.response.data) {
+                showToast({ type: "error", message: createUserError.response.data.message });
+              } else {
+                showToast({ type: "error", message: "An unexpected error occurred." });
+              }
+              // only sign out new mobile users
               signOut();
-              return;
             });
-            return;
-          } else {
-            console.error("Could not get and create user");
-            showToast({ type: "error", message: error.response.data.message });
-            signOut();
-          }
-        });
-    }
+        } else {
+          console.error("Could not get and create user", error);
+          showToast({ type: "error", message: "An unexpected error occurred while signing in." });
+          signOut();
+        }
+      });
+    // if (confirmationResult) {
+    //   finishVerification({
+    //     otpcode: otpCodeValues.join(""),
+    //     confirmResult: confirmationResult,
+    //     phone: phoneNumber,
+    //     userRoles: ["owner", "visitor"],
+    //   })
+    //     .then((resp) => {})
+    //     .catch((error) => {
+    //       if (error.response.data.statusCode === 404) {
+    //         createUser({
+    //           phone: phoneNumber,
+    //           userRoles: ["owner", "visitor"],
+    //         }).catch((error) => {
+    //           console.error("Could not create user");
+    //           showToast({ type: "error", message: error.response.data.message });
+    //           signOut();
+    //           return;
+    //         });
+    //         return;
+    //       } else {
+    //         console.error("Could not get and create user");
+    //         showToast({ type: "error", message: error.response.data.message });
+    //         signOut();
+    //       }
+    //     });
+    // }
   };
   const handleResend = async () => {
     // startVerification(phoneNumber)
@@ -114,11 +133,11 @@ const OTPCode = () => {
           <Text className="text-center font-bold text-lg mb-5">Enter OTP code</Text>
 
           <View className="mb-5">
-            <Text className="text-center font-bold ">We have sent a one time code to {phoneNumber} </Text>
+            <Text className="text-center font-bold ">We have sent a one time code to {`phoneNumber`} </Text>
 
-            <LinkButton className="flex items-center" to={{ screen: "PhoneNumber" }}>
+            {/* <LinkButton className="flex items-center" to={{ screen: "PhoneNumber" }}>
               Enter another number
-            </LinkButton>
+            </LinkButton> */}
           </View>
           <Controller
             control={control}
@@ -147,7 +166,7 @@ const OTPCode = () => {
             name="otpcode"
           />
 
-          <Button btnTitle="Confirm" disabled={getValues().otpcode.length < 6 || isSendingCode || isSubmittingCode} className="mt-5" onPress={handleSubmit(onSubmit)}></Button>
+          <Button btnTitle="Confirm" disabled={getValues().otpcode.length < 6} className="mt-5" onPress={handleSubmit(onSubmit)}></Button>
           <View className="flex-row items-center justify-center mt-5">
             <Text className="mr-1">Didn't receive the code?</Text>
             <TouchOpacity onPress={handleResend}>Resend</TouchOpacity>

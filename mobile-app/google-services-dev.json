@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "908623138205",
+    "project_id": "parkeasy-dev-e4fdc",
+    "storage_bucket": "parkeasy-dev-e4fdc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:908623138205:android:27325c5dfe0d622c7e7374",
+        "android_client_info": {
+          "package_name": "com.gbengaoyeee.parkeasy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "908623138205-1tfn0d75v6vbij68m130me8qeeqiofqd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gbengaoyeee.parkeasy",
+            "certificate_hash": "bcc0b913e51c60f1c67d5783b70b2a20904bbeba"
+          }
+        },
+        {
+          "client_id": "908623138205-65hc34undgn3cirkcst4cjm2ueq4hhpc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gbengaoyeee.parkeasy",
+            "certificate_hash": "42a4bef82b820ce4f6afaa798a96a0a5383ec515"
+          }
+        },
+        {
+          "client_id": "908623138205-hl1nase0f6qdo3gjed6cp1t2noe72r98.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlWtmeeWSDjISX_0q6zegWJuZ7OyyW8-A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "908623138205-hl1nase0f6qdo3gjed6cp1t2noe72r98.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "908623138205-h7gvjb8j3hl32ca2gjo5h5lvlmg260ko.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.gbengaoyeee.parkeasy"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
