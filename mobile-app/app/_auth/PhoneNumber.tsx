@@ -12,10 +12,8 @@ import Button from "@/components/shared/Button";
 import Input from "@/components/shared/Input";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import CountryPicker, { Country } from "react-native-country-picker-modal";
-import { ApplicationVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { AuthNavigatorParamList } from "./AuthNavigator";
-import { FirebaseRecaptchaVerifierModal } from "expo-firebase-recaptcha";
-import { FIREBASE_APP, FIREBASE_AUTH } from "@/firebaseConfig";
+import auth from '@react-native-firebase/auth';
 
 const PhoneNumber = () => {
   const {
@@ -29,20 +27,42 @@ const PhoneNumber = () => {
   });
 
   const navigation = useNavigation<NavigationProp<AuthNavigatorParamList>>();
-  const recaptchaVerifier = useRef<FirebaseRecaptchaVerifierModal>(null);
 
   const onSubmit = (data: any) => {
-    if (!recaptchaVerifier.current) return;
-    signInWithPhoneNumber(
-      FIREBASE_AUTH,
-      `+${country.callingCode[0]}${data.phoneNumber}`,
-      recaptchaVerifier.current
-    ).then((confirmationResult) => {
-      navigation.navigate("OTPCode", {
-        confirmationResult,
-        phoneNumber: `+${country.callingCode[0]}${data.phoneNumber}`,
-      });
+    navigation.navigate("OTPCode", {
+      phoneNumber: `+${country.callingCode[0]}${data.phoneNumber}`,
     });
+    // auth().signInWithPhoneNumber(`+${country.callingCode[0]}${data.phoneNumber}`)
+    // .then((confirmationResult) => {
+    //   navigation.navigate("OTPCode", {
+    //     confirmationResult,
+    //     phoneNumber: `+${country.callingCode[0]}${data.phoneNumber}`,
+    //   });
+    // })
+    // .catch((error) => {
+    //   console.error(error.message);
+    // });
+    // if (!recaptchaVerifier.current) return;
+    // signInWithPhoneNumber
+    // console.log(data.phoneNumber);
+    // auth().signInWithPhoneNumber(`+${country.callingCode[0]}${data.phoneNumber}`, true)
+    // .then((confirmationResult) => {
+    //   console.log(confirmationResult);
+    // })
+    // .catch((error) => {
+    //   console.error(error);
+    // });
+
+    // signInWithPhoneNumber(
+    //   FIREBASE_AUTH,
+    //   `+${country.callingCode[0]}${data.phoneNumber}`,
+    //   recaptchaVerifier.current
+    // ).then((confirmationResult) => {
+      // navigation.navigate("OTPCode", {
+      //   confirmationResult,
+      //   phoneNumber: `+${country.callingCode[0]}${data.phoneNumber}`,
+      // });
+    // });
   };
   const [country, setCountry] = useState<Country>({
     callingCode: ["1"],
@@ -70,10 +90,10 @@ const PhoneNumber = () => {
   return (
     <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
       <SafeAreaView style={styles.container}>
-        <FirebaseRecaptchaVerifierModal
+        {/* <FirebaseRecaptchaVerifierModal
           ref={recaptchaVerifier}
           firebaseConfig={FIREBASE_APP.options}
-        />
+        /> */}
         <Controller
           control={control}
           rules={{

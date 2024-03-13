@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "908623138205",
-    "project_id": "parkeasy-dev-e4fdc",
-    "storage_bucket": "parkeasy-dev-e4fdc.appspot.com"
+    "project_number": "530734534470",
+    "project_id": "parkeasy-prod",
+    "storage_bucket": "parkeasy-prod.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:908623138205:android:27325c5dfe0d622c7e7374",
+        "mobilesdk_app_id": "1:530734534470:android:8cd32b047c1c87ff145f47",
         "android_client_info": {
           "package_name": "com.gbengaoyeee.parkeasy"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAlWtmeeWSDjISX_0q6zegWJuZ7OyyW8-A"
+          "current_key": "AIzaSyDKOaaMnanHJBXigVTtH5CQPJysTW3U91g"
         }
       ],
       "services": {

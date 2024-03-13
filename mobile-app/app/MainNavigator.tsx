@@ -1,7 +1,7 @@
 import AuthNavigator from "./_auth/AuthNavigator";
 import { useAuthContext } from "./contexts/AuthProvider";
 import HostTabController from "./_screens/host/HostTabController";
-import { Button, Platform, StyleSheet, View } from "react-native";
+import { Button, Platform, StyleSheet, Text, View } from "react-native";
 import Loader from "@/components/shared/Loader";
 import { useSelector } from "react-redux";
 import { RootState } from "./_store/store";
@@ -28,7 +28,9 @@ export default function MainNavigator() {
       <AppContainer appSection={appSection} />
     </>
   ) : (
-    <AuthNavigator />
+    <>
+      <AuthNavigator />
+    </>
   );
 }
 
@@ -77,10 +79,10 @@ const AppContainer = ({ appSection }: { appSection: "host" | "visitor" }) => {
 
   useEffect(() => {
     const storeToken = async () => {
-      if(user && expoPushToken) {
+      if (user && expoPushToken) {
         storeNotificationToken(user.id, expoPushToken);
       }
-    }
+    };
     storeToken();
   }, [user, expoPushToken]);
 

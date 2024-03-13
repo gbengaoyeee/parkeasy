@@ -11,12 +11,10 @@ import LinkButton from "@/components/shared/LinkButton";
 import TouchOpacity from "@/components/shared/TouchOpacity";
 import OTPInput from "@/components/shared/OTPInput";
 import useToast from "../hooks/useToast";
-import { AppwriteException } from "appwrite";
-import { ConfirmationResult } from "firebase/auth";
-import { FIREBASE_AUTH } from "@/firebaseConfig";
+import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface RouteParams {
-  confirmationResult: ConfirmationResult;
   phoneNumber: string;
 }
 const OTPCode = () => {
@@ -38,17 +36,34 @@ const OTPCode = () => {
   const { isPending: isSendingCode, mutateAsync: startVerification } = useStartPhoneVerification();
   const { isPending: isSubmittingCode, mutateAsync: finishVerification } = useFinishPhoneVerification();
   const { isPending: isCreatingUser, mutateAsync: createUser } = useCreateUser();
-  const [sessionId, setSessionId] = useState("");
+  const [confirmationResult, setConfirmationResult] = useState<FirebaseAuthTypes.ConfirmationResult | null>(null);
 
-  const { confirmationResult, phoneNumber } = route.params as RouteParams;
+  const { phoneNumber } = route.params as RouteParams;
 
+  const deleteStoredConfirmationResult = async () => {
+    await AsyncStorage.removeItem("confirmationResult");
+  };
   useEffect(() => {
-    // if (phoneNumber) {
-    //   handleResend();
-    // }
+    setTimeout(() => {
+      signInWithPhoneNumber(phoneNumber);
+    }, 2000);
+    return () => {
+      console.log("Cleanup");
+      deleteStoredConfirmationResult();
+    };
   }, []);
 
-  const onSubmit = (data: any) => {
+  async function signInWithPhoneNumber(phoneNumber: string) {
+    try {
+      const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
+      setConfirmationResult(confirmation);
+      console.log("confirmation", confirmation);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const onSubmit = async (data: any) => {
     if (confirmationResult) {
       finishVerification({
         otpcode: otpCodeValues.join(""),
@@ -70,7 +85,7 @@ const OTPCode = () => {
             });
             return;
           } else {
-            console.error('Could not get and create user')
+            console.error("Could not get and create user");
             showToast({ type: "error", message: error.response.data.message });
             signOut();
           }
@@ -132,8 +147,7 @@ const OTPCode = () => {
             name="otpcode"
           />
 
-          <Button btnTitle="Confirm" disabled={getValues().otpcode.length < 6 || isSendingCode || isSubmittingCode} className="mt-5" onPress={handleSubmit(onSubmit)}>
-          </Button>
+          <Button btnTitle="Confirm" disabled={getValues().otpcode.length < 6 || isSendingCode || isSubmittingCode} className="mt-5" onPress={handleSubmit(onSubmit)}></Button>
           <View className="flex-row items-center justify-center mt-5">
             <Text className="mr-1">Didn't receive the code?</Text>
             <TouchOpacity onPress={handleResend}>Resend</TouchOpacity>

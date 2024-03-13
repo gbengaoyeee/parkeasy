@@ -1,12 +1,9 @@
 import { Dispatch, SetStateAction, createContext, useContext, useEffect, useState } from "react";
-import appwriteClient from "../services/appwrite";
-import { Models } from "appwrite";
-import { User, onAuthStateChanged, setPersistence } from "firebase/auth";
-import { FIREBASE_AUTH } from "@/firebaseConfig";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../_store/store";
 import { setAuthUser } from "../_store/slices/authProviderSlice";
 import { setAppSection } from "../_store/slices/appSectionSlice";
+import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
 
 interface AuthContextData {
   isLoggedIn: boolean;
@@ -14,8 +11,8 @@ interface AuthContextData {
   signOut: () => Promise<boolean>;
   // checkAuthUser: () => Promise<boolean>;
   // user: Models.User<Models.Preferences> | null;
-  user: User | null;
-  setUser: Dispatch<SetStateAction<User | null>>;
+  user: FirebaseAuthTypes.User | null;
+  setUser: Dispatch<SetStateAction<FirebaseAuthTypes.User | null>>;
 }
 
 export const AuthContext = createContext<AuthContextData>({
@@ -29,12 +26,12 @@ export const AuthContext = createContext<AuthContextData>({
 
 export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   // const authUserSlice = useSelector((state: RootState) => state.authUser.authUser);
   const dispatch: AppDispatch = useDispatch();
   const signOut = async () => {
-    FIREBASE_AUTH.signOut();
+    auth().signOut();
     dispatch(setAuthUser(null))
     dispatch(setAppSection("visitor"))
     setIsLoggedIn(false);
@@ -49,7 +46,8 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
     //   setIsLoading(false);
     //   return;
     // }
-    const subscribe = onAuthStateChanged(FIREBASE_AUTH, async (user) => {
+    const subscribe = auth().onAuthStateChanged(async (user) => {
+      console.log("user", user)
       dispatch(setAuthUser(user))
       if (user) {
         setUser(user);

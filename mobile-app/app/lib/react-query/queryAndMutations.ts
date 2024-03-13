@@ -12,8 +12,8 @@ import { CreateReservationParams, createReservation, deleteReservation,
     getReservations as getVisitorReservations, 
     getVisitorListings, updateReservation 
 } from '@/app/services/visitor'
-import { ConfirmationResult } from 'firebase/auth'
 import { CheckoutDetails, createPaymentIntent, getCheckoutDetails } from '@/app/services/payment'
+import { FirebaseAuthTypes } from '@react-native-firebase/auth'
 
 export const useStartPhoneVerification = () => {
     return useMutation({
@@ -22,7 +22,7 @@ export const useStartPhoneVerification = () => {
 }
 export const useFinishPhoneVerification = () => {
     return useMutation({
-        mutationFn: ({otpcode, confirmResult, phone, userRoles}: {otpcode: string, confirmResult: ConfirmationResult, phone: string, userRoles: User_Role[]}) => {
+        mutationFn: ({otpcode, confirmResult, phone, userRoles}: {otpcode: string, confirmResult: FirebaseAuthTypes.ConfirmationResult, phone: string, userRoles: User_Role[]}) => {
             console.log('finishing phone verification')
             return confirmResult.confirm(otpcode)
             .then((resp) => {

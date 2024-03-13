@@ -49,6 +49,18 @@ export class VisitorService {
           end_date: new Date(dto.endDate),
           status: dto.status,
         },
+        include: {
+          host: {
+            select: {
+              notification_token: true,
+            },
+          },
+          visitor: {
+            select: {
+              first_name: true,
+            },
+          },
+        }
       });
       // add job to queue to send notification once reservation is over
       let finishQueueType: ReservationQueueType = 'finish';
@@ -66,8 +78,23 @@ export class VisitorService {
           },
         },
       });
-      console.log('MAKE PAYMENT ASYNCHRONOUSLY');
-      console.log('NOTIFY HOST ASYNCHRONOUSLY');
+      
+      const hostMessage = {
+        to: reservation.host.notification_token,
+        sound: "default",
+        title: "New Reservation!",
+        body: `${reservation.visitor.first_name} has made a reservation! Go check out the details.`,
+      };
+      await fetch("https://exp.host/--/api/v2/push/send", {
+        method: "POST",
+        headers: {
+          host: "exp.host",
+          accept: "application/json",
+          "accept-encoding": "gzip, deflate",
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(hostMessage),
+      });
       return new IResponseData(`reservation created successfully`, reservation).json;
     } catch (error) {
       throw this.errorService.handleException(error);
