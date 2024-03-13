@@ -10,7 +10,7 @@ if (APP_ENVIRONMENT === "production") {
 
 export default {
   expo: {
-    name: "parkeasy",
+    name: "Parkeasy",
     slug: "parkeasy",
     description: "A parking management app",
     version: "1.0.0",

@@ -3,21 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>530734534470-kj17suc94kto61m53l8mssriteegt4tl.apps.googleusercontent.com</string>
+	<string>908623138205-h7gvjb8j3hl32ca2gjo5h5lvlmg260ko.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.530734534470-kj17suc94kto61m53l8mssriteegt4tl</string>
+	<string>com.googleusercontent.apps.908623138205-h7gvjb8j3hl32ca2gjo5h5lvlmg260ko</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>908623138205-1tfn0d75v6vbij68m130me8qeeqiofqd.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCVczqX8LdUJKkJRmLz4PQVuzmxLDYVy6Y</string>
+	<string>AIzaSyDe7_Kym7QuH3sSnMUj3uE_2iBd-5tRq9Q</string>
 	<key>GCM_SENDER_ID</key>
-	<string>530734534470</string>
+	<string>908623138205</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.gbengaoyeee.parkeasy</string>
 	<key>PROJECT_ID</key>
-	<string>parkeasy-prod</string>
+	<string>parkeasy-dev-e4fdc</string>
 	<key>STORAGE_BUCKET</key>
-	<string>parkeasy-prod.appspot.com</string>
+	<string>parkeasy-dev-e4fdc.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:530734534470:ios:ea68b1244cef2a6b145f47</string>
+	<string>1:908623138205:ios:8385686b73199c597e7374</string>
 </dict>
 </plist>

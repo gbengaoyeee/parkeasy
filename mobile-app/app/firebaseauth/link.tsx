@@ -10,6 +10,7 @@ import OTPInput from "@/components/shared/OTPInput";
 import useToast from "../hooks/useToast";
 import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import { createUser, getUser } from "../services/user";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface RouteParams {
   phoneNumber: string;
@@ -35,13 +36,26 @@ const OTPCode = () => {
   const { phoneNumber } = route.params as RouteParams;
 
   useEffect(() => {
-    setTimeout(() => {
+    if(phoneNumber){
       signInWithPhoneNumber(phoneNumber);
-    }, 2000);
+    } else {
+      getPhoneFromStorageAndSignIn();
+    }
   }, [phoneNumber]);
 
+  const deleteStoredPhoneNumber = async () => {
+    await AsyncStorage.removeItem("phoneNumber");
+  }
+  const getPhoneFromStorageAndSignIn = async () => {
+    const phoneNumber = await AsyncStorage.getItem("phoneNumber");
+    if (phoneNumber) {
+      signInWithPhoneNumber(phoneNumber);
+    }
+  }
   async function signInWithPhoneNumber(phoneNumber: string) {
     try {
+      // need to store phone number in async storage because if phone number is new, this page gets called twice
+      await AsyncStorage.setItem("phoneNumber", phoneNumber);
       const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
       setConfirmationResult(confirmation);
       console.log("confirmation", confirmation);
@@ -54,6 +68,7 @@ const OTPCode = () => {
     confirmationResult
       ?.confirm(data.otpcode)
       .then((resp) => {
+        deleteStoredPhoneNumber();
         return getUser(phoneNumber);
       })
       .catch((error) => {
@@ -64,7 +79,7 @@ const OTPCode = () => {
               showToast({
                 type: "success",
                 message: "Welcome to Parkeasy!",
-              })
+              });
             })
             .catch((createUserError) => {
               // Handle error from createUser
