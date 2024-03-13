@@ -61,6 +61,18 @@ export class WebhooksService {
       where: {
         stripe_payment_intent_id: charge.payment_intent as string,
       },
+      include: {
+        visitor: {
+          select: {
+            first_name: true,
+          }
+        },
+        host: {
+          select: {
+            notification_token: true
+          }
+        },
+      },
     })
 
     if (reservation) {
@@ -71,6 +83,22 @@ export class WebhooksService {
         data: {
           charge: charge as any,
         },
+      });
+      const hostMessage = {
+        to: reservation.host.notification_token,
+        sound: "default",
+        title: "New Reservation!",
+        body: `${reservation.visitor.first_name} has made a reservation! Go check out the details.`,
+      };
+      await fetch("https://exp.host/--/api/v2/push/send", {
+        method: "POST",
+        headers: {
+          host: "exp.host",
+          accept: "application/json",
+          "accept-encoding": "gzip, deflate",
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(hostMessage),
       });
     } else {
       throw new Error('Reservation not found for payment intent ' + charge.payment_intent);
