@@ -63,21 +63,21 @@ export class VisitorService {
         }
       });
       // add job to queue to send notification once reservation is over
-      let finishQueueType: ReservationQueueType = 'finish';
-      let reminderQueueType: ReservationQueueType = '24-hour-reminder';
+      // let finishQueueType: ReservationQueueType = 'finish';
+      // let reminderQueueType: ReservationQueueType = '24-hour-reminder';
 
-      const delay = new Date(dto.endDate).getTime() - new Date().getTime(); // delay until end_date
-      await this.reservationQueue.add(finishQueueType,{id: reservation.id}, {delay});
-      const updateListing = await this.prisma.listing.update({
-        where: {
-          id: dto.listingId,
-        },
-        data: {
-          no_of_bookings: {
-            increment: 1,
-          },
-        },
-      });
+      // const delay = new Date(dto.endDate).getTime() - new Date().getTime(); // delay until end_date
+      // await this.reservationQueue.add(finishQueueType,{id: reservation.id}, {delay});
+      // const updateListing = await this.prisma.listing.update({
+      //   where: {
+      //     id: dto.listingId,
+      //   },
+      //   data: {
+      //     no_of_bookings: {
+      //       increment: 1,
+      //     },
+      //   },
+      // });
       
       return new IResponseData(`reservation created successfully`, reservation).json;
     } catch (error) {

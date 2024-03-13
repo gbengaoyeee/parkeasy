@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
+import { Queue } from 'bull';
 import { ErrorService } from 'src/exceptions/error.service';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { InjectReservationQueue, ReservationQueueType } from 'src/queues/reservation.processor';
 import { StripeService } from 'src/stripe/stripe.service';
 import Stripe from 'stripe';
 
@@ -10,6 +12,7 @@ export class WebhooksService {
     private prisma: PrismaService,
     private errorService: ErrorService,
     private stripeService: StripeService,
+    @InjectReservationQueue() readonly reservationQueue: Queue,
   ) {}
 
   async handleStripeAccountUpdated(sig: any, body: Buffer) {
@@ -82,6 +85,19 @@ export class WebhooksService {
         },
         data: {
           charge: charge as any,
+        },
+      });
+      let finishQueueType: ReservationQueueType = 'finish';
+      const delay = new Date(reservation.end_date).getTime() - new Date().getTime(); // delay until end_date
+      await this.reservationQueue.add(finishQueueType,{id: reservation.id}, {delay});
+      await this.prisma.listing.update({
+        where: {
+          id: reservation.listing_id,
+        },
+        data: {
+          no_of_bookings: {
+            increment: 1,
+          },
         },
       });
       const hostMessage = {
