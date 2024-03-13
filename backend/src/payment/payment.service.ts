@@ -24,10 +24,19 @@ export class PaymentService {
           host: true,
         },
       });
-      if (!host)
+      if (!host) {
         throw new BadRequestException(
           `Invalid listing found. Contact support at ${process.env.SUPPORT_EMAIL}`,
         );
+      }
+      const {email: receipt_email} = await this.prisma.user.findFirst({
+        where: {
+          stripe_customer_id: dto.customerId,
+        },
+        select: {
+          email: true,
+        }
+      });
       if (!host.stripe_account)
         throw new BadRequestException(
           `Host is required to complete extra steps. Contact support at ${process.env.SUPPORT_EMAIL}`,
@@ -44,6 +53,7 @@ export class PaymentService {
         transfer_data: {
           destination: host.stripe_account['id'],
         },
+        receipt_email
       });
       return new IResponseData(`Intent created successfully`, paymentIntent).json;
     } catch (error) {
