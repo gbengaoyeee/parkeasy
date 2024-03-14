@@ -44,9 +44,9 @@ export class PaymentService {
       const paymentIntent = await this.stripe.paymentIntents.create({
         amount: dto.amount,
         currency: 'usd',
-        automatic_payment_methods: {
-          enabled: true,
-        },
+        // automatic_payment_methods: {
+        //   enabled: true,
+        // },
         on_behalf_of: host.stripe_account['id'],
         customer: dto.customerId,
         setup_future_usage: 'on_session',
