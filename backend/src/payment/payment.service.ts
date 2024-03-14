@@ -47,6 +47,7 @@ export class PaymentService {
         automatic_payment_methods: {
           enabled: true,
         },
+        on_behalf_of: host.stripe_account['id'],
         customer: dto.customerId,
         setup_future_usage: 'on_session',
         application_fee_amount: Math.round(dto.amount * APP_BOOKING_FEE_PERCENTAGE),

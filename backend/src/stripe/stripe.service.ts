@@ -18,7 +18,7 @@ export class StripeService {
 
   async createAccount(email: string) {
     return await this.stripe.accounts.create({
-      type: 'express',
+      type: 'standard',
       email,
     });
   }
