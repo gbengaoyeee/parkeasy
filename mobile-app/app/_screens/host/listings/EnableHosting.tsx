@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, StyleSheet } from "react-native";
+import { View, Text, SafeAreaView, StyleSheet, Alert } from "react-native";
 import React from "react";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { HostListingsStackParamList } from "./HostListingsNavigator";
@@ -29,7 +29,10 @@ const EnableHosting = () => {
     }).then((user) => {
       setUser(user);
       navigation.goBack();
-    });
+    }).catch((error) => {
+      console.error(error.response.data.message);
+      Alert.alert("Error", error.response.data.message);
+    })
   };
   return (
     <SafeAreaView style={styles.container}>

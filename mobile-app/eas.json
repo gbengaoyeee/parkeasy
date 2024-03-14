@@ -17,7 +17,7 @@
         "EXPO_PUBLIC_SUPPORT_EMAIL": "support@parkeasy.com",
         "EXPO_PUBLIC_SERVER_URL": "https://moccasin-noble-kodiak.ngrok-free.app",
         "EXPO_PUBLIC_GOOGLE_API_KEY": "AIzaSyBBQHwnm0ybOBNAWtxXtisA4ya5nsy_voY",
-        "EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY": "pk_test_51Ir8G2IdPtUOVRPRsOWE5l8PnlrTSTo4QBClIR6xGXrSjAZuVQvxSZNGaol76OZQKuUrZuZqvVFlrAt4bIVHoDwZ00J2h3iTZW",
+        "EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY": "pk_live_51J8o4cCLU5TswiCTvglkjTmpzZzcBYhTRGmRoVSXEDounHwzdEkObpqfwsToGNi3QfKgAUyyJjXdWhpYwIBdi3BT0022BgDomA",
         "EXPO_PUBLIC_PROJECT_ID": "fca745d5-2e89-43d3-b187-8208f9ee13eb",
         "EXPO_PUBLIC_SERVER_API_KEY": "56eb0cba-6ae4-4af9-88bf-fb31eb466edc"
       }
@@ -42,7 +42,7 @@
         "EXPO_PUBLIC_SUPPORT_EMAIL":"support@parkeasy.com",
         "EXPO_PUBLIC_SERVER_URL":"https://parkeasy-production.up.railway.app",
         "EXPO_PUBLIC_GOOGLE_API_KEY":"AIzaSyBBQHwnm0ybOBNAWtxXtisA4ya5nsy_voY",
-        "EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY":"pk_test_51Ir8G2IdPtUOVRPRsOWE5l8PnlrTSTo4QBClIR6xGXrSjAZuVQvxSZNGaol76OZQKuUrZuZqvVFlrAt4bIVHoDwZ00J2h3iTZW",
+        "EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY":"pk_live_51J8o4cCLU5TswiCTvglkjTmpzZzcBYhTRGmRoVSXEDounHwzdEkObpqfwsToGNi3QfKgAUyyJjXdWhpYwIBdi3BT0022BgDomA",
         "EXPO_PUBLIC_PROJECT_ID":"fca745d5-2e89-43d3-b187-8208f9ee13eb",
         "EXPO_PUBLIC_SERVER_API_KEY":"56eb0cba-6ae4-4af9-88bf-fb31eb466edc"
       }

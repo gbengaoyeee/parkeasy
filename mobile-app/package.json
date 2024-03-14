@@ -13,6 +13,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@expo/ngrok": "^4.1.0",
     "@expo/vector-icons": "^14.0.0",
     "@hookform/resolvers": "^3.3.3",
     "@ptomasroos/react-native-multi-slider": "^2.2.2",
@@ -41,6 +42,7 @@
     "expo-splash-screen": "~0.26.4",
     "expo-status-bar": "~1.11.1",
     "expo-system-ui": "~2.9.3",
+    "expo-updates": "~0.24.11",
     "expo-web-browser": "~12.8.2",
     "firebase": "^10.8.1",
     "iso-3166-1-alpha-2": "^1.0.1",
