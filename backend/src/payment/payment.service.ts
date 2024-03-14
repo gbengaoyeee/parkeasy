@@ -47,6 +47,7 @@ export class PaymentService {
         // automatic_payment_methods: {
         //   enabled: true,
         // },
+        payment_method_types: ['card'],
         on_behalf_of: host.stripe_account['id'],
         customer: dto.customerId,
         setup_future_usage: 'on_session',
