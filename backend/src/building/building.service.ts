@@ -15,7 +15,7 @@ import {
   GetParkingsDto,
   UpdateCommunityMemberDto,
 } from './dto';
-import { QRCode_Type } from '../../../shared/prisma-client';
+import { CommunityMembers, QRCode_Type } from '../../../shared/prisma-client';
 import { v4 as uuidv4 } from 'uuid';
 import { objectToCamel } from 'ts-case-convert';
 import { retryAsyncFunction } from 'src/utils/helper';
@@ -785,11 +785,14 @@ export class BuildingService {
       const { id: qrCodeId, url } = await this.qrCodeService.create(newParkingEntry);
       const { urls } = await this.qrCodeService.downloadQRCode(qrCodeId);
 
-      const communityMember = await this.prisma.communityMembers.findFirst({
-        where: {
-          id: dto.communityMemberId,
-        },
-      });
+      let communityMember: CommunityMembers | null;
+      if(dto.communityMemberId) {
+        communityMember = await this.prisma.communityMembers.findUnique({
+          where: {
+            id: dto.communityMemberId,
+          },
+        });
+      }
 
       const [_, spot] = await this.prisma.$transaction([
         this.prisma.qRCode.create({
