@@ -307,10 +307,21 @@ export class BuildingService {
               id: {
                 in: updateData.unitNumbers.map((unitNumber: any) => unitNumber),
               },
-              community_member_id: {
-                not: null,
-              },
             },
+            {
+              AND: [ // Ensure both conditions are met for community_member_id
+                {
+                  community_member_id: {
+                    not: null,
+                  },
+                },
+                {
+                  community_member_id: {
+                    not: memberId,
+                  },
+                },
+              ],
+            }
           ],
         },
       });
@@ -322,10 +333,21 @@ export class BuildingService {
               id: {
                 in: updateData.parkingSpots.map((parkingSpot: any) => parkingSpot),
               },
-              owner_id: {
-                not: null,
-              },
             },
+            {
+              AND: [ // Ensure both conditions are met for community_member_id
+                {
+                  owner_id: {
+                    not: null,
+                  },
+                },
+                {
+                  owner_id: {
+                    not: memberId,
+                  },
+                },
+              ],
+            }
           ],
         },
       });
