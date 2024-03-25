@@ -826,6 +826,19 @@ export class BuildingService {
         id_for: dto.spotNumber,
         buildingId: buildingId,
       };
+
+      const exisitingSpots = await this.prisma.parkingSpot.findMany({
+        where: {
+          building_id: buildingId,
+          parking_spot_number: dto.spotNumber.trim(),
+        }
+      })
+
+      if(exisitingSpots.length > 0) {
+        throw new BadRequestException(
+          `Parking spot number ${dto.spotNumber} already exists in this building`,
+        );
+      }
       const { id: qrCodeId, url } = await this.qrCodeService.create(newParkingEntry);
       const { urls } = await this.qrCodeService.downloadQRCode(qrCodeId);
 
@@ -896,11 +909,18 @@ export class BuildingService {
 
   async addApartmentUnit(buildingId: string, dto: AddApartmentUnitDto) {
     try {
-      const unit = await this.prisma.apartmentUnit.findFirst({
+      const existingUnits = await this.prisma.apartmentUnit.findMany({
         where: {
-          unit_number: dto.unitNumber,
-        },
-      });
+          building_id: buildingId,
+          unit_number: dto.unitNumber.trim(),
+        }
+      })
+
+      if(existingUnits.length > 0) {
+        throw new BadRequestException(
+          `Apartment unit number ${dto.unitNumber} already exists in this building`,
+        );
+      }
 
       const newApartmentUnit = await this.prisma.apartmentUnit.create({
         data: {
