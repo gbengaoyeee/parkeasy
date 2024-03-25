@@ -36,6 +36,7 @@ export class WebhooksService {
               },
             },
           });
+          console.log('account.updated', user);
 
           await this.prisma.user.update({
             where: {
