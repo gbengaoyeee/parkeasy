@@ -10,6 +10,9 @@ https://www.youtube.com/watch?v=4yArnF92XII
 https://www.youtube.com/watch?v=CzjHl9uo8tY
 https://www.youtube.com/watch?v=-sKoEcmEYTo
 
+## Amplify stuff
+https://docs.amplify.aws/javascript/tools/cli/teams/
+
 
 ## Publishing for apple testflight
 - rename if you need to GoogleService-Info.plist to exactly as that

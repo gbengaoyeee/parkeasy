@@ -13,57 +13,98 @@ import Input from "@/components/shared/Input";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import CountryPicker, { Country } from "react-native-country-picker-modal";
 import { AuthNavigatorParamList } from "./AuthNavigator";
-import auth from '@react-native-firebase/auth';
+import { signIn, confirmSignIn, signUp, getCurrentUser, confirmSignUp, autoSignIn, signOut } from 'aws-amplify/auth';
 
 const PhoneNumber = () => {
   const {
     control,
     handleSubmit,
+    getValues,
     formState: { errors },
   } = useForm({
     defaultValues: {
       phoneNumber: "",
+      email: "",
+      otp: "",
     },
   });
 
   const navigation = useNavigation<NavigationProp<AuthNavigatorParamList>>();
 
-  const onSubmit = (data: any) => {
-    navigation.navigate("OTPCode", {
-      phoneNumber: `+${country.callingCode[0]}${data.phoneNumber}`,
-    });
-    // auth().signInWithPhoneNumber(`+${country.callingCode[0]}${data.phoneNumber}`)
-    // .then((confirmationResult) => {
-    //   navigation.navigate("OTPCode", {
-    //     confirmationResult,
-    //     phoneNumber: `+${country.callingCode[0]}${data.phoneNumber}`,
-    //   });
-    // })
-    // .catch((error) => {
-    //   console.error(error.message);
-    // });
-    // if (!recaptchaVerifier.current) return;
-    // signInWithPhoneNumber
-    // console.log(data.phoneNumber);
-    // auth().signInWithPhoneNumber(`+${country.callingCode[0]}${data.phoneNumber}`, true)
-    // .then((confirmationResult) => {
-    //   console.log(confirmationResult);
-    // })
-    // .catch((error) => {
-    //   console.error(error);
-    // });
+  useEffect(() => {
+    getCurrentUser().then((user) => {
+      console.log(user);
+    }).catch((error) => {
+      console.log(error);
+    })
+  },[] );
 
-    // signInWithPhoneNumber(
-    //   FIREBASE_AUTH,
-    //   `+${country.callingCode[0]}${data.phoneNumber}`,
-    //   recaptchaVerifier.current
-    // ).then((confirmationResult) => {
-      // navigation.navigate("OTPCode", {
-      //   confirmationResult,
-      //   phoneNumber: `+${country.callingCode[0]}${data.phoneNumber}`,
-      // });
+  const onSubmit = (data: any) => {
+    signIn({
+      username: data.email,
+      password: 'TEST_PASSWORD',
+      options: {
+        authFlowType: 'CUSTOM_WITH_SRP'
+      }
+    })
+    .then((output) => {
+      console.log(output);
+    })
+    .catch((error) => {
+      console.log(error);
+      console.log('trying to sign up');
+      signUp({
+        username: data.email,
+        password: 'TEST_PASSWORD',
+        options: {
+          userAttributes: {
+            email: data.email,
+          },
+          autoSignIn: {
+            enabled: true,
+          }
+        }
+      })
+      .then((output) => {
+        console.log(output);
+      })
+      .catch((error) => {
+        console.log('Error signing up:', error);
+      })
+    })
+    // navigation.navigate("OTPCode", {
+    //   phoneNumber: `+${country.callingCode[0]}${data.phoneNumber}`,
     // });
   };
+
+  const confirmSignInWithCode = async (confirmationCode: string) => {
+    try {
+      await confirmSignIn({
+        challengeResponse: confirmationCode,
+      })
+    } catch (error) {
+      console.log(error);
+    }
+
+  }
+
+  const confirmCode = async (email: string, confirmationCode: string) => {
+    try {
+      const { isSignUpComplete, nextStep, } = await confirmSignUp({
+        username: email,
+        confirmationCode,
+      });
+      const {isSignedIn} = await autoSignIn();
+      console.log('isSignUpComplete', isSignUpComplete);
+      console.log('isSignedIn', isSignedIn); 
+      console.log('nextStep', nextStep);
+    } catch (error) {
+      console.log('error confirming sign up', error);
+    }
+  }
+  const logOut = async () => {
+    await signOut();
+  }
   const [country, setCountry] = useState<Country>({
     callingCode: ["1"],
     cca2: "US",
@@ -90,10 +131,6 @@ const PhoneNumber = () => {
   return (
     <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
       <SafeAreaView style={styles.container}>
-        {/* <FirebaseRecaptchaVerifierModal
-          ref={recaptchaVerifier}
-          firebaseConfig={FIREBASE_APP.options}
-        /> */}
         <Controller
           control={control}
           rules={{
@@ -134,6 +171,7 @@ const PhoneNumber = () => {
                     value={value}
                     errors={errors?.phoneNumber?.message}
                   />
+
                 </View>
                 {errors.phoneNumber && (
                   <Text style={{ color: "red" }}>{errors.phoneNumber.message}</Text>
@@ -143,8 +181,46 @@ const PhoneNumber = () => {
           )}
           name="phoneNumber"
         />
+        <Controller
+          control={control}
+          name="email"
+          rules={{
+            required: {
+              value: true,
+              message: "email is required.",
+            },
+            pattern: {
+              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+              message: "Please enter a valid email address",
+            },
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <>
+              <View>
+                <Input keyboardType="email-address" placeholder="Email" onChangeText={onChange} errors={errors?.email?.message}/>
+              </View>
+            </>
+          )}
+        />
+        <Controller
+          control={control}
+          name="otp"
+          render={({ field: { onChange, onBlur, value } }) => (
+            <>
+              <View>
+                <Input keyboardType="numeric" placeholder="OTP" onChangeText={onChange}/>
+              </View>
+            </>
+          )}
+        />
 
         <Button btnTitle="Next" onPress={handleSubmit(onSubmit)}>
+        </Button> 
+        <Button btnTitle="confirm code sign-in" onPress={() => confirmSignInWithCode(getValues().otp)}>
+        </Button>
+        <Button btnTitle="confirm code signup" onPress={() => confirmCode(getValues().email, getValues().otp)}>
+        </Button>
+        <Button btnTitle="Log out" onPress={logOut}>
         </Button>
       </SafeAreaView>
     </KeyboardAvoidingView>

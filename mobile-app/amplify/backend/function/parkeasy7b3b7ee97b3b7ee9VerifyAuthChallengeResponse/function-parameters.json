@@ -1,0 +1,16 @@
+{
+  "trigger": true,
+  "modules": [
+    "boilerplate-verify"
+  ],
+  "parentResource": "parkeasy7b3b7ee97b3b7ee9",
+  "functionName": "parkeasy7b3b7ee97b3b7ee9VerifyAuthChallengeResponse",
+  "resourceName": "parkeasy7b3b7ee97b3b7ee9VerifyAuthChallengeResponse",
+  "parentStack": "auth",
+  "triggerEnvs": "[]",
+  "triggerDir": "/snapshot/amplify-cli/build/node_modules/@aws-amplify/amplify-category-auth/provider-utils/awscloudformation/triggers/VerifyAuthChallengeResponse",
+  "triggerTemplate": "VerifyAuthChallengeResponse.json.ejs",
+  "triggerEventPath": "VerifyAuthChallengeResponse.event.json",
+  "roleName": "parkeasy7b3b7ee97b3b7ee9VerifyAuthChallengeResponse",
+  "skipEdit": true
+}

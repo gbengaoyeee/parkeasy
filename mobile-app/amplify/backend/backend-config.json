@@ -1,0 +1,125 @@
+{
+  "auth": {
+    "parkeasy7b3b7ee97b3b7ee9": {
+      "customAuth": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "parkeasy7b3b7ee97b3b7ee9CreateAuthChallenge",
+          "triggerProvider": "Cognito"
+        },
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "parkeasy7b3b7ee97b3b7ee9DefineAuthChallenge",
+          "triggerProvider": "Cognito"
+        },
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "parkeasy7b3b7ee97b3b7ee9VerifyAuthChallengeResponse",
+          "triggerProvider": "Cognito"
+        }
+      ],
+      "frontendAuthConfig": {
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyCharacters": [],
+          "passwordPolicyMinLength": 8
+        },
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "socialProviders": [],
+        "usernameAttributes": [
+          "EMAIL"
+        ],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito"
+    }
+  },
+  "function": {
+    "parkeasy7b3b7ee97b3b7ee9CreateAuthChallenge": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "parkeasy7b3b7ee97b3b7ee9DefineAuthChallenge": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "parkeasy7b3b7ee97b3b7ee9VerifyAuthChallengeResponse": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_parkeasy7b3b7ee97b3b7ee9CreateAuthChallenge_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "parkeasy7b3b7ee97b3b7ee9CreateAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_parkeasy7b3b7ee97b3b7ee9CreateAuthChallenge_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "parkeasy7b3b7ee97b3b7ee9CreateAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_parkeasy7b3b7ee97b3b7ee9DefineAuthChallenge_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "parkeasy7b3b7ee97b3b7ee9DefineAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_parkeasy7b3b7ee97b3b7ee9DefineAuthChallenge_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "parkeasy7b3b7ee97b3b7ee9DefineAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_parkeasy7b3b7ee97b3b7ee9VerifyAuthChallengeResponse_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "parkeasy7b3b7ee97b3b7ee9VerifyAuthChallengeResponse"
+        }
+      ]
+    },
+    "AMPLIFY_function_parkeasy7b3b7ee97b3b7ee9VerifyAuthChallengeResponse_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "parkeasy7b3b7ee97b3b7ee9VerifyAuthChallengeResponse"
+        }
+      ]
+    }
+  }
+}

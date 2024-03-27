@@ -16,6 +16,11 @@ import Loader from "@/components/shared/Loader";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { StripeProvider } from "@stripe/stripe-react-native";
 
+import { Amplify,  } from 'aws-amplify';
+import amplifyconfig from '../src/amplifyconfiguration.json';
+
+Amplify.configure(amplifyconfig);
+
 const Stack = createNativeStackNavigator();
 
 const persistor = persistStore(store);

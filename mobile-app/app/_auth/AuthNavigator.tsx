@@ -4,6 +4,7 @@ import PhoneNumber from "./PhoneNumber";
 import { ConfirmationResult } from "firebase/auth";
 import { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import OTPCode from "../firebaseauth/link";
+import Email from "./Email";
 
 const Stack = createNativeStackNavigator();
 

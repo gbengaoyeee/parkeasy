@@ -1,0 +1,36 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-parkeasy-dev-114654-authRole",
+      "UnauthRoleArn": "arn:aws:iam::058264449109:role/amplify-parkeasy-dev-114654-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::058264449109:role/amplify-parkeasy-dev-114654-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-parkeasy-dev-114654-deployment",
+      "UnauthRoleName": "amplify-parkeasy-dev-114654-unauthRole",
+      "StackName": "amplify-parkeasy-dev-114654",
+      "StackId": "arn:aws:cloudformation:us-east-1:058264449109:stack/amplify-parkeasy-dev-114654/3cc69f20-ec51-11ee-93be-0eebf25235d9",
+      "AmplifyAppId": "d37kizjce8dmj4",
+      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-parkeasy-dev-114654-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
+    },
+    "categories": {
+      "auth": {
+        "parkeasy": {},
+        "parkeasy7b3b7ee97b3b7ee9": {}
+      },
+      "function": {
+        "parkeasy7b3b7ee97b3b7ee9CreateAuthChallenge": {
+          "deploymentBucketName": "amplify-parkeasy-dev-114654-deployment",
+          "s3Key": "amplify-builds/parkeasy7b3b7ee97b3b7ee9CreateAuthChallenge-6d7538634c585a736d56-build.zip"
+        },
+        "parkeasy7b3b7ee97b3b7ee9DefineAuthChallenge": {
+          "deploymentBucketName": "amplify-parkeasy-dev-114654-deployment",
+          "s3Key": "amplify-builds/parkeasy7b3b7ee97b3b7ee9DefineAuthChallenge-6266617145567967326f-build.zip"
+        },
+        "parkeasy7b3b7ee97b3b7ee9VerifyAuthChallengeResponse": {
+          "deploymentBucketName": "amplify-parkeasy-dev-114654-deployment",
+          "s3Key": "amplify-builds/parkeasy7b3b7ee97b3b7ee9VerifyAuthChallengeResponse-2f4d7233664853467832-build.zip"
+        }
+      }
+    }
+  }
+}

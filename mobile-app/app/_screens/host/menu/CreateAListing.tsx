@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, ScrollView, KeyboardAvoidingView, Platform, StyleSheet } from "react-native";
+import { View, Text, SafeAreaView, ScrollView, KeyboardAvoidingView, Platform, StyleSheet, TextInput } from "react-native";
 import React, { useEffect, useState } from "react";
 import { NavigationProp, useNavigation, useRoute } from "@react-navigation/native";
 import { Controller, useForm } from "react-hook-form";
@@ -82,7 +82,19 @@ const CreateAListing = () => {
               <Loader />
             </View>
           )}
-          <View style={{ marginBottom: 3 }}>
+          <Input placeholder="Biuild 10" />
+          <Input placeholder="Biuild 10" />
+          <Input placeholder="Biuild 10" />
+          <Input placeholder="Biuild 10" />
+          <Input placeholder="Biuild 10" />
+          <Input placeholder="Biuild 10" />
+          <Input placeholder="Biuild 10" />
+          <Input placeholder="Biuild 10" />
+          <Input placeholder="Biuild 10" />
+          <Input placeholder="Biuild 10" />
+          <Input placeholder="Biuild 10" />
+          <Input placeholder="Biuild 10" />
+          {/* <View style={{ marginBottom: 3 }}>
             <Text style={{ fontSize: 20, fontWeight: "bold" }}>Select a building</Text>
             <Controller
               control={form.control}
@@ -169,7 +181,6 @@ const CreateAListing = () => {
               name="type"
             />
           </View>
-
           <View style={{ marginBottom: 3 }}>
             <Text style={{ fontSize: 20, fontWeight: "bold" }}>Parking spot information</Text>
             <Controller
@@ -208,9 +219,9 @@ const CreateAListing = () => {
               )}
               name="price"
             />
-          </View>
+          </View> */}
 
-          <Button
+          {/* <Button
             disabled={isAdding}
             style={{ marginTop: 5 }}
             onPress={() => {
@@ -218,7 +229,7 @@ const CreateAListing = () => {
               form.handleSubmit(onSubmit)();
             }}
             btnTitle="Next"
-          ></Button>
+          ></Button> */}
         </KeyboardAvoidingView>
       </ScrollView>
     </SafeAreaView>

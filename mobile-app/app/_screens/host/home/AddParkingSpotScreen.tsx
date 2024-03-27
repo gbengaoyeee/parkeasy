@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { NavigationProp, useNavigation, useRoute } from "@react-navigation/native";
 import { HomeStackParamList } from "./HomeNavigator";
 import { Building, Parking_Spot_Type } from "@/app/types";
-import { Controller, Form, useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { Dropdown } from "react-native-element-dropdown";
 import Input from "@/components/shared/Input";
 import Button from "@/components/shared/Button";
@@ -71,6 +71,19 @@ const AddParkingSpotScreen = () => {
   return (
     <SafeAreaView className="flex-1">
       <ScrollView className="p-5">
+        <Text>Without keyboard avoiding and wth controller</Text>
+        <Controller
+          control={form.control}
+          render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
+            <View className="mb-3">
+              <Text>Parking spot number</Text>
+              <Input placeholder="Enter your parking spot number" onBlur={onBlur} onChangeText={onChange} value={value} errors={error?.message} />
+            </View>
+          )}
+          name="spotNumber"
+        />
+        <Text>Without keyboard avoiding and without controller</Text>
+        <Input placeholder="Enter your parking spot number" />
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }} keyboardVerticalOffset={100}>
           {isAdding && (
             <View className="mb-3 items-center">
@@ -79,6 +92,8 @@ const AddParkingSpotScreen = () => {
           )}
           <View className="mb-3">
             <Text className="text-xl font-bold">Select a building</Text>
+            <Text>With keyboard avoiding and without controller</Text>
+            <Input placeholder="Enter your parking spot number" />
             <Controller
               control={form.control}
               render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => {

@@ -54,7 +54,7 @@ export default function HomeNavigator() {
         <Stack.Screen
           name="AddParkingSpotScreen"
           component={AddParkingSpotScreen}
-          options={{ headerShown: true, headerTitle: "Add a Parking Spot" }}
+          options={{ headerShown: true, headerTitle: "Add a Parking Spot", presentation: "modal" }}
         />
         <Stack.Screen
           name="ParkingLotList"
