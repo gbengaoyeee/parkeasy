@@ -76,55 +76,26 @@ const CreateAListing = () => {
   return (
     <KeyboardAvoidingView enabled behavior={"padding"} style={{ flex: 1 }}>
       <SafeAreaView style={{ flex: 1 }}>
-        {/* <ScrollView style={{ padding: 5 }}> */}
-        {isAdding && (
-          <View style={{ marginBottom: 3, alignItems: "center" }}>
-            <Loader />
-          </View>
-        )}
-        <View style={{ marginBottom: 3 }}>
-          <Text style={{ fontSize: 20, fontWeight: "bold" }}>Select a building</Text>
-          <Controller
-            control={form.control}
-            render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => {
-              return (
-                <>
-                  <Dropdown
-                    style={styles.dropdown}
-                    data={communityMembers.map((member) => {
-                      const building = member.building;
-                      return {
-                        label: building.building_name,
-                        value: building.id,
-                      };
-                    })}
-                    labelField="label"
-                    valueField="value"
-                    value={value}
-                    onBlur={onBlur}
-                    onChange={(item) => {
-                      onChange(item.value);
-                    }}
-                  />
-                  {error && <Text style={{ color: "rgb(184 29 29)" }}>{error.message}</Text>}
-                </>
-              );
-            }}
-            name="buildingId"
-          />
-          {watchedBuildingId && (
+        <ScrollView style={{ padding: 5 }}>
+          {isAdding && (
+            <View style={{ marginBottom: 3, alignItems: "center" }}>
+              <Loader />
+            </View>
+          )}
+          <View style={{ marginBottom: 3 }}>
+            <Text style={{ fontSize: 20, fontWeight: "bold" }}>Select a building</Text>
             <Controller
               control={form.control}
               render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => {
                 return (
                   <>
-                    <Text>Select a parking spot</Text>
                     <Dropdown
                       style={styles.dropdown}
-                      data={parkingSpots.map((spot) => {
+                      data={communityMembers.map((member) => {
+                        const building = member.building;
                         return {
-                          label: spot.parking_spot_number,
-                          value: spot.id,
+                          label: building.building_name,
+                          value: building.id,
                         };
                       })}
                       labelField="label"
@@ -139,86 +110,115 @@ const CreateAListing = () => {
                   </>
                 );
               }}
-              name="parkingId"
+              name="buildingId"
             />
-          )}
+            {watchedBuildingId && (
+              <Controller
+                control={form.control}
+                render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => {
+                  return (
+                    <>
+                      <Text>Select a parking spot</Text>
+                      <Dropdown
+                        style={styles.dropdown}
+                        data={parkingSpots.map((spot) => {
+                          return {
+                            label: spot.parking_spot_number,
+                            value: spot.id,
+                          };
+                        })}
+                        labelField="label"
+                        valueField="value"
+                        value={value}
+                        onBlur={onBlur}
+                        onChange={(item) => {
+                          onChange(item.value);
+                        }}
+                      />
+                      {error && <Text style={{ color: "rgb(184 29 29)" }}>{error.message}</Text>}
+                    </>
+                  );
+                }}
+                name="parkingId"
+              />
+            )}
 
-          <Controller
-            control={form.control}
-            render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
-              <View style={{ marginBottom: 3 }}>
-                <Text>Listing type</Text>
-                <Dropdown
-                  style={styles.dropdown}
-                  data={Object.values(Listing_Type).map((type) => {
-                    return {
-                      label: type,
-                      value: type,
-                    };
-                  })}
-                  labelField="label"
-                  valueField="value"
-                  value={value}
-                  onChange={(item) => {
-                    onChange(item.value);
-                  }}
-                />
-                {error && <Text style={{ color: "rgb(184 29 29)" }}>{error.message}</Text>}
-              </View>
-            )}
-            name="type"
-          />
-        </View>
-        <View style={{ marginBottom: 3 }}>
-          <Text style={{ fontSize: 20, fontWeight: "bold" }}>Parking spot information</Text>
-          <Controller
-            control={form.control}
-            render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
-              <View style={{ marginBottom: 3 }}>
-                <Text>Give your listing an enticing title</Text>
-                <Input onBlur={onBlur} onChangeText={onChange} value={value} errors={error?.message} />
-              </View>
-            )}
-            name="title"
-          />
+            <Controller
+              control={form.control}
+              render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
+                <View style={{ marginBottom: 3 }}>
+                  <Text>Listing type</Text>
+                  <Dropdown
+                    style={styles.dropdown}
+                    data={Object.values(Listing_Type).map((type) => {
+                      return {
+                        label: type,
+                        value: type,
+                      };
+                    })}
+                    labelField="label"
+                    valueField="value"
+                    value={value}
+                    onChange={(item) => {
+                      onChange(item.value);
+                    }}
+                  />
+                  {error && <Text style={{ color: "rgb(184 29 29)" }}>{error.message}</Text>}
+                </View>
+              )}
+              name="type"
+            />
+          </View>
+          <View style={{ marginBottom: 3 }}>
+            <Text style={{ fontSize: 20, fontWeight: "bold" }}>Parking spot information</Text>
+            <Controller
+              control={form.control}
+              render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
+                <View style={{ marginBottom: 3 }}>
+                  <Text>Give your listing an enticing title</Text>
+                  <Input onBlur={onBlur} onChangeText={onChange} value={value} errors={error?.message} />
+                </View>
+              )}
+              name="title"
+            />
 
-          <Controller
-            control={form.control}
-            render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
-              <View style={{ marginBottom: 3 }}>
-                <Text>Give your listing an eye catching description</Text>
-                <Input multiline onBlur={onBlur} onChangeText={onChange} value={value} errors={error?.message} style={{ height: 128 }} />
-              </View>
-            )}
-            name="description"
-          />
-          <Controller
-            control={form.control}
-            render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
-              <View style={{ marginBottom: 3 }}>
-                <Text>Enter a price for your listing per {watchedParkingType}</Text>
-                <Input onBlur={onBlur} onChangeText={onChange} value={value} errors={error?.message} keyboardType="decimal-pad" />
-                {watchedParkingType && (
-                  <Text>
-                    Price limit per {watchedParkingType} is ${PRICE_LIMITS[watchedParkingType as keyof typeof PRICE_LIMITS]}
-                  </Text>
-                )}
-              </View>
-            )}
-            name="price"
-          />
-        </View>
+            <Controller
+              control={form.control}
+              render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
+                <View style={{ marginBottom: 3 }}>
+                  <Text>Give your listing an eye catching description</Text>
+                  <Input multiline onBlur={onBlur} onChangeText={onChange} value={value} errors={error?.message} style={{ height: 128 }} />
+                </View>
+              )}
+              name="description"
+            />
+            <Controller
+              control={form.control}
+              render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
+                <View style={{ marginBottom: 3 }}>
+                  <Text>Enter a price for your listing per {watchedParkingType}</Text>
+                  <Input onBlur={onBlur} onChangeText={onChange} value={value} errors={error?.message} keyboardType="decimal-pad" />
+                  {watchedParkingType && (
+                    <Text>
+                      Price limit per {watchedParkingType} is ${PRICE_LIMITS[watchedParkingType as keyof typeof PRICE_LIMITS]}
+                    </Text>
+                  )}
+                </View>
+              )}
+              name="price"
+            />
+          </View>
 
-        <Button
-          disabled={isAdding}
-          style={{ marginTop: 5 }}
-          onPress={() => {
-            // console.error(errors, isValid);
-            form.handleSubmit(onSubmit)();
-          }}
-          btnTitle="Next"
-        ></Button>
-        {/* </ScrollView> */}
+          <Button
+            disabled={isAdding}
+            style={{ marginTop: 5 }}
+            onPress={() => {
+              // console.error(errors, isValid);
+              form.handleSubmit(onSubmit)();
+            }}
+            btnTitle="Next"
+          ></Button>
+        </ScrollView>
       </SafeAreaView>
     </KeyboardAvoidingView>
   );
