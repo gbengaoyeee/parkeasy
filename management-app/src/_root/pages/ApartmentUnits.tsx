@@ -56,7 +56,6 @@ const ApartmentUnits = () => {
 
   return (
     <>
-      <Header />
       {apartmentUnits.length > 0 ? (
         <div>
           <span className="flex justify-between">

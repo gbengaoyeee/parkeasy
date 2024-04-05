@@ -167,7 +167,6 @@ const CommunityMembersPage = () => {
   const numberOfPages = Math.ceil((currentBuilding?.community_members.length ?? 1) / pageSize);
   return (
     <>
-      <Header />
       {communityMembers.length > 0 ? (
         <div>
           <span className="flex justify-between">

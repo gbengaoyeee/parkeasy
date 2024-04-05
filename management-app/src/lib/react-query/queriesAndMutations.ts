@@ -1,13 +1,36 @@
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { z } from 'zod'
-import { AddApartmentUnitValidation, AddParkingSpotValidation, CreateCommunityMemberValidation, LoginValidation, OnboardBuildingValidation, OnboardManagementValidation, PasswordRecoveryValidation, SSOValidation, SignUpValidation } from '../validation'
+import { AddApartmentUnitValidation, AddParkingSpotValidation, CreateCommunityMemberValidation, LoginValidation, OnboardBuildingValidation, OnboardManagementValidation, PasswordRecoveryValidation, SSOValidation, SignUpValidation, SubscribeToParkingSpotValidation, VisitorSignUpValidation } from '../validation'
 import { getManagementByEmail, onboardBuilding, onboardManagement, preSignUp } from '@/api/management'
 import appwriteClient from '@/api/appwrite'
-import { activateAllCommunityMembers, addApartmentUnit, addCommunityMember, addParkingSpot, deleteCommunityMember, getApartmentUnits, getBuilding, getCommunityMember, getParkingSpot, getParkingSpots, toggleMemberStatus, updateCommunityMember, uploadCommunityMembers } from '@/api/building'
+import { activateAllCommunityMembers, addApartmentUnit, addCommunityMember, addParkingSpot, deleteCommunityMember, getApartmentUnits, getBuilding, getCommunityMember, getParkingSpot, getParkingSpots, getSubscriptions as getHostSubscriptions, toggleMemberStatus, updateCommunityMember, updateParkingSpot, uploadCommunityMembers } from '@/api/building'
+import { signUpVisitor, updateUser } from '@/api/user'
+import { enableHosting, getAccountLink } from '@/api/host'
+import { toast } from 'sonner'
+import { discover, getSingleDiscoverParkingSpot, getSubscription as getVisitorSubscription, getSubscriptions as getVisitorSubscriptions } from '@/api/visitor'
+import { cancelSubscription, subscribeToParkingSpot } from '@/api/payment'
 
 export const usePreSignUp = () => {
     return useMutation({
         mutationFn: (dto: z.infer<typeof SignUpValidation>) => preSignUp(dto)
+    })
+}
+
+export const useSignUpVisitor = () => {
+    return useMutation({
+        mutationFn: (dto: z.infer<typeof VisitorSignUpValidation>) => signUpVisitor(dto)
+    })
+}
+
+export const useUpdateUser = () => {
+    return useMutation({
+        mutationFn: (
+            {dto, userId, userRoles}: {
+                dto: z.infer<typeof VisitorSignUpValidation>,
+                userId: string,
+                userRoles: string[]
+            }
+        ) => updateUser(userId, userRoles, dto)
     })
 }
 
@@ -167,6 +190,14 @@ export const useAddParkingSpot = () => {
     })
 }
 
+export const useUpdateParkingSpot = () => {
+    return useMutation({
+        mutationFn: ({buildingId, spotId, dto}:{buildingId: string, spotId: string, dto: z.infer<typeof AddParkingSpotValidation>}) => {
+            return updateParkingSpot(buildingId, spotId, dto)
+        }
+    })
+}
+
 export const useGetParkingSpots = (
     buildingId?: string, 
     queries?: {
@@ -205,5 +236,107 @@ export const useGetParkingSpot = (buildingId?: string, spotId?: string) => {
         queryKey: ['parking-spot', buildingId, spotId],
         queryFn: () => getParkingSpot(buildingId, spotId),
         enabled: !!spotId && !!buildingId
+    })
+}
+
+export const useEnableHosting = () => {
+    return useMutation({
+        mutationFn: (userId: string) => enableHosting(userId)
+    })
+}
+
+export const useGetAccountLink = (userId: string) => {
+    return useQuery({
+        queryKey: ['account-link'],
+        queryFn: () => getAccountLink(userId),
+        retry: 2,
+        enabled: false
+    })
+}
+
+export const useDiscover = (
+    queries?: {
+        state?: 'occupied' | 'empty'
+        page?: number,
+        pageSize?: number
+        userId?: string
+        phone?: string
+    }
+) => {
+    return useQuery({
+        queryKey: ['discover'],
+        queryFn: () => discover(queries)
+    })
+}
+
+export const useGetSingleDiscoverParkingSpot = (spotId?: string) => {
+    if(!spotId) {
+        return useQuery({
+            queryKey: ['discover-spot'],
+            queryFn: () => {
+                throw new Error('spotId are required')
+            },
+        })
+    }
+    return useQuery({
+        queryKey: ['discover-spot'],
+        queryFn: () => getSingleDiscoverParkingSpot(spotId)
+    })
+}
+
+export const useSubscribeToSpot = () => {
+    return useMutation({
+        mutationFn: ({userId, parkingSpotId, dto}:{userId: string, parkingSpotId: string, dto: z.infer<typeof SubscribeToParkingSpotValidation>}) => subscribeToParkingSpot(userId, parkingSpotId, dto)
+    })
+}
+
+export const useCancelSubscription = () => {
+    return useMutation({
+        mutationFn: (parkingSpotId: string) => cancelSubscription(parkingSpotId)
+    })
+}
+
+export const useGetHostSubscriptions = (buildingId?: string) => {
+    if(!buildingId) {
+        return useQuery({
+            queryKey: ['host-subscriptions'],
+            queryFn: () => {
+                throw new Error('buildingId is required')
+            },
+        })
+    }
+    return useQuery({
+        queryKey: ['host-subscriptions'],
+        queryFn: () => getHostSubscriptions(buildingId)
+    })
+}
+
+export const useGetVisitorSubscriptions = (userId?: string) => {
+    if(!userId) {
+        return useQuery({
+            queryKey: ['visitor-subscriptions'],
+            queryFn: () => {
+                throw new Error('userId is required')
+            },
+        })
+    }
+    return useQuery({
+        queryKey: ['visitor-subscriptions'],
+        queryFn: () => getVisitorSubscriptions(userId)
+    })
+}
+
+export const useGetVisitorSubscription = (subscriptionId?: string) => {
+    if(!subscriptionId) {
+        return useQuery({
+            queryKey: ['visitor-subscription'],
+            queryFn: () => {
+                throw new Error('subscriptionId is required')
+            },
+        })
+    }
+    return useQuery({
+        queryKey: ['visitor-subscription'],
+        queryFn: () => getVisitorSubscription(subscriptionId)
     })
 }

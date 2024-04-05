@@ -7,6 +7,7 @@ import { StripeService } from 'src/stripe/stripe.service';
 import { Queue } from 'bull';
 import { InjectReservationQueue, ReservationQueueType } from 'src/queues/reservation.processor';
 import { InjectTestQueue } from 'src/queues/test.processor';
+import { GetParkingsDto } from 'src/building/dto';
 
 @Injectable()
 export class VisitorService {
@@ -255,6 +256,82 @@ export class VisitorService {
         delete listing.parking_spot;
       });
       return new IResponseData(`listings retrieved successfully`, listings).json;
+    } catch (error) {
+      throw this.errorService.handleException(error);
+    }
+  }
+
+  async discover(dto: GetParkingsDto) {
+    try {
+      const numOfSpots = await this.prisma.parkingSpot.count({
+        where: {
+          current_subscription_id: {
+            equals: null,
+          }
+        }
+      });
+      const parkingSpots = await this.prisma.parkingSpot.findMany({
+        where: {
+          current_subscription_id: {
+            equals: null,
+          }
+        },
+        skip: (dto.page - 1) * dto.pageSize, // Calculate the offset
+        take: dto.pageSize, // Limit the number of items returned
+      })
+      return new IResponseData(`reservations retrieved successfully`, {parkingSpots, numOfSpots}).json;
+    } catch (error) {
+      throw this.errorService.handleException(error);
+    }
+  }
+
+  async getParkingSpot(parkingSpotId: string) {
+    try {
+      const parkingSpot = await this.prisma.parkingSpot.findUnique({
+        where: {
+          id: parkingSpotId,
+        },
+        include: {
+          current_subscription: true,
+        }
+      });
+      return new IResponseData(`parking spot retrieved successfully`, parkingSpot).json;
+    } catch (error) {
+      throw this.errorService.handleException(error);
+    }
+  }
+
+  async getSubscriptions(userId: string) {
+    try {
+      const subscriptions = await this.prisma.subscription.findMany({
+        where: {
+          subscriber_user_id: userId,
+          stripe_subscription: {
+            path: ["status"],
+            equals: "active",
+          },
+        },
+        include: {
+          parking_spot: true,
+        },
+      });
+      return new IResponseData(`subscriptions retrieved successfully`, subscriptions).json;
+    } catch (error) {
+      throw this.errorService.handleException(error);
+    }
+  }
+
+  async getSubscription(subscriptionId: string) {
+    try {
+      const subscription = await this.prisma.subscription.findUnique({
+        where: {
+          id: subscriptionId,
+        },
+        include: {
+          parking_spot: true,
+        },
+      });
+      return new IResponseData(`subscription retrieved successfully`, subscription).json;
     } catch (error) {
       throw this.errorService.handleException(error);
     }

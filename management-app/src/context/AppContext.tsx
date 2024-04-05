@@ -14,7 +14,7 @@ interface ISideBarOption {
   ic: React.ReactNode;
 }
 
-const defaultOptions = [
+const hostOptions = [
   {
     id: 0,
     name: "Dashboard",
@@ -24,25 +24,32 @@ const defaultOptions = [
   },
   {
     id: 1,
-    name: "Apartment units",
-    to: "/apartment-units",
-    icon: "/assets/icons/apartment.svg",
-    ic: <MdApartment />,
-  },
-  {
-    id: 2,
-    name: "Community members",
-    to: `/community-members`,
-    icon: "/assets/icons/community-white.svg",
-    ic: <FaPeopleGroup />,
-  },
-  {
-    id: 3,
-    name: "Parking spots",
-    to: "/parking-spots",
-    icon: "/assets/icons/parking-white.svg",
+    name: "Subscriptions",
+    to: "/subscriptions",
+    icon: "/assets/icons/home-white.svg",
     ic: <FaParking />,
   },
+  // {
+  //   id: 1,
+  //   name: "Apartment units",
+  //   to: "/apartment-units",
+  //   icon: "/assets/icons/apartment.svg",
+  //   ic: <MdApartment />,
+  // },
+  // {
+  //   id: 2,
+  //   name: "Community members",
+  //   to: `/community-members`,
+  //   icon: "/assets/icons/community-white.svg",
+  //   ic: <FaPeopleGroup />,
+  // },
+  // {
+  //   id: 3,
+  //   name: "Parking spots",
+  //   to: "/parking-spots",
+  //   icon: "/assets/icons/parking-white.svg",
+  //   ic: <FaParking />,
+  // },
   // {
   //   id: 4,
   //   name: "Violations",
@@ -51,9 +58,67 @@ const defaultOptions = [
   //   ic: <RiErrorWarningLine />,
   // },
 ];
+
+const visitorOptions = [
+  {
+    id: 0,
+    name: "Discover",
+    to: "/discover",
+    icon: "/assets/icons/home-white.svg",
+    ic: <AiOutlineHome />,
+  },
+  {
+    id: 1,
+    name: "Subscriptions",
+    to: "/subscriptions",
+    icon: "/assets/icons/home-white.svg",
+    ic: <FaParking />,
+  },
+];
+
+// const defaultOptions = [
+//   {
+//     id: 0,
+//     name: "Dashboard",
+//     to: "/",
+//     icon: "/assets/icons/home-white.svg",
+//     ic: <AiOutlineHome />,
+//   },
+//   {
+//     id: 1,
+//     name: "Apartment units",
+//     to: "/apartment-units",
+//     icon: "/assets/icons/apartment.svg",
+//     ic: <MdApartment />,
+//   },
+//   {
+//     id: 2,
+//     name: "Community members",
+//     to: `/community-members`,
+//     icon: "/assets/icons/community-white.svg",
+//     ic: <FaPeopleGroup />,
+//   },
+//   {
+//     id: 3,
+//     name: "Parking spots",
+//     to: "/parking-spots",
+//     icon: "/assets/icons/parking-white.svg",
+//     ic: <FaParking />,
+//   },
+//   // {
+//   //   id: 4,
+//   //   name: "Violations",
+//   //   to: "/violations",
+//   //   icon: "/assets/icons/violations-white.svg",
+//   //   ic: <RiErrorWarningLine />,
+//   // },
+// ];
 interface AppContextData {
   sideBarOptions: ISideBarOption[];
   selectedSideBarOption: ISideBarOption | null;
+  sideBarOpen: boolean;
+  tenant: "host" | "visitor";
+  setSideBarOpen: Dispatch<SetStateAction<boolean>>;
   setSelectedSideBarOption: Dispatch<SetStateAction<ISideBarOption | null>>;
   handleSideBarOptionSelection: (optionId: number) => void;
 }
@@ -61,30 +126,39 @@ interface AppContextData {
 export const AppContext = createContext<AppContextData>({
   sideBarOptions: [],
   selectedSideBarOption: null,
+  sideBarOpen: false,
+  tenant: "visitor",
+  setSideBarOpen: () => {},
   setSelectedSideBarOption: () => {},
   handleSideBarOptionSelection: () => {},
 });
 
 export const AppContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const [sideBarOptions, setSideBarOptions] = useState<ISideBarOption[]>([...defaultOptions]);
+  const [sideBarOpen, setSideBarOpen] = useState(false);
+  const [tenant, _] = useState<"host" | "visitor">(getTenantFromHostname());
+  const [sideBarOptions, setSideBarOptions] = useState<ISideBarOption[]>(tenant === "host" ? [...hostOptions] : [...visitorOptions]);
   const [selectedSideBarOption, setSelectedSideBarOption] = useState<ISideBarOption | null>(null);
   const location = useLocation();
   const navigate = useNavigate();
 
+  function getTenantFromHostname(): "host" | "visitor" {
+    // Example: Extract tenant from subdomain
+    const subdomain = window.location.hostname.split(".")[0];
+    return subdomain === "host" ? "host" : "visitor";
+  }
+
   const { currentBuilding } = useManagementData();
 
   useEffect(() => {
-    if (location.pathname === "/") {
-      setSelectedSideBarOption(defaultOptions[0]);
-      return
+    if (location.pathname === "/" || location.pathname.includes("/discover")) {
+      setSelectedSideBarOption(sideBarOptions[0]);
+      return;
     }
-    setSelectedSideBarOption(
-      defaultOptions.slice(1).find((option) => location.pathname.includes(option.to)) ?? null
-    );
+    setSelectedSideBarOption(sideBarOptions.slice(1).find((option) => location.pathname.includes(option.to)) ?? null);
   }, [location]);
 
   useEffect(() => {
-    if (currentBuilding) {
+    if (tenant === "host" && currentBuilding) {
       const options = [
         {
           id: 0,
@@ -95,25 +169,32 @@ export const AppContextProvider = ({ children }: { children: React.ReactNode }) 
         },
         {
           id: 1,
-          name: "Apartment units",
-          to: "/apartment-units",
-          icon: "/assets/icons/apartment.svg",
-          ic: <MdApartment size={20} />,
+          name: "Subscriptions",
+          to: "/subscriptions",
+          icon: "/assets/icons/home-white.svg",
+          ic: <FaParking />,
         },
-        {
-          id: 2,
-          name: "Community members",
-          to: `/community-members${currentBuilding ? `/${currentBuilding.id}` : ""}`,
-          icon: "/assets/icons/community-white.svg",
-          ic: <FaPeopleGroup size={20} />,
-        },
-        {
-          id: 3,
-          name: "Parking spots",
-          to: "/parking-spots",
-          icon: "/assets/icons/parking-white.svg",
-          ic: <FaParking size={20} />,
-        },
+        // {
+        //   id: 1,
+        //   name: "Apartment units",
+        //   to: "/apartment-units",
+        //   icon: "/assets/icons/apartment.svg",
+        //   ic: <MdApartment size={20} />,
+        // },
+        // {
+        //   id: 2,
+        //   name: "Community members",
+        //   to: `/community-members${currentBuilding ? `/${currentBuilding.id}` : ""}`,
+        //   icon: "/assets/icons/community-white.svg",
+        //   ic: <FaPeopleGroup size={20} />,
+        // },
+        // {
+        //   id: 3,
+        //   name: "Parking spots",
+        //   to: "/parking-spots",
+        //   icon: "/assets/icons/parking-white.svg",
+        //   ic: <FaParking size={20} />,
+        // },
         // {
         //   id: 4,
         //   name: "Violations",
@@ -134,12 +215,16 @@ export const AppContextProvider = ({ children }: { children: React.ReactNode }) 
       localStorage.setItem("selectedSideBarOption", JSON.stringify(selectedOption));
       navigate(selectedOption.to);
     }
+    setSideBarOpen(false);
   };
   return (
     <AppContext.Provider
       value={{
         sideBarOptions,
         selectedSideBarOption,
+        sideBarOpen,
+        tenant,
+        setSideBarOpen,
         setSelectedSideBarOption,
         handleSideBarOptionSelection,
       }}

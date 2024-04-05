@@ -73,6 +73,11 @@ export type Reservation = $Result.DefaultSelection<Prisma.$ReservationPayload>
  * 
  */
 export type ApartmentUnit = $Result.DefaultSelection<Prisma.$ApartmentUnitPayload>
+/**
+ * Model Subscription
+ * 
+ */
+export type Subscription = $Result.DefaultSelection<Prisma.$SubscriptionPayload>
 
 /**
  * Enums
@@ -521,6 +526,16 @@ export class PrismaClient<
     * ```
     */
   get apartmentUnit(): Prisma.ApartmentUnitDelegate<ExtArgs>;
+
+  /**
+   * `prisma.subscription`: Exposes CRUD operations for the **Subscription** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Subscriptions
+    * const subscriptions = await prisma.subscription.findMany()
+    * ```
+    */
+  get subscription(): Prisma.SubscriptionDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -1002,7 +1017,8 @@ export namespace Prisma {
     Vehicle: 'Vehicle',
     Listing: 'Listing',
     Reservation: 'Reservation',
-    ApartmentUnit: 'ApartmentUnit'
+    ApartmentUnit: 'ApartmentUnit',
+    Subscription: 'Subscription'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1019,7 +1035,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     meta: {
-      modelProps: 'preSignUpManagement' | 'user' | 'management' | 'managementStaff' | 'building' | 'communityMembers' | 'parkingSpot' | 'qRCode' | 'vehicle' | 'listing' | 'reservation' | 'apartmentUnit'
+      modelProps: 'preSignUpManagement' | 'user' | 'management' | 'managementStaff' | 'building' | 'communityMembers' | 'parkingSpot' | 'qRCode' | 'vehicle' | 'listing' | 'reservation' | 'apartmentUnit' | 'subscription'
       txIsolationLevel: Prisma.TransactionIsolationLevel
     },
     model: {
@@ -1815,6 +1831,72 @@ export namespace Prisma {
           }
         }
       }
+      Subscription: {
+        payload: Prisma.$SubscriptionPayload<ExtArgs>
+        fields: Prisma.SubscriptionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SubscriptionFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SubscriptionFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionPayload>
+          }
+          findFirst: {
+            args: Prisma.SubscriptionFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SubscriptionFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionPayload>
+          }
+          findMany: {
+            args: Prisma.SubscriptionFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionPayload>[]
+          }
+          create: {
+            args: Prisma.SubscriptionCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionPayload>
+          }
+          createMany: {
+            args: Prisma.SubscriptionCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          delete: {
+            args: Prisma.SubscriptionDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionPayload>
+          }
+          update: {
+            args: Prisma.SubscriptionUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionPayload>
+          }
+          deleteMany: {
+            args: Prisma.SubscriptionDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SubscriptionUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          upsert: {
+            args: Prisma.SubscriptionUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionPayload>
+          }
+          aggregate: {
+            args: Prisma.SubscriptionAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateSubscription>
+          }
+          groupBy: {
+            args: Prisma.SubscriptionGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<SubscriptionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SubscriptionCountArgs<ExtArgs>,
+            result: $Utils.Optional<SubscriptionCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1978,6 +2060,7 @@ export namespace Prisma {
     listings: number
     hostReservations: number
     visitorReservations: number
+    subscriptions: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1985,6 +2068,7 @@ export namespace Prisma {
     listings?: boolean | UserCountOutputTypeCountListingsArgs
     hostReservations?: boolean | UserCountOutputTypeCountHostReservationsArgs
     visitorReservations?: boolean | UserCountOutputTypeCountVisitorReservationsArgs
+    subscriptions?: boolean | UserCountOutputTypeCountSubscriptionsArgs
   }
 
   // Custom InputTypes
@@ -2029,6 +2113,14 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountVisitorReservationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ReservationWhereInput
+  }
+
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountSubscriptionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SubscriptionWhereInput
   }
 
 
@@ -2192,11 +2284,13 @@ export namespace Prisma {
   export type ParkingSpotCountOutputType = {
     listings: number
     reservations: number
+    all_subscriptions: number
   }
 
   export type ParkingSpotCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     listings?: boolean | ParkingSpotCountOutputTypeCountListingsArgs
     reservations?: boolean | ParkingSpotCountOutputTypeCountReservationsArgs
+    all_subscriptions?: boolean | ParkingSpotCountOutputTypeCountAll_subscriptionsArgs
   }
 
   // Custom InputTypes
@@ -2225,6 +2319,14 @@ export namespace Prisma {
    */
   export type ParkingSpotCountOutputTypeCountReservationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ReservationWhereInput
+  }
+
+
+  /**
+   * ParkingSpotCountOutputType without action
+   */
+  export type ParkingSpotCountOutputTypeCountAll_subscriptionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SubscriptionWhereInput
   }
 
 
@@ -3396,6 +3498,7 @@ export namespace Prisma {
     listings?: boolean | User$listingsArgs<ExtArgs>
     hostReservations?: boolean | User$hostReservationsArgs<ExtArgs>
     visitorReservations?: boolean | User$visitorReservationsArgs<ExtArgs>
+    subscriptions?: boolean | User$subscriptionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -3421,6 +3524,7 @@ export namespace Prisma {
     listings?: boolean | User$listingsArgs<ExtArgs>
     hostReservations?: boolean | User$hostReservationsArgs<ExtArgs>
     visitorReservations?: boolean | User$visitorReservationsArgs<ExtArgs>
+    subscriptions?: boolean | User$subscriptionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -3433,6 +3537,7 @@ export namespace Prisma {
       listings: Prisma.$ListingPayload<ExtArgs>[]
       hostReservations: Prisma.$ReservationPayload<ExtArgs>[]
       visitorReservations: Prisma.$ReservationPayload<ExtArgs>[]
+      subscriptions: Prisma.$SubscriptionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3822,6 +3927,8 @@ export namespace Prisma {
     hostReservations<T extends User$hostReservationsArgs<ExtArgs> = {}>(args?: Subset<T, User$hostReservationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservationPayload<ExtArgs>, T, 'findMany'> | Null>;
 
     visitorReservations<T extends User$visitorReservationsArgs<ExtArgs> = {}>(args?: Subset<T, User$visitorReservationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservationPayload<ExtArgs>, T, 'findMany'> | Null>;
+
+    subscriptions<T extends User$subscriptionsArgs<ExtArgs> = {}>(args?: Subset<T, User$subscriptionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, 'findMany'> | Null>;
 
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -4272,6 +4379,27 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ReservationScalarFieldEnum | ReservationScalarFieldEnum[]
+  }
+
+
+  /**
+   * User.subscriptions
+   */
+  export type User$subscriptionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subscription
+     */
+    select?: SubscriptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubscriptionInclude<ExtArgs> | null
+    where?: SubscriptionWhereInput
+    orderBy?: SubscriptionOrderByWithRelationInput | SubscriptionOrderByWithRelationInput[]
+    cursor?: SubscriptionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SubscriptionScalarFieldEnum | SubscriptionScalarFieldEnum[]
   }
 
 
@@ -8640,10 +8768,12 @@ export namespace Prisma {
 
   export type ParkingSpotAvgAggregateOutputType = {
     parking_level: number | null
+    price: number | null
   }
 
   export type ParkingSpotSumAggregateOutputType = {
     parking_level: number | null
+    price: number | null
   }
 
   export type ParkingSpotMinAggregateOutputType = {
@@ -8656,6 +8786,8 @@ export namespace Prisma {
     parking_spot_number: string | null
     parking_spot_type: $Enums.Parking_Spot_Type | null
     parking_instructions: string | null
+    price: number | null
+    current_subscription_id: string | null
   }
 
   export type ParkingSpotMaxAggregateOutputType = {
@@ -8668,6 +8800,8 @@ export namespace Prisma {
     parking_spot_number: string | null
     parking_spot_type: $Enums.Parking_Spot_Type | null
     parking_instructions: string | null
+    price: number | null
+    current_subscription_id: string | null
   }
 
   export type ParkingSpotCountAggregateOutputType = {
@@ -8680,16 +8814,21 @@ export namespace Prisma {
     parking_spot_number: number
     parking_spot_type: number
     parking_instructions: number
+    price: number
+    stripe_product: number
+    current_subscription_id: number
     _all: number
   }
 
 
   export type ParkingSpotAvgAggregateInputType = {
     parking_level?: true
+    price?: true
   }
 
   export type ParkingSpotSumAggregateInputType = {
     parking_level?: true
+    price?: true
   }
 
   export type ParkingSpotMinAggregateInputType = {
@@ -8702,6 +8841,8 @@ export namespace Prisma {
     parking_spot_number?: true
     parking_spot_type?: true
     parking_instructions?: true
+    price?: true
+    current_subscription_id?: true
   }
 
   export type ParkingSpotMaxAggregateInputType = {
@@ -8714,6 +8855,8 @@ export namespace Prisma {
     parking_spot_number?: true
     parking_spot_type?: true
     parking_instructions?: true
+    price?: true
+    current_subscription_id?: true
   }
 
   export type ParkingSpotCountAggregateInputType = {
@@ -8726,6 +8869,9 @@ export namespace Prisma {
     parking_spot_number?: true
     parking_spot_type?: true
     parking_instructions?: true
+    price?: true
+    stripe_product?: true
+    current_subscription_id?: true
     _all?: true
   }
 
@@ -8825,6 +8971,9 @@ export namespace Prisma {
     parking_spot_number: string | null
     parking_spot_type: $Enums.Parking_Spot_Type
     parking_instructions: string | null
+    price: number | null
+    stripe_product: JsonValue | null
+    current_subscription_id: string | null
     _count: ParkingSpotCountAggregateOutputType | null
     _avg: ParkingSpotAvgAggregateOutputType | null
     _sum: ParkingSpotSumAggregateOutputType | null
@@ -8856,12 +9005,17 @@ export namespace Prisma {
     parking_spot_number?: boolean
     parking_spot_type?: boolean
     parking_instructions?: boolean
+    price?: boolean
+    stripe_product?: boolean
+    current_subscription_id?: boolean
     building?: boolean | BuildingDefaultArgs<ExtArgs>
     owner?: boolean | ParkingSpot$ownerArgs<ExtArgs>
     qr_code?: boolean | ParkingSpot$qr_codeArgs<ExtArgs>
     vehicle?: boolean | ParkingSpot$vehicleArgs<ExtArgs>
     listings?: boolean | ParkingSpot$listingsArgs<ExtArgs>
     reservations?: boolean | ParkingSpot$reservationsArgs<ExtArgs>
+    current_subscription?: boolean | ParkingSpot$current_subscriptionArgs<ExtArgs>
+    all_subscriptions?: boolean | ParkingSpot$all_subscriptionsArgs<ExtArgs>
     _count?: boolean | ParkingSpotCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["parkingSpot"]>
 
@@ -8875,6 +9029,9 @@ export namespace Prisma {
     parking_spot_number?: boolean
     parking_spot_type?: boolean
     parking_instructions?: boolean
+    price?: boolean
+    stripe_product?: boolean
+    current_subscription_id?: boolean
   }
 
   export type ParkingSpotInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8884,6 +9041,8 @@ export namespace Prisma {
     vehicle?: boolean | ParkingSpot$vehicleArgs<ExtArgs>
     listings?: boolean | ParkingSpot$listingsArgs<ExtArgs>
     reservations?: boolean | ParkingSpot$reservationsArgs<ExtArgs>
+    current_subscription?: boolean | ParkingSpot$current_subscriptionArgs<ExtArgs>
+    all_subscriptions?: boolean | ParkingSpot$all_subscriptionsArgs<ExtArgs>
     _count?: boolean | ParkingSpotCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -8897,6 +9056,8 @@ export namespace Prisma {
       vehicle: Prisma.$VehiclePayload<ExtArgs> | null
       listings: Prisma.$ListingPayload<ExtArgs>[]
       reservations: Prisma.$ReservationPayload<ExtArgs>[]
+      current_subscription: Prisma.$SubscriptionPayload<ExtArgs> | null
+      all_subscriptions: Prisma.$SubscriptionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -8908,6 +9069,9 @@ export namespace Prisma {
       parking_spot_number: string | null
       parking_spot_type: $Enums.Parking_Spot_Type
       parking_instructions: string | null
+      price: number | null
+      stripe_product: Prisma.JsonValue | null
+      current_subscription_id: string | null
     }, ExtArgs["result"]["parkingSpot"]>
     composites: {}
   }
@@ -9285,6 +9449,10 @@ export namespace Prisma {
 
     reservations<T extends ParkingSpot$reservationsArgs<ExtArgs> = {}>(args?: Subset<T, ParkingSpot$reservationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservationPayload<ExtArgs>, T, 'findMany'> | Null>;
 
+    current_subscription<T extends ParkingSpot$current_subscriptionArgs<ExtArgs> = {}>(args?: Subset<T, ParkingSpot$current_subscriptionArgs<ExtArgs>>): Prisma__SubscriptionClient<$Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
+
+    all_subscriptions<T extends ParkingSpot$all_subscriptionsArgs<ExtArgs> = {}>(args?: Subset<T, ParkingSpot$all_subscriptionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, 'findMany'> | Null>;
+
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9322,6 +9490,9 @@ export namespace Prisma {
     readonly parking_spot_number: FieldRef<"ParkingSpot", 'String'>
     readonly parking_spot_type: FieldRef<"ParkingSpot", 'Parking_Spot_Type'>
     readonly parking_instructions: FieldRef<"ParkingSpot", 'String'>
+    readonly price: FieldRef<"ParkingSpot", 'Int'>
+    readonly stripe_product: FieldRef<"ParkingSpot", 'Json'>
+    readonly current_subscription_id: FieldRef<"ParkingSpot", 'String'>
   }
     
 
@@ -9720,6 +9891,43 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ReservationScalarFieldEnum | ReservationScalarFieldEnum[]
+  }
+
+
+  /**
+   * ParkingSpot.current_subscription
+   */
+  export type ParkingSpot$current_subscriptionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subscription
+     */
+    select?: SubscriptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubscriptionInclude<ExtArgs> | null
+    where?: SubscriptionWhereInput
+  }
+
+
+  /**
+   * ParkingSpot.all_subscriptions
+   */
+  export type ParkingSpot$all_subscriptionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subscription
+     */
+    select?: SubscriptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubscriptionInclude<ExtArgs> | null
+    where?: SubscriptionWhereInput
+    orderBy?: SubscriptionOrderByWithRelationInput | SubscriptionOrderByWithRelationInput[]
+    cursor?: SubscriptionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SubscriptionScalarFieldEnum | SubscriptionScalarFieldEnum[]
   }
 
 
@@ -14841,6 +15049,1055 @@ export namespace Prisma {
 
 
   /**
+   * Model Subscription
+   */
+
+  export type AggregateSubscription = {
+    _count: SubscriptionCountAggregateOutputType | null
+    _min: SubscriptionMinAggregateOutputType | null
+    _max: SubscriptionMaxAggregateOutputType | null
+  }
+
+  export type SubscriptionMinAggregateOutputType = {
+    id: string | null
+    parking_spot_id: string | null
+    subscriber_user_id: string | null
+    subscriber_name: string | null
+    subscriber_email: string | null
+    subscriber_phone: string | null
+    subscriber_licence_plate: string | null
+    subscriber_car_model: string | null
+    subscriber_office_number: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type SubscriptionMaxAggregateOutputType = {
+    id: string | null
+    parking_spot_id: string | null
+    subscriber_user_id: string | null
+    subscriber_name: string | null
+    subscriber_email: string | null
+    subscriber_phone: string | null
+    subscriber_licence_plate: string | null
+    subscriber_car_model: string | null
+    subscriber_office_number: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type SubscriptionCountAggregateOutputType = {
+    id: number
+    parking_spot_id: number
+    subscriber_user_id: number
+    subscriber_name: number
+    subscriber_email: number
+    subscriber_phone: number
+    subscriber_licence_plate: number
+    subscriber_car_model: number
+    subscriber_office_number: number
+    stripe_subscription: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type SubscriptionMinAggregateInputType = {
+    id?: true
+    parking_spot_id?: true
+    subscriber_user_id?: true
+    subscriber_name?: true
+    subscriber_email?: true
+    subscriber_phone?: true
+    subscriber_licence_plate?: true
+    subscriber_car_model?: true
+    subscriber_office_number?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type SubscriptionMaxAggregateInputType = {
+    id?: true
+    parking_spot_id?: true
+    subscriber_user_id?: true
+    subscriber_name?: true
+    subscriber_email?: true
+    subscriber_phone?: true
+    subscriber_licence_plate?: true
+    subscriber_car_model?: true
+    subscriber_office_number?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type SubscriptionCountAggregateInputType = {
+    id?: true
+    parking_spot_id?: true
+    subscriber_user_id?: true
+    subscriber_name?: true
+    subscriber_email?: true
+    subscriber_phone?: true
+    subscriber_licence_plate?: true
+    subscriber_car_model?: true
+    subscriber_office_number?: true
+    stripe_subscription?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type SubscriptionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Subscription to aggregate.
+     */
+    where?: SubscriptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Subscriptions to fetch.
+     */
+    orderBy?: SubscriptionOrderByWithRelationInput | SubscriptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SubscriptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Subscriptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Subscriptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Subscriptions
+    **/
+    _count?: true | SubscriptionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SubscriptionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SubscriptionMaxAggregateInputType
+  }
+
+  export type GetSubscriptionAggregateType<T extends SubscriptionAggregateArgs> = {
+        [P in keyof T & keyof AggregateSubscription]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSubscription[P]>
+      : GetScalarType<T[P], AggregateSubscription[P]>
+  }
+
+
+
+
+  export type SubscriptionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SubscriptionWhereInput
+    orderBy?: SubscriptionOrderByWithAggregationInput | SubscriptionOrderByWithAggregationInput[]
+    by: SubscriptionScalarFieldEnum[] | SubscriptionScalarFieldEnum
+    having?: SubscriptionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SubscriptionCountAggregateInputType | true
+    _min?: SubscriptionMinAggregateInputType
+    _max?: SubscriptionMaxAggregateInputType
+  }
+
+  export type SubscriptionGroupByOutputType = {
+    id: string
+    parking_spot_id: string | null
+    subscriber_user_id: string | null
+    subscriber_name: string | null
+    subscriber_email: string | null
+    subscriber_phone: string | null
+    subscriber_licence_plate: string | null
+    subscriber_car_model: string | null
+    subscriber_office_number: string | null
+    stripe_subscription: JsonValue | null
+    created_at: Date
+    updated_at: Date
+    _count: SubscriptionCountAggregateOutputType | null
+    _min: SubscriptionMinAggregateOutputType | null
+    _max: SubscriptionMaxAggregateOutputType | null
+  }
+
+  type GetSubscriptionGroupByPayload<T extends SubscriptionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SubscriptionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SubscriptionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SubscriptionGroupByOutputType[P]>
+            : GetScalarType<T[P], SubscriptionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SubscriptionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    parking_spot_id?: boolean
+    subscriber_user_id?: boolean
+    subscriber_name?: boolean
+    subscriber_email?: boolean
+    subscriber_phone?: boolean
+    subscriber_licence_plate?: boolean
+    subscriber_car_model?: boolean
+    subscriber_office_number?: boolean
+    stripe_subscription?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    parking_spot?: boolean | Subscription$parking_spotArgs<ExtArgs>
+    subscriber_user?: boolean | Subscription$subscriber_userArgs<ExtArgs>
+    parking_spot_current?: boolean | Subscription$parking_spot_currentArgs<ExtArgs>
+  }, ExtArgs["result"]["subscription"]>
+
+  export type SubscriptionSelectScalar = {
+    id?: boolean
+    parking_spot_id?: boolean
+    subscriber_user_id?: boolean
+    subscriber_name?: boolean
+    subscriber_email?: boolean
+    subscriber_phone?: boolean
+    subscriber_licence_plate?: boolean
+    subscriber_car_model?: boolean
+    subscriber_office_number?: boolean
+    stripe_subscription?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type SubscriptionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    parking_spot?: boolean | Subscription$parking_spotArgs<ExtArgs>
+    subscriber_user?: boolean | Subscription$subscriber_userArgs<ExtArgs>
+    parking_spot_current?: boolean | Subscription$parking_spot_currentArgs<ExtArgs>
+  }
+
+
+  export type $SubscriptionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Subscription"
+    objects: {
+      parking_spot: Prisma.$ParkingSpotPayload<ExtArgs> | null
+      subscriber_user: Prisma.$UserPayload<ExtArgs> | null
+      parking_spot_current: Prisma.$ParkingSpotPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      parking_spot_id: string | null
+      subscriber_user_id: string | null
+      subscriber_name: string | null
+      subscriber_email: string | null
+      subscriber_phone: string | null
+      subscriber_licence_plate: string | null
+      subscriber_car_model: string | null
+      subscriber_office_number: string | null
+      stripe_subscription: Prisma.JsonValue | null
+      created_at: Date
+      updated_at: Date
+    }, ExtArgs["result"]["subscription"]>
+    composites: {}
+  }
+
+
+  type SubscriptionGetPayload<S extends boolean | null | undefined | SubscriptionDefaultArgs> = $Result.GetResult<Prisma.$SubscriptionPayload, S>
+
+  type SubscriptionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<SubscriptionFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: SubscriptionCountAggregateInputType | true
+    }
+
+  export interface SubscriptionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Subscription'], meta: { name: 'Subscription' } }
+    /**
+     * Find zero or one Subscription that matches the filter.
+     * @param {SubscriptionFindUniqueArgs} args - Arguments to find a Subscription
+     * @example
+     * // Get one Subscription
+     * const subscription = await prisma.subscription.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends SubscriptionFindUniqueArgs<ExtArgs>>(
+      args: SelectSubset<T, SubscriptionFindUniqueArgs<ExtArgs>>
+    ): Prisma__SubscriptionClient<$Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
+
+    /**
+     * Find one Subscription that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {SubscriptionFindUniqueOrThrowArgs} args - Arguments to find a Subscription
+     * @example
+     * // Get one Subscription
+     * const subscription = await prisma.subscription.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends SubscriptionFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, SubscriptionFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__SubscriptionClient<$Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, 'findUniqueOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find the first Subscription that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscriptionFindFirstArgs} args - Arguments to find a Subscription
+     * @example
+     * // Get one Subscription
+     * const subscription = await prisma.subscription.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends SubscriptionFindFirstArgs<ExtArgs>>(
+      args?: SelectSubset<T, SubscriptionFindFirstArgs<ExtArgs>>
+    ): Prisma__SubscriptionClient<$Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, 'findFirst'> | null, null, ExtArgs>
+
+    /**
+     * Find the first Subscription that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscriptionFindFirstOrThrowArgs} args - Arguments to find a Subscription
+     * @example
+     * // Get one Subscription
+     * const subscription = await prisma.subscription.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends SubscriptionFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, SubscriptionFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__SubscriptionClient<$Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, 'findFirstOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find zero or more Subscriptions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscriptionFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Subscriptions
+     * const subscriptions = await prisma.subscription.findMany()
+     * 
+     * // Get first 10 Subscriptions
+     * const subscriptions = await prisma.subscription.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const subscriptionWithIdOnly = await prisma.subscription.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends SubscriptionFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, SubscriptionFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, 'findMany'>>
+
+    /**
+     * Create a Subscription.
+     * @param {SubscriptionCreateArgs} args - Arguments to create a Subscription.
+     * @example
+     * // Create one Subscription
+     * const Subscription = await prisma.subscription.create({
+     *   data: {
+     *     // ... data to create a Subscription
+     *   }
+     * })
+     * 
+    **/
+    create<T extends SubscriptionCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, SubscriptionCreateArgs<ExtArgs>>
+    ): Prisma__SubscriptionClient<$Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, 'create'>, never, ExtArgs>
+
+    /**
+     * Create many Subscriptions.
+     *     @param {SubscriptionCreateManyArgs} args - Arguments to create many Subscriptions.
+     *     @example
+     *     // Create many Subscriptions
+     *     const subscription = await prisma.subscription.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends SubscriptionCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, SubscriptionCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Subscription.
+     * @param {SubscriptionDeleteArgs} args - Arguments to delete one Subscription.
+     * @example
+     * // Delete one Subscription
+     * const Subscription = await prisma.subscription.delete({
+     *   where: {
+     *     // ... filter to delete one Subscription
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends SubscriptionDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, SubscriptionDeleteArgs<ExtArgs>>
+    ): Prisma__SubscriptionClient<$Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, 'delete'>, never, ExtArgs>
+
+    /**
+     * Update one Subscription.
+     * @param {SubscriptionUpdateArgs} args - Arguments to update one Subscription.
+     * @example
+     * // Update one Subscription
+     * const subscription = await prisma.subscription.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends SubscriptionUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, SubscriptionUpdateArgs<ExtArgs>>
+    ): Prisma__SubscriptionClient<$Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, 'update'>, never, ExtArgs>
+
+    /**
+     * Delete zero or more Subscriptions.
+     * @param {SubscriptionDeleteManyArgs} args - Arguments to filter Subscriptions to delete.
+     * @example
+     * // Delete a few Subscriptions
+     * const { count } = await prisma.subscription.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends SubscriptionDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, SubscriptionDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Subscriptions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscriptionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Subscriptions
+     * const subscription = await prisma.subscription.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends SubscriptionUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, SubscriptionUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Subscription.
+     * @param {SubscriptionUpsertArgs} args - Arguments to update or create a Subscription.
+     * @example
+     * // Update or create a Subscription
+     * const subscription = await prisma.subscription.upsert({
+     *   create: {
+     *     // ... data to create a Subscription
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Subscription we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends SubscriptionUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, SubscriptionUpsertArgs<ExtArgs>>
+    ): Prisma__SubscriptionClient<$Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, 'upsert'>, never, ExtArgs>
+
+    /**
+     * Count the number of Subscriptions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscriptionCountArgs} args - Arguments to filter Subscriptions to count.
+     * @example
+     * // Count the number of Subscriptions
+     * const count = await prisma.subscription.count({
+     *   where: {
+     *     // ... the filter for the Subscriptions we want to count
+     *   }
+     * })
+    **/
+    count<T extends SubscriptionCountArgs>(
+      args?: Subset<T, SubscriptionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SubscriptionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Subscription.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscriptionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SubscriptionAggregateArgs>(args: Subset<T, SubscriptionAggregateArgs>): Prisma.PrismaPromise<GetSubscriptionAggregateType<T>>
+
+    /**
+     * Group by Subscription.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscriptionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SubscriptionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SubscriptionGroupByArgs['orderBy'] }
+        : { orderBy?: SubscriptionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SubscriptionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSubscriptionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Subscription model
+   */
+  readonly fields: SubscriptionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Subscription.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SubscriptionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+
+    parking_spot<T extends Subscription$parking_spotArgs<ExtArgs> = {}>(args?: Subset<T, Subscription$parking_spotArgs<ExtArgs>>): Prisma__ParkingSpotClient<$Result.GetResult<Prisma.$ParkingSpotPayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
+
+    subscriber_user<T extends Subscription$subscriber_userArgs<ExtArgs> = {}>(args?: Subset<T, Subscription$subscriber_userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
+
+    parking_spot_current<T extends Subscription$parking_spot_currentArgs<ExtArgs> = {}>(args?: Subset<T, Subscription$parking_spot_currentArgs<ExtArgs>>): Prisma__ParkingSpotClient<$Result.GetResult<Prisma.$ParkingSpotPayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
+
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
+  }
+
+
+
+  /**
+   * Fields of the Subscription model
+   */ 
+  interface SubscriptionFieldRefs {
+    readonly id: FieldRef<"Subscription", 'String'>
+    readonly parking_spot_id: FieldRef<"Subscription", 'String'>
+    readonly subscriber_user_id: FieldRef<"Subscription", 'String'>
+    readonly subscriber_name: FieldRef<"Subscription", 'String'>
+    readonly subscriber_email: FieldRef<"Subscription", 'String'>
+    readonly subscriber_phone: FieldRef<"Subscription", 'String'>
+    readonly subscriber_licence_plate: FieldRef<"Subscription", 'String'>
+    readonly subscriber_car_model: FieldRef<"Subscription", 'String'>
+    readonly subscriber_office_number: FieldRef<"Subscription", 'String'>
+    readonly stripe_subscription: FieldRef<"Subscription", 'Json'>
+    readonly created_at: FieldRef<"Subscription", 'DateTime'>
+    readonly updated_at: FieldRef<"Subscription", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+
+  /**
+   * Subscription findUnique
+   */
+  export type SubscriptionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subscription
+     */
+    select?: SubscriptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubscriptionInclude<ExtArgs> | null
+    /**
+     * Filter, which Subscription to fetch.
+     */
+    where: SubscriptionWhereUniqueInput
+  }
+
+
+  /**
+   * Subscription findUniqueOrThrow
+   */
+  export type SubscriptionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subscription
+     */
+    select?: SubscriptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubscriptionInclude<ExtArgs> | null
+    /**
+     * Filter, which Subscription to fetch.
+     */
+    where: SubscriptionWhereUniqueInput
+  }
+
+
+  /**
+   * Subscription findFirst
+   */
+  export type SubscriptionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subscription
+     */
+    select?: SubscriptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubscriptionInclude<ExtArgs> | null
+    /**
+     * Filter, which Subscription to fetch.
+     */
+    where?: SubscriptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Subscriptions to fetch.
+     */
+    orderBy?: SubscriptionOrderByWithRelationInput | SubscriptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Subscriptions.
+     */
+    cursor?: SubscriptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Subscriptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Subscriptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Subscriptions.
+     */
+    distinct?: SubscriptionScalarFieldEnum | SubscriptionScalarFieldEnum[]
+  }
+
+
+  /**
+   * Subscription findFirstOrThrow
+   */
+  export type SubscriptionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subscription
+     */
+    select?: SubscriptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubscriptionInclude<ExtArgs> | null
+    /**
+     * Filter, which Subscription to fetch.
+     */
+    where?: SubscriptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Subscriptions to fetch.
+     */
+    orderBy?: SubscriptionOrderByWithRelationInput | SubscriptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Subscriptions.
+     */
+    cursor?: SubscriptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Subscriptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Subscriptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Subscriptions.
+     */
+    distinct?: SubscriptionScalarFieldEnum | SubscriptionScalarFieldEnum[]
+  }
+
+
+  /**
+   * Subscription findMany
+   */
+  export type SubscriptionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subscription
+     */
+    select?: SubscriptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubscriptionInclude<ExtArgs> | null
+    /**
+     * Filter, which Subscriptions to fetch.
+     */
+    where?: SubscriptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Subscriptions to fetch.
+     */
+    orderBy?: SubscriptionOrderByWithRelationInput | SubscriptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Subscriptions.
+     */
+    cursor?: SubscriptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Subscriptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Subscriptions.
+     */
+    skip?: number
+    distinct?: SubscriptionScalarFieldEnum | SubscriptionScalarFieldEnum[]
+  }
+
+
+  /**
+   * Subscription create
+   */
+  export type SubscriptionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subscription
+     */
+    select?: SubscriptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubscriptionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Subscription.
+     */
+    data?: XOR<SubscriptionCreateInput, SubscriptionUncheckedCreateInput>
+  }
+
+
+  /**
+   * Subscription createMany
+   */
+  export type SubscriptionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Subscriptions.
+     */
+    data: SubscriptionCreateManyInput | SubscriptionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Subscription update
+   */
+  export type SubscriptionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subscription
+     */
+    select?: SubscriptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubscriptionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Subscription.
+     */
+    data: XOR<SubscriptionUpdateInput, SubscriptionUncheckedUpdateInput>
+    /**
+     * Choose, which Subscription to update.
+     */
+    where: SubscriptionWhereUniqueInput
+  }
+
+
+  /**
+   * Subscription updateMany
+   */
+  export type SubscriptionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Subscriptions.
+     */
+    data: XOR<SubscriptionUpdateManyMutationInput, SubscriptionUncheckedUpdateManyInput>
+    /**
+     * Filter which Subscriptions to update
+     */
+    where?: SubscriptionWhereInput
+  }
+
+
+  /**
+   * Subscription upsert
+   */
+  export type SubscriptionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subscription
+     */
+    select?: SubscriptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubscriptionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Subscription to update in case it exists.
+     */
+    where: SubscriptionWhereUniqueInput
+    /**
+     * In case the Subscription found by the `where` argument doesn't exist, create a new Subscription with this data.
+     */
+    create: XOR<SubscriptionCreateInput, SubscriptionUncheckedCreateInput>
+    /**
+     * In case the Subscription was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SubscriptionUpdateInput, SubscriptionUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Subscription delete
+   */
+  export type SubscriptionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subscription
+     */
+    select?: SubscriptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubscriptionInclude<ExtArgs> | null
+    /**
+     * Filter which Subscription to delete.
+     */
+    where: SubscriptionWhereUniqueInput
+  }
+
+
+  /**
+   * Subscription deleteMany
+   */
+  export type SubscriptionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Subscriptions to delete
+     */
+    where?: SubscriptionWhereInput
+  }
+
+
+  /**
+   * Subscription.parking_spot
+   */
+  export type Subscription$parking_spotArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParkingSpot
+     */
+    select?: ParkingSpotSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ParkingSpotInclude<ExtArgs> | null
+    where?: ParkingSpotWhereInput
+  }
+
+
+  /**
+   * Subscription.subscriber_user
+   */
+  export type Subscription$subscriber_userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+
+  /**
+   * Subscription.parking_spot_current
+   */
+  export type Subscription$parking_spot_currentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParkingSpot
+     */
+    select?: ParkingSpotSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ParkingSpotInclude<ExtArgs> | null
+    where?: ParkingSpotWhereInput
+  }
+
+
+  /**
+   * Subscription without action
+   */
+  export type SubscriptionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subscription
+     */
+    select?: SubscriptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubscriptionInclude<ExtArgs> | null
+  }
+
+
+
+  /**
    * Enums
    */
 
@@ -14966,7 +16223,10 @@ export namespace Prisma {
     parking_level: 'parking_level',
     parking_spot_number: 'parking_spot_number',
     parking_spot_type: 'parking_spot_type',
-    parking_instructions: 'parking_instructions'
+    parking_instructions: 'parking_instructions',
+    price: 'price',
+    stripe_product: 'stripe_product',
+    current_subscription_id: 'current_subscription_id'
   };
 
   export type ParkingSpotScalarFieldEnum = (typeof ParkingSpotScalarFieldEnum)[keyof typeof ParkingSpotScalarFieldEnum]
@@ -15042,6 +16302,24 @@ export namespace Prisma {
   };
 
   export type ApartmentUnitScalarFieldEnum = (typeof ApartmentUnitScalarFieldEnum)[keyof typeof ApartmentUnitScalarFieldEnum]
+
+
+  export const SubscriptionScalarFieldEnum: {
+    id: 'id',
+    parking_spot_id: 'parking_spot_id',
+    subscriber_user_id: 'subscriber_user_id',
+    subscriber_name: 'subscriber_name',
+    subscriber_email: 'subscriber_email',
+    subscriber_phone: 'subscriber_phone',
+    subscriber_licence_plate: 'subscriber_licence_plate',
+    subscriber_car_model: 'subscriber_car_model',
+    subscriber_office_number: 'subscriber_office_number',
+    stripe_subscription: 'stripe_subscription',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type SubscriptionScalarFieldEnum = (typeof SubscriptionScalarFieldEnum)[keyof typeof SubscriptionScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -15440,6 +16718,7 @@ export namespace Prisma {
     listings?: ListingListRelationFilter
     hostReservations?: ReservationListRelationFilter
     visitorReservations?: ReservationListRelationFilter
+    subscriptions?: SubscriptionListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -15461,6 +16740,7 @@ export namespace Prisma {
     listings?: ListingOrderByRelationAggregateInput
     hostReservations?: ReservationOrderByRelationAggregateInput
     visitorReservations?: ReservationOrderByRelationAggregateInput
+    subscriptions?: SubscriptionOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -15486,6 +16766,7 @@ export namespace Prisma {
     listings?: ListingListRelationFilter
     hostReservations?: ReservationListRelationFilter
     visitorReservations?: ReservationListRelationFilter
+    subscriptions?: SubscriptionListRelationFilter
   }, "id" | "id" | "email" | "phone_number" | "email_phone_number">
 
   export type UserOrderByWithAggregationInput = {
@@ -15939,12 +17220,17 @@ export namespace Prisma {
     parking_spot_number?: StringNullableFilter<"ParkingSpot"> | string | null
     parking_spot_type?: EnumParking_Spot_TypeFilter<"ParkingSpot"> | $Enums.Parking_Spot_Type
     parking_instructions?: StringNullableFilter<"ParkingSpot"> | string | null
+    price?: IntNullableFilter<"ParkingSpot"> | number | null
+    stripe_product?: JsonNullableFilter<"ParkingSpot">
+    current_subscription_id?: StringNullableFilter<"ParkingSpot"> | string | null
     building?: XOR<BuildingRelationFilter, BuildingWhereInput>
     owner?: XOR<CommunityMembersNullableRelationFilter, CommunityMembersWhereInput> | null
     qr_code?: XOR<QRCodeNullableRelationFilter, QRCodeWhereInput> | null
     vehicle?: XOR<VehicleNullableRelationFilter, VehicleWhereInput> | null
     listings?: ListingListRelationFilter
     reservations?: ReservationListRelationFilter
+    current_subscription?: XOR<SubscriptionNullableRelationFilter, SubscriptionWhereInput> | null
+    all_subscriptions?: SubscriptionListRelationFilter
   }
 
   export type ParkingSpotOrderByWithRelationInput = {
@@ -15957,17 +17243,23 @@ export namespace Prisma {
     parking_spot_number?: SortOrderInput | SortOrder
     parking_spot_type?: SortOrder
     parking_instructions?: SortOrderInput | SortOrder
+    price?: SortOrderInput | SortOrder
+    stripe_product?: SortOrderInput | SortOrder
+    current_subscription_id?: SortOrderInput | SortOrder
     building?: BuildingOrderByWithRelationInput
     owner?: CommunityMembersOrderByWithRelationInput
     qr_code?: QRCodeOrderByWithRelationInput
     vehicle?: VehicleOrderByWithRelationInput
     listings?: ListingOrderByRelationAggregateInput
     reservations?: ReservationOrderByRelationAggregateInput
+    current_subscription?: SubscriptionOrderByWithRelationInput
+    all_subscriptions?: SubscriptionOrderByRelationAggregateInput
   }
 
   export type ParkingSpotWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     qr_code_id?: string
+    current_subscription_id?: string
     qr_code_id_parking_level_parking_spot_number?: ParkingSpotQr_code_idParking_levelParking_spot_numberCompoundUniqueInput
     AND?: ParkingSpotWhereInput | ParkingSpotWhereInput[]
     OR?: ParkingSpotWhereInput[]
@@ -15979,13 +17271,17 @@ export namespace Prisma {
     parking_spot_number?: StringNullableFilter<"ParkingSpot"> | string | null
     parking_spot_type?: EnumParking_Spot_TypeFilter<"ParkingSpot"> | $Enums.Parking_Spot_Type
     parking_instructions?: StringNullableFilter<"ParkingSpot"> | string | null
+    price?: IntNullableFilter<"ParkingSpot"> | number | null
+    stripe_product?: JsonNullableFilter<"ParkingSpot">
     building?: XOR<BuildingRelationFilter, BuildingWhereInput>
     owner?: XOR<CommunityMembersNullableRelationFilter, CommunityMembersWhereInput> | null
     qr_code?: XOR<QRCodeNullableRelationFilter, QRCodeWhereInput> | null
     vehicle?: XOR<VehicleNullableRelationFilter, VehicleWhereInput> | null
     listings?: ListingListRelationFilter
     reservations?: ReservationListRelationFilter
-  }, "id" | "id" | "qr_code_id" | "qr_code_id_parking_level_parking_spot_number">
+    current_subscription?: XOR<SubscriptionNullableRelationFilter, SubscriptionWhereInput> | null
+    all_subscriptions?: SubscriptionListRelationFilter
+  }, "id" | "id" | "qr_code_id" | "current_subscription_id" | "qr_code_id_parking_level_parking_spot_number">
 
   export type ParkingSpotOrderByWithAggregationInput = {
     id?: SortOrder
@@ -15997,6 +17293,9 @@ export namespace Prisma {
     parking_spot_number?: SortOrderInput | SortOrder
     parking_spot_type?: SortOrder
     parking_instructions?: SortOrderInput | SortOrder
+    price?: SortOrderInput | SortOrder
+    stripe_product?: SortOrderInput | SortOrder
+    current_subscription_id?: SortOrderInput | SortOrder
     _count?: ParkingSpotCountOrderByAggregateInput
     _avg?: ParkingSpotAvgOrderByAggregateInput
     _max?: ParkingSpotMaxOrderByAggregateInput
@@ -16017,6 +17316,9 @@ export namespace Prisma {
     parking_spot_number?: StringNullableWithAggregatesFilter<"ParkingSpot"> | string | null
     parking_spot_type?: EnumParking_Spot_TypeWithAggregatesFilter<"ParkingSpot"> | $Enums.Parking_Spot_Type
     parking_instructions?: StringNullableWithAggregatesFilter<"ParkingSpot"> | string | null
+    price?: IntNullableWithAggregatesFilter<"ParkingSpot"> | number | null
+    stripe_product?: JsonNullableWithAggregatesFilter<"ParkingSpot">
+    current_subscription_id?: StringNullableWithAggregatesFilter<"ParkingSpot"> | string | null
   }
 
   export type QRCodeWhereInput = {
@@ -16411,6 +17713,102 @@ export namespace Prisma {
     community_member_id?: StringNullableWithAggregatesFilter<"ApartmentUnit"> | string | null
   }
 
+  export type SubscriptionWhereInput = {
+    AND?: SubscriptionWhereInput | SubscriptionWhereInput[]
+    OR?: SubscriptionWhereInput[]
+    NOT?: SubscriptionWhereInput | SubscriptionWhereInput[]
+    id?: StringFilter<"Subscription"> | string
+    parking_spot_id?: StringNullableFilter<"Subscription"> | string | null
+    subscriber_user_id?: StringNullableFilter<"Subscription"> | string | null
+    subscriber_name?: StringNullableFilter<"Subscription"> | string | null
+    subscriber_email?: StringNullableFilter<"Subscription"> | string | null
+    subscriber_phone?: StringNullableFilter<"Subscription"> | string | null
+    subscriber_licence_plate?: StringNullableFilter<"Subscription"> | string | null
+    subscriber_car_model?: StringNullableFilter<"Subscription"> | string | null
+    subscriber_office_number?: StringNullableFilter<"Subscription"> | string | null
+    stripe_subscription?: JsonNullableFilter<"Subscription">
+    created_at?: DateTimeFilter<"Subscription"> | Date | string
+    updated_at?: DateTimeFilter<"Subscription"> | Date | string
+    parking_spot?: XOR<ParkingSpotNullableRelationFilter, ParkingSpotWhereInput> | null
+    subscriber_user?: XOR<UserNullableRelationFilter, UserWhereInput> | null
+    parking_spot_current?: XOR<ParkingSpotNullableRelationFilter, ParkingSpotWhereInput> | null
+  }
+
+  export type SubscriptionOrderByWithRelationInput = {
+    id?: SortOrder
+    parking_spot_id?: SortOrderInput | SortOrder
+    subscriber_user_id?: SortOrderInput | SortOrder
+    subscriber_name?: SortOrderInput | SortOrder
+    subscriber_email?: SortOrderInput | SortOrder
+    subscriber_phone?: SortOrderInput | SortOrder
+    subscriber_licence_plate?: SortOrderInput | SortOrder
+    subscriber_car_model?: SortOrderInput | SortOrder
+    subscriber_office_number?: SortOrderInput | SortOrder
+    stripe_subscription?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    parking_spot?: ParkingSpotOrderByWithRelationInput
+    subscriber_user?: UserOrderByWithRelationInput
+    parking_spot_current?: ParkingSpotOrderByWithRelationInput
+  }
+
+  export type SubscriptionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: SubscriptionWhereInput | SubscriptionWhereInput[]
+    OR?: SubscriptionWhereInput[]
+    NOT?: SubscriptionWhereInput | SubscriptionWhereInput[]
+    parking_spot_id?: StringNullableFilter<"Subscription"> | string | null
+    subscriber_user_id?: StringNullableFilter<"Subscription"> | string | null
+    subscriber_name?: StringNullableFilter<"Subscription"> | string | null
+    subscriber_email?: StringNullableFilter<"Subscription"> | string | null
+    subscriber_phone?: StringNullableFilter<"Subscription"> | string | null
+    subscriber_licence_plate?: StringNullableFilter<"Subscription"> | string | null
+    subscriber_car_model?: StringNullableFilter<"Subscription"> | string | null
+    subscriber_office_number?: StringNullableFilter<"Subscription"> | string | null
+    stripe_subscription?: JsonNullableFilter<"Subscription">
+    created_at?: DateTimeFilter<"Subscription"> | Date | string
+    updated_at?: DateTimeFilter<"Subscription"> | Date | string
+    parking_spot?: XOR<ParkingSpotNullableRelationFilter, ParkingSpotWhereInput> | null
+    subscriber_user?: XOR<UserNullableRelationFilter, UserWhereInput> | null
+    parking_spot_current?: XOR<ParkingSpotNullableRelationFilter, ParkingSpotWhereInput> | null
+  }, "id">
+
+  export type SubscriptionOrderByWithAggregationInput = {
+    id?: SortOrder
+    parking_spot_id?: SortOrderInput | SortOrder
+    subscriber_user_id?: SortOrderInput | SortOrder
+    subscriber_name?: SortOrderInput | SortOrder
+    subscriber_email?: SortOrderInput | SortOrder
+    subscriber_phone?: SortOrderInput | SortOrder
+    subscriber_licence_plate?: SortOrderInput | SortOrder
+    subscriber_car_model?: SortOrderInput | SortOrder
+    subscriber_office_number?: SortOrderInput | SortOrder
+    stripe_subscription?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: SubscriptionCountOrderByAggregateInput
+    _max?: SubscriptionMaxOrderByAggregateInput
+    _min?: SubscriptionMinOrderByAggregateInput
+  }
+
+  export type SubscriptionScalarWhereWithAggregatesInput = {
+    AND?: SubscriptionScalarWhereWithAggregatesInput | SubscriptionScalarWhereWithAggregatesInput[]
+    OR?: SubscriptionScalarWhereWithAggregatesInput[]
+    NOT?: SubscriptionScalarWhereWithAggregatesInput | SubscriptionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Subscription"> | string
+    parking_spot_id?: StringNullableWithAggregatesFilter<"Subscription"> | string | null
+    subscriber_user_id?: StringNullableWithAggregatesFilter<"Subscription"> | string | null
+    subscriber_name?: StringNullableWithAggregatesFilter<"Subscription"> | string | null
+    subscriber_email?: StringNullableWithAggregatesFilter<"Subscription"> | string | null
+    subscriber_phone?: StringNullableWithAggregatesFilter<"Subscription"> | string | null
+    subscriber_licence_plate?: StringNullableWithAggregatesFilter<"Subscription"> | string | null
+    subscriber_car_model?: StringNullableWithAggregatesFilter<"Subscription"> | string | null
+    subscriber_office_number?: StringNullableWithAggregatesFilter<"Subscription"> | string | null
+    stripe_subscription?: JsonNullableWithAggregatesFilter<"Subscription">
+    created_at?: DateTimeWithAggregatesFilter<"Subscription"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"Subscription"> | Date | string
+  }
+
   export type PreSignUpManagementCreateInput = {
     email: string
     company_name: string
@@ -16486,6 +17884,7 @@ export namespace Prisma {
     listings?: ListingCreateNestedManyWithoutHostInput
     hostReservations?: ReservationCreateNestedManyWithoutHostInput
     visitorReservations?: ReservationCreateNestedManyWithoutVisitorInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutSubscriber_userInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -16507,6 +17906,7 @@ export namespace Prisma {
     listings?: ListingUncheckedCreateNestedManyWithoutHostInput
     hostReservations?: ReservationUncheckedCreateNestedManyWithoutHostInput
     visitorReservations?: ReservationUncheckedCreateNestedManyWithoutVisitorInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutSubscriber_userInput
   }
 
   export type UserUpdateInput = {
@@ -16528,6 +17928,7 @@ export namespace Prisma {
     listings?: ListingUpdateManyWithoutHostNestedInput
     hostReservations?: ReservationUpdateManyWithoutHostNestedInput
     visitorReservations?: ReservationUpdateManyWithoutVisitorNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutSubscriber_userNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -16549,6 +17950,7 @@ export namespace Prisma {
     listings?: ListingUncheckedUpdateManyWithoutHostNestedInput
     hostReservations?: ReservationUncheckedUpdateManyWithoutHostNestedInput
     visitorReservations?: ReservationUncheckedUpdateManyWithoutVisitorNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutSubscriber_userNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -17058,12 +18460,16 @@ export namespace Prisma {
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
+    price?: number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
     building: BuildingCreateNestedOneWithoutParking_spotsInput
     owner?: CommunityMembersCreateNestedOneWithoutParking_spotsInput
     qr_code?: QRCodeCreateNestedOneWithoutParking_spotInput
     vehicle?: VehicleCreateNestedOneWithoutParking_spotsInput
     listings?: ListingCreateNestedManyWithoutParking_spotInput
     reservations?: ReservationCreateNestedManyWithoutParkingInput
+    current_subscription?: SubscriptionCreateNestedOneWithoutParking_spot_currentInput
+    all_subscriptions?: SubscriptionCreateNestedManyWithoutParking_spotInput
   }
 
   export type ParkingSpotUncheckedCreateInput = {
@@ -17076,8 +18482,12 @@ export namespace Prisma {
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
+    price?: number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    current_subscription_id?: string | null
     listings?: ListingUncheckedCreateNestedManyWithoutParking_spotInput
     reservations?: ReservationUncheckedCreateNestedManyWithoutParkingInput
+    all_subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutParking_spotInput
   }
 
   export type ParkingSpotUpdateInput = {
@@ -17086,12 +18496,16 @@ export namespace Prisma {
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: NullableIntFieldUpdateOperationsInput | number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
     building?: BuildingUpdateOneRequiredWithoutParking_spotsNestedInput
     owner?: CommunityMembersUpdateOneWithoutParking_spotsNestedInput
     qr_code?: QRCodeUpdateOneWithoutParking_spotNestedInput
     vehicle?: VehicleUpdateOneWithoutParking_spotsNestedInput
     listings?: ListingUpdateManyWithoutParking_spotNestedInput
     reservations?: ReservationUpdateManyWithoutParkingNestedInput
+    current_subscription?: SubscriptionUpdateOneWithoutParking_spot_currentNestedInput
+    all_subscriptions?: SubscriptionUpdateManyWithoutParking_spotNestedInput
   }
 
   export type ParkingSpotUncheckedUpdateInput = {
@@ -17104,8 +18518,12 @@ export namespace Prisma {
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: NullableIntFieldUpdateOperationsInput | number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    current_subscription_id?: NullableStringFieldUpdateOperationsInput | string | null
     listings?: ListingUncheckedUpdateManyWithoutParking_spotNestedInput
     reservations?: ReservationUncheckedUpdateManyWithoutParkingNestedInput
+    all_subscriptions?: SubscriptionUncheckedUpdateManyWithoutParking_spotNestedInput
   }
 
   export type ParkingSpotCreateManyInput = {
@@ -17118,6 +18536,9 @@ export namespace Prisma {
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
+    price?: number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    current_subscription_id?: string | null
   }
 
   export type ParkingSpotUpdateManyMutationInput = {
@@ -17126,6 +18547,8 @@ export namespace Prisma {
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: NullableIntFieldUpdateOperationsInput | number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type ParkingSpotUncheckedUpdateManyInput = {
@@ -17138,6 +18561,9 @@ export namespace Prisma {
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: NullableIntFieldUpdateOperationsInput | number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    current_subscription_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type QRCodeCreateInput = {
@@ -17546,6 +18972,113 @@ export namespace Prisma {
     community_member_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type SubscriptionCreateInput = {
+    id?: string
+    subscriber_name?: string | null
+    subscriber_email?: string | null
+    subscriber_phone?: string | null
+    subscriber_licence_plate?: string | null
+    subscriber_car_model?: string | null
+    subscriber_office_number?: string | null
+    stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+    parking_spot?: ParkingSpotCreateNestedOneWithoutAll_subscriptionsInput
+    subscriber_user?: UserCreateNestedOneWithoutSubscriptionsInput
+    parking_spot_current?: ParkingSpotCreateNestedOneWithoutCurrent_subscriptionInput
+  }
+
+  export type SubscriptionUncheckedCreateInput = {
+    id?: string
+    parking_spot_id?: string | null
+    subscriber_user_id?: string | null
+    subscriber_name?: string | null
+    subscriber_email?: string | null
+    subscriber_phone?: string | null
+    subscriber_licence_plate?: string | null
+    subscriber_car_model?: string | null
+    subscriber_office_number?: string | null
+    stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+    parking_spot_current?: ParkingSpotUncheckedCreateNestedOneWithoutCurrent_subscriptionInput
+  }
+
+  export type SubscriptionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subscriber_name?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_email?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_phone?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_licence_plate?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_car_model?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_office_number?: NullableStringFieldUpdateOperationsInput | string | null
+    stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    parking_spot?: ParkingSpotUpdateOneWithoutAll_subscriptionsNestedInput
+    subscriber_user?: UserUpdateOneWithoutSubscriptionsNestedInput
+    parking_spot_current?: ParkingSpotUpdateOneWithoutCurrent_subscriptionNestedInput
+  }
+
+  export type SubscriptionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    parking_spot_id?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_name?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_email?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_phone?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_licence_plate?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_car_model?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_office_number?: NullableStringFieldUpdateOperationsInput | string | null
+    stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    parking_spot_current?: ParkingSpotUncheckedUpdateOneWithoutCurrent_subscriptionNestedInput
+  }
+
+  export type SubscriptionCreateManyInput = {
+    id?: string
+    parking_spot_id?: string | null
+    subscriber_user_id?: string | null
+    subscriber_name?: string | null
+    subscriber_email?: string | null
+    subscriber_phone?: string | null
+    subscriber_licence_plate?: string | null
+    subscriber_car_model?: string | null
+    subscriber_office_number?: string | null
+    stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type SubscriptionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subscriber_name?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_email?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_phone?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_licence_plate?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_car_model?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_office_number?: NullableStringFieldUpdateOperationsInput | string | null
+    stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubscriptionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    parking_spot_id?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_name?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_email?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_phone?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_licence_plate?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_car_model?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_office_number?: NullableStringFieldUpdateOperationsInput | string | null
+    stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -17710,6 +19243,12 @@ export namespace Prisma {
     none?: ReservationWhereInput
   }
 
+  export type SubscriptionListRelationFilter = {
+    every?: SubscriptionWhereInput
+    some?: SubscriptionWhereInput
+    none?: SubscriptionWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -17724,6 +19263,10 @@ export namespace Prisma {
   }
 
   export type ReservationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SubscriptionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -18300,6 +19843,11 @@ export namespace Prisma {
     isNot?: VehicleWhereInput | null
   }
 
+  export type SubscriptionNullableRelationFilter = {
+    is?: SubscriptionWhereInput | null
+    isNot?: SubscriptionWhereInput | null
+  }
+
   export type ParkingSpotQr_code_idParking_levelParking_spot_numberCompoundUniqueInput = {
     qr_code_id: string
     parking_level: number
@@ -18316,10 +19864,14 @@ export namespace Prisma {
     parking_spot_number?: SortOrder
     parking_spot_type?: SortOrder
     parking_instructions?: SortOrder
+    price?: SortOrder
+    stripe_product?: SortOrder
+    current_subscription_id?: SortOrder
   }
 
   export type ParkingSpotAvgOrderByAggregateInput = {
     parking_level?: SortOrder
+    price?: SortOrder
   }
 
   export type ParkingSpotMaxOrderByAggregateInput = {
@@ -18332,6 +19884,8 @@ export namespace Prisma {
     parking_spot_number?: SortOrder
     parking_spot_type?: SortOrder
     parking_instructions?: SortOrder
+    price?: SortOrder
+    current_subscription_id?: SortOrder
   }
 
   export type ParkingSpotMinOrderByAggregateInput = {
@@ -18344,10 +19898,13 @@ export namespace Prisma {
     parking_spot_number?: SortOrder
     parking_spot_type?: SortOrder
     parking_instructions?: SortOrder
+    price?: SortOrder
+    current_subscription_id?: SortOrder
   }
 
   export type ParkingSpotSumOrderByAggregateInput = {
     parking_level?: SortOrder
+    price?: SortOrder
   }
 
   export type EnumParking_Spot_TypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -18716,6 +20273,49 @@ export namespace Prisma {
     no_of_baths?: SortOrder
   }
 
+  export type SubscriptionCountOrderByAggregateInput = {
+    id?: SortOrder
+    parking_spot_id?: SortOrder
+    subscriber_user_id?: SortOrder
+    subscriber_name?: SortOrder
+    subscriber_email?: SortOrder
+    subscriber_phone?: SortOrder
+    subscriber_licence_plate?: SortOrder
+    subscriber_car_model?: SortOrder
+    subscriber_office_number?: SortOrder
+    stripe_subscription?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type SubscriptionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    parking_spot_id?: SortOrder
+    subscriber_user_id?: SortOrder
+    subscriber_name?: SortOrder
+    subscriber_email?: SortOrder
+    subscriber_phone?: SortOrder
+    subscriber_licence_plate?: SortOrder
+    subscriber_car_model?: SortOrder
+    subscriber_office_number?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type SubscriptionMinOrderByAggregateInput = {
+    id?: SortOrder
+    parking_spot_id?: SortOrder
+    subscriber_user_id?: SortOrder
+    subscriber_name?: SortOrder
+    subscriber_email?: SortOrder
+    subscriber_phone?: SortOrder
+    subscriber_licence_plate?: SortOrder
+    subscriber_car_model?: SortOrder
+    subscriber_office_number?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -18762,6 +20362,13 @@ export namespace Prisma {
     connect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
   }
 
+  export type SubscriptionCreateNestedManyWithoutSubscriber_userInput = {
+    create?: XOR<SubscriptionCreateWithoutSubscriber_userInput, SubscriptionUncheckedCreateWithoutSubscriber_userInput> | SubscriptionCreateWithoutSubscriber_userInput[] | SubscriptionUncheckedCreateWithoutSubscriber_userInput[]
+    connectOrCreate?: SubscriptionCreateOrConnectWithoutSubscriber_userInput | SubscriptionCreateOrConnectWithoutSubscriber_userInput[]
+    createMany?: SubscriptionCreateManySubscriber_userInputEnvelope
+    connect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+  }
+
   export type ManagementUncheckedCreateNestedOneWithoutUserInput = {
     create?: XOR<ManagementCreateWithoutUserInput, ManagementUncheckedCreateWithoutUserInput>
     connectOrCreate?: ManagementCreateOrConnectWithoutUserInput
@@ -18794,6 +20401,13 @@ export namespace Prisma {
     connectOrCreate?: ReservationCreateOrConnectWithoutVisitorInput | ReservationCreateOrConnectWithoutVisitorInput[]
     createMany?: ReservationCreateManyVisitorInputEnvelope
     connect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
+  }
+
+  export type SubscriptionUncheckedCreateNestedManyWithoutSubscriber_userInput = {
+    create?: XOR<SubscriptionCreateWithoutSubscriber_userInput, SubscriptionUncheckedCreateWithoutSubscriber_userInput> | SubscriptionCreateWithoutSubscriber_userInput[] | SubscriptionUncheckedCreateWithoutSubscriber_userInput[]
+    connectOrCreate?: SubscriptionCreateOrConnectWithoutSubscriber_userInput | SubscriptionCreateOrConnectWithoutSubscriber_userInput[]
+    createMany?: SubscriptionCreateManySubscriber_userInputEnvelope
+    connect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
@@ -18879,6 +20493,20 @@ export namespace Prisma {
     deleteMany?: ReservationScalarWhereInput | ReservationScalarWhereInput[]
   }
 
+  export type SubscriptionUpdateManyWithoutSubscriber_userNestedInput = {
+    create?: XOR<SubscriptionCreateWithoutSubscriber_userInput, SubscriptionUncheckedCreateWithoutSubscriber_userInput> | SubscriptionCreateWithoutSubscriber_userInput[] | SubscriptionUncheckedCreateWithoutSubscriber_userInput[]
+    connectOrCreate?: SubscriptionCreateOrConnectWithoutSubscriber_userInput | SubscriptionCreateOrConnectWithoutSubscriber_userInput[]
+    upsert?: SubscriptionUpsertWithWhereUniqueWithoutSubscriber_userInput | SubscriptionUpsertWithWhereUniqueWithoutSubscriber_userInput[]
+    createMany?: SubscriptionCreateManySubscriber_userInputEnvelope
+    set?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    disconnect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    delete?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    connect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    update?: SubscriptionUpdateWithWhereUniqueWithoutSubscriber_userInput | SubscriptionUpdateWithWhereUniqueWithoutSubscriber_userInput[]
+    updateMany?: SubscriptionUpdateManyWithWhereWithoutSubscriber_userInput | SubscriptionUpdateManyWithWhereWithoutSubscriber_userInput[]
+    deleteMany?: SubscriptionScalarWhereInput | SubscriptionScalarWhereInput[]
+  }
+
   export type ManagementUncheckedUpdateOneWithoutUserNestedInput = {
     create?: XOR<ManagementCreateWithoutUserInput, ManagementUncheckedCreateWithoutUserInput>
     connectOrCreate?: ManagementCreateOrConnectWithoutUserInput
@@ -18943,6 +20571,20 @@ export namespace Prisma {
     update?: ReservationUpdateWithWhereUniqueWithoutVisitorInput | ReservationUpdateWithWhereUniqueWithoutVisitorInput[]
     updateMany?: ReservationUpdateManyWithWhereWithoutVisitorInput | ReservationUpdateManyWithWhereWithoutVisitorInput[]
     deleteMany?: ReservationScalarWhereInput | ReservationScalarWhereInput[]
+  }
+
+  export type SubscriptionUncheckedUpdateManyWithoutSubscriber_userNestedInput = {
+    create?: XOR<SubscriptionCreateWithoutSubscriber_userInput, SubscriptionUncheckedCreateWithoutSubscriber_userInput> | SubscriptionCreateWithoutSubscriber_userInput[] | SubscriptionUncheckedCreateWithoutSubscriber_userInput[]
+    connectOrCreate?: SubscriptionCreateOrConnectWithoutSubscriber_userInput | SubscriptionCreateOrConnectWithoutSubscriber_userInput[]
+    upsert?: SubscriptionUpsertWithWhereUniqueWithoutSubscriber_userInput | SubscriptionUpsertWithWhereUniqueWithoutSubscriber_userInput[]
+    createMany?: SubscriptionCreateManySubscriber_userInputEnvelope
+    set?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    disconnect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    delete?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    connect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    update?: SubscriptionUpdateWithWhereUniqueWithoutSubscriber_userInput | SubscriptionUpdateWithWhereUniqueWithoutSubscriber_userInput[]
+    updateMany?: SubscriptionUpdateManyWithWhereWithoutSubscriber_userInput | SubscriptionUpdateManyWithWhereWithoutSubscriber_userInput[]
+    deleteMany?: SubscriptionScalarWhereInput | SubscriptionScalarWhereInput[]
   }
 
   export type ManagementStaffCreateNestedManyWithoutManagementInput = {
@@ -19456,6 +21098,19 @@ export namespace Prisma {
     connect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
   }
 
+  export type SubscriptionCreateNestedOneWithoutParking_spot_currentInput = {
+    create?: XOR<SubscriptionCreateWithoutParking_spot_currentInput, SubscriptionUncheckedCreateWithoutParking_spot_currentInput>
+    connectOrCreate?: SubscriptionCreateOrConnectWithoutParking_spot_currentInput
+    connect?: SubscriptionWhereUniqueInput
+  }
+
+  export type SubscriptionCreateNestedManyWithoutParking_spotInput = {
+    create?: XOR<SubscriptionCreateWithoutParking_spotInput, SubscriptionUncheckedCreateWithoutParking_spotInput> | SubscriptionCreateWithoutParking_spotInput[] | SubscriptionUncheckedCreateWithoutParking_spotInput[]
+    connectOrCreate?: SubscriptionCreateOrConnectWithoutParking_spotInput | SubscriptionCreateOrConnectWithoutParking_spotInput[]
+    createMany?: SubscriptionCreateManyParking_spotInputEnvelope
+    connect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+  }
+
   export type ListingUncheckedCreateNestedManyWithoutParking_spotInput = {
     create?: XOR<ListingCreateWithoutParking_spotInput, ListingUncheckedCreateWithoutParking_spotInput> | ListingCreateWithoutParking_spotInput[] | ListingUncheckedCreateWithoutParking_spotInput[]
     connectOrCreate?: ListingCreateOrConnectWithoutParking_spotInput | ListingCreateOrConnectWithoutParking_spotInput[]
@@ -19468,6 +21123,13 @@ export namespace Prisma {
     connectOrCreate?: ReservationCreateOrConnectWithoutParkingInput | ReservationCreateOrConnectWithoutParkingInput[]
     createMany?: ReservationCreateManyParkingInputEnvelope
     connect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
+  }
+
+  export type SubscriptionUncheckedCreateNestedManyWithoutParking_spotInput = {
+    create?: XOR<SubscriptionCreateWithoutParking_spotInput, SubscriptionUncheckedCreateWithoutParking_spotInput> | SubscriptionCreateWithoutParking_spotInput[] | SubscriptionUncheckedCreateWithoutParking_spotInput[]
+    connectOrCreate?: SubscriptionCreateOrConnectWithoutParking_spotInput | SubscriptionCreateOrConnectWithoutParking_spotInput[]
+    createMany?: SubscriptionCreateManyParking_spotInputEnvelope
+    connect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
   }
 
   export type EnumParking_Spot_TypeFieldUpdateOperationsInput = {
@@ -19540,6 +21202,30 @@ export namespace Prisma {
     deleteMany?: ReservationScalarWhereInput | ReservationScalarWhereInput[]
   }
 
+  export type SubscriptionUpdateOneWithoutParking_spot_currentNestedInput = {
+    create?: XOR<SubscriptionCreateWithoutParking_spot_currentInput, SubscriptionUncheckedCreateWithoutParking_spot_currentInput>
+    connectOrCreate?: SubscriptionCreateOrConnectWithoutParking_spot_currentInput
+    upsert?: SubscriptionUpsertWithoutParking_spot_currentInput
+    disconnect?: SubscriptionWhereInput | boolean
+    delete?: SubscriptionWhereInput | boolean
+    connect?: SubscriptionWhereUniqueInput
+    update?: XOR<XOR<SubscriptionUpdateToOneWithWhereWithoutParking_spot_currentInput, SubscriptionUpdateWithoutParking_spot_currentInput>, SubscriptionUncheckedUpdateWithoutParking_spot_currentInput>
+  }
+
+  export type SubscriptionUpdateManyWithoutParking_spotNestedInput = {
+    create?: XOR<SubscriptionCreateWithoutParking_spotInput, SubscriptionUncheckedCreateWithoutParking_spotInput> | SubscriptionCreateWithoutParking_spotInput[] | SubscriptionUncheckedCreateWithoutParking_spotInput[]
+    connectOrCreate?: SubscriptionCreateOrConnectWithoutParking_spotInput | SubscriptionCreateOrConnectWithoutParking_spotInput[]
+    upsert?: SubscriptionUpsertWithWhereUniqueWithoutParking_spotInput | SubscriptionUpsertWithWhereUniqueWithoutParking_spotInput[]
+    createMany?: SubscriptionCreateManyParking_spotInputEnvelope
+    set?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    disconnect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    delete?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    connect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    update?: SubscriptionUpdateWithWhereUniqueWithoutParking_spotInput | SubscriptionUpdateWithWhereUniqueWithoutParking_spotInput[]
+    updateMany?: SubscriptionUpdateManyWithWhereWithoutParking_spotInput | SubscriptionUpdateManyWithWhereWithoutParking_spotInput[]
+    deleteMany?: SubscriptionScalarWhereInput | SubscriptionScalarWhereInput[]
+  }
+
   export type ListingUncheckedUpdateManyWithoutParking_spotNestedInput = {
     create?: XOR<ListingCreateWithoutParking_spotInput, ListingUncheckedCreateWithoutParking_spotInput> | ListingCreateWithoutParking_spotInput[] | ListingUncheckedCreateWithoutParking_spotInput[]
     connectOrCreate?: ListingCreateOrConnectWithoutParking_spotInput | ListingCreateOrConnectWithoutParking_spotInput[]
@@ -19566,6 +21252,20 @@ export namespace Prisma {
     update?: ReservationUpdateWithWhereUniqueWithoutParkingInput | ReservationUpdateWithWhereUniqueWithoutParkingInput[]
     updateMany?: ReservationUpdateManyWithWhereWithoutParkingInput | ReservationUpdateManyWithWhereWithoutParkingInput[]
     deleteMany?: ReservationScalarWhereInput | ReservationScalarWhereInput[]
+  }
+
+  export type SubscriptionUncheckedUpdateManyWithoutParking_spotNestedInput = {
+    create?: XOR<SubscriptionCreateWithoutParking_spotInput, SubscriptionUncheckedCreateWithoutParking_spotInput> | SubscriptionCreateWithoutParking_spotInput[] | SubscriptionUncheckedCreateWithoutParking_spotInput[]
+    connectOrCreate?: SubscriptionCreateOrConnectWithoutParking_spotInput | SubscriptionCreateOrConnectWithoutParking_spotInput[]
+    upsert?: SubscriptionUpsertWithWhereUniqueWithoutParking_spotInput | SubscriptionUpsertWithWhereUniqueWithoutParking_spotInput[]
+    createMany?: SubscriptionCreateManyParking_spotInputEnvelope
+    set?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    disconnect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    delete?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    connect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    update?: SubscriptionUpdateWithWhereUniqueWithoutParking_spotInput | SubscriptionUpdateWithWhereUniqueWithoutParking_spotInput[]
+    updateMany?: SubscriptionUpdateManyWithWhereWithoutParking_spotInput | SubscriptionUpdateManyWithWhereWithoutParking_spotInput[]
+    deleteMany?: SubscriptionScalarWhereInput | SubscriptionScalarWhereInput[]
   }
 
   export type CommunityMembersCreateNestedOneWithoutQr_codeInput = {
@@ -19880,6 +21580,70 @@ export namespace Prisma {
     delete?: CommunityMembersWhereInput | boolean
     connect?: CommunityMembersWhereUniqueInput
     update?: XOR<XOR<CommunityMembersUpdateToOneWithWhereWithoutApartment_unitsInput, CommunityMembersUpdateWithoutApartment_unitsInput>, CommunityMembersUncheckedUpdateWithoutApartment_unitsInput>
+  }
+
+  export type ParkingSpotCreateNestedOneWithoutAll_subscriptionsInput = {
+    create?: XOR<ParkingSpotCreateWithoutAll_subscriptionsInput, ParkingSpotUncheckedCreateWithoutAll_subscriptionsInput>
+    connectOrCreate?: ParkingSpotCreateOrConnectWithoutAll_subscriptionsInput
+    connect?: ParkingSpotWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutSubscriptionsInput = {
+    create?: XOR<UserCreateWithoutSubscriptionsInput, UserUncheckedCreateWithoutSubscriptionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSubscriptionsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type ParkingSpotCreateNestedOneWithoutCurrent_subscriptionInput = {
+    create?: XOR<ParkingSpotCreateWithoutCurrent_subscriptionInput, ParkingSpotUncheckedCreateWithoutCurrent_subscriptionInput>
+    connectOrCreate?: ParkingSpotCreateOrConnectWithoutCurrent_subscriptionInput
+    connect?: ParkingSpotWhereUniqueInput
+  }
+
+  export type ParkingSpotUncheckedCreateNestedOneWithoutCurrent_subscriptionInput = {
+    create?: XOR<ParkingSpotCreateWithoutCurrent_subscriptionInput, ParkingSpotUncheckedCreateWithoutCurrent_subscriptionInput>
+    connectOrCreate?: ParkingSpotCreateOrConnectWithoutCurrent_subscriptionInput
+    connect?: ParkingSpotWhereUniqueInput
+  }
+
+  export type ParkingSpotUpdateOneWithoutAll_subscriptionsNestedInput = {
+    create?: XOR<ParkingSpotCreateWithoutAll_subscriptionsInput, ParkingSpotUncheckedCreateWithoutAll_subscriptionsInput>
+    connectOrCreate?: ParkingSpotCreateOrConnectWithoutAll_subscriptionsInput
+    upsert?: ParkingSpotUpsertWithoutAll_subscriptionsInput
+    disconnect?: ParkingSpotWhereInput | boolean
+    delete?: ParkingSpotWhereInput | boolean
+    connect?: ParkingSpotWhereUniqueInput
+    update?: XOR<XOR<ParkingSpotUpdateToOneWithWhereWithoutAll_subscriptionsInput, ParkingSpotUpdateWithoutAll_subscriptionsInput>, ParkingSpotUncheckedUpdateWithoutAll_subscriptionsInput>
+  }
+
+  export type UserUpdateOneWithoutSubscriptionsNestedInput = {
+    create?: XOR<UserCreateWithoutSubscriptionsInput, UserUncheckedCreateWithoutSubscriptionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSubscriptionsInput
+    upsert?: UserUpsertWithoutSubscriptionsInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSubscriptionsInput, UserUpdateWithoutSubscriptionsInput>, UserUncheckedUpdateWithoutSubscriptionsInput>
+  }
+
+  export type ParkingSpotUpdateOneWithoutCurrent_subscriptionNestedInput = {
+    create?: XOR<ParkingSpotCreateWithoutCurrent_subscriptionInput, ParkingSpotUncheckedCreateWithoutCurrent_subscriptionInput>
+    connectOrCreate?: ParkingSpotCreateOrConnectWithoutCurrent_subscriptionInput
+    upsert?: ParkingSpotUpsertWithoutCurrent_subscriptionInput
+    disconnect?: ParkingSpotWhereInput | boolean
+    delete?: ParkingSpotWhereInput | boolean
+    connect?: ParkingSpotWhereUniqueInput
+    update?: XOR<XOR<ParkingSpotUpdateToOneWithWhereWithoutCurrent_subscriptionInput, ParkingSpotUpdateWithoutCurrent_subscriptionInput>, ParkingSpotUncheckedUpdateWithoutCurrent_subscriptionInput>
+  }
+
+  export type ParkingSpotUncheckedUpdateOneWithoutCurrent_subscriptionNestedInput = {
+    create?: XOR<ParkingSpotCreateWithoutCurrent_subscriptionInput, ParkingSpotUncheckedCreateWithoutCurrent_subscriptionInput>
+    connectOrCreate?: ParkingSpotCreateOrConnectWithoutCurrent_subscriptionInput
+    upsert?: ParkingSpotUpsertWithoutCurrent_subscriptionInput
+    disconnect?: ParkingSpotWhereInput | boolean
+    delete?: ParkingSpotWhereInput | boolean
+    connect?: ParkingSpotWhereUniqueInput
+    update?: XOR<XOR<ParkingSpotUpdateToOneWithWhereWithoutCurrent_subscriptionInput, ParkingSpotUpdateWithoutCurrent_subscriptionInput>, ParkingSpotUncheckedUpdateWithoutCurrent_subscriptionInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -20553,6 +22317,46 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type SubscriptionCreateWithoutSubscriber_userInput = {
+    id?: string
+    subscriber_name?: string | null
+    subscriber_email?: string | null
+    subscriber_phone?: string | null
+    subscriber_licence_plate?: string | null
+    subscriber_car_model?: string | null
+    subscriber_office_number?: string | null
+    stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+    parking_spot?: ParkingSpotCreateNestedOneWithoutAll_subscriptionsInput
+    parking_spot_current?: ParkingSpotCreateNestedOneWithoutCurrent_subscriptionInput
+  }
+
+  export type SubscriptionUncheckedCreateWithoutSubscriber_userInput = {
+    id?: string
+    parking_spot_id?: string | null
+    subscriber_name?: string | null
+    subscriber_email?: string | null
+    subscriber_phone?: string | null
+    subscriber_licence_plate?: string | null
+    subscriber_car_model?: string | null
+    subscriber_office_number?: string | null
+    stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+    parking_spot_current?: ParkingSpotUncheckedCreateNestedOneWithoutCurrent_subscriptionInput
+  }
+
+  export type SubscriptionCreateOrConnectWithoutSubscriber_userInput = {
+    where: SubscriptionWhereUniqueInput
+    create: XOR<SubscriptionCreateWithoutSubscriber_userInput, SubscriptionUncheckedCreateWithoutSubscriber_userInput>
+  }
+
+  export type SubscriptionCreateManySubscriber_userInputEnvelope = {
+    data: SubscriptionCreateManySubscriber_userInput | SubscriptionCreateManySubscriber_userInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ManagementUpsertWithoutUserInput = {
     update: XOR<ManagementUpdateWithoutUserInput, ManagementUncheckedUpdateWithoutUserInput>
     create: XOR<ManagementCreateWithoutUserInput, ManagementUncheckedCreateWithoutUserInput>
@@ -20728,6 +22532,40 @@ export namespace Prisma {
     data: XOR<ReservationUpdateManyMutationInput, ReservationUncheckedUpdateManyWithoutVisitorInput>
   }
 
+  export type SubscriptionUpsertWithWhereUniqueWithoutSubscriber_userInput = {
+    where: SubscriptionWhereUniqueInput
+    update: XOR<SubscriptionUpdateWithoutSubscriber_userInput, SubscriptionUncheckedUpdateWithoutSubscriber_userInput>
+    create: XOR<SubscriptionCreateWithoutSubscriber_userInput, SubscriptionUncheckedCreateWithoutSubscriber_userInput>
+  }
+
+  export type SubscriptionUpdateWithWhereUniqueWithoutSubscriber_userInput = {
+    where: SubscriptionWhereUniqueInput
+    data: XOR<SubscriptionUpdateWithoutSubscriber_userInput, SubscriptionUncheckedUpdateWithoutSubscriber_userInput>
+  }
+
+  export type SubscriptionUpdateManyWithWhereWithoutSubscriber_userInput = {
+    where: SubscriptionScalarWhereInput
+    data: XOR<SubscriptionUpdateManyMutationInput, SubscriptionUncheckedUpdateManyWithoutSubscriber_userInput>
+  }
+
+  export type SubscriptionScalarWhereInput = {
+    AND?: SubscriptionScalarWhereInput | SubscriptionScalarWhereInput[]
+    OR?: SubscriptionScalarWhereInput[]
+    NOT?: SubscriptionScalarWhereInput | SubscriptionScalarWhereInput[]
+    id?: StringFilter<"Subscription"> | string
+    parking_spot_id?: StringNullableFilter<"Subscription"> | string | null
+    subscriber_user_id?: StringNullableFilter<"Subscription"> | string | null
+    subscriber_name?: StringNullableFilter<"Subscription"> | string | null
+    subscriber_email?: StringNullableFilter<"Subscription"> | string | null
+    subscriber_phone?: StringNullableFilter<"Subscription"> | string | null
+    subscriber_licence_plate?: StringNullableFilter<"Subscription"> | string | null
+    subscriber_car_model?: StringNullableFilter<"Subscription"> | string | null
+    subscriber_office_number?: StringNullableFilter<"Subscription"> | string | null
+    stripe_subscription?: JsonNullableFilter<"Subscription">
+    created_at?: DateTimeFilter<"Subscription"> | Date | string
+    updated_at?: DateTimeFilter<"Subscription"> | Date | string
+  }
+
   export type ManagementStaffCreateWithoutManagementInput = {
     id?: string
     name?: string | null
@@ -20824,6 +22662,7 @@ export namespace Prisma {
     listings?: ListingCreateNestedManyWithoutHostInput
     hostReservations?: ReservationCreateNestedManyWithoutHostInput
     visitorReservations?: ReservationCreateNestedManyWithoutVisitorInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutSubscriber_userInput
   }
 
   export type UserUncheckedCreateWithoutManagementInput = {
@@ -20844,6 +22683,7 @@ export namespace Prisma {
     listings?: ListingUncheckedCreateNestedManyWithoutHostInput
     hostReservations?: ReservationUncheckedCreateNestedManyWithoutHostInput
     visitorReservations?: ReservationUncheckedCreateNestedManyWithoutVisitorInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutSubscriber_userInput
   }
 
   export type UserCreateOrConnectWithoutManagementInput = {
@@ -20945,6 +22785,7 @@ export namespace Prisma {
     listings?: ListingUpdateManyWithoutHostNestedInput
     hostReservations?: ReservationUpdateManyWithoutHostNestedInput
     visitorReservations?: ReservationUpdateManyWithoutVisitorNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutSubscriber_userNestedInput
   }
 
   export type UserUncheckedUpdateWithoutManagementInput = {
@@ -20965,6 +22806,7 @@ export namespace Prisma {
     listings?: ListingUncheckedUpdateManyWithoutHostNestedInput
     hostReservations?: ReservationUncheckedUpdateManyWithoutHostNestedInput
     visitorReservations?: ReservationUncheckedUpdateManyWithoutVisitorNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutSubscriber_userNestedInput
   }
 
   export type ManagementCreateWithoutStaffsInput = {
@@ -21164,11 +23006,15 @@ export namespace Prisma {
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
+    price?: number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
     owner?: CommunityMembersCreateNestedOneWithoutParking_spotsInput
     qr_code?: QRCodeCreateNestedOneWithoutParking_spotInput
     vehicle?: VehicleCreateNestedOneWithoutParking_spotsInput
     listings?: ListingCreateNestedManyWithoutParking_spotInput
     reservations?: ReservationCreateNestedManyWithoutParkingInput
+    current_subscription?: SubscriptionCreateNestedOneWithoutParking_spot_currentInput
+    all_subscriptions?: SubscriptionCreateNestedManyWithoutParking_spotInput
   }
 
   export type ParkingSpotUncheckedCreateWithoutBuildingInput = {
@@ -21180,8 +23026,12 @@ export namespace Prisma {
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
+    price?: number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    current_subscription_id?: string | null
     listings?: ListingUncheckedCreateNestedManyWithoutParking_spotInput
     reservations?: ReservationUncheckedCreateNestedManyWithoutParkingInput
+    all_subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutParking_spotInput
   }
 
   export type ParkingSpotCreateOrConnectWithoutBuildingInput = {
@@ -21364,6 +23214,9 @@ export namespace Prisma {
     parking_spot_number?: StringNullableFilter<"ParkingSpot"> | string | null
     parking_spot_type?: EnumParking_Spot_TypeFilter<"ParkingSpot"> | $Enums.Parking_Spot_Type
     parking_instructions?: StringNullableFilter<"ParkingSpot"> | string | null
+    price?: IntNullableFilter<"ParkingSpot"> | number | null
+    stripe_product?: JsonNullableFilter<"ParkingSpot">
+    current_subscription_id?: StringNullableFilter<"ParkingSpot"> | string | null
   }
 
   export type ReservationUpsertWithWhereUniqueWithoutBuildingInput = {
@@ -21486,11 +23339,15 @@ export namespace Prisma {
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
+    price?: number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
     building: BuildingCreateNestedOneWithoutParking_spotsInput
     qr_code?: QRCodeCreateNestedOneWithoutParking_spotInput
     vehicle?: VehicleCreateNestedOneWithoutParking_spotsInput
     listings?: ListingCreateNestedManyWithoutParking_spotInput
     reservations?: ReservationCreateNestedManyWithoutParkingInput
+    current_subscription?: SubscriptionCreateNestedOneWithoutParking_spot_currentInput
+    all_subscriptions?: SubscriptionCreateNestedManyWithoutParking_spotInput
   }
 
   export type ParkingSpotUncheckedCreateWithoutOwnerInput = {
@@ -21502,8 +23359,12 @@ export namespace Prisma {
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
+    price?: number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    current_subscription_id?: string | null
     listings?: ListingUncheckedCreateNestedManyWithoutParking_spotInput
     reservations?: ReservationUncheckedCreateNestedManyWithoutParkingInput
+    all_subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutParking_spotInput
   }
 
   export type ParkingSpotCreateOrConnectWithoutOwnerInput = {
@@ -21534,6 +23395,7 @@ export namespace Prisma {
     listings?: ListingCreateNestedManyWithoutHostInput
     hostReservations?: ReservationCreateNestedManyWithoutHostInput
     visitorReservations?: ReservationCreateNestedManyWithoutVisitorInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutSubscriber_userInput
   }
 
   export type UserUncheckedCreateWithoutCommunity_membersInput = {
@@ -21554,6 +23416,7 @@ export namespace Prisma {
     listings?: ListingUncheckedCreateNestedManyWithoutHostInput
     hostReservations?: ReservationUncheckedCreateNestedManyWithoutHostInput
     visitorReservations?: ReservationUncheckedCreateNestedManyWithoutVisitorInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutSubscriber_userInput
   }
 
   export type UserCreateOrConnectWithoutCommunity_membersInput = {
@@ -21714,6 +23577,7 @@ export namespace Prisma {
     listings?: ListingUpdateManyWithoutHostNestedInput
     hostReservations?: ReservationUpdateManyWithoutHostNestedInput
     visitorReservations?: ReservationUpdateManyWithoutVisitorNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutSubscriber_userNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommunity_membersInput = {
@@ -21734,6 +23598,7 @@ export namespace Prisma {
     listings?: ListingUncheckedUpdateManyWithoutHostNestedInput
     hostReservations?: ReservationUncheckedUpdateManyWithoutHostNestedInput
     visitorReservations?: ReservationUncheckedUpdateManyWithoutVisitorNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutSubscriber_userNestedInput
   }
 
   export type ApartmentUnitUpsertWithWhereUniqueWithoutCommunity_memberInput = {
@@ -21958,6 +23823,81 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type SubscriptionCreateWithoutParking_spot_currentInput = {
+    id?: string
+    subscriber_name?: string | null
+    subscriber_email?: string | null
+    subscriber_phone?: string | null
+    subscriber_licence_plate?: string | null
+    subscriber_car_model?: string | null
+    subscriber_office_number?: string | null
+    stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+    parking_spot?: ParkingSpotCreateNestedOneWithoutAll_subscriptionsInput
+    subscriber_user?: UserCreateNestedOneWithoutSubscriptionsInput
+  }
+
+  export type SubscriptionUncheckedCreateWithoutParking_spot_currentInput = {
+    id?: string
+    parking_spot_id?: string | null
+    subscriber_user_id?: string | null
+    subscriber_name?: string | null
+    subscriber_email?: string | null
+    subscriber_phone?: string | null
+    subscriber_licence_plate?: string | null
+    subscriber_car_model?: string | null
+    subscriber_office_number?: string | null
+    stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type SubscriptionCreateOrConnectWithoutParking_spot_currentInput = {
+    where: SubscriptionWhereUniqueInput
+    create: XOR<SubscriptionCreateWithoutParking_spot_currentInput, SubscriptionUncheckedCreateWithoutParking_spot_currentInput>
+  }
+
+  export type SubscriptionCreateWithoutParking_spotInput = {
+    id?: string
+    subscriber_name?: string | null
+    subscriber_email?: string | null
+    subscriber_phone?: string | null
+    subscriber_licence_plate?: string | null
+    subscriber_car_model?: string | null
+    subscriber_office_number?: string | null
+    stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+    subscriber_user?: UserCreateNestedOneWithoutSubscriptionsInput
+    parking_spot_current?: ParkingSpotCreateNestedOneWithoutCurrent_subscriptionInput
+  }
+
+  export type SubscriptionUncheckedCreateWithoutParking_spotInput = {
+    id?: string
+    subscriber_user_id?: string | null
+    subscriber_name?: string | null
+    subscriber_email?: string | null
+    subscriber_phone?: string | null
+    subscriber_licence_plate?: string | null
+    subscriber_car_model?: string | null
+    subscriber_office_number?: string | null
+    stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+    parking_spot_current?: ParkingSpotUncheckedCreateNestedOneWithoutCurrent_subscriptionInput
+  }
+
+  export type SubscriptionCreateOrConnectWithoutParking_spotInput = {
+    where: SubscriptionWhereUniqueInput
+    create: XOR<SubscriptionCreateWithoutParking_spotInput, SubscriptionUncheckedCreateWithoutParking_spotInput>
+  }
+
+  export type SubscriptionCreateManyParking_spotInputEnvelope = {
+    data: SubscriptionCreateManyParking_spotInput | SubscriptionCreateManyParking_spotInput[]
+    skipDuplicates?: boolean
+  }
+
   export type BuildingUpsertWithoutParking_spotsInput = {
     update: XOR<BuildingUpdateWithoutParking_spotsInput, BuildingUncheckedUpdateWithoutParking_spotsInput>
     create: XOR<BuildingCreateWithoutParking_spotsInput, BuildingUncheckedCreateWithoutParking_spotsInput>
@@ -22134,6 +24074,63 @@ export namespace Prisma {
     data: XOR<ReservationUpdateManyMutationInput, ReservationUncheckedUpdateManyWithoutParkingInput>
   }
 
+  export type SubscriptionUpsertWithoutParking_spot_currentInput = {
+    update: XOR<SubscriptionUpdateWithoutParking_spot_currentInput, SubscriptionUncheckedUpdateWithoutParking_spot_currentInput>
+    create: XOR<SubscriptionCreateWithoutParking_spot_currentInput, SubscriptionUncheckedCreateWithoutParking_spot_currentInput>
+    where?: SubscriptionWhereInput
+  }
+
+  export type SubscriptionUpdateToOneWithWhereWithoutParking_spot_currentInput = {
+    where?: SubscriptionWhereInput
+    data: XOR<SubscriptionUpdateWithoutParking_spot_currentInput, SubscriptionUncheckedUpdateWithoutParking_spot_currentInput>
+  }
+
+  export type SubscriptionUpdateWithoutParking_spot_currentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subscriber_name?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_email?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_phone?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_licence_plate?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_car_model?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_office_number?: NullableStringFieldUpdateOperationsInput | string | null
+    stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    parking_spot?: ParkingSpotUpdateOneWithoutAll_subscriptionsNestedInput
+    subscriber_user?: UserUpdateOneWithoutSubscriptionsNestedInput
+  }
+
+  export type SubscriptionUncheckedUpdateWithoutParking_spot_currentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    parking_spot_id?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_name?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_email?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_phone?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_licence_plate?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_car_model?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_office_number?: NullableStringFieldUpdateOperationsInput | string | null
+    stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubscriptionUpsertWithWhereUniqueWithoutParking_spotInput = {
+    where: SubscriptionWhereUniqueInput
+    update: XOR<SubscriptionUpdateWithoutParking_spotInput, SubscriptionUncheckedUpdateWithoutParking_spotInput>
+    create: XOR<SubscriptionCreateWithoutParking_spotInput, SubscriptionUncheckedCreateWithoutParking_spotInput>
+  }
+
+  export type SubscriptionUpdateWithWhereUniqueWithoutParking_spotInput = {
+    where: SubscriptionWhereUniqueInput
+    data: XOR<SubscriptionUpdateWithoutParking_spotInput, SubscriptionUncheckedUpdateWithoutParking_spotInput>
+  }
+
+  export type SubscriptionUpdateManyWithWhereWithoutParking_spotInput = {
+    where: SubscriptionScalarWhereInput
+    data: XOR<SubscriptionUpdateManyMutationInput, SubscriptionUncheckedUpdateManyWithoutParking_spotInput>
+  }
+
   export type CommunityMembersCreateWithoutQr_codeInput = {
     id?: string
     user_role?: $Enums.User_Role | null
@@ -22173,11 +24170,15 @@ export namespace Prisma {
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
+    price?: number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
     building: BuildingCreateNestedOneWithoutParking_spotsInput
     owner?: CommunityMembersCreateNestedOneWithoutParking_spotsInput
     vehicle?: VehicleCreateNestedOneWithoutParking_spotsInput
     listings?: ListingCreateNestedManyWithoutParking_spotInput
     reservations?: ReservationCreateNestedManyWithoutParkingInput
+    current_subscription?: SubscriptionCreateNestedOneWithoutParking_spot_currentInput
+    all_subscriptions?: SubscriptionCreateNestedManyWithoutParking_spotInput
   }
 
   export type ParkingSpotUncheckedCreateWithoutQr_codeInput = {
@@ -22189,8 +24190,12 @@ export namespace Prisma {
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
+    price?: number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    current_subscription_id?: string | null
     listings?: ListingUncheckedCreateNestedManyWithoutParking_spotInput
     reservations?: ReservationUncheckedCreateNestedManyWithoutParkingInput
+    all_subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutParking_spotInput
   }
 
   export type ParkingSpotCreateOrConnectWithoutQr_codeInput = {
@@ -22254,11 +24259,15 @@ export namespace Prisma {
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: NullableIntFieldUpdateOperationsInput | number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
     building?: BuildingUpdateOneRequiredWithoutParking_spotsNestedInput
     owner?: CommunityMembersUpdateOneWithoutParking_spotsNestedInput
     vehicle?: VehicleUpdateOneWithoutParking_spotsNestedInput
     listings?: ListingUpdateManyWithoutParking_spotNestedInput
     reservations?: ReservationUpdateManyWithoutParkingNestedInput
+    current_subscription?: SubscriptionUpdateOneWithoutParking_spot_currentNestedInput
+    all_subscriptions?: SubscriptionUpdateManyWithoutParking_spotNestedInput
   }
 
   export type ParkingSpotUncheckedUpdateWithoutQr_codeInput = {
@@ -22270,8 +24279,12 @@ export namespace Prisma {
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: NullableIntFieldUpdateOperationsInput | number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    current_subscription_id?: NullableStringFieldUpdateOperationsInput | string | null
     listings?: ListingUncheckedUpdateManyWithoutParking_spotNestedInput
     reservations?: ReservationUncheckedUpdateManyWithoutParkingNestedInput
+    all_subscriptions?: SubscriptionUncheckedUpdateManyWithoutParking_spotNestedInput
   }
 
   export type ParkingSpotCreateWithoutVehicleInput = {
@@ -22280,11 +24293,15 @@ export namespace Prisma {
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
+    price?: number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
     building: BuildingCreateNestedOneWithoutParking_spotsInput
     owner?: CommunityMembersCreateNestedOneWithoutParking_spotsInput
     qr_code?: QRCodeCreateNestedOneWithoutParking_spotInput
     listings?: ListingCreateNestedManyWithoutParking_spotInput
     reservations?: ReservationCreateNestedManyWithoutParkingInput
+    current_subscription?: SubscriptionCreateNestedOneWithoutParking_spot_currentInput
+    all_subscriptions?: SubscriptionCreateNestedManyWithoutParking_spotInput
   }
 
   export type ParkingSpotUncheckedCreateWithoutVehicleInput = {
@@ -22296,8 +24313,12 @@ export namespace Prisma {
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
+    price?: number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    current_subscription_id?: string | null
     listings?: ListingUncheckedCreateNestedManyWithoutParking_spotInput
     reservations?: ReservationUncheckedCreateNestedManyWithoutParkingInput
+    all_subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutParking_spotInput
   }
 
   export type ParkingSpotCreateOrConnectWithoutVehicleInput = {
@@ -22344,6 +24365,7 @@ export namespace Prisma {
     community_members?: CommunityMembersCreateNestedManyWithoutUserInput
     hostReservations?: ReservationCreateNestedManyWithoutHostInput
     visitorReservations?: ReservationCreateNestedManyWithoutVisitorInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutSubscriber_userInput
   }
 
   export type UserUncheckedCreateWithoutListingsInput = {
@@ -22364,6 +24386,7 @@ export namespace Prisma {
     community_members?: CommunityMembersUncheckedCreateNestedManyWithoutUserInput
     hostReservations?: ReservationUncheckedCreateNestedManyWithoutHostInput
     visitorReservations?: ReservationUncheckedCreateNestedManyWithoutVisitorInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutSubscriber_userInput
   }
 
   export type UserCreateOrConnectWithoutListingsInput = {
@@ -22377,11 +24400,15 @@ export namespace Prisma {
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
+    price?: number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
     building: BuildingCreateNestedOneWithoutParking_spotsInput
     owner?: CommunityMembersCreateNestedOneWithoutParking_spotsInput
     qr_code?: QRCodeCreateNestedOneWithoutParking_spotInput
     vehicle?: VehicleCreateNestedOneWithoutParking_spotsInput
     reservations?: ReservationCreateNestedManyWithoutParkingInput
+    current_subscription?: SubscriptionCreateNestedOneWithoutParking_spot_currentInput
+    all_subscriptions?: SubscriptionCreateNestedManyWithoutParking_spotInput
   }
 
   export type ParkingSpotUncheckedCreateWithoutListingsInput = {
@@ -22394,7 +24421,11 @@ export namespace Prisma {
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
+    price?: number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    current_subscription_id?: string | null
     reservations?: ReservationUncheckedCreateNestedManyWithoutParkingInput
+    all_subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutParking_spotInput
   }
 
   export type ParkingSpotCreateOrConnectWithoutListingsInput = {
@@ -22475,6 +24506,7 @@ export namespace Prisma {
     community_members?: CommunityMembersUpdateManyWithoutUserNestedInput
     hostReservations?: ReservationUpdateManyWithoutHostNestedInput
     visitorReservations?: ReservationUpdateManyWithoutVisitorNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutSubscriber_userNestedInput
   }
 
   export type UserUncheckedUpdateWithoutListingsInput = {
@@ -22495,6 +24527,7 @@ export namespace Prisma {
     community_members?: CommunityMembersUncheckedUpdateManyWithoutUserNestedInput
     hostReservations?: ReservationUncheckedUpdateManyWithoutHostNestedInput
     visitorReservations?: ReservationUncheckedUpdateManyWithoutVisitorNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutSubscriber_userNestedInput
   }
 
   export type ParkingSpotUpsertWithoutListingsInput = {
@@ -22514,11 +24547,15 @@ export namespace Prisma {
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: NullableIntFieldUpdateOperationsInput | number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
     building?: BuildingUpdateOneRequiredWithoutParking_spotsNestedInput
     owner?: CommunityMembersUpdateOneWithoutParking_spotsNestedInput
     qr_code?: QRCodeUpdateOneWithoutParking_spotNestedInput
     vehicle?: VehicleUpdateOneWithoutParking_spotsNestedInput
     reservations?: ReservationUpdateManyWithoutParkingNestedInput
+    current_subscription?: SubscriptionUpdateOneWithoutParking_spot_currentNestedInput
+    all_subscriptions?: SubscriptionUpdateManyWithoutParking_spotNestedInput
   }
 
   export type ParkingSpotUncheckedUpdateWithoutListingsInput = {
@@ -22531,7 +24568,11 @@ export namespace Prisma {
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: NullableIntFieldUpdateOperationsInput | number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    current_subscription_id?: NullableStringFieldUpdateOperationsInput | string | null
     reservations?: ReservationUncheckedUpdateManyWithoutParkingNestedInput
+    all_subscriptions?: SubscriptionUncheckedUpdateManyWithoutParking_spotNestedInput
   }
 
   export type ReservationUpsertWithWhereUniqueWithoutListingInput = {
@@ -22605,6 +24646,7 @@ export namespace Prisma {
     community_members?: CommunityMembersCreateNestedManyWithoutUserInput
     listings?: ListingCreateNestedManyWithoutHostInput
     visitorReservations?: ReservationCreateNestedManyWithoutVisitorInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutSubscriber_userInput
   }
 
   export type UserUncheckedCreateWithoutHostReservationsInput = {
@@ -22625,6 +24667,7 @@ export namespace Prisma {
     community_members?: CommunityMembersUncheckedCreateNestedManyWithoutUserInput
     listings?: ListingUncheckedCreateNestedManyWithoutHostInput
     visitorReservations?: ReservationUncheckedCreateNestedManyWithoutVisitorInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutSubscriber_userInput
   }
 
   export type UserCreateOrConnectWithoutHostReservationsInput = {
@@ -22650,6 +24693,7 @@ export namespace Prisma {
     community_members?: CommunityMembersCreateNestedManyWithoutUserInput
     listings?: ListingCreateNestedManyWithoutHostInput
     hostReservations?: ReservationCreateNestedManyWithoutHostInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutSubscriber_userInput
   }
 
   export type UserUncheckedCreateWithoutVisitorReservationsInput = {
@@ -22670,6 +24714,7 @@ export namespace Prisma {
     community_members?: CommunityMembersUncheckedCreateNestedManyWithoutUserInput
     listings?: ListingUncheckedCreateNestedManyWithoutHostInput
     hostReservations?: ReservationUncheckedCreateNestedManyWithoutHostInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutSubscriber_userInput
   }
 
   export type UserCreateOrConnectWithoutVisitorReservationsInput = {
@@ -22730,11 +24775,15 @@ export namespace Prisma {
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
+    price?: number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
     building: BuildingCreateNestedOneWithoutParking_spotsInput
     owner?: CommunityMembersCreateNestedOneWithoutParking_spotsInput
     qr_code?: QRCodeCreateNestedOneWithoutParking_spotInput
     vehicle?: VehicleCreateNestedOneWithoutParking_spotsInput
     listings?: ListingCreateNestedManyWithoutParking_spotInput
+    current_subscription?: SubscriptionCreateNestedOneWithoutParking_spot_currentInput
+    all_subscriptions?: SubscriptionCreateNestedManyWithoutParking_spotInput
   }
 
   export type ParkingSpotUncheckedCreateWithoutReservationsInput = {
@@ -22747,7 +24796,11 @@ export namespace Prisma {
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
+    price?: number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    current_subscription_id?: string | null
     listings?: ListingUncheckedCreateNestedManyWithoutParking_spotInput
+    all_subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutParking_spotInput
   }
 
   export type ParkingSpotCreateOrConnectWithoutReservationsInput = {
@@ -22827,6 +24880,7 @@ export namespace Prisma {
     community_members?: CommunityMembersUpdateManyWithoutUserNestedInput
     listings?: ListingUpdateManyWithoutHostNestedInput
     visitorReservations?: ReservationUpdateManyWithoutVisitorNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutSubscriber_userNestedInput
   }
 
   export type UserUncheckedUpdateWithoutHostReservationsInput = {
@@ -22847,6 +24901,7 @@ export namespace Prisma {
     community_members?: CommunityMembersUncheckedUpdateManyWithoutUserNestedInput
     listings?: ListingUncheckedUpdateManyWithoutHostNestedInput
     visitorReservations?: ReservationUncheckedUpdateManyWithoutVisitorNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutSubscriber_userNestedInput
   }
 
   export type UserUpsertWithoutVisitorReservationsInput = {
@@ -22878,6 +24933,7 @@ export namespace Prisma {
     community_members?: CommunityMembersUpdateManyWithoutUserNestedInput
     listings?: ListingUpdateManyWithoutHostNestedInput
     hostReservations?: ReservationUpdateManyWithoutHostNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutSubscriber_userNestedInput
   }
 
   export type UserUncheckedUpdateWithoutVisitorReservationsInput = {
@@ -22898,6 +24954,7 @@ export namespace Prisma {
     community_members?: CommunityMembersUncheckedUpdateManyWithoutUserNestedInput
     listings?: ListingUncheckedUpdateManyWithoutHostNestedInput
     hostReservations?: ReservationUncheckedUpdateManyWithoutHostNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutSubscriber_userNestedInput
   }
 
   export type BuildingUpsertWithoutReservationsInput = {
@@ -22970,11 +25027,15 @@ export namespace Prisma {
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: NullableIntFieldUpdateOperationsInput | number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
     building?: BuildingUpdateOneRequiredWithoutParking_spotsNestedInput
     owner?: CommunityMembersUpdateOneWithoutParking_spotsNestedInput
     qr_code?: QRCodeUpdateOneWithoutParking_spotNestedInput
     vehicle?: VehicleUpdateOneWithoutParking_spotsNestedInput
     listings?: ListingUpdateManyWithoutParking_spotNestedInput
+    current_subscription?: SubscriptionUpdateOneWithoutParking_spot_currentNestedInput
+    all_subscriptions?: SubscriptionUpdateManyWithoutParking_spotNestedInput
   }
 
   export type ParkingSpotUncheckedUpdateWithoutReservationsInput = {
@@ -22987,7 +25048,11 @@ export namespace Prisma {
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: NullableIntFieldUpdateOperationsInput | number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    current_subscription_id?: NullableStringFieldUpdateOperationsInput | string | null
     listings?: ListingUncheckedUpdateManyWithoutParking_spotNestedInput
+    all_subscriptions?: SubscriptionUncheckedUpdateManyWithoutParking_spotNestedInput
   }
 
   export type BuildingCreateWithoutApartment_unitsInput = {
@@ -23162,6 +25227,274 @@ export namespace Prisma {
     parking_spots?: ParkingSpotUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
+  export type ParkingSpotCreateWithoutAll_subscriptionsInput = {
+    id?: string
+    parking_level?: number | null
+    parking_spot_number?: string | null
+    parking_spot_type?: $Enums.Parking_Spot_Type
+    parking_instructions?: string | null
+    price?: number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    building: BuildingCreateNestedOneWithoutParking_spotsInput
+    owner?: CommunityMembersCreateNestedOneWithoutParking_spotsInput
+    qr_code?: QRCodeCreateNestedOneWithoutParking_spotInput
+    vehicle?: VehicleCreateNestedOneWithoutParking_spotsInput
+    listings?: ListingCreateNestedManyWithoutParking_spotInput
+    reservations?: ReservationCreateNestedManyWithoutParkingInput
+    current_subscription?: SubscriptionCreateNestedOneWithoutParking_spot_currentInput
+  }
+
+  export type ParkingSpotUncheckedCreateWithoutAll_subscriptionsInput = {
+    id?: string
+    building_id: string
+    owner_id?: string | null
+    qr_code_id?: string | null
+    vehicle_id?: string | null
+    parking_level?: number | null
+    parking_spot_number?: string | null
+    parking_spot_type?: $Enums.Parking_Spot_Type
+    parking_instructions?: string | null
+    price?: number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    current_subscription_id?: string | null
+    listings?: ListingUncheckedCreateNestedManyWithoutParking_spotInput
+    reservations?: ReservationUncheckedCreateNestedManyWithoutParkingInput
+  }
+
+  export type ParkingSpotCreateOrConnectWithoutAll_subscriptionsInput = {
+    where: ParkingSpotWhereUniqueInput
+    create: XOR<ParkingSpotCreateWithoutAll_subscriptionsInput, ParkingSpotUncheckedCreateWithoutAll_subscriptionsInput>
+  }
+
+  export type UserCreateWithoutSubscriptionsInput = {
+    id?: string
+    email?: string | null
+    phone_number?: string | null
+    first_name?: string | null
+    last_name?: string | null
+    user_roles?: UserCreateuser_rolesInput | $Enums.User_Role[]
+    verification_status?: $Enums.Verification_Status | null
+    mobile_onboard_status?: $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id?: string | null
+    stripe_account?: NullableJsonNullValueInput | InputJsonValue
+    notification_token?: string | null
+    created_at?: Date | string
+    last_login?: Date | string
+    management?: ManagementCreateNestedOneWithoutUserInput
+    community_members?: CommunityMembersCreateNestedManyWithoutUserInput
+    listings?: ListingCreateNestedManyWithoutHostInput
+    hostReservations?: ReservationCreateNestedManyWithoutHostInput
+    visitorReservations?: ReservationCreateNestedManyWithoutVisitorInput
+  }
+
+  export type UserUncheckedCreateWithoutSubscriptionsInput = {
+    id?: string
+    email?: string | null
+    phone_number?: string | null
+    first_name?: string | null
+    last_name?: string | null
+    user_roles?: UserCreateuser_rolesInput | $Enums.User_Role[]
+    verification_status?: $Enums.Verification_Status | null
+    mobile_onboard_status?: $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id?: string | null
+    stripe_account?: NullableJsonNullValueInput | InputJsonValue
+    notification_token?: string | null
+    created_at?: Date | string
+    last_login?: Date | string
+    management?: ManagementUncheckedCreateNestedOneWithoutUserInput
+    community_members?: CommunityMembersUncheckedCreateNestedManyWithoutUserInput
+    listings?: ListingUncheckedCreateNestedManyWithoutHostInput
+    hostReservations?: ReservationUncheckedCreateNestedManyWithoutHostInput
+    visitorReservations?: ReservationUncheckedCreateNestedManyWithoutVisitorInput
+  }
+
+  export type UserCreateOrConnectWithoutSubscriptionsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutSubscriptionsInput, UserUncheckedCreateWithoutSubscriptionsInput>
+  }
+
+  export type ParkingSpotCreateWithoutCurrent_subscriptionInput = {
+    id?: string
+    parking_level?: number | null
+    parking_spot_number?: string | null
+    parking_spot_type?: $Enums.Parking_Spot_Type
+    parking_instructions?: string | null
+    price?: number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    building: BuildingCreateNestedOneWithoutParking_spotsInput
+    owner?: CommunityMembersCreateNestedOneWithoutParking_spotsInput
+    qr_code?: QRCodeCreateNestedOneWithoutParking_spotInput
+    vehicle?: VehicleCreateNestedOneWithoutParking_spotsInput
+    listings?: ListingCreateNestedManyWithoutParking_spotInput
+    reservations?: ReservationCreateNestedManyWithoutParkingInput
+    all_subscriptions?: SubscriptionCreateNestedManyWithoutParking_spotInput
+  }
+
+  export type ParkingSpotUncheckedCreateWithoutCurrent_subscriptionInput = {
+    id?: string
+    building_id: string
+    owner_id?: string | null
+    qr_code_id?: string | null
+    vehicle_id?: string | null
+    parking_level?: number | null
+    parking_spot_number?: string | null
+    parking_spot_type?: $Enums.Parking_Spot_Type
+    parking_instructions?: string | null
+    price?: number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    listings?: ListingUncheckedCreateNestedManyWithoutParking_spotInput
+    reservations?: ReservationUncheckedCreateNestedManyWithoutParkingInput
+    all_subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutParking_spotInput
+  }
+
+  export type ParkingSpotCreateOrConnectWithoutCurrent_subscriptionInput = {
+    where: ParkingSpotWhereUniqueInput
+    create: XOR<ParkingSpotCreateWithoutCurrent_subscriptionInput, ParkingSpotUncheckedCreateWithoutCurrent_subscriptionInput>
+  }
+
+  export type ParkingSpotUpsertWithoutAll_subscriptionsInput = {
+    update: XOR<ParkingSpotUpdateWithoutAll_subscriptionsInput, ParkingSpotUncheckedUpdateWithoutAll_subscriptionsInput>
+    create: XOR<ParkingSpotCreateWithoutAll_subscriptionsInput, ParkingSpotUncheckedCreateWithoutAll_subscriptionsInput>
+    where?: ParkingSpotWhereInput
+  }
+
+  export type ParkingSpotUpdateToOneWithWhereWithoutAll_subscriptionsInput = {
+    where?: ParkingSpotWhereInput
+    data: XOR<ParkingSpotUpdateWithoutAll_subscriptionsInput, ParkingSpotUncheckedUpdateWithoutAll_subscriptionsInput>
+  }
+
+  export type ParkingSpotUpdateWithoutAll_subscriptionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    parking_level?: NullableIntFieldUpdateOperationsInput | number | null
+    parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
+    parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
+    parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: NullableIntFieldUpdateOperationsInput | number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    building?: BuildingUpdateOneRequiredWithoutParking_spotsNestedInput
+    owner?: CommunityMembersUpdateOneWithoutParking_spotsNestedInput
+    qr_code?: QRCodeUpdateOneWithoutParking_spotNestedInput
+    vehicle?: VehicleUpdateOneWithoutParking_spotsNestedInput
+    listings?: ListingUpdateManyWithoutParking_spotNestedInput
+    reservations?: ReservationUpdateManyWithoutParkingNestedInput
+    current_subscription?: SubscriptionUpdateOneWithoutParking_spot_currentNestedInput
+  }
+
+  export type ParkingSpotUncheckedUpdateWithoutAll_subscriptionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    building_id?: StringFieldUpdateOperationsInput | string
+    owner_id?: NullableStringFieldUpdateOperationsInput | string | null
+    qr_code_id?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicle_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parking_level?: NullableIntFieldUpdateOperationsInput | number | null
+    parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
+    parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
+    parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: NullableIntFieldUpdateOperationsInput | number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    current_subscription_id?: NullableStringFieldUpdateOperationsInput | string | null
+    listings?: ListingUncheckedUpdateManyWithoutParking_spotNestedInput
+    reservations?: ReservationUncheckedUpdateManyWithoutParkingNestedInput
+  }
+
+  export type UserUpsertWithoutSubscriptionsInput = {
+    update: XOR<UserUpdateWithoutSubscriptionsInput, UserUncheckedUpdateWithoutSubscriptionsInput>
+    create: XOR<UserCreateWithoutSubscriptionsInput, UserUncheckedCreateWithoutSubscriptionsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutSubscriptionsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutSubscriptionsInput, UserUncheckedUpdateWithoutSubscriptionsInput>
+  }
+
+  export type UserUpdateWithoutSubscriptionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone_number?: NullableStringFieldUpdateOperationsInput | string | null
+    first_name?: NullableStringFieldUpdateOperationsInput | string | null
+    last_name?: NullableStringFieldUpdateOperationsInput | string | null
+    user_roles?: UserUpdateuser_rolesInput | $Enums.User_Role[]
+    verification_status?: NullableEnumVerification_StatusFieldUpdateOperationsInput | $Enums.Verification_Status | null
+    mobile_onboard_status?: NullableEnumMobile_Onboard_StatusFieldUpdateOperationsInput | $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id?: NullableStringFieldUpdateOperationsInput | string | null
+    stripe_account?: NullableJsonNullValueInput | InputJsonValue
+    notification_token?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    last_login?: DateTimeFieldUpdateOperationsInput | Date | string
+    management?: ManagementUpdateOneWithoutUserNestedInput
+    community_members?: CommunityMembersUpdateManyWithoutUserNestedInput
+    listings?: ListingUpdateManyWithoutHostNestedInput
+    hostReservations?: ReservationUpdateManyWithoutHostNestedInput
+    visitorReservations?: ReservationUpdateManyWithoutVisitorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutSubscriptionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone_number?: NullableStringFieldUpdateOperationsInput | string | null
+    first_name?: NullableStringFieldUpdateOperationsInput | string | null
+    last_name?: NullableStringFieldUpdateOperationsInput | string | null
+    user_roles?: UserUpdateuser_rolesInput | $Enums.User_Role[]
+    verification_status?: NullableEnumVerification_StatusFieldUpdateOperationsInput | $Enums.Verification_Status | null
+    mobile_onboard_status?: NullableEnumMobile_Onboard_StatusFieldUpdateOperationsInput | $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id?: NullableStringFieldUpdateOperationsInput | string | null
+    stripe_account?: NullableJsonNullValueInput | InputJsonValue
+    notification_token?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    last_login?: DateTimeFieldUpdateOperationsInput | Date | string
+    management?: ManagementUncheckedUpdateOneWithoutUserNestedInput
+    community_members?: CommunityMembersUncheckedUpdateManyWithoutUserNestedInput
+    listings?: ListingUncheckedUpdateManyWithoutHostNestedInput
+    hostReservations?: ReservationUncheckedUpdateManyWithoutHostNestedInput
+    visitorReservations?: ReservationUncheckedUpdateManyWithoutVisitorNestedInput
+  }
+
+  export type ParkingSpotUpsertWithoutCurrent_subscriptionInput = {
+    update: XOR<ParkingSpotUpdateWithoutCurrent_subscriptionInput, ParkingSpotUncheckedUpdateWithoutCurrent_subscriptionInput>
+    create: XOR<ParkingSpotCreateWithoutCurrent_subscriptionInput, ParkingSpotUncheckedCreateWithoutCurrent_subscriptionInput>
+    where?: ParkingSpotWhereInput
+  }
+
+  export type ParkingSpotUpdateToOneWithWhereWithoutCurrent_subscriptionInput = {
+    where?: ParkingSpotWhereInput
+    data: XOR<ParkingSpotUpdateWithoutCurrent_subscriptionInput, ParkingSpotUncheckedUpdateWithoutCurrent_subscriptionInput>
+  }
+
+  export type ParkingSpotUpdateWithoutCurrent_subscriptionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    parking_level?: NullableIntFieldUpdateOperationsInput | number | null
+    parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
+    parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
+    parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: NullableIntFieldUpdateOperationsInput | number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    building?: BuildingUpdateOneRequiredWithoutParking_spotsNestedInput
+    owner?: CommunityMembersUpdateOneWithoutParking_spotsNestedInput
+    qr_code?: QRCodeUpdateOneWithoutParking_spotNestedInput
+    vehicle?: VehicleUpdateOneWithoutParking_spotsNestedInput
+    listings?: ListingUpdateManyWithoutParking_spotNestedInput
+    reservations?: ReservationUpdateManyWithoutParkingNestedInput
+    all_subscriptions?: SubscriptionUpdateManyWithoutParking_spotNestedInput
+  }
+
+  export type ParkingSpotUncheckedUpdateWithoutCurrent_subscriptionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    building_id?: StringFieldUpdateOperationsInput | string
+    owner_id?: NullableStringFieldUpdateOperationsInput | string | null
+    qr_code_id?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicle_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parking_level?: NullableIntFieldUpdateOperationsInput | number | null
+    parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
+    parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
+    parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: NullableIntFieldUpdateOperationsInput | number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    listings?: ListingUncheckedUpdateManyWithoutParking_spotNestedInput
+    reservations?: ReservationUncheckedUpdateManyWithoutParkingNestedInput
+    all_subscriptions?: SubscriptionUncheckedUpdateManyWithoutParking_spotNestedInput
+  }
+
   export type CommunityMembersCreateManyUserInput = {
     id?: string
     building_id: string
@@ -23219,6 +25552,20 @@ export namespace Prisma {
     status?: $Enums.Reservation_Status
     stripe_payment_intent_id?: string | null
     charge?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type SubscriptionCreateManySubscriber_userInput = {
+    id?: string
+    parking_spot_id?: string | null
+    subscriber_name?: string | null
+    subscriber_email?: string | null
+    subscriber_phone?: string | null
+    subscriber_licence_plate?: string | null
+    subscriber_car_model?: string | null
+    subscriber_office_number?: string | null
+    stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -23412,6 +25759,50 @@ export namespace Prisma {
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type SubscriptionUpdateWithoutSubscriber_userInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subscriber_name?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_email?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_phone?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_licence_plate?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_car_model?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_office_number?: NullableStringFieldUpdateOperationsInput | string | null
+    stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    parking_spot?: ParkingSpotUpdateOneWithoutAll_subscriptionsNestedInput
+    parking_spot_current?: ParkingSpotUpdateOneWithoutCurrent_subscriptionNestedInput
+  }
+
+  export type SubscriptionUncheckedUpdateWithoutSubscriber_userInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    parking_spot_id?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_name?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_email?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_phone?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_licence_plate?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_car_model?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_office_number?: NullableStringFieldUpdateOperationsInput | string | null
+    stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    parking_spot_current?: ParkingSpotUncheckedUpdateOneWithoutCurrent_subscriptionNestedInput
+  }
+
+  export type SubscriptionUncheckedUpdateManyWithoutSubscriber_userInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    parking_spot_id?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_name?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_email?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_phone?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_licence_plate?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_car_model?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_office_number?: NullableStringFieldUpdateOperationsInput | string | null
+    stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ManagementStaffCreateManyManagementInput = {
     id?: string
     name?: string | null
@@ -23541,6 +25932,9 @@ export namespace Prisma {
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
+    price?: number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    current_subscription_id?: string | null
   }
 
   export type ReservationCreateManyBuildingInput = {
@@ -23614,11 +26008,15 @@ export namespace Prisma {
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: NullableIntFieldUpdateOperationsInput | number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
     owner?: CommunityMembersUpdateOneWithoutParking_spotsNestedInput
     qr_code?: QRCodeUpdateOneWithoutParking_spotNestedInput
     vehicle?: VehicleUpdateOneWithoutParking_spotsNestedInput
     listings?: ListingUpdateManyWithoutParking_spotNestedInput
     reservations?: ReservationUpdateManyWithoutParkingNestedInput
+    current_subscription?: SubscriptionUpdateOneWithoutParking_spot_currentNestedInput
+    all_subscriptions?: SubscriptionUpdateManyWithoutParking_spotNestedInput
   }
 
   export type ParkingSpotUncheckedUpdateWithoutBuildingInput = {
@@ -23630,8 +26028,12 @@ export namespace Prisma {
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: NullableIntFieldUpdateOperationsInput | number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    current_subscription_id?: NullableStringFieldUpdateOperationsInput | string | null
     listings?: ListingUncheckedUpdateManyWithoutParking_spotNestedInput
     reservations?: ReservationUncheckedUpdateManyWithoutParkingNestedInput
+    all_subscriptions?: SubscriptionUncheckedUpdateManyWithoutParking_spotNestedInput
   }
 
   export type ParkingSpotUncheckedUpdateManyWithoutBuildingInput = {
@@ -23643,6 +26045,9 @@ export namespace Prisma {
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: NullableIntFieldUpdateOperationsInput | number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    current_subscription_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ReservationUpdateWithoutBuildingInput = {
@@ -23729,6 +26134,9 @@ export namespace Prisma {
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
+    price?: number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    current_subscription_id?: string | null
   }
 
   export type ApartmentUnitCreateManyCommunity_memberInput = {
@@ -23745,11 +26153,15 @@ export namespace Prisma {
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: NullableIntFieldUpdateOperationsInput | number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
     building?: BuildingUpdateOneRequiredWithoutParking_spotsNestedInput
     qr_code?: QRCodeUpdateOneWithoutParking_spotNestedInput
     vehicle?: VehicleUpdateOneWithoutParking_spotsNestedInput
     listings?: ListingUpdateManyWithoutParking_spotNestedInput
     reservations?: ReservationUpdateManyWithoutParkingNestedInput
+    current_subscription?: SubscriptionUpdateOneWithoutParking_spot_currentNestedInput
+    all_subscriptions?: SubscriptionUpdateManyWithoutParking_spotNestedInput
   }
 
   export type ParkingSpotUncheckedUpdateWithoutOwnerInput = {
@@ -23761,8 +26173,12 @@ export namespace Prisma {
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: NullableIntFieldUpdateOperationsInput | number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    current_subscription_id?: NullableStringFieldUpdateOperationsInput | string | null
     listings?: ListingUncheckedUpdateManyWithoutParking_spotNestedInput
     reservations?: ReservationUncheckedUpdateManyWithoutParkingNestedInput
+    all_subscriptions?: SubscriptionUncheckedUpdateManyWithoutParking_spotNestedInput
   }
 
   export type ParkingSpotUncheckedUpdateManyWithoutOwnerInput = {
@@ -23774,6 +26190,9 @@ export namespace Prisma {
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: NullableIntFieldUpdateOperationsInput | number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    current_subscription_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ApartmentUnitUpdateWithoutCommunity_memberInput = {
@@ -23828,6 +26247,20 @@ export namespace Prisma {
     status?: $Enums.Reservation_Status
     stripe_payment_intent_id?: string | null
     charge?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type SubscriptionCreateManyParking_spotInput = {
+    id?: string
+    subscriber_user_id?: string | null
+    subscriber_name?: string | null
+    subscriber_email?: string | null
+    subscriber_phone?: string | null
+    subscriber_licence_plate?: string | null
+    subscriber_car_model?: string | null
+    subscriber_office_number?: string | null
+    stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -23930,6 +26363,50 @@ export namespace Prisma {
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type SubscriptionUpdateWithoutParking_spotInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subscriber_name?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_email?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_phone?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_licence_plate?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_car_model?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_office_number?: NullableStringFieldUpdateOperationsInput | string | null
+    stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    subscriber_user?: UserUpdateOneWithoutSubscriptionsNestedInput
+    parking_spot_current?: ParkingSpotUpdateOneWithoutCurrent_subscriptionNestedInput
+  }
+
+  export type SubscriptionUncheckedUpdateWithoutParking_spotInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subscriber_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_name?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_email?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_phone?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_licence_plate?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_car_model?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_office_number?: NullableStringFieldUpdateOperationsInput | string | null
+    stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    parking_spot_current?: ParkingSpotUncheckedUpdateOneWithoutCurrent_subscriptionNestedInput
+  }
+
+  export type SubscriptionUncheckedUpdateManyWithoutParking_spotInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subscriber_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_name?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_email?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_phone?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_licence_plate?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_car_model?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_office_number?: NullableStringFieldUpdateOperationsInput | string | null
+    stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ParkingSpotCreateManyVehicleInput = {
     id?: string
     building_id: string
@@ -23939,6 +26416,9 @@ export namespace Prisma {
     parking_spot_number?: string | null
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
+    price?: number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    current_subscription_id?: string | null
   }
 
   export type ParkingSpotUpdateWithoutVehicleInput = {
@@ -23947,11 +26427,15 @@ export namespace Prisma {
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: NullableIntFieldUpdateOperationsInput | number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
     building?: BuildingUpdateOneRequiredWithoutParking_spotsNestedInput
     owner?: CommunityMembersUpdateOneWithoutParking_spotsNestedInput
     qr_code?: QRCodeUpdateOneWithoutParking_spotNestedInput
     listings?: ListingUpdateManyWithoutParking_spotNestedInput
     reservations?: ReservationUpdateManyWithoutParkingNestedInput
+    current_subscription?: SubscriptionUpdateOneWithoutParking_spot_currentNestedInput
+    all_subscriptions?: SubscriptionUpdateManyWithoutParking_spotNestedInput
   }
 
   export type ParkingSpotUncheckedUpdateWithoutVehicleInput = {
@@ -23963,8 +26447,12 @@ export namespace Prisma {
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: NullableIntFieldUpdateOperationsInput | number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    current_subscription_id?: NullableStringFieldUpdateOperationsInput | string | null
     listings?: ListingUncheckedUpdateManyWithoutParking_spotNestedInput
     reservations?: ReservationUncheckedUpdateManyWithoutParkingNestedInput
+    all_subscriptions?: SubscriptionUncheckedUpdateManyWithoutParking_spotNestedInput
   }
 
   export type ParkingSpotUncheckedUpdateManyWithoutVehicleInput = {
@@ -23976,6 +26464,9 @@ export namespace Prisma {
     parking_spot_number?: NullableStringFieldUpdateOperationsInput | string | null
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: NullableIntFieldUpdateOperationsInput | number | null
+    stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    current_subscription_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ReservationCreateManyListingInput = {
@@ -24127,6 +26618,10 @@ export namespace Prisma {
      * @deprecated Use ApartmentUnitDefaultArgs instead
      */
     export type ApartmentUnitArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ApartmentUnitDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use SubscriptionDefaultArgs instead
+     */
+    export type SubscriptionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SubscriptionDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

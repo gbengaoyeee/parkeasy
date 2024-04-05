@@ -21,7 +21,9 @@ import {
   GetBuildingsDto,
   GetCommunityMembersDto,
   GetParkingsDto,
+  GetSubscriptionsDto,
   UpdateCommunityMemberDto,
+  UpdateParkingSpotDto,
 } from './dto';
 
 @Controller('building')
@@ -168,6 +170,16 @@ export class BuildingController {
     return await this.buildingService.addParkingSpot(buildingId, dto);
   }
 
+  @Put('parking-spot/:buildingId')
+  async updateParkingSpot(
+    @Param('buildingId')
+    buildingId: string,
+    @Body()
+    dto: UpdateParkingSpotDto,
+  ) {
+    return await this.buildingService.updateParkingSpot(buildingId, dto);
+  }
+
   @Get('parking-spot/:buildingId/:parkingSpotId')
   async getParkingSpot(
     @Param('buildingId')
@@ -196,5 +208,15 @@ export class BuildingController {
     dto: GetApartmentUnitsDto,
   ) {
     return await this.buildingService.getApartmentUnits(buildingId, dto);
+  }
+
+  @Get('subscriptions/:buildingId')
+  async getSubscriptions(
+    @Param('buildingId')
+    buildingId: string,
+    @Query()
+    dto: GetSubscriptionsDto,
+  ) {
+    return await this.buildingService.getSubscriptions(buildingId, dto);
   }
 }

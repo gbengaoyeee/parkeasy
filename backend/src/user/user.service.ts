@@ -73,7 +73,7 @@ export class UserService {
   async createUser(dto: CreateUserDto) {
     try {
       console.log('creating user at', new Date().toISOString());
-      const user = await this.prisma.user.create({
+      let user = await this.prisma.user.create({
         data: {
           email: dto.email ? dto.email.toLowerCase() : null,
           phone_number: dto.phone ? dto.phone : null,
@@ -83,9 +83,7 @@ export class UserService {
         },
       });
 
-      let whereClause = {
-        
-      }
+      let whereClause = {}
       if(dto.email){
         whereClause = {
           email: dto.email.toLowerCase(),
@@ -101,6 +99,24 @@ export class UserService {
         where: whereClause,
         data: {
           user_id: user.id,
+        },
+      });
+
+      let customer: Stripe.Response<Stripe.Customer>;
+      if (dto.createStripeCustomer && !user.stripe_customer_id) {
+        customer = await this.stripeService.createCustomer(
+          dto.email.toLowerCase(),
+          dto.firstName + ' ' + dto.lastName,
+          user.phone_number
+        );
+      }
+
+      user = await this.prisma.user.update({
+        where: {
+          id: user.id
+        },
+        data: {
+          stripe_customer_id: customer ? customer.id : user.stripe_customer_id,
         },
       });
 
@@ -123,6 +139,7 @@ export class UserService {
         customer = await this.stripeService.createCustomer(
           dto.email.toLowerCase(),
           dto.firstName + ' ' + dto.lastName,
+          user.phone_number
         );
       }
       
@@ -135,7 +152,7 @@ export class UserService {
           phone_number: dto.phone ? dto.phone : user.phone_number,
           first_name: dto.firstName ? dto.firstName : user.first_name,
           last_name: dto.lastName ? dto.lastName : user.last_name,
-          user_roles: dto.userRoles ? dto.userRoles : user.user_roles,
+          user_roles: [...new Set([...user.user_roles, ...dto.userRoles])],
           mobile_onboard_status: dto.mobileOnboardStatus ? dto.mobileOnboardStatus : user.mobile_onboard_status,
           stripe_customer_id: customer ? customer.id : user.stripe_customer_id,
           notification_token: dto.notificationToken ? dto.notificationToken : user.notification_token

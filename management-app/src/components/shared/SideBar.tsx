@@ -12,9 +12,8 @@ const SideBar = () => {
     handleSideBarOptionSelection: handleOptionSelection,
   } = useAppContext();
 
-
   return (
-    <div className="leftsidebar">
+    <div>
       <div>
         <span id="logo" className="text-xl">
           PARKEASY
@@ -24,7 +23,7 @@ const SideBar = () => {
             <Button
               onClick={() => handleOptionSelection(item.id)}
               key={item.name}
-              disabled={user?.management?.onboard_state !== "finish"}
+              // disabled={user?.management?.onboard_state !== "finish"}
               className={`grid grid-flow-col justify-start items-center gap-3 ${
                 index === selectedSideBarOption?.id ? "bg-primary-3" : ""
               } hover:bg-primary-3 cursor-pointer mb-[1px] w-full `}

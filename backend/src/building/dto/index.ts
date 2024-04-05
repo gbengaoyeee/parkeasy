@@ -132,9 +132,11 @@ export class GetParkingsDto {
 
 export class AddParkingSpotDto {
   @IsString()
+  @IsOptional()
   spotNumber: string;
 
   @IsNumber()
+  @IsOptional()
   spotLevel: number;
 
   @IsEnum(Parking_Spot_Type)
@@ -147,6 +149,15 @@ export class AddParkingSpotDto {
   @IsString()
   @IsOptional()
   parkingInstructions: string;
+
+  @IsNumber()
+  @IsOptional()
+  price: number
+}
+
+export class UpdateParkingSpotDto extends AddParkingSpotDto {
+  @IsString()
+  spotId: string;
 }
 
 export class AddApartmentUnitDto {
@@ -166,3 +177,5 @@ export class GetApartmentUnitsDto {
   })
   state: 'empty' | 'occupied';
 }
+
+export class GetSubscriptionsDto extends GetParkingsDto{}

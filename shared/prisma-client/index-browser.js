@@ -201,7 +201,10 @@ exports.Prisma.ParkingSpotScalarFieldEnum = {
   parking_level: 'parking_level',
   parking_spot_number: 'parking_spot_number',
   parking_spot_type: 'parking_spot_type',
-  parking_instructions: 'parking_instructions'
+  parking_instructions: 'parking_instructions',
+  price: 'price',
+  stripe_product: 'stripe_product',
+  current_subscription_id: 'current_subscription_id'
 };
 
 exports.Prisma.QRCodeScalarFieldEnum = {
@@ -259,6 +262,21 @@ exports.Prisma.ApartmentUnitScalarFieldEnum = {
   no_of_bedrooms: 'no_of_bedrooms',
   no_of_baths: 'no_of_baths',
   community_member_id: 'community_member_id'
+};
+
+exports.Prisma.SubscriptionScalarFieldEnum = {
+  id: 'id',
+  parking_spot_id: 'parking_spot_id',
+  subscriber_user_id: 'subscriber_user_id',
+  subscriber_name: 'subscriber_name',
+  subscriber_email: 'subscriber_email',
+  subscriber_phone: 'subscriber_phone',
+  subscriber_licence_plate: 'subscriber_licence_plate',
+  subscriber_car_model: 'subscriber_car_model',
+  subscriber_office_number: 'subscriber_office_number',
+  stripe_subscription: 'stripe_subscription',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
 };
 
 exports.Prisma.SortOrder = {
@@ -394,7 +412,8 @@ exports.Prisma.ModelName = {
   Vehicle: 'Vehicle',
   Listing: 'Listing',
   Reservation: 'Reservation',
-  ApartmentUnit: 'ApartmentUnit'
+  ApartmentUnit: 'ApartmentUnit',
+  Subscription: 'Subscription'
 };
 
 /**

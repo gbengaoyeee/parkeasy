@@ -13,12 +13,16 @@ import {
   GetBuildingsDto,
   GetCommunityMembersDto,
   GetParkingsDto,
+  GetSubscriptionsDto,
   UpdateCommunityMemberDto,
+  UpdateParkingSpotDto,
 } from './dto';
 import { CommunityMembers, QRCode_Type } from '../../../shared/prisma-client';
 import { v4 as uuidv4 } from 'uuid';
 import { objectToCamel } from 'ts-case-convert';
 import { retryAsyncFunction } from 'src/utils/helper';
+import { StripeService } from 'src/stripe/stripe.service';
+import Stripe from 'stripe';
 
 interface IBulkUploadData {
   name: string;
@@ -39,6 +43,7 @@ export class BuildingService {
     private prisma: PrismaService,
     private errorService: ErrorService,
     private qrCodeService: QrCodeService,
+    private stripeService: StripeService
   ) {}
 
   async getBuildings(dto: GetBuildingsDto) {
@@ -731,6 +736,7 @@ export class BuildingService {
           },
           include: {
             qr_code: true,
+            current_subscription: true,
             owner: {
               select: {
                 name: true,
@@ -788,6 +794,38 @@ export class BuildingService {
     }
   }
 
+  async getSubscriptions(buildingId: string, dto: GetSubscriptionsDto) {
+    try {
+      const parkingSpots = await this.prisma.parkingSpot.findMany({
+        where: {
+          building_id: buildingId,
+          current_subscription_id: { not: null },
+        },
+        include: {
+          current_subscription: {
+            include: {
+              parking_spot: true,
+            }
+          },
+          owner: {
+            select: {
+              name: true,
+              id: true,
+            },
+          },
+        },
+        // skip: (dto.page - 1) * dto.pageSize, // Calculate the offset
+        // take: dto.pageSize, // Limit the number of items returned
+      });
+      const subscriptions = parkingSpots.map((spot) => spot.current_subscription);
+      return new IResponseData(`Parking spots with subscriptions found successfully`, subscriptions).json;
+    } catch (error) {
+      console.error(error);
+      throw this.errorService.handleException(error);
+      
+    }
+  }
+
   // search parking spots by spot number
   async searchParkingSpotsBySpotNumber(buildingId: string, spotNumber: string) {
     try {
@@ -839,8 +877,8 @@ export class BuildingService {
           `Parking spot number ${dto.spotNumber} already exists in this building`,
         );
       }
-      const { id: qrCodeId, url } = await this.qrCodeService.create(newParkingEntry);
-      const { urls } = await this.qrCodeService.downloadQRCode(qrCodeId);
+      // const { id: qrCodeId, url } = await this.qrCodeService.create(newParkingEntry);
+      // const { urls } = await this.qrCodeService.downloadQRCode(qrCodeId);
 
       let communityMember: CommunityMembers | null;
       if(dto.communityMemberId) {
@@ -851,16 +889,18 @@ export class BuildingService {
         });
       }
 
-      const [_, spot] = await this.prisma.$transaction([
-        this.prisma.qRCode.create({
-          data: {
-            id: `${qrCodeId}`,
-            qr_for: 'parking_spot',
-            url: url,
-            qr_type: 'static',
-            image_url: urls.png,
-          },
-        }),
+      const product = await this.stripeService.createProduct(dto.spotNumber, dto.price, 'aed')
+
+      const [spot] = await this.prisma.$transaction([
+        // this.prisma.qRCode.create({
+        //   data: {
+        //     id: `${qrCodeId}`,
+        //     qr_for: 'parking_spot',
+        //     url: url,
+        //     qr_type: 'static',
+        //     image_url: urls.png,
+        //   },
+        // }),
         this.prisma.parkingSpot.create({
           data: {
             owner_id: communityMember ? communityMember.id : null,
@@ -869,7 +909,9 @@ export class BuildingService {
             parking_spot_type: dto.spotType,
             building_id: buildingId,
             parking_instructions: dto.parkingInstructions,
-            qr_code_id: `${qrCodeId}`,
+            price: dto.price,
+            stripe_product: product as any
+            // qr_code_id: `${qrCodeId}`,
           },
           include: {
             qr_code: true,
@@ -884,6 +926,84 @@ export class BuildingService {
     }
   }
 
+  async updateParkingSpot(buildingId: string, dto: UpdateParkingSpotDto) {
+    try {
+      let spot = await this.prisma.parkingSpot.findUniqueOrThrow({
+        where: {
+          id: dto.spotId,
+        },
+        include: {
+          current_subscription: true
+        }
+      })
+      if(!spot.stripe_product) {
+        const product = await this.stripeService.createProduct(dto.spotNumber, dto.price, 'aed')
+        spot = await this.prisma.parkingSpot.update({
+          where: {
+            id: dto.spotId,
+          },
+          data: {
+            stripe_product: product as any
+          },
+          include: {
+            current_subscription: true
+          }
+        })
+      }
+
+      let priceObj = await this.stripeService.getPrice(spot.stripe_product['default_price'])
+      let prodParams = {}
+      if(priceObj.unit_amount !== dto.price) {
+        prodParams['currency'] = priceObj.currency
+        const price = await this.stripeService.createPrice(dto.price, 'aed', spot.stripe_product['id'])
+        prodParams['price'] = {
+          price_id: price.id,
+          price_in_cents: dto.price
+        }
+        if(spot.current_subscription) {
+          this.stripeService.stripe.subscriptions.update(spot.current_subscription.stripe_subscription['id'], {
+            items: [
+              {
+                id: spot.current_subscription.stripe_subscription['items']['data'][0]['id'],
+                price: price.id
+              }
+            ]
+          })
+        }
+      }
+
+      if(spot.parking_spot_number !== dto.spotNumber) {
+        prodParams['name'] = dto.spotNumber
+      }
+
+      let stripeProduct: Stripe.Product | null = null
+      if(Object.keys(prodParams).length > 0) {
+        stripeProduct = await this.stripeService.updateProduct(spot.stripe_product['id'], prodParams)
+      }
+      spot = await this.prisma.parkingSpot.update({
+        where: {
+          id: dto.spotId,
+        },
+        data: {
+          parking_level: dto.spotLevel,
+          parking_spot_number: dto.spotNumber,
+          parking_spot_type: dto.spotType,
+          parking_instructions: dto.parkingInstructions,
+          price: dto.price,
+          stripe_product: stripeProduct ? stripeProduct as any : spot.stripe_product
+        },
+        include: {
+          qr_code: true,
+          current_subscription: true
+        },
+      })
+      return new IResponseData(`Parking spot updated successfully`, spot).json;
+    } catch (error) {
+      console.error(error);
+      throw this.errorService.handleException(error);
+    }
+  }
+
   async getParkingSpot(buildingId: string, spotId: string) {
     try {
       const spot = await this.prisma.parkingSpot.findUnique({
@@ -892,6 +1012,7 @@ export class BuildingService {
         },
         include: {
           qr_code: true,
+          current_subscription: true,
           owner: {
             select: {
               name: true,

@@ -29,6 +29,13 @@ export const SignUpValidation = z.object({
   contactNumber: z.string().regex(/^\+?[1-9]\d{1,14}$/, "Invalid phone number format")
 });
 
+export const VisitorSignUpValidation = z.object({
+  firstName: z.string().min(2, 'Please enter your first name'),
+  lastName: z.string().min(2, 'Please enter your last name'),
+  phone: z.string().regex(/^\+?[1-9]\d{1,14}$/, "Invalid phone number format"),
+  email: z.string().email(),
+})
+
 export const PasswordRecoveryValidation = z.object({
   password: passwordSchema,
   confirmPassword: passwordSchema
@@ -151,4 +158,20 @@ export const AddParkingSpotValidation = z.object({
     message: "Please enter a valid number",
   }).transform((val) => parseInt(val)),
   spotType: z.union([z.literal('regular'), z.literal('electric'), z.literal('hybrid')]),
+  price: z.string()
+    .regex(/^\d+$/, 'Price must be all digits')
+    .transform((str) => parseFloat(str))
+    .refine((price) => price > 0, {
+      message: 'Please enter a price greater than 0',
+      path: ['price'],
+    }),
+})
+
+export const SubscribeToParkingSpotValidation = z.object({
+  name: z.string().min(1, 'Please enter your full name'),
+  email: z.string().email(),
+  phone: z.string().regex(/^\+?[1-9]\d{1,14}$/, "Invalid phone number format"),
+  licencePlate: z.string().min(1, 'Please enter a valid license plate'),
+  carModel: z.string().min(1, 'Please enter the model of your car. e.g. Tesla Model 3'),
+  officeNumber: z.string().min(1, 'Please enter your office number'),
 })

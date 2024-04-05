@@ -7,12 +7,14 @@ import { toast } from "sonner";
 
 interface UserContextData {
   user: User | null;
+  refetchUser: () => void;
   isLoading: boolean;
   setUser: Dispatch<SetStateAction<User | null>>;
 }
 
 export const UserContext = createContext<UserContextData>({
   user: null,
+  refetchUser: () => {},
   isLoading: false,
   setUser: () => {},
 });
@@ -62,6 +64,7 @@ export const UserContextProvider = ({ children }: { children: React.ReactNode })
   const value = {
     user,
     setUser,
+    refetchUser: refetch,
     isLoading: isFetching,
   };
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

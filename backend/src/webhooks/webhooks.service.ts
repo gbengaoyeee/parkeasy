@@ -135,13 +135,13 @@ export class WebhooksService {
         case 'charge.succeeded':
           const chargeSucceeded = event.data.object;
           // Then define and call a function to handle the event charge.succeeded
-          this.handleStripeChargesEvents(chargeSucceeded);
+          await this.handleStripeChargesEvents(chargeSucceeded);
           break;
         // ... handle other event types
         case 'charge.updated':
           const chargeUpdated = event.data.object;
           // Then define and call a function to handle the event charge.updated
-          this.handleStripeChargesEvents(chargeUpdated);
+          await this.handleStripeChargesEvents(chargeUpdated);
           break;
         default:
           console.log(`SEND A NOTIFICATION TO SUPPORT`);
@@ -151,6 +151,101 @@ export class WebhooksService {
       console.log(`SEND A NOTIFICATION TO SUPPORT ON ERROR`);
       console.log(`⚠️  Webhook signature verification failed.`, err.message);
       throw this.errorService.handleException(err);
+    }
+  }
+
+  async handleStripeSubscriptions(sig: any, body: Buffer) {
+    let event: Stripe.Event;
+    try {
+      event = this.stripeService.stripe.webhooks.constructEvent(
+        body,
+        sig,
+        process.env.STRIPE_SUBSCRIPTIONS_WEBHOOK_SECRET,
+      );
+      console.log('event', event);
+      // Handle the event
+      switch (event.type) {
+        case 'customer.subscription.created':{
+          const customerSubscriptionCreated = event.data.object;
+          // Then define and call a function to handle the event customer.subscription.created
+          const sub = await this.prisma.subscription.create({
+            data: {
+              subscriber_user_id: customerSubscriptionCreated.metadata['subscriberUserId'],
+              subscriber_name: customerSubscriptionCreated.metadata['subscriberName'],
+              subscriber_email: customerSubscriptionCreated.metadata['subscriberEmail'],
+              subscriber_phone: customerSubscriptionCreated.metadata['subscriberPhone'],
+              subscriber_car_model: customerSubscriptionCreated.metadata['subscriberCarModel'],
+              subscriber_office_number: customerSubscriptionCreated.metadata['subscriberOfficeNumber'],
+              subscriber_licence_plate: customerSubscriptionCreated.metadata['subscriberLicencePlate'],
+              parking_spot_id: customerSubscriptionCreated.metadata['parkingSpotId'],
+              stripe_subscription: customerSubscriptionCreated as any,
+            }
+          })
+          customerSubscriptionCreated.status === 'active' && await this.prisma.parkingSpot.update({
+            where: {
+              id: customerSubscriptionCreated.metadata['parkingSpotId'],
+            },
+            data: {
+              current_subscription_id: sub.id,
+            },
+          })
+          await this.stripeService.stripe.subscriptions.update(customerSubscriptionCreated.id, {
+            metadata: {
+              subscriptionId: sub.id
+            }
+          })
+          break;
+        }
+        case 'customer.subscription.deleted': {
+          const customerSubscriptionDeleted = event.data.object;
+          // Then define and call a function to handle the event customer.subscription.deleted
+          await this.prisma.subscription.update({
+            where: {
+              id: customerSubscriptionDeleted.metadata['subscriptionId'],
+            },
+            data: {
+              stripe_subscription: customerSubscriptionDeleted as any,
+            },
+          })
+          customerSubscriptionDeleted.status
+          await this.prisma.parkingSpot.update({
+            where: {
+              id: customerSubscriptionDeleted.metadata['parkingSpotId'],
+            },
+            data: {
+              current_subscription_id: null,
+            },
+          })
+          break;
+        }
+        case 'customer.subscription.updated': {
+          const customerSubscriptionUpdated = event.data.object;
+          // Then define and call a function to handle the event customer.subscription.updated
+          await this.prisma.subscription.update({
+            where: {
+              id: customerSubscriptionUpdated.metadata['subscriptionId'],
+            },
+            data: {
+              stripe_subscription: customerSubscriptionUpdated as any,
+            },
+          })
+          await this.prisma.parkingSpot.update({
+            where: {
+              id: customerSubscriptionUpdated.metadata['parkingSpotId'],
+            },
+            data: {
+              current_subscription_id: customerSubscriptionUpdated.metadata['subscriptionId'],
+            },
+          })
+          break;
+        }
+        // ... handle other event types
+        default:
+          console.log(`SEND A NOTIFICATION TO SUPPORT`);
+          console.log(`Unhandled event type ${event.type}`);
+      }
+    } catch (error) {
+      
     }
   }
 }

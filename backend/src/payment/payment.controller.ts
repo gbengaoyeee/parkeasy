@@ -1,6 +1,6 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { PaymentService } from './payment.service';
-import { GetCheckoutDetailsDto, PaymentIntentDto } from './dto';
+import { GetCheckoutDetailsDto, PaymentIntentDto, SubscribeToParkingDto } from './dto';
 
 @Controller('payment')
 export class PaymentController {
@@ -20,5 +20,21 @@ export class PaymentController {
     dto: GetCheckoutDetailsDto,
   ) {
     return await this.paymentService.getCheckoutDetails(dto);
+  }
+
+  @Post('/subscribe-to-parking')
+  async subscribeToParking(
+    @Body()
+    dto: SubscribeToParkingDto
+  ) {
+    return await this.paymentService.subscribeToParking(dto);
+  }
+
+  @Put('/cancel-subscription/:parkingSpotId')
+  async cancelSubscription(
+    @Param('parkingSpotId')
+    parkingSpotId: string
+  ) {
+    return await this.paymentService.cancelSubscription(parkingSpotId);
   }
 }

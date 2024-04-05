@@ -4,12 +4,13 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {  SSOValidation } from "@/lib/validation";
+import { SSOValidation } from "@/lib/validation";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import Loader from "@/components/shared/Loader";
 import { useAuthContext } from "@/context/AuthContext";
 import { getManagementByEmail } from "@/api/management";
+import { useAppContext } from "@/context/AppContext";
 
 const LoginForm = () => {
   // const { isPending: isSigningIn, mutateAsync: handleSignIn } = useLoginByEmail();
@@ -21,6 +22,8 @@ const LoginForm = () => {
       email: "",
     },
   });
+
+  const { tenant } = useAppContext();
   // const form = useForm<z.infer<typeof LoginValidation>>({
   //   resolver: zodResolver(LoginValidation),
   //   defaultValues: {
@@ -33,16 +36,37 @@ const LoginForm = () => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     // signInWithEmail(values);
-    getManagementByEmail(values.email)
-      .then((_) => {
-        signInPasswordless(values).then((_) => {
-          toast.success("Please check your email from login link");
+
+    if (tenant === "visitor") {
+      signInPasswordless(values)
+        .then((res) => {
+          if (res) {
+            toast.success("Please check your email from login link");
+          }
+        })
+        .catch((error) => {
+          console.error(error.message);
+          toast.error(error.response.data.message);
         });
-      })
-      .catch((error) => {
-        console.error(error.message);
-        toast.error(error.response.data.message);
-      });
+    } else {
+      getManagementByEmail(values.email)
+        .then((_) => {
+          signInPasswordless(values)
+            .then((res) => {
+              if (res) {
+                toast.success("Please check your email from login link");
+              }
+            })
+            .catch((error) => {
+              console.error(error.message);
+              toast.error(error.response.data.message);
+            });
+        })
+        .catch((error) => {
+          console.error(error.message);
+          toast.error(error.response.data.message);
+        });
+    }
   }
   return (
     <Form {...form}>
@@ -50,7 +74,7 @@ const LoginForm = () => {
         <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col w-full gap-5">
           <h1 className="h2-bold">
             Welcome
-            <br /> Building Facility Manager
+            <br /> <>{tenant === "visitor" ? "Visitor" : "Host"}</>
           </h1>
           <FormField
             control={form.control}

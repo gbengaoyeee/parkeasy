@@ -63,6 +63,7 @@ model User {
   listings            Listing[]
   hostReservations    Reservation[]      @relation(name: "HostRelation")
   visitorReservations Reservation[]      @relation(name: "VisitorRelation")
+  subscriptions        Subscription[]
 
   @@unique([email, phone_number])
   @@map("Users")
@@ -167,23 +168,23 @@ model Building {
 }
 
 model CommunityMembers {
-  id           String       @id @unique @default(uuid())
-  building_id  String // Foreign key
-  user_id      String? // Foreign key
-  user_role    User_Role?
-  email        String?
-  name         String?
-  phone        String?
-  status       Active_State @default(inactive)
+  id          String       @id @unique @default(uuid())
+  building_id String // Foreign key
+  user_id     String? // Foreign key
+  user_role   User_Role?
+  email       String?
+  name        String?
+  phone       String?
+  status      Active_State @default(inactive)
 
   qr_code_id String?  @unique
   created_at DateTime @default(now())
 
-  building      Building        @relation(fields: [building_id], references: [id], onDelete: Cascade) // Relation attribute
-  qr_code       QRCode?         @relation(fields: [qr_code_id], references: [id], onDelete: Cascade) // Relation attribute
-  parking_spots ParkingSpot[] // A community member can have multiple parking spots
-  user          User?           @relation(fields: [user_id], references: [id]) // Relation attribute
-  apartment_units ApartmentUnit[] 
+  building        Building        @relation(fields: [building_id], references: [id], onDelete: Cascade) // Relation attribute
+  qr_code         QRCode?         @relation(fields: [qr_code_id], references: [id], onDelete: Cascade) // Relation attribute
+  parking_spots   ParkingSpot[] // A community member can have multiple parking spots
+  user            User?           @relation(fields: [user_id], references: [id]) // Relation attribute
+  apartment_units ApartmentUnit[]
 
   @@unique([building_id, phone, email])
 }
@@ -205,12 +206,21 @@ model ParkingSpot {
   parking_spot_type    Parking_Spot_Type @default(regular)
   parking_instructions String?           @default("")
 
+  price Int? // In cents
+
+  stripe_product Json?
+
+  current_subscription_id String? @unique // Foreign key
+
   building     Building          @relation(fields: [building_id], references: [id], onDelete: Cascade) // Relation attribute
   owner        CommunityMembers? @relation(fields: [owner_id], references: [id]) // Relation attribute
   qr_code      QRCode?           @relation(fields: [qr_code_id], references: [id], onDelete: Cascade) // Relation attribute
   vehicle      Vehicle?          @relation(fields: [vehicle_id], references: [id], onDelete: Cascade) // Relation attribute
   listings     Listing[]
   reservations Reservation[]
+
+  current_subscription Subscription?  @relation(name: "CurrentSubscription", fields: [current_subscription_id], references: [id])
+  all_subscriptions    Subscription[]
 
   @@unique([qr_code_id, parking_level, parking_spot_number]) // Ensure a parking spot can only have one QR code
 }
@@ -294,20 +304,20 @@ enum Reservation_Status {
 }
 
 model Reservation {
-  id              String             @id @unique @default(uuid())
-  listing_id      String?
-  host_id         String?
-  visitor_id      String?
-  building_id     String?
-  parking_spot_id String?
-  price           Int? // In cents
-  app_fees        Int? // In cents
-  start_date      DateTime?
-  end_date        DateTime?
-  status          Reservation_Status @default(pending)
+  id                       String             @id @unique @default(uuid())
+  listing_id               String?
+  host_id                  String?
+  visitor_id               String?
+  building_id              String?
+  parking_spot_id          String?
+  price                    Int? // In cents
+  app_fees                 Int? // In cents
+  start_date               DateTime?
+  end_date                 DateTime?
+  status                   Reservation_Status @default(pending)
   stripe_payment_intent_id String?
 
-  charge          Json?
+  charge Json?
 
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
@@ -315,7 +325,7 @@ model Reservation {
   listing  Listing?     @relation(fields: [listing_id], references: [id], onDelete: Cascade)
   host     User?        @relation(name: "HostRelation", fields: [host_id], references: [id], onDelete: Cascade)
   visitor  User?        @relation(name: "VisitorRelation", fields: [visitor_id], references: [id], onDelete: Cascade)
-  building Building?   @relation(fields: [building_id], references: [id], onDelete: Cascade)
+  building Building?    @relation(fields: [building_id], references: [id], onDelete: Cascade)
   parking  ParkingSpot? @relation(fields: [parking_spot_id], references: [id], onDelete: Cascade)
 }
 
@@ -327,8 +337,29 @@ model ApartmentUnit {
   no_of_baths         Int?
   community_member_id String?
 
-  building          Building         @relation(fields: [building_id], references: [id], onDelete: Cascade)
+  building         Building          @relation(fields: [building_id], references: [id], onDelete: Cascade)
   community_member CommunityMembers? @relation(fields: [community_member_id], references: [id])
 
   @@unique([building_id, unit_number])
+}
+
+model Subscription {
+  id                       String   @id @default(uuid())
+  parking_spot_id          String? // Foreign key
+  subscriber_user_id       String? // Foreign key
+  subscriber_name          String?
+  subscriber_email         String?
+  subscriber_phone         String?
+  subscriber_licence_plate String?
+  subscriber_car_model     String?
+  subscriber_office_number String?
+  stripe_subscription      Json?
+  created_at               DateTime @default(now())
+  updated_at               DateTime @default(now()) @updatedAt
+
+  parking_spot    ParkingSpot? @relation(fields: [parking_spot_id], references: [id])
+  subscriber_user User?        @relation(fields: [subscriber_user_id], references: [id])
+
+  // This back-relation is implicit; it's here for clarity and must be unique across Subscription.
+  parking_spot_current ParkingSpot? @relation(name: "CurrentSubscription")
 }

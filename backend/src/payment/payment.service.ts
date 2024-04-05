@@ -3,7 +3,7 @@ import { ErrorService } from 'src/exceptions/error.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { IResponseData } from 'src/response';
 import { Stripe } from 'stripe';
-import { GetCheckoutDetailsDto, PaymentIntentDto } from './dto';
+import { GetCheckoutDetailsDto, PaymentIntentDto, SubscribeToParkingDto } from './dto';
 import { APP_BOOKING_FEE_PERCENTAGE } from 'src/utils/constants';
 
 @Injectable()
@@ -109,5 +109,116 @@ export class PaymentService {
       totalPrice,
       differenceInDays,
     };
+  }
+
+  async subscribeToParking(dto: SubscribeToParkingDto) {
+    try {
+      const user = await this.prisma.user.findUniqueOrThrow({
+        where: {
+          id: dto.userId,
+        },
+      })
+      const spot = await this.prisma.parkingSpot.findUniqueOrThrow({
+        where: {
+          id: dto.parkingSpotId
+        },
+        include: {
+          owner: true,
+          building: {
+            include: {
+              management: {
+                include: {
+                  user: {
+                    select: {
+                      stripe_account: true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      })
+      
+      const session = await this.stripe.checkout.sessions.create({
+        mode: 'subscription',
+        customer: user.stripe_customer_id,
+        line_items: [
+          {
+            price: spot.stripe_product['default_price'],
+            quantity: 1,
+          },
+        ],
+        automatic_tax: {
+          enabled: true,
+        },
+        subscription_data: {
+          metadata: {
+            parkingSpotId: dto.parkingSpotId,
+            subscriberUserId: dto.userId,
+            subscriberName: dto.name,
+            subscriberEmail: dto.email,
+            subscriberPhone: dto.phone,
+            subscriberCarModel: dto.carModel,
+            subscriberOfficeNumber: dto.officeNumber,
+            subscriberLicencePlate: dto.licencePlate,
+          },
+          application_fee_percent: Math.round(100 * APP_BOOKING_FEE_PERCENTAGE),
+          transfer_data: {
+            destination: spot.building.management.user.stripe_account['id'],
+          },
+        },
+        customer_update: {
+          address: 'auto',
+          shipping: 'auto',
+          name: 'auto',
+        },
+        payment_method_types: ['card'],
+        metadata: {
+          parkingSpotId: dto.parkingSpotId,
+          subscriberUserId: dto.userId,
+          subscriberName: dto.name,
+          subscriberEmail: dto.email,
+          subscriberPhone: dto.phone,
+          subscriberCarModel: dto.carModel,
+          subscriberOfficeNumber: dto.officeNumber,
+          subscriberLicencePlate: dto.licencePlate,
+        },
+        success_url: `${process.env.VISITOR_URL}/subscriptions`,
+        cancel_url: `${process.env.VISITOR_URL}/discover/spot/${dto.parkingSpotId}`,
+      })
+      return new IResponseData(`Checkout session created successfully`, session).json;
+    } catch (error) {
+      throw this.errorService.handleException(error);
+    }
+  }
+
+  async cancelSubscription(parkingSpotId: string) {
+    try {
+      const {current_subscription} = await this.prisma.parkingSpot.findUniqueOrThrow({
+        where: {
+          id: parkingSpotId
+        },
+        include: {
+          current_subscription: true
+        }
+      })
+      if(!current_subscription) {
+        throw new BadRequestException(`No subscription found for parking spot ${parkingSpotId}`);
+      }
+      const session = await this.stripe.subscriptions.cancel(current_subscription.stripe_subscription['id']);
+
+      await this.prisma.parkingSpot.update({
+        where: {
+          id: parkingSpotId
+        },
+        data: {
+          current_subscription_id: null
+        }
+      })
+      return new IResponseData(`Subscription canceled successfully`, null).json;
+    } catch (error) {
+      throw this.errorService.handleException(error);
+    }
   }
 }

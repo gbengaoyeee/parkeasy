@@ -134,6 +134,10 @@ const useManagementData = () => {
     prefetchParkingSpotsData();
   }, [currentBuilding, communityMemberPage]);
 
+  useEffect(() => {
+    prefetchParkingSpotsData();
+  }, [parkingSpotsPage]);
+
   return {
     management,
     isFetchingManagement,

@@ -1,22 +1,30 @@
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { useNavigate, useParams } from "react-router-dom";
-import { useGetParkingSpot } from "@/lib/react-query/queriesAndMutations";
+import { useParams } from "react-router-dom";
+import { useCancelSubscription, useGetBuilding, useGetParkingSpot } from "@/lib/react-query/queriesAndMutations";
 import Loader from "@/components/shared/Loader";
+import { AddParkingSpotModal } from "./ParkingSpots";
+import { useState } from "react";
+import { formatCurrency } from "@/lib/formatter";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import { ParkingSpot as AppParkingSpot } from "@/types";
 
 const ParkingSpot = () => {
   const { buildingId, parkingSpotId } = useParams();
-  const {
-    data: parkingSpot,
-    isFetching: isFetchingParkingSpot,
-  } = useGetParkingSpot(buildingId, parkingSpotId);
-  const navigate = useNavigate();
+  const { data: parkingSpot, isFetching: isFetchingParkingSpot, refetch: refetchParkingSpot } = useGetParkingSpot(buildingId, parkingSpotId);
+  const { data: building, } = useGetBuilding(buildingId);
+  const [openCancelSubscriptionModal, setOpenCancelSubscriptionModal] = useState(false);
+
+  const [openAddParkingSpotModal, setOpenAddParkingSpotModal] = useState(false);
+
   if (isFetchingParkingSpot) {
     return <Loader />;
   }
   if (!parkingSpot) {
     return <h1>Could not find your parking spot. contact {import.meta.env.VITE_SUPPORT_EMAIL}</h1>;
   }
+
   return (
     <div className="flex flex-col gap-5">
       <h3 className="base-semibold">Parking spot information</h3>
@@ -37,37 +45,85 @@ const ParkingSpot = () => {
             <p>{parkingSpot.parking_spot_type}</p>
           </div>
           <div className="flex flex-col gap-2">
-            <Label className="base-semibold">Assigned to</Label>
-            <p 
-            className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm"
-            onClick={() => {
-                if(parkingSpot.owner) {
-                    navigate(`/community-members/${buildingId}/${parkingSpot.owner?.id}`)
-                }
-            }}
-            >
-              {parkingSpot.owner ? parkingSpot.owner.name : "N/A"}
-            </p>
+            <Label className="base-semibold">Parking spot price</Label>
+            <p>{formatCurrency(parkingSpot.price ? parkingSpot.price / 100 : 0, "ar-AE", "AED")}</p>
           </div>
+          {parkingSpot.current_subscription && (
+            <>
+              <div className="flex flex-col gap-2">
+                <Label className="base-semibold">Subscription status</Label>
+                <p className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm">{(parkingSpot?.current_subscription?.stripe_subscription as any)["status"]}</p>
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label className="base-semibold">Subscriber</Label>
+                <p className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm">{parkingSpot?.current_subscription?.subscriber_name}</p>
+              </div>
+            </>
+          )}
         </div>
-        <Button className="shad-button_secondary border-gray-400 text-gray-500 w-10">edit</Button>
+        <AddParkingSpotModal openAddParkingSpotModal={openAddParkingSpotModal} setOpenAddParkingSpotModal={setOpenAddParkingSpotModal} building={building} parkingSpot={parkingSpot} refetchParkingSpots={refetchParkingSpot} />
+        {parkingSpot.current_subscription && <CancelSubscriptionConfirmationModal openCancelSubscriptionModal={openCancelSubscriptionModal} setOpenCancelSubscriptionModal={setOpenCancelSubscriptionModal} parkingSpot={parkingSpot} refetchParkingSpot={refetchParkingSpot} />}
       </div>
-      <div className="flex flex-col gap-2 text-gray-500 shadow-md rounded-lg p-4 border">
+      {/* <div className="flex flex-col gap-2 text-gray-500 shadow-md rounded-lg p-4 border">
         <Label className="base-semibold">QR Codes</Label>
         <div>
           <div key={parkingSpot.qr_code.id} className="flex gap-2">
             <img src={parkingSpot.qr_code.image_url ?? ""} width={150} alt="qr code" />
-            <a
-              href={parkingSpot.qr_code.image_url ?? ""}
-              download
-              className="bg-gray-200 text-gray-800 text-sm flex-center px-8 rounded-lg h-8"
-            >
+            <a href={parkingSpot.qr_code.image_url ?? ""} download className="bg-gray-200 text-gray-800 text-sm flex-center px-8 rounded-lg h-8">
               Download
             </a>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
+  );
+};
+
+export const CancelSubscriptionConfirmationModal = ({ openCancelSubscriptionModal, setOpenCancelSubscriptionModal, parkingSpot, refetchParkingSpot = () => {} }: { openCancelSubscriptionModal: boolean; setOpenCancelSubscriptionModal: (open: boolean) => void; parkingSpot?: AppParkingSpot; refetchParkingSpot?: () => void }) => {
+  const { mutateAsync: cancelSubscription, isPending: isCancelling } = useCancelSubscription();
+  const handleCancelSubscription = () => {
+    if (!parkingSpot) {
+      toast.error(`Could not find your parking spot. contact ${import.meta.env.VITE_SUPPORT_EMAIL}`);
+      return;
+    }
+    cancelSubscription(parkingSpot.id)
+      .then((res) => {
+        toast.success(res.message);
+        refetchParkingSpot();
+        setOpenCancelSubscriptionModal(false);
+      })
+      .catch((error) => {
+        console.error(error.message);
+        toast.error(error.response.data.message);
+      });
+  };
+
+  return (
+    <Dialog open={openCancelSubscriptionModal} onOpenChange={setOpenCancelSubscriptionModal}>
+      <DialogTrigger asChild>
+        <Button className="bg-red border-gray-400 text-white min-w-fit max-w-fit">Cancel subscription</Button>
+      </DialogTrigger>
+
+      <DialogContent className="bg-light-1">
+        <p>Are you sure you want to cancel subscription?</p>
+        <Button
+          onClick={() => {
+            handleCancelSubscription();
+          }}
+          className="bg-red text-white"
+          disabled={isCancelling}
+        >
+          {isCancelling ? (
+            <div className="flex-center gap-3">
+              <Loader />
+              Cancelling...
+            </div>
+          ) : (
+            <span>Cancel</span>
+          )}
+        </Button>
+      </DialogContent>
+    </Dialog>
   );
 };
 

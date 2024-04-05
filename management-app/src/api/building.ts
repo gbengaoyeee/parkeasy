@@ -1,4 +1,4 @@
-import { ApartmentUnit, Building, CommunityMembers, ParkingSpot } from "@/types"
+import { ApartmentUnit, Building, CommunityMembers, ParkingSpot, Subscription } from "@/types"
 import ApiClient from "./client"
 import { AddApartmentUnitValidation, AddParkingSpotValidation, CreateCommunityMemberValidation } from "@/lib/validation";
 import { z } from "zod";
@@ -76,7 +76,13 @@ export const getParkingSpots = async (
 }
 
 export const addParkingSpot = async (buildingId: string, dto: z.infer<typeof AddParkingSpotValidation>) => {
-    const response = await client.post(`/parking-spot/${buildingId}`, dto)
+    const response = await client.post(`/parking-spot/${buildingId}`, {...dto, price: dto.price * 100})
+    return response.data
+}
+
+export const updateParkingSpot = async (buildingId: string, spotId: string, dto: Partial<z.infer<typeof AddParkingSpotValidation>>) => {
+    const data = {...dto, spotId, price: dto.price ? dto.price * 100 : undefined}
+    const response = await client.put(`/parking-spot/${buildingId}`, data)
     return response.data
 }
 
@@ -103,5 +109,10 @@ export const getApartmentUnits = async (
 
 export const getParkingSpot = async (buildingId: string, spotId: string): Promise<ParkingSpot> => {
     const {data} = await client.get(`/parking-spot/${buildingId}/${spotId}`)
+    return data.data
+}
+
+export const getSubscriptions = async (buildingId: string): Promise<Subscription[]> => {
+    const {data} = await client.get(`/subscriptions/${buildingId}`)
     return data.data
 }

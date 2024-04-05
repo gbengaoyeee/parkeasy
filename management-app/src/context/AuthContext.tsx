@@ -5,7 +5,7 @@ import { AppwriteException, Models } from "appwrite";
 import { Dispatch, SetStateAction, createContext, useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { z } from "zod";
+import { any, z } from "zod";
 import {} from 'firebase/app'
 import { firAuth } from "@/api/firebase";
 import { User, onAuthStateChanged, sendSignInLinkToEmail } from "firebase/auth";
@@ -41,6 +41,14 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
 
   const navigate = useNavigate();
   const location = useLocation();
+  const url = new URL(import.meta.env.VITE_APP_URL);
+  
+  
+  function getTenantFromHostname() {
+    // Example: Extract tenant from subdomain
+    const subdomain = window.location.hostname.split('.')[0];
+    return subdomain;
+  }
 
   const nonProtectedRoutes = ["/login", "/sso-redirect", "/sso", "/sign-up", "/request-success", "/request-failed", "/forgot-password", "/password-recovery"];
 
@@ -77,16 +85,17 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
   const signInPasswordless = async (values: z.infer<typeof SSOValidation>) => {
     try {
       await sendSignInLinkToEmail(firAuth, values.email, {
-        url: `${import.meta.env.VITE_APP_URL}/sso-redirect`,
+        url: `${url.protocol}//${getTenantFromHostname()}.${url.host}/sso-redirect`,
         handleCodeInApp: true,
       })
       localStorage.setItem("emailForSignIn", values.email);
       return true;
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
       if (error instanceof AppwriteException) {
         toast.error(error.message);
       }
+      toast.error(error.message);
       return false;
     }
   };

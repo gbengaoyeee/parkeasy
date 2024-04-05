@@ -4,49 +4,22 @@ import useManagementData from "@/hooks/useManagementData";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDebounce } from "@/hooks/useDebounce";
-import Header from "@/components/shared/Header";
 import { Building, ParkingSpot } from "@/types";
 import { searchParkingSpots } from "@/api/building";
 import { toast } from "sonner";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { AddParkingSpotValidation } from "@/lib/validation";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import Loader from "@/components/shared/Loader";
-import { useAddParkingSpot } from "@/lib/react-query/queriesAndMutations";
+import { useAddParkingSpot, useUpdateParkingSpot } from "@/lib/react-query/queriesAndMutations";
+import { formatCurrency } from "@/lib/formatter";
 
 const ParkingSpots = () => {
-  const {
-    currentBuilding,
-    parkingSpots,
-    parkingSpotsPage,
-    setParkingSpotsPage,
-    pageSize,
-    refetchParkingSpots,
-  } = useManagementData();
+  const { currentBuilding, parkingSpots, parkingSpotsPage, setParkingSpotsPage, pageSize, refetchParkingSpots } = useManagementData();
   const navigate = useNavigate();
 
   const [openAddParkingSpotModal, setOpenAddParkingSpotModal] = useState(false);
@@ -83,10 +56,7 @@ const ParkingSpots = () => {
   };
 
   const handlePageChange = (direction: "next" | "prev") => {
-    if (
-      direction === "next" &&
-      parkingSpotsPage < Math.ceil(currentBuilding?.parking_spots.length ?? 1 / pageSize)
-    ) {
+    if (direction === "next" && parkingSpotsPage < Math.ceil(currentBuilding?.parking_spots.length ?? 1 / pageSize)) {
       setParkingSpotsPage(parkingSpotsPage + 1);
     } else if (direction === "prev" && parkingSpotsPage > 1) {
       setParkingSpotsPage(parkingSpotsPage - 1);
@@ -99,29 +69,20 @@ const ParkingSpots = () => {
 
   return (
     <>
-      <Header />
       {(currentBuilding?.parking_spots.length ?? 0) > 0 ? (
         <div>
           <span className="flex justify-between">
-            <h3 className="h3-bold">{parkingSpots.length} parking spot{parkingSpots.length > 1 ? "s" : ""}</h3>
+            <h3 className="h3-bold">
+              {parkingSpots.length} parking spot{parkingSpots.length > 1 ? "s" : ""}
+            </h3>
             <div>
-              <AddParkingSpotModal
-                openAddParkingSpotModal={openAddParkingSpotModal}
-                setOpenAddParkingSpotModal={setOpenAddParkingSpotModal}
-                building={currentBuilding}
-                refetchParkingSpots={refetchParkingSpots}
-              />
+              <AddParkingSpotModal openAddParkingSpotModal={openAddParkingSpotModal} setOpenAddParkingSpotModal={setOpenAddParkingSpotModal} building={currentBuilding} refetchParkingSpots={refetchParkingSpots} />
             </div>
           </span>
 
           <div className="overflow-x-auto shadow-md sm:rounded-lg">
             <div className="p-4">
-              <Input
-                type="text"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Search by spot number"
-              />
+              <Input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="Search by spot number" />
             </div>
             <table className="w-full text-sm text-left text-gray-500">
               <thead className="text-xs text-gray-700 uppercase bg-gray-50">
@@ -136,44 +97,31 @@ const ParkingSpots = () => {
                     Spot type
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    QR Code
+                    Price
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Assigned to
+                    Subscription status
                   </th>
                 </tr>
               </thead>
               <tbody className="">
                 {filteredParkngSpots.map((spot) => (
-                  <tr
-                    onClick={() => handleSpotClick(spot.id)}
-                    key={spot.id}
-                    className="bg-white border-b cursor-pointer"
-                  >
+                  <tr onClick={() => handleSpotClick(spot.id)} key={spot.id} className="bg-white border-b cursor-pointer">
                     <td className="px-6 py-4">{spot.parking_spot_number}</td>
                     <td className="px-6 py-4">{spot.parking_level}</td>
                     <td className="px-6 py-4">{spot.parking_spot_type}</td>
-                    <td className="px-6 py-4">
-                      <img src={spot.qr_code.image_url ?? ""} width={50} alt="" />
-                    </td>
-                    <td className="px-6 py-4">{spot.owner ? spot.owner?.name : "N/A"}</td>
+                    <td className="px-6 py-4">{formatCurrency(spot.price ? spot.price / 100 : 0, "ar-AE", "AED")}</td>
+                    <td className="px-6 py-4">{spot.current_subscription ? (spot.current_subscription?.stripe_subscription as any)['status']  : "N/A"}</td>
+                    {/* <td className="px-6 py-4">{spot.owner ? spot.owner?.name : "N/A"}</td> */}
                   </tr>
                 ))}
               </tbody>
             </table>
             <div className="flex justify-end gap-3 p-3">
-              <Button
-                onClick={() => handlePageChange("prev")}
-                disabled={parkingSpotsPage === 1}
-                className="shad-button_secondary"
-              >
+              <Button onClick={() => handlePageChange("prev")} disabled={parkingSpotsPage === 1} className="shad-button_secondary">
                 Prev
               </Button>
-              <Button
-                onClick={() => handlePageChange("next")}
-                disabled={parkingSpotsPage >= numberOfPages}
-                className="shad-button_secondary"
-              >
+              <Button onClick={() => handlePageChange("next")} disabled={parkingSpotsPage >= numberOfPages} className="shad-button_secondary">
                 Next
               </Button>
             </div>
@@ -182,39 +130,26 @@ const ParkingSpots = () => {
       ) : (
         <div className="flex flex-col gap-6 justify-center items-center h-full">
           <p>Looks like you have not activated any parking spots yet</p>
-          <AddParkingSpotModal
-            openAddParkingSpotModal={openAddParkingSpotModal}
-            setOpenAddParkingSpotModal={setOpenAddParkingSpotModal}
-            building={currentBuilding}
-            refetchParkingSpots={refetchParkingSpots}
-          />
+          <AddParkingSpotModal openAddParkingSpotModal={openAddParkingSpotModal} setOpenAddParkingSpotModal={setOpenAddParkingSpotModal} building={currentBuilding} refetchParkingSpots={refetchParkingSpots} />
         </div>
       )}
     </>
   );
 };
 
-const AddParkingSpotModal = ({
-  openAddParkingSpotModal,
-  setOpenAddParkingSpotModal,
-  building,
-  refetchParkingSpots = () => {},
-}: {
-  openAddParkingSpotModal: boolean;
-  setOpenAddParkingSpotModal: (open: boolean) => void;
-  building: Building | undefined | null;
-  refetchParkingSpots?: () => void;
-}) => {
+export const AddParkingSpotModal = ({ openAddParkingSpotModal, setOpenAddParkingSpotModal, building, parkingSpot, refetchParkingSpots = () => {} }: { openAddParkingSpotModal: boolean; setOpenAddParkingSpotModal: (open: boolean) => void; building: Building | undefined | null; parkingSpot?: ParkingSpot; refetchParkingSpots?: () => void }) => {
   const form = useForm<z.infer<typeof AddParkingSpotValidation>>({
     resolver: zodResolver(AddParkingSpotValidation),
     defaultValues: {
-      spotNumber: "",
-      spotLevel: undefined,
-      spotType: "regular",
+      spotNumber: parkingSpot?.parking_spot_number ?? "",
+      spotLevel: parkingSpot?.parking_level ? parkingSpot?.parking_level : 1,
+      spotType: parkingSpot?.parking_spot_type ?? "regular",
+      price: parkingSpot?.price ? parkingSpot?.price/100 : 0.00,
     },
   });
 
   const { mutateAsync: addParkingSpot, isPending: isAddingParkingSpot } = useAddParkingSpot();
+  const { mutateAsync: updateParkingSpot, isPending: isUpdatingParkingSpot } = useUpdateParkingSpot();
 
   function onSubmit(values: z.infer<typeof AddParkingSpotValidation>) {
     // Do something with the form values.
@@ -223,21 +158,34 @@ const AddParkingSpotModal = ({
       toast.error(`Could not find your building. contact ${import.meta.env.VITE_SUPPORT_EMAIL}`);
       return;
     }
-    addParkingSpot({ buildingId: building.id, dto: values })
-      .then((_) => {
-        toast.success("Parking spot added successfully");
-        refetchParkingSpots();
-        setOpenAddParkingSpotModal(false);
-      })
-      .catch((error) => {
-        console.error(error.message);
-        toast.error(error.response.data.message);
-      });
+    if (parkingSpot) {
+      updateParkingSpot({ buildingId: building.id, spotId: parkingSpot.id, dto: values })
+        .then((_) => {
+          toast.success("Parking spot updated successfully");
+          refetchParkingSpots();
+          setOpenAddParkingSpotModal(false);
+        })
+        .catch((error) => {
+          console.error(error.message);
+          toast.error(error.response.data.message);
+        });
+    } else {
+      addParkingSpot({ buildingId: building.id, dto: values })
+        .then((_) => {
+          toast.success("Parking spot added successfully");
+          refetchParkingSpots();
+          setOpenAddParkingSpotModal(false);
+        })
+        .catch((error) => {
+          console.error(error.message);
+          toast.error(error.response.data.message);
+        });
+    }
   }
   return (
     <Dialog open={openAddParkingSpotModal} onOpenChange={setOpenAddParkingSpotModal}>
       <DialogTrigger asChild data-state="closed">
-        <Button className="shad-button_primary w-[250px]">Add a new parking spot</Button>
+        <Button className="shad-button_primary w-[250px]">{parkingSpot ? "Edit" : "Add"} parking spot</Button>
       </DialogTrigger>
       <DialogContent className="bg-light-1">
         <DialogHeader>
@@ -275,6 +223,19 @@ const AddParkingSpotModal = ({
               />
               <FormField
                 control={form.control}
+                name="price"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>What will be the monthly price for this spot in AED?</FormLabel>
+                    <FormControl>
+                      <Input placeholder="300" {...field} />
+                    </FormControl>
+                    <FormMessage className="text-red" />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
                 name="spotType"
                 render={({ field }) => (
                   <FormItem>
@@ -299,12 +260,8 @@ const AddParkingSpotModal = ({
               />
 
               <DialogFooter>
-                <Button
-                  type="submit"
-                  disabled={isAddingParkingSpot}
-                  className="shad-button_primary"
-                >
-                  {isAddingParkingSpot ? (
+                <Button type="submit" disabled={isAddingParkingSpot || isUpdatingParkingSpot} className="shad-button_primary">
+                  {isAddingParkingSpot || isUpdatingParkingSpot ? (
                     <div className="flex-center gap-3">
                       <Loader />
                       Submitting...

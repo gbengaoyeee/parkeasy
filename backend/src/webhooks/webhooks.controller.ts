@@ -38,4 +38,17 @@ export class WebhooksController {
     }
     return this.webhooksService.handleStripeCharges(signature, request.rawBody);
   }
+
+  @Post('/stripe/subscriptions')
+  async handleStripeSubscriptions(
+    @Headers('stripe-signature')
+    signature: string,
+    @Req()
+    request: RequestWithRawBody,
+  ) {
+    if (!signature) {
+      throw new BadRequestException('Missing stripe-signature header');
+    }
+    return this.webhooksService.handleStripeSubscriptions(signature, request.rawBody);
+  }
 }
