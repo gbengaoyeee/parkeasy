@@ -6,7 +6,6 @@ import appwriteClient from '@/api/appwrite'
 import { activateAllCommunityMembers, addApartmentUnit, addCommunityMember, addParkingSpot, deleteCommunityMember, getApartmentUnits, getBuilding, getCommunityMember, getParkingSpot, getParkingSpots, getSubscriptions as getHostSubscriptions, toggleMemberStatus, updateCommunityMember, updateParkingSpot, uploadCommunityMembers } from '@/api/building'
 import { signUpVisitor, updateUser } from '@/api/user'
 import { enableHosting, getAccountLink } from '@/api/host'
-import { toast } from 'sonner'
 import { discover, getSingleDiscoverParkingSpot, getSubscription as getVisitorSubscription, getSubscriptions as getVisitorSubscriptions } from '@/api/visitor'
 import { cancelSubscription, subscribeToParkingSpot } from '@/api/payment'
 

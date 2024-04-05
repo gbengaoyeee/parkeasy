@@ -1,4 +1,3 @@
-import { ParkingSpot } from "@/types"
 import ApiClient from "./client"
 import { z } from "zod"
 import { SubscribeToParkingSpotValidation } from "@/lib/validation"

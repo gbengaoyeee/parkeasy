@@ -1,7 +1,6 @@
-import OnboardingMain from "@/_onboarding/OnboardingMain";
 import Loader from "@/components/shared/Loader";
 import { useUserContext } from "@/context/UserContext";
-import { Home, ParkingSpots } from ".";
+import { ParkingSpots } from ".";
 import { useAppContext } from "@/context/AppContext";
 import { useEnableHosting } from "@/lib/react-query/queriesAndMutations";
 import { useEffect } from "react";

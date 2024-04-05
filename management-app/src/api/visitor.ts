@@ -1,7 +1,5 @@
 import { ParkingSpot, Subscription } from "@/types"
 import ApiClient from "./client"
-import { z } from "zod"
-import { SubscribeToParkingSpotValidation } from "@/lib/validation"
 
 let client = new ApiClient('visitor').client
 

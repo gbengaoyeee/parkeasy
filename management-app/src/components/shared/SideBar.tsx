@@ -1,11 +1,9 @@
 import { useAuthContext } from "@/context/AuthContext";
 import { Button } from "../ui/button";
-import { useUserContext } from "@/context/UserContext";
 import { useAppContext } from "@/context/AppContext";
 
 const SideBar = () => {
   const { signOut } = useAuthContext();
-  const { user } = useUserContext();
   const {
     sideBarOptions,
     selectedSideBarOption,

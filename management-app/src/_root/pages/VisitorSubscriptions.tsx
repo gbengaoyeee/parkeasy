@@ -2,7 +2,6 @@ import { useUserContext } from "@/context/UserContext";
 import { formatCurrency } from "@/lib/formatter";
 import { useGetVisitorSubscriptions } from "@/lib/react-query/queriesAndMutations";
 import { Subscription } from "@/types";
-import React from "react";
 import { useNavigate } from "react-router-dom";
 
 const VisitorSubscriptions = () => {

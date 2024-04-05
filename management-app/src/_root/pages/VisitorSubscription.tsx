@@ -1,7 +1,7 @@
 import { Label } from "@/components/ui/label";
 import { formatCurrency } from "@/lib/formatter";
 import { Subscription } from "@/types";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { CancelSubscriptionConfirmationModal } from "./ParkingSpot";
 interface State {

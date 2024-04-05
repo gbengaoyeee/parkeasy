@@ -26,7 +26,6 @@ import { Building } from "@/types";
 import useManagementData from "@/hooks/useManagementData";
 import { toast } from "sonner";
 import Loader from "@/components/shared/Loader";
-import Header from "@/components/shared/Header";
 
 const ApartmentUnits = () => {
   const [openAddApartmentUnitModal, setOpenAddApartmentUnitModal] = useState(false);

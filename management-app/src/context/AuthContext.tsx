@@ -5,7 +5,7 @@ import { AppwriteException, Models } from "appwrite";
 import { Dispatch, SetStateAction, createContext, useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { any, z } from "zod";
+import { z } from "zod";
 import {} from 'firebase/app'
 import { firAuth } from "@/api/firebase";
 import { User, onAuthStateChanged, sendSignInLinkToEmail } from "firebase/auth";

@@ -8,7 +8,7 @@ const VisitorDiscover = () => {
   const [parkingSpotsPage, setParkingSpotsPage] = useState(1);
   const pageSize = 10;
   const navigate = useNavigate();
-  const { data, isFetching, refetch: refetchParkingSpots } = useDiscover({
+  const { data, refetch: refetchParkingSpots } = useDiscover({
     page: parkingSpotsPage,
     pageSize,
   });
