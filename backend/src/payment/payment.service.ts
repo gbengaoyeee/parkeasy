@@ -211,14 +211,14 @@ export class PaymentService {
       });
       // const session = await this.stripe.subscriptions.cancel(current_subscription.stripe_subscription['id']);
 
-      // await this.prisma.parkingSpot.update({
-      //   where: {
-      //     id: parkingSpotId
-      //   },
-      //   data: {
-      //     current_subscription_id: null
-      //   }
-      // })
+      await this.prisma.parkingSpot.update({
+        where: {
+          id: parkingSpotId
+        },
+        data: {
+          current_subscription_id: null
+        }
+      })
       return new IResponseData(`Subscription will be cancelled at end of current billing period`, null).json;
     } catch (error) {
       throw this.errorService.handleException(error);
