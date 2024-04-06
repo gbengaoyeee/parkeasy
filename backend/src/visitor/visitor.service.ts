@@ -265,9 +265,9 @@ export class VisitorService {
     try {
       const numOfSpots = await this.prisma.parkingSpot.count({
         where: {
-          current_subscription_id: {
-            equals: null,
-          },
+          // current_subscription_id: {
+          //   equals: null,
+          // },
           stripe_product: {
             not: null
           }
@@ -275,9 +275,9 @@ export class VisitorService {
       });
       const parkingSpots = await this.prisma.parkingSpot.findMany({
         where: {
-          current_subscription_id: {
-            equals: null,
-          },
+          // current_subscription_id: {
+          //   equals: null,
+          // },
           stripe_product: {
             not: null
           }
