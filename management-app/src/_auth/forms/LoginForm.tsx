@@ -89,7 +89,7 @@ const LoginForm = () => {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Company Email</FormLabel>
+                <FormLabel>Your Email</FormLabel>
                 <FormControl>
                   <Input placeholder="xyz@company.com" {...field} />
                 </FormControl>
