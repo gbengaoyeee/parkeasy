@@ -201,7 +201,7 @@ export const AddParkingSpotModal = ({ openAddParkingSpotModal, setOpenAddParking
   return (
     <Dialog open={openAddParkingSpotModal} onOpenChange={setOpenAddParkingSpotModal}>
       <DialogTrigger asChild data-state="closed">
-        <Button className="shad-button_primary w-[250px]">{parkingSpot ? "Edit" : "Add"} parking spot</Button>
+        <Button className="shad-button_primary w-[90px] lg:w-[250px]">{parkingSpot ? "Edit" : "Add"} parking spot</Button>
       </DialogTrigger>
       <DialogContent className="bg-light-1">
         <DialogHeader>

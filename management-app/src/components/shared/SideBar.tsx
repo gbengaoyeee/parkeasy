@@ -14,7 +14,7 @@ const SideBar = () => {
     <div>
       <div>
         <span id="logo" className="text-xl">
-          PARKEASY
+          EASYPARKWAY
         </span>
         <div className="mt-8 flex flex-col">
           {sideBarOptions.map((item, index) => (

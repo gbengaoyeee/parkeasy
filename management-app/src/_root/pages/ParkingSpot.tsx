@@ -30,50 +30,50 @@ const ParkingSpot = () => {
     <div className="flex flex-col gap-5">
       <h3 className="base-semibold">Parking spot information</h3>
       <div className="flex justify-between text-gray-500 shadow-md rounded-lg p-4 border">
-        <div className="grid grid-cols-2 gap-10 small-regular">
+        <div className="lg:grid grid-cols-2 gap-10 small-regular">
           <div className="flex flex-col gap-2">
             <Label className="base-semibold">Parking spot number</Label>
-            <p>{parkingSpot.parking_spot_number}</p>
+            <p className="subtle-regular">{parkingSpot.parking_spot_number}</p>
           </div>
 
           <div className="flex flex-col gap-2">
             <Label className="base-semibold">Parking spot level</Label>
-            <p>{parkingSpot.parking_level}</p>
+            <p className="subtle-regular">{parkingSpot.parking_level}</p>
           </div>
 
           <div className="flex flex-col gap-2">
             <Label className="base-semibold">Parking spot type</Label>
-            <p>{parkingSpot.parking_spot_type}</p>
+            <p className="subtle-regular">{parkingSpot.parking_spot_type}</p>
           </div>
           <div className="flex flex-col gap-2">
             <Label className="base-semibold">Parking spot price</Label>
-            <p>{formatCurrency(parkingSpot.price ? parkingSpot.price / 100 : 0, "ar-AE", "AED")}/m</p>
+            <p className="subtle-regular">{formatCurrency(parkingSpot.price ? parkingSpot.price / 100 : 0, "ar-AE", "AED")}/m</p>
           </div>
           {parkingSpot.current_subscription && (
             <>
               <div className="flex flex-col gap-2">
                 <Label className="base-semibold">Subscription status</Label>
-                <p className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm">{(parkingSpot?.current_subscription?.stripe_subscription as any)["status"]}</p>
+                <p className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm subtle-regular">{(parkingSpot?.current_subscription?.stripe_subscription as any)["status"]}</p>
               </div>
               <div className="flex flex-col gap-2">
                 <Label className="base-semibold">Subscriber</Label>
-                <p className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm">{parkingSpot?.current_subscription?.subscriber_name}</p>
+                <p className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm subtle-regular">{parkingSpot?.current_subscription?.subscriber_name}</p>
               </div>
               <div className="flex flex-col gap-2">
                 <Label className="base-semibold">Car model</Label>
-                <p className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm">{parkingSpot?.current_subscription?.subscriber_car_model}</p>
+                <p className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm subtle-regular">{parkingSpot?.current_subscription?.subscriber_car_model}</p>
               </div>
               <div className="flex flex-col gap-2">
                 <Label className="base-semibold">Car licence plate</Label>
-                <p className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm">{parkingSpot?.current_subscription?.subscriber_licence_plate}</p>
+                <p className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm subtle-regular">{parkingSpot?.current_subscription?.subscriber_licence_plate}</p>
               </div>
               <div className="flex flex-col gap-2">
                 <Label className="base-semibold">Subscriber email</Label>
-                <p className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm">{parkingSpot?.current_subscription?.subscriber_email}</p>
+                <p className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm subtle-regular">{parkingSpot?.current_subscription?.subscriber_email}</p>
               </div>
               <div className="flex flex-col gap-2">
                 <Label className="base-semibold">Subscriber phone number</Label>
-                <p className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm">{parkingSpot?.current_subscription?.subscriber_phone}</p>
+                <p className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm subtle-regular">{parkingSpot?.current_subscription?.subscriber_phone}</p>
               </div>
             </>
           )}
@@ -82,7 +82,7 @@ const ParkingSpot = () => {
         {parkingSpot.current_subscription && (
           <>
             {(parkingSpot.current_subscription.stripe_subscription as any)["cancel_at"] ? (
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2 pl-2">
                 <Label className="base-semibold">Subscription ends at {moment((parkingSpot.current_subscription.stripe_subscription as any)["cancel_at"] * 1000).format("MMM DD, YYYY")}</Label>
               </div>
             ) : (
@@ -128,7 +128,7 @@ export const CancelSubscriptionConfirmationModal = ({ tenant, openCancelSubscrip
   return (
     <Dialog open={openCancelSubscriptionModal} onOpenChange={setOpenCancelSubscriptionModal}>
       <DialogTrigger asChild>
-        <Button className="bg-red border-gray-400 text-white min-w-fit max-w-fit">Cancel subscription</Button>
+        <Button className="bg-red border-gray-400 text-white p-3 text-[10px] lg:text-[16px] ">Cancel subscription</Button>
       </DialogTrigger>
 
       <DialogContent className="bg-light-1">

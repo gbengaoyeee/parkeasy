@@ -37,7 +37,7 @@
   }
 
   .base-semibold {
-    @apply text-[16px] font-semibold leading-[140%] tracking-tighter !important;
+    @apply text-[10px] font-semibold leading-[140%] tracking-tighter lg:text-[16px] !important;
   }
 
   .base-medium {
@@ -70,6 +70,9 @@
 
   .subtle-semibold {
     @apply text-[12px] font-semibold leading-[140%] !important;
+  }
+  .subtle-regular {
+    @apply text-[12px] font-normal leading-[140%] !important;
   }
 
   .tiny-medium {
@@ -155,7 +158,7 @@
 
   /* Button */
   .shad-button_primary {
-    @apply bg-dark-1 hover:bg-primary-1 text-light-1 flex gap-2 !important;
+    @apply bg-dark-1 hover:bg-primary-1 text-light-1 flex gap-2 text-[8px] lg:text-[16px] !important;
   }
   .shad-button_secondary {
     @apply bg-light-1 hover:bg-primary-1 hover:text-light-1 text-dark-1 flex gap-2 border-dark-1 border;

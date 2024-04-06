@@ -91,7 +91,7 @@ const ForgotPasswordForm = () => {
         </Button>
         <span className="text-gray-1 text-sm w-full flex-center flex-col mt-2">
           <p>Trouble logging in?</p>
-          <p>Contact us: support@parkeasy.com</p>
+          <p>Contact us: support@easyparkway.com</p>
         </span>
       </div>
     </Form>
