@@ -36,7 +36,6 @@ export class WebhooksService {
               },
             },
           });
-          console.log('account.updated', user);
 
           await this.prisma.user.update({
             where: {
@@ -60,7 +59,6 @@ export class WebhooksService {
 
 
   private async handleStripeChargesEvents(charge: Stripe.Charge) {
-    console.log('chargeSucceeded', charge.payment_intent);
     const reservation = await this.prisma.reservation.findFirst({
       where: {
         stripe_payment_intent_id: charge.payment_intent as string,
@@ -129,7 +127,7 @@ export class WebhooksService {
         sig,
         process.env.STRIPE_CHARGES_WEBHOOK_SECRET,
       );
-      console.log('event', event);
+      console.log("handling charges for event: ", event.type, event.id);
       // Handle the event
       switch (event.type) {
         case 'charge.succeeded':
@@ -162,11 +160,13 @@ export class WebhooksService {
         sig,
         process.env.STRIPE_SUBSCRIPTIONS_WEBHOOK_SECRET,
       );
-      console.log('event', event);
+      console.log("handling subscriptions for event: ", event.type, event.id);
       // Handle the event
       switch (event.type) {
         case 'customer.subscription.created':{
           const customerSubscriptionCreated = event.data.object;
+          console.log(customerSubscriptionCreated.status);
+          console.log(customerSubscriptionCreated.canceled_at);
           // Then define and call a function to handle the event customer.subscription.created
           const sub = await this.prisma.subscription.create({
             data: {
@@ -220,6 +220,8 @@ export class WebhooksService {
         }
         case 'customer.subscription.updated': {
           const customerSubscriptionUpdated = event.data.object;
+          console.log(customerSubscriptionUpdated.status);
+          console.log(customerSubscriptionUpdated.cancel_at);
           // Then define and call a function to handle the event customer.subscription.updated
           await this.prisma.subscription.update({
             where: {

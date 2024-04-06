@@ -267,6 +267,9 @@ export class VisitorService {
         where: {
           current_subscription_id: {
             equals: null,
+          },
+          stripe_product: {
+            not: null
           }
         }
       });
@@ -274,6 +277,9 @@ export class VisitorService {
         where: {
           current_subscription_id: {
             equals: null,
+          },
+          stripe_product: {
+            not: null
           }
         },
         skip: (dto.page - 1) * dto.pageSize, // Calculate the offset

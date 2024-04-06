@@ -11,11 +11,12 @@ import Loader from "@/components/shared/Loader";
 import { useAuthContext } from "@/context/AuthContext";
 import { getManagementByEmail } from "@/api/management";
 import { useAppContext } from "@/context/AppContext";
+import { getUser } from "@/api/user";
 
 const LoginForm = () => {
   // const { isPending: isSigningIn, mutateAsync: handleSignIn } = useLoginByEmail();
   const { signInPasswordless, isLoading: isSigningIn } = useAuthContext();
-
+  
   const form = useForm<z.infer<typeof SSOValidation>>({
     resolver: zodResolver(SSOValidation),
     defaultValues: {
@@ -38,15 +39,22 @@ const LoginForm = () => {
     // signInWithEmail(values);
 
     if (tenant === "visitor") {
-      signInPasswordless(values)
-        .then((res) => {
-          if (res) {
-            toast.success("Please check your email from login link");
-          }
+      getUser(values.email)
+        .then((_) => {
+          signInPasswordless(values)
+            .then((res) => {
+              if (res) {
+                toast.success("Please check your email from login link");
+              }
+            })
+            .catch((error) => {
+              console.error(error.message);
+              toast.error(error.response.data.message);
+            });
         })
         .catch((error) => {
           console.error(error.message);
-          toast.error(error.response.data.message);
+          toast.error(`${error.response.data.message}: No user found under email ${values.email}. Please sign up first.`);
         });
     } else {
       getManagementByEmail(values.email)

@@ -17,6 +17,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import Loader from "@/components/shared/Loader";
 import { useAddParkingSpot, useUpdateParkingSpot } from "@/lib/react-query/queriesAndMutations";
 import { formatCurrency } from "@/lib/formatter";
+import { Label } from "@radix-ui/react-label";
+import moment from "moment";
 
 const ParkingSpots = () => {
   const { currentBuilding, parkingSpots, parkingSpotsPage, setParkingSpotsPage, pageSize, refetchParkingSpots } = useManagementData();
@@ -110,8 +112,22 @@ const ParkingSpots = () => {
                     <td className="px-6 py-4">{spot.parking_spot_number}</td>
                     <td className="px-6 py-4">{spot.parking_level}</td>
                     <td className="px-6 py-4">{spot.parking_spot_type}</td>
-                    <td className="px-6 py-4">{formatCurrency(spot.price ? spot.price / 100 : 0, "ar-AE", "AED")}</td>
-                    <td className="px-6 py-4">{spot.current_subscription ? (spot.current_subscription?.stripe_subscription as any)['status']  : "N/A"}</td>
+                    <td className="px-6 py-4">{formatCurrency(spot.price ? spot.price / 100 : 0, "ar-AE", "AED")}/m</td>
+                    <td className="px-6 py-4">
+                      {spot.current_subscription?.stripe_subscription ? (
+                        <>
+                          {(spot.current_subscription.stripe_subscription as any)["cancel_at"] ? (
+                            <div className="flex flex-col gap-2">
+                              <Label className="base-semibold">Ends at {moment((spot.current_subscription.stripe_subscription as any)["cancel_at"] * 1000).format("MMM DD, YYYY")}</Label>
+                            </div>
+                          ) : (
+                            (spot.current_subscription.stripe_subscription as any)["status"]
+                          )}
+                        </>
+                      ) : (
+                        "N/A"
+                      )}
+                    </td>
                     {/* <td className="px-6 py-4">{spot.owner ? spot.owner?.name : "N/A"}</td> */}
                   </tr>
                 ))}
@@ -144,7 +160,7 @@ export const AddParkingSpotModal = ({ openAddParkingSpotModal, setOpenAddParking
       spotNumber: parkingSpot?.parking_spot_number ?? "",
       spotLevel: parkingSpot?.parking_level ? parkingSpot?.parking_level : 1,
       spotType: parkingSpot?.parking_spot_type ?? "regular",
-      price: parkingSpot?.price ? parkingSpot?.price/100 : 0.00,
+      price: parkingSpot?.price ? parkingSpot?.price / 100 : 0.0,
     },
   });
 

@@ -64,7 +64,7 @@ const VisitorDiscover = () => {
                 <td className="px-6 py-4">{spot.parking_spot_number}</td>
                 <td className="px-6 py-4">{spot.parking_level}</td>
                 <td className="px-6 py-4">{spot.parking_spot_type}</td>
-                <td className="px-6 py-4">{formatCurrency(spot.price ? spot.price / 100 : 0, "ar-AE", "AED")}</td>
+                <td className="px-6 py-4">{formatCurrency(spot.price ? spot.price / 100 : 0, "ar-AE", "AED")}/m</td>
                 {/* <td className="px-6 py-4">{spot.owner ? spot.owner?.name : "N/A"}</td> */}
               </tr>
             ))}

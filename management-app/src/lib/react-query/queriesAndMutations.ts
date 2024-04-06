@@ -4,11 +4,25 @@ import { AddApartmentUnitValidation, AddParkingSpotValidation, CreateCommunityMe
 import { getManagementByEmail, onboardBuilding, onboardManagement, preSignUp } from '@/api/management'
 import appwriteClient from '@/api/appwrite'
 import { activateAllCommunityMembers, addApartmentUnit, addCommunityMember, addParkingSpot, deleteCommunityMember, getApartmentUnits, getBuilding, getCommunityMember, getParkingSpot, getParkingSpots, getSubscriptions as getHostSubscriptions, toggleMemberStatus, updateCommunityMember, updateParkingSpot, uploadCommunityMembers } from '@/api/building'
-import { signUpVisitor, updateUser } from '@/api/user'
+import { getUser, signUpVisitor, updateUser } from '@/api/user'
 import { enableHosting, getAccountLink } from '@/api/host'
 import { discover, getSingleDiscoverParkingSpot, getSubscription as getVisitorSubscription, getSubscriptions as getVisitorSubscriptions } from '@/api/visitor'
 import { cancelSubscription, subscribeToParkingSpot } from '@/api/payment'
 
+export const useGetUser = (email?: string) => {
+    if(!email) {
+        return useQuery({
+            queryKey: ['user'],
+            queryFn: () => {
+                throw new Error('email is required')
+            },
+        })
+    }
+    return useQuery({
+        queryKey: ['user'],
+        queryFn: () => getUser(email)
+    })
+}
 export const usePreSignUp = () => {
     return useMutation({
         mutationFn: (dto: z.infer<typeof SignUpValidation>) => preSignUp(dto)

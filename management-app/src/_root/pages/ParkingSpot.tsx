@@ -9,11 +9,12 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { ParkingSpot as AppParkingSpot } from "@/types";
+import moment from "moment";
 
 const ParkingSpot = () => {
   const { buildingId, parkingSpotId } = useParams();
   const { data: parkingSpot, isFetching: isFetchingParkingSpot, refetch: refetchParkingSpot } = useGetParkingSpot(buildingId, parkingSpotId);
-  const { data: building, } = useGetBuilding(buildingId);
+  const { data: building } = useGetBuilding(buildingId);
   const [openCancelSubscriptionModal, setOpenCancelSubscriptionModal] = useState(false);
 
   const [openAddParkingSpotModal, setOpenAddParkingSpotModal] = useState(false);
@@ -46,7 +47,7 @@ const ParkingSpot = () => {
           </div>
           <div className="flex flex-col gap-2">
             <Label className="base-semibold">Parking spot price</Label>
-            <p>{formatCurrency(parkingSpot.price ? parkingSpot.price / 100 : 0, "ar-AE", "AED")}</p>
+            <p>{formatCurrency(parkingSpot.price ? parkingSpot.price / 100 : 0, "ar-AE", "AED")}/m</p>
           </div>
           {parkingSpot.current_subscription && (
             <>
@@ -58,11 +59,37 @@ const ParkingSpot = () => {
                 <Label className="base-semibold">Subscriber</Label>
                 <p className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm">{parkingSpot?.current_subscription?.subscriber_name}</p>
               </div>
+              <div className="flex flex-col gap-2">
+                <Label className="base-semibold">Car model</Label>
+                <p className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm">{parkingSpot?.current_subscription?.subscriber_car_model}</p>
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label className="base-semibold">Car licence plate</Label>
+                <p className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm">{parkingSpot?.current_subscription?.subscriber_licence_plate}</p>
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label className="base-semibold">Subscriber email</Label>
+                <p className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm">{parkingSpot?.current_subscription?.subscriber_email}</p>
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label className="base-semibold">Subscriber phone number</Label>
+                <p className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm">{parkingSpot?.current_subscription?.subscriber_phone}</p>
+              </div>
             </>
           )}
         </div>
         <AddParkingSpotModal openAddParkingSpotModal={openAddParkingSpotModal} setOpenAddParkingSpotModal={setOpenAddParkingSpotModal} building={building} parkingSpot={parkingSpot} refetchParkingSpots={refetchParkingSpot} />
-        {parkingSpot.current_subscription && <CancelSubscriptionConfirmationModal openCancelSubscriptionModal={openCancelSubscriptionModal} setOpenCancelSubscriptionModal={setOpenCancelSubscriptionModal} parkingSpot={parkingSpot} refetchParkingSpot={refetchParkingSpot} />}
+        {parkingSpot.current_subscription && (
+          <>
+            {(parkingSpot.current_subscription.stripe_subscription as any)["cancel_at"] ? (
+              <div className="flex flex-col gap-2">
+                <Label className="base-semibold">Subscription ends at {moment((parkingSpot.current_subscription.stripe_subscription as any)["cancel_at"] * 1000).format("MMM DD, YYYY")}</Label>
+              </div>
+            ) : (
+              <CancelSubscriptionConfirmationModal openCancelSubscriptionModal={openCancelSubscriptionModal} setOpenCancelSubscriptionModal={setOpenCancelSubscriptionModal} parkingSpot={parkingSpot} refetchParkingSpot={refetchParkingSpot} />
+            )}
+          </>
+        )}
       </div>
       {/* <div className="flex flex-col gap-2 text-gray-500 shadow-md rounded-lg p-4 border">
         <Label className="base-semibold">QR Codes</Label>

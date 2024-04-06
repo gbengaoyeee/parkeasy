@@ -4,6 +4,7 @@ import { Subscription } from "@/types";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { CancelSubscriptionConfirmationModal } from "./ParkingSpot";
+import moment from "moment";
 interface State {
   subscription: Subscription;
 }
@@ -33,7 +34,7 @@ const VisitorSubscription = () => {
           </div>
           <div className="flex flex-col gap-2">
             <Label className="base-semibold">Parking spot price</Label>
-            <p>{formatCurrency(subscription.parking_spot?.price ? subscription.parking_spot?.price / 100 : 0, "ar-AE", "AED")}</p>
+            <p>{formatCurrency(subscription.parking_spot?.price ? subscription.parking_spot?.price / 100 : 0, "ar-AE", "AED")}/m</p>
           </div>
           {subscription && (
             <>
@@ -45,18 +46,43 @@ const VisitorSubscription = () => {
                 <Label className="base-semibold">Subscriber</Label>
                 <p className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm">{subscription?.subscriber_name}</p>
               </div>
+              <div className="flex flex-col gap-2">
+                <Label className="base-semibold">Car model</Label>
+                <p className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm">{subscription?.subscriber_car_model}</p>
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label className="base-semibold">Car licence plate</Label>
+                <p className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm">{subscription?.subscriber_licence_plate}</p>
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label className="base-semibold">Subscriber email</Label>
+                <p className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm">{subscription?.subscriber_email}</p>
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label className="base-semibold">Subscriber phone number</Label>
+                <p className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm">{subscription?.subscriber_phone}</p>
+              </div>
             </>
           )}
         </div>
-        {subscription && 
-          <CancelSubscriptionConfirmationModal 
-            openCancelSubscriptionModal={openCancelSubscriptionModal} 
-            setOpenCancelSubscriptionModal={setOpenCancelSubscriptionModal} 
-            parkingSpot={subscription.parking_spot} 
-            refetchParkingSpot={() => {
-              navigate('/subscriptions')
-            }} 
-          />}
+        {subscription && (
+          <>
+            {(subscription.stripe_subscription as any)["cancel_at"] ? (
+              <div className="flex flex-col gap-2">
+                <Label className="base-semibold">Subscription ends at {moment((subscription.stripe_subscription as any)["cancel_at"] * 1000).format("MMM DD, YYYY")}</Label>
+              </div>
+            ) : (
+              <CancelSubscriptionConfirmationModal
+                openCancelSubscriptionModal={openCancelSubscriptionModal}
+                setOpenCancelSubscriptionModal={setOpenCancelSubscriptionModal}
+                parkingSpot={subscription.parking_spot}
+                refetchParkingSpot={() => {
+                  navigate("/subscriptions");
+                }}
+              />
+            )}
+          </>
+        )}
       </div>
     </div>
   );

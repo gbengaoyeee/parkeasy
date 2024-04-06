@@ -3,7 +3,7 @@ import { Label } from "@/components/ui/label";
 import { formatCurrency } from "@/lib/formatter";
 import { useGetSingleDiscoverParkingSpot, useSubscribeToSpot } from "@/lib/react-query/queriesAndMutations";
 import { useParams } from "react-router-dom";
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -48,10 +48,10 @@ const VisitorViewSpot = () => {
           </div>
           <div className="flex flex-col gap-2">
             <Label className="base-semibold">Parking spot price</Label>
-            <p>{formatCurrency(parkingSpot.price ? parkingSpot.price / 100 : 0, "ar-AE", "AED")}</p>
+            <p>{formatCurrency(parkingSpot.price ? parkingSpot.price / 100 : 0, "ar-AE", "AED")}/m</p>
           </div>
           <div className="flex flex-col gap-2">
-            <Label className="base-semibold">Assigned to</Label>
+            {/* <Label className="base-semibold">Assigned to</Label> */}
             {/* <p
                   className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm"
                   onClick={() => {
@@ -138,6 +138,7 @@ const SubscribeToSpotModal = ({ openSubscribeModal, setOpenSubscribeModal, parki
       <DialogContent className="bg-light-1">
         <DialogHeader>
           <DialogTitle>Enter details to subscribe</DialogTitle>
+          <DialogDescription>You will be able to pay after you enter your details</DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
