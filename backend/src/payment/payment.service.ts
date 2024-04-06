@@ -162,6 +162,8 @@ export class PaymentService {
             subscriberCarModel: dto.carModel,
             subscriberOfficeNumber: dto.officeNumber,
             subscriberLicencePlate: dto.licencePlate,
+            subscriberDriverLicenceNumber: dto.driverLicenceNumber,
+            subscriberEmiratesId: dto.emiratesId,
           },
           application_fee_percent: Math.round(100 * APP_BOOKING_FEE_PERCENTAGE),
           transfer_data: {
@@ -183,6 +185,8 @@ export class PaymentService {
           subscriberCarModel: dto.carModel,
           subscriberOfficeNumber: dto.officeNumber,
           subscriberLicencePlate: dto.licencePlate,
+          subscriberDriverLicenceNumber: dto.driverLicenceNumber,
+          subscriberEmiratesId: dto.emiratesId,
         },
         success_url: `${process.env.VISITOR_URL}/subscriptions`,
         cancel_url: `${process.env.VISITOR_URL}/discover/spot/${dto.parkingSpotId}`,

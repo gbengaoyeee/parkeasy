@@ -92,6 +92,8 @@ const SubscribeToSpotModal = ({ openSubscribeModal, setOpenSubscribeModal, parki
       carModel: "",
       licencePlate: "",
       officeNumber: "",
+      driverLicenceNumber: "",
+      emiratesId: "",
     },
   });
 
@@ -141,7 +143,7 @@ const SubscribeToSpotModal = ({ openSubscribeModal, setOpenSubscribeModal, parki
       <DialogTrigger asChild data-state="closed">
         <Button className="shad-button_primary w-[250px]">Subscribe to this spot</Button>
       </DialogTrigger>
-      <DialogContent className="bg-light-1">
+      <DialogContent className="bg-light-1 overflow-y-scroll max-h-screen">
         <DialogHeader>
           <DialogTitle>Enter details to subscribe</DialogTitle>
           <DialogDescription>You will be able to pay after you enter your details</DialogDescription>
@@ -223,6 +225,32 @@ const SubscribeToSpotModal = ({ openSubscribeModal, setOpenSubscribeModal, parki
                     <FormLabel>What is your office number?</FormLabel>
                     <FormControl>
                       <Input placeholder="123" {...field} />
+                    </FormControl>
+                    <FormMessage className="text-red" />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="driverLicenceNumber"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>What is your drivers licence number?</FormLabel>
+                    <FormControl>
+                      <Input placeholder="123456" {...field} />
+                    </FormControl>
+                    <FormMessage className="text-red" />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="emiratesId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>What is your Emirates ID number?(Only numbers allowed)</FormLabel>
+                    <FormControl>
+                      <Input placeholder="12345678901234" {...field} />
                     </FormControl>
                     <FormMessage className="text-red" />
                   </FormItem>

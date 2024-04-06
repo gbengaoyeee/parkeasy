@@ -174,4 +174,6 @@ export const SubscribeToParkingSpotValidation = z.object({
   licencePlate: z.string().min(1, 'Please enter a valid license plate'),
   carModel: z.string().min(1, 'Please enter the model of your car. e.g. Tesla Model 3'),
   officeNumber: z.string().min(1, 'Please enter your office number'),
+  driverLicenceNumber: z.string().min(4, 'Please enter your driver licence number'),
+  emiratesId: z.string().regex(/^\d+$/, 'Please enter a valid emirates id').min(10, 'Please enter your emirates id'),
 })

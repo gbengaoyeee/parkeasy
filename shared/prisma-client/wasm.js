@@ -274,6 +274,8 @@ exports.Prisma.SubscriptionScalarFieldEnum = {
   subscriber_licence_plate: 'subscriber_licence_plate',
   subscriber_car_model: 'subscriber_car_model',
   subscriber_office_number: 'subscriber_office_number',
+  subscriber_driver_licence_number: 'subscriber_driver_licence_number',
+  subscriber_id_card_number: 'subscriber_id_card_number',
   stripe_subscription: 'stripe_subscription',
   created_at: 'created_at',
   updated_at: 'updated_at'

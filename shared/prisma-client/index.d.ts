@@ -15068,6 +15068,8 @@ export namespace Prisma {
     subscriber_licence_plate: string | null
     subscriber_car_model: string | null
     subscriber_office_number: string | null
+    subscriber_driver_licence_number: string | null
+    subscriber_id_card_number: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -15082,6 +15084,8 @@ export namespace Prisma {
     subscriber_licence_plate: string | null
     subscriber_car_model: string | null
     subscriber_office_number: string | null
+    subscriber_driver_licence_number: string | null
+    subscriber_id_card_number: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -15096,6 +15100,8 @@ export namespace Prisma {
     subscriber_licence_plate: number
     subscriber_car_model: number
     subscriber_office_number: number
+    subscriber_driver_licence_number: number
+    subscriber_id_card_number: number
     stripe_subscription: number
     created_at: number
     updated_at: number
@@ -15113,6 +15119,8 @@ export namespace Prisma {
     subscriber_licence_plate?: true
     subscriber_car_model?: true
     subscriber_office_number?: true
+    subscriber_driver_licence_number?: true
+    subscriber_id_card_number?: true
     created_at?: true
     updated_at?: true
   }
@@ -15127,6 +15135,8 @@ export namespace Prisma {
     subscriber_licence_plate?: true
     subscriber_car_model?: true
     subscriber_office_number?: true
+    subscriber_driver_licence_number?: true
+    subscriber_id_card_number?: true
     created_at?: true
     updated_at?: true
   }
@@ -15141,6 +15151,8 @@ export namespace Prisma {
     subscriber_licence_plate?: true
     subscriber_car_model?: true
     subscriber_office_number?: true
+    subscriber_driver_licence_number?: true
+    subscriber_id_card_number?: true
     stripe_subscription?: true
     created_at?: true
     updated_at?: true
@@ -15229,6 +15241,8 @@ export namespace Prisma {
     subscriber_licence_plate: string | null
     subscriber_car_model: string | null
     subscriber_office_number: string | null
+    subscriber_driver_licence_number: string | null
+    subscriber_id_card_number: string | null
     stripe_subscription: JsonValue | null
     created_at: Date
     updated_at: Date
@@ -15261,6 +15275,8 @@ export namespace Prisma {
     subscriber_licence_plate?: boolean
     subscriber_car_model?: boolean
     subscriber_office_number?: boolean
+    subscriber_driver_licence_number?: boolean
+    subscriber_id_card_number?: boolean
     stripe_subscription?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -15279,6 +15295,8 @@ export namespace Prisma {
     subscriber_licence_plate?: boolean
     subscriber_car_model?: boolean
     subscriber_office_number?: boolean
+    subscriber_driver_licence_number?: boolean
+    subscriber_id_card_number?: boolean
     stripe_subscription?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -15308,6 +15326,8 @@ export namespace Prisma {
       subscriber_licence_plate: string | null
       subscriber_car_model: string | null
       subscriber_office_number: string | null
+      subscriber_driver_licence_number: string | null
+      subscriber_id_card_number: string | null
       stripe_subscription: Prisma.JsonValue | null
       created_at: Date
       updated_at: Date
@@ -15719,6 +15739,8 @@ export namespace Prisma {
     readonly subscriber_licence_plate: FieldRef<"Subscription", 'String'>
     readonly subscriber_car_model: FieldRef<"Subscription", 'String'>
     readonly subscriber_office_number: FieldRef<"Subscription", 'String'>
+    readonly subscriber_driver_licence_number: FieldRef<"Subscription", 'String'>
+    readonly subscriber_id_card_number: FieldRef<"Subscription", 'String'>
     readonly stripe_subscription: FieldRef<"Subscription", 'Json'>
     readonly created_at: FieldRef<"Subscription", 'DateTime'>
     readonly updated_at: FieldRef<"Subscription", 'DateTime'>
@@ -16314,6 +16336,8 @@ export namespace Prisma {
     subscriber_licence_plate: 'subscriber_licence_plate',
     subscriber_car_model: 'subscriber_car_model',
     subscriber_office_number: 'subscriber_office_number',
+    subscriber_driver_licence_number: 'subscriber_driver_licence_number',
+    subscriber_id_card_number: 'subscriber_id_card_number',
     stripe_subscription: 'stripe_subscription',
     created_at: 'created_at',
     updated_at: 'updated_at'
@@ -17726,6 +17750,8 @@ export namespace Prisma {
     subscriber_licence_plate?: StringNullableFilter<"Subscription"> | string | null
     subscriber_car_model?: StringNullableFilter<"Subscription"> | string | null
     subscriber_office_number?: StringNullableFilter<"Subscription"> | string | null
+    subscriber_driver_licence_number?: StringNullableFilter<"Subscription"> | string | null
+    subscriber_id_card_number?: StringNullableFilter<"Subscription"> | string | null
     stripe_subscription?: JsonNullableFilter<"Subscription">
     created_at?: DateTimeFilter<"Subscription"> | Date | string
     updated_at?: DateTimeFilter<"Subscription"> | Date | string
@@ -17744,6 +17770,8 @@ export namespace Prisma {
     subscriber_licence_plate?: SortOrderInput | SortOrder
     subscriber_car_model?: SortOrderInput | SortOrder
     subscriber_office_number?: SortOrderInput | SortOrder
+    subscriber_driver_licence_number?: SortOrderInput | SortOrder
+    subscriber_id_card_number?: SortOrderInput | SortOrder
     stripe_subscription?: SortOrderInput | SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -17765,6 +17793,8 @@ export namespace Prisma {
     subscriber_licence_plate?: StringNullableFilter<"Subscription"> | string | null
     subscriber_car_model?: StringNullableFilter<"Subscription"> | string | null
     subscriber_office_number?: StringNullableFilter<"Subscription"> | string | null
+    subscriber_driver_licence_number?: StringNullableFilter<"Subscription"> | string | null
+    subscriber_id_card_number?: StringNullableFilter<"Subscription"> | string | null
     stripe_subscription?: JsonNullableFilter<"Subscription">
     created_at?: DateTimeFilter<"Subscription"> | Date | string
     updated_at?: DateTimeFilter<"Subscription"> | Date | string
@@ -17783,6 +17813,8 @@ export namespace Prisma {
     subscriber_licence_plate?: SortOrderInput | SortOrder
     subscriber_car_model?: SortOrderInput | SortOrder
     subscriber_office_number?: SortOrderInput | SortOrder
+    subscriber_driver_licence_number?: SortOrderInput | SortOrder
+    subscriber_id_card_number?: SortOrderInput | SortOrder
     stripe_subscription?: SortOrderInput | SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -17804,6 +17836,8 @@ export namespace Prisma {
     subscriber_licence_plate?: StringNullableWithAggregatesFilter<"Subscription"> | string | null
     subscriber_car_model?: StringNullableWithAggregatesFilter<"Subscription"> | string | null
     subscriber_office_number?: StringNullableWithAggregatesFilter<"Subscription"> | string | null
+    subscriber_driver_licence_number?: StringNullableWithAggregatesFilter<"Subscription"> | string | null
+    subscriber_id_card_number?: StringNullableWithAggregatesFilter<"Subscription"> | string | null
     stripe_subscription?: JsonNullableWithAggregatesFilter<"Subscription">
     created_at?: DateTimeWithAggregatesFilter<"Subscription"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"Subscription"> | Date | string
@@ -18980,6 +19014,8 @@ export namespace Prisma {
     subscriber_licence_plate?: string | null
     subscriber_car_model?: string | null
     subscriber_office_number?: string | null
+    subscriber_driver_licence_number?: string | null
+    subscriber_id_card_number?: string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string
     updated_at?: Date | string
@@ -18998,6 +19034,8 @@ export namespace Prisma {
     subscriber_licence_plate?: string | null
     subscriber_car_model?: string | null
     subscriber_office_number?: string | null
+    subscriber_driver_licence_number?: string | null
+    subscriber_id_card_number?: string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string
     updated_at?: Date | string
@@ -19012,6 +19050,8 @@ export namespace Prisma {
     subscriber_licence_plate?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_car_model?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_office_number?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_driver_licence_number?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19030,6 +19070,8 @@ export namespace Prisma {
     subscriber_licence_plate?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_car_model?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_office_number?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_driver_licence_number?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19046,6 +19088,8 @@ export namespace Prisma {
     subscriber_licence_plate?: string | null
     subscriber_car_model?: string | null
     subscriber_office_number?: string | null
+    subscriber_driver_licence_number?: string | null
+    subscriber_id_card_number?: string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string
     updated_at?: Date | string
@@ -19059,6 +19103,8 @@ export namespace Prisma {
     subscriber_licence_plate?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_car_model?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_office_number?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_driver_licence_number?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19074,6 +19120,8 @@ export namespace Prisma {
     subscriber_licence_plate?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_car_model?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_office_number?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_driver_licence_number?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20283,6 +20331,8 @@ export namespace Prisma {
     subscriber_licence_plate?: SortOrder
     subscriber_car_model?: SortOrder
     subscriber_office_number?: SortOrder
+    subscriber_driver_licence_number?: SortOrder
+    subscriber_id_card_number?: SortOrder
     stripe_subscription?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -20298,6 +20348,8 @@ export namespace Prisma {
     subscriber_licence_plate?: SortOrder
     subscriber_car_model?: SortOrder
     subscriber_office_number?: SortOrder
+    subscriber_driver_licence_number?: SortOrder
+    subscriber_id_card_number?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -20312,6 +20364,8 @@ export namespace Prisma {
     subscriber_licence_plate?: SortOrder
     subscriber_car_model?: SortOrder
     subscriber_office_number?: SortOrder
+    subscriber_driver_licence_number?: SortOrder
+    subscriber_id_card_number?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -22325,6 +22379,8 @@ export namespace Prisma {
     subscriber_licence_plate?: string | null
     subscriber_car_model?: string | null
     subscriber_office_number?: string | null
+    subscriber_driver_licence_number?: string | null
+    subscriber_id_card_number?: string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string
     updated_at?: Date | string
@@ -22341,6 +22397,8 @@ export namespace Prisma {
     subscriber_licence_plate?: string | null
     subscriber_car_model?: string | null
     subscriber_office_number?: string | null
+    subscriber_driver_licence_number?: string | null
+    subscriber_id_card_number?: string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string
     updated_at?: Date | string
@@ -22561,6 +22619,8 @@ export namespace Prisma {
     subscriber_licence_plate?: StringNullableFilter<"Subscription"> | string | null
     subscriber_car_model?: StringNullableFilter<"Subscription"> | string | null
     subscriber_office_number?: StringNullableFilter<"Subscription"> | string | null
+    subscriber_driver_licence_number?: StringNullableFilter<"Subscription"> | string | null
+    subscriber_id_card_number?: StringNullableFilter<"Subscription"> | string | null
     stripe_subscription?: JsonNullableFilter<"Subscription">
     created_at?: DateTimeFilter<"Subscription"> | Date | string
     updated_at?: DateTimeFilter<"Subscription"> | Date | string
@@ -23831,6 +23891,8 @@ export namespace Prisma {
     subscriber_licence_plate?: string | null
     subscriber_car_model?: string | null
     subscriber_office_number?: string | null
+    subscriber_driver_licence_number?: string | null
+    subscriber_id_card_number?: string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string
     updated_at?: Date | string
@@ -23848,6 +23910,8 @@ export namespace Prisma {
     subscriber_licence_plate?: string | null
     subscriber_car_model?: string | null
     subscriber_office_number?: string | null
+    subscriber_driver_licence_number?: string | null
+    subscriber_id_card_number?: string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string
     updated_at?: Date | string
@@ -23866,6 +23930,8 @@ export namespace Prisma {
     subscriber_licence_plate?: string | null
     subscriber_car_model?: string | null
     subscriber_office_number?: string | null
+    subscriber_driver_licence_number?: string | null
+    subscriber_id_card_number?: string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string
     updated_at?: Date | string
@@ -23882,6 +23948,8 @@ export namespace Prisma {
     subscriber_licence_plate?: string | null
     subscriber_car_model?: string | null
     subscriber_office_number?: string | null
+    subscriber_driver_licence_number?: string | null
+    subscriber_id_card_number?: string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string
     updated_at?: Date | string
@@ -24093,6 +24161,8 @@ export namespace Prisma {
     subscriber_licence_plate?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_car_model?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_office_number?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_driver_licence_number?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24110,6 +24180,8 @@ export namespace Prisma {
     subscriber_licence_plate?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_car_model?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_office_number?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_driver_licence_number?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25565,6 +25637,8 @@ export namespace Prisma {
     subscriber_licence_plate?: string | null
     subscriber_car_model?: string | null
     subscriber_office_number?: string | null
+    subscriber_driver_licence_number?: string | null
+    subscriber_id_card_number?: string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string
     updated_at?: Date | string
@@ -25767,6 +25841,8 @@ export namespace Prisma {
     subscriber_licence_plate?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_car_model?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_office_number?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_driver_licence_number?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25783,6 +25859,8 @@ export namespace Prisma {
     subscriber_licence_plate?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_car_model?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_office_number?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_driver_licence_number?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25798,6 +25876,8 @@ export namespace Prisma {
     subscriber_licence_plate?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_car_model?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_office_number?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_driver_licence_number?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26260,6 +26340,8 @@ export namespace Prisma {
     subscriber_licence_plate?: string | null
     subscriber_car_model?: string | null
     subscriber_office_number?: string | null
+    subscriber_driver_licence_number?: string | null
+    subscriber_id_card_number?: string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string
     updated_at?: Date | string
@@ -26371,6 +26453,8 @@ export namespace Prisma {
     subscriber_licence_plate?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_car_model?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_office_number?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_driver_licence_number?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26387,6 +26471,8 @@ export namespace Prisma {
     subscriber_licence_plate?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_car_model?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_office_number?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_driver_licence_number?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26402,6 +26488,8 @@ export namespace Prisma {
     subscriber_licence_plate?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_car_model?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_office_number?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_driver_licence_number?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string

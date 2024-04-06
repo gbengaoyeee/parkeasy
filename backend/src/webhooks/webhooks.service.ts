@@ -179,6 +179,8 @@ export class WebhooksService {
               subscriber_licence_plate: customerSubscriptionCreated.metadata['subscriberLicencePlate'],
               parking_spot_id: customerSubscriptionCreated.metadata['parkingSpotId'],
               stripe_subscription: customerSubscriptionCreated as any,
+              subscriber_driver_licence_number: customerSubscriptionCreated.metadata['subscriberDriverLicenceNumber'],
+              subscriber_id_card_number: customerSubscriptionCreated.metadata['subscriberEmiratesId'],
             }
           })
           customerSubscriptionCreated.status === 'active' && await this.prisma.parkingSpot.update({

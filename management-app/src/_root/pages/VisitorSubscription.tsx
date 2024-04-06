@@ -62,6 +62,18 @@ const VisitorSubscription = () => {
                 <Label className="base-semibold">Subscriber phone number</Label>
                 <p className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm subtle-regular">{subscription?.subscriber_phone}</p>
               </div>
+              {subscription.subscriber_driver_licence_number && (
+                <div className="flex flex-col gap-2">
+                  <Label className="base-semibold">Subscriber driver licence number</Label>
+                  <p className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm subtle-regular">{subscription?.subscriber_driver_licence_number}</p>
+                </div>
+              )}
+              {subscription.subscriber_id_card_number && (
+                <div className="flex flex-col gap-2">
+                  <Label className="base-semibold">Subscriber Emirates ID</Label>
+                  <p className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm subtle-regular">{subscription?.subscriber_id_card_number}</p>
+                </div>
+              )}
             </>
           )}
         </div>

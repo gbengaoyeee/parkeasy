@@ -353,6 +353,8 @@ model Subscription {
   subscriber_licence_plate String?
   subscriber_car_model     String?
   subscriber_office_number String?
+  subscriber_driver_licence_number String?
+  subscriber_id_card_number String?
   stripe_subscription      Json?
   created_at               DateTime @default(now())
   updated_at               DateTime @default(now()) @updatedAt
