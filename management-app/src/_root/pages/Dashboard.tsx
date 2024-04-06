@@ -4,6 +4,7 @@ import { ParkingSpots } from ".";
 import { useAppContext } from "@/context/AppContext";
 import { useEnableHosting } from "@/lib/react-query/queriesAndMutations";
 import { useEffect } from "react";
+import { toast } from "sonner";
 
 const Dashboard = () => {
   const { user, isLoading } = useUserContext();
@@ -12,7 +13,11 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (user && tenant === "host" && !user?.stripe_account) {
-      enableHosting(user.id).catch((error) => console.error(error));
+      enableHosting(user.id)
+        .catch((error) => {
+          toast.error(error.response.data.message);
+          
+        });
     }
   }, [user]);
 
