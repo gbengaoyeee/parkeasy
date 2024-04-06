@@ -95,7 +95,7 @@ const useManagementData = () => {
   const {
     data: parkingSpots,
     isFetching: isFetchingParkingSpots,
-    // error: queryError,
+    error: getParkingSpotsError,
     refetch: refetchParkingSpots,
   } = useQuery({
     queryKey: ["parking-spots-data"],
@@ -152,6 +152,7 @@ const useManagementData = () => {
     setCommunityMemberPage,
     pageSize,
     parkingSpots,
+    getParkingSpotsError,
     isFetchingParkingSpots,
     refetchParkingSpots,
     parkingSpotsPage,

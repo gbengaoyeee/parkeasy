@@ -19,9 +19,10 @@ import { useAddParkingSpot, useUpdateParkingSpot } from "@/lib/react-query/queri
 import { formatCurrency } from "@/lib/formatter";
 import { Label } from "@radix-ui/react-label";
 import moment from "moment";
+import { Loader2 } from "lucide-react";
 
 const ParkingSpots = () => {
-  const { currentBuilding, parkingSpots, parkingSpotsPage, setParkingSpotsPage, pageSize, refetchParkingSpots } = useManagementData();
+  const { currentBuilding, parkingSpots, getParkingSpotsError, isFetchingParkingSpots, parkingSpotsPage, setParkingSpotsPage, pageSize, refetchParkingSpots } = useManagementData();
   const navigate = useNavigate();
 
   const [openAddParkingSpotModal, setOpenAddParkingSpotModal] = useState(false);
@@ -49,6 +50,15 @@ const ParkingSpots = () => {
     handleSearch();
   }, [debounce, handleSearch]);
 
+  if(isFetchingParkingSpots) {
+    return <div className="w-full h-full flex-center">
+      <Loader2 className="animate-spin-slow"/>
+    </div>
+  }
+
+  if (getParkingSpotsError) {
+    return <h1>Could not find your building. contact {import.meta.env.VITE_SUPPORT_EMAIL}</h1>;
+  }
   if (!parkingSpots) {
     return <h1>Could not find your building. contact {import.meta.env.VITE_SUPPORT_EMAIL}</h1>;
   }
