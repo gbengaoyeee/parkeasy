@@ -86,7 +86,7 @@ const SubscribeToSpotModal = ({ openSubscribeModal, setOpenSubscribeModal, parki
   const form = useForm<z.infer<typeof SubscribeToParkingSpotValidation>>({
     resolver: zodResolver(SubscribeToParkingSpotValidation),
     defaultValues: {
-      name: (user?.first_name && user?.last_name) ? `${user?.first_name} ${user?.last_name}`: "",
+      name: user?.first_name && user?.last_name ? `${user?.first_name} ${user?.last_name}` : "",
       email: user?.email ? `${user?.email}` : "",
       phone: user?.phone_number ? `${user?.phone_number}` : "",
       carModel: "",
@@ -98,9 +98,13 @@ const SubscribeToSpotModal = ({ openSubscribeModal, setOpenSubscribeModal, parki
   const { mutateAsync: subscribeToSpot, isPending: isSubscribing } = useSubscribeToSpot();
 
   const openInNewTab = (url: string) => {
-    // Use JavaScript to open a new window
-    const newWindow = window.open(url, "_blank", "noopener,noreferrer");
-    if (newWindow) newWindow.opener = null;
+    // Create an anchor element
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.target = "_blank"; // Open link in new window/tab
+
+    // Programmatically click the anchor element
+    anchor.click();
   };
 
   function onSubmit(values: z.infer<typeof SubscribeToParkingSpotValidation>) {

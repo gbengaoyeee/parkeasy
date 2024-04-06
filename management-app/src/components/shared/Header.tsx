@@ -14,9 +14,13 @@ const Header = () => {
   const { refetch: getAccountLink, isFetching: isGettingAccountLink } = useGetAccountLink(user?.id ?? "");
 
   const openInNewTab = (url: string) => {
-    // Use JavaScript to open a new window
-    const newWindow = window.open(url, "_blank", "noopener,noreferrer");
-    if (newWindow) newWindow.opener = null;
+    // Create an anchor element
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.target = "_blank"; // Open link in new window/tab
+
+    // Programmatically click the anchor element
+    anchor.click();
   };
 
   const handleGetAccountLink = async () => {
@@ -28,9 +32,9 @@ const Header = () => {
             toast.error(res.error.response.data.message);
             return;
           }
-          if(res.data && res.data.url){
+          if (res.data && res.data.url) {
             openInNewTab(res.data.url);
-            return
+            return;
           }
         })
         .catch((error) => {
