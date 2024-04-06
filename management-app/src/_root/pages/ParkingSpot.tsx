@@ -86,7 +86,7 @@ const ParkingSpot = () => {
                 <Label className="base-semibold">Subscription ends at {moment((parkingSpot.current_subscription.stripe_subscription as any)["cancel_at"] * 1000).format("MMM DD, YYYY")}</Label>
               </div>
             ) : (
-              <CancelSubscriptionConfirmationModal openCancelSubscriptionModal={openCancelSubscriptionModal} setOpenCancelSubscriptionModal={setOpenCancelSubscriptionModal} parkingSpot={parkingSpot} refetchParkingSpot={refetchParkingSpot} />
+              <CancelSubscriptionConfirmationModal tenant="host" openCancelSubscriptionModal={openCancelSubscriptionModal} setOpenCancelSubscriptionModal={setOpenCancelSubscriptionModal} parkingSpot={parkingSpot} refetchParkingSpot={refetchParkingSpot} />
             )}
           </>
         )}
@@ -106,7 +106,7 @@ const ParkingSpot = () => {
   );
 };
 
-export const CancelSubscriptionConfirmationModal = ({ tenant, openCancelSubscriptionModal, setOpenCancelSubscriptionModal, parkingSpot, refetchParkingSpot = () => {} }: { tenant: "visitot" | "host"; openCancelSubscriptionModal: boolean; setOpenCancelSubscriptionModal: (open: boolean) => void; parkingSpot?: AppParkingSpot; refetchParkingSpot?: () => void }) => {
+export const CancelSubscriptionConfirmationModal = ({ tenant, openCancelSubscriptionModal, setOpenCancelSubscriptionModal, parkingSpot, refetchParkingSpot = () => {} }: { tenant: "visitor" | "host"; openCancelSubscriptionModal: boolean; setOpenCancelSubscriptionModal: (open: boolean) => void; parkingSpot?: AppParkingSpot; refetchParkingSpot?: () => void }) => {
   const { mutateAsync: cancelSubscription, isPending: isCancelling } = useCancelSubscription();
   const handleCancelSubscription = () => {
     if (!parkingSpot) {

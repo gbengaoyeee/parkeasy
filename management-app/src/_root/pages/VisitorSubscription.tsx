@@ -73,6 +73,7 @@ const VisitorSubscription = () => {
               </div>
             ) : (
               <CancelSubscriptionConfirmationModal
+                tenant="visitor"
                 openCancelSubscriptionModal={openCancelSubscriptionModal}
                 setOpenCancelSubscriptionModal={setOpenCancelSubscriptionModal}
                 parkingSpot={subscription.parking_spot}
