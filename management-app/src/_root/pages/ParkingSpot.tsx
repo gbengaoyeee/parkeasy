@@ -106,7 +106,7 @@ const ParkingSpot = () => {
   );
 };
 
-export const CancelSubscriptionConfirmationModal = ({ openCancelSubscriptionModal, setOpenCancelSubscriptionModal, parkingSpot, refetchParkingSpot = () => {} }: { openCancelSubscriptionModal: boolean; setOpenCancelSubscriptionModal: (open: boolean) => void; parkingSpot?: AppParkingSpot; refetchParkingSpot?: () => void }) => {
+export const CancelSubscriptionConfirmationModal = ({ tenant, openCancelSubscriptionModal, setOpenCancelSubscriptionModal, parkingSpot, refetchParkingSpot = () => {} }: { tenant: "visitot" | "host"; openCancelSubscriptionModal: boolean; setOpenCancelSubscriptionModal: (open: boolean) => void; parkingSpot?: AppParkingSpot; refetchParkingSpot?: () => void }) => {
   const { mutateAsync: cancelSubscription, isPending: isCancelling } = useCancelSubscription();
   const handleCancelSubscription = () => {
     if (!parkingSpot) {
@@ -132,23 +132,29 @@ export const CancelSubscriptionConfirmationModal = ({ openCancelSubscriptionModa
       </DialogTrigger>
 
       <DialogContent className="bg-light-1">
-        <p>Are you sure you want to cancel subscription?</p>
-        <Button
-          onClick={() => {
-            handleCancelSubscription();
-          }}
-          className="bg-red text-white"
-          disabled={isCancelling}
-        >
-          {isCancelling ? (
-            <div className="flex-center gap-3">
-              <Loader />
-              Cancelling...
-            </div>
-          ) : (
-            <span>Cancel</span>
-          )}
-        </Button>
+        {tenant === "host" ? (
+          <>
+            <p>Are you sure you want to cancel subscription?</p>
+            <Button
+              onClick={() => {
+                handleCancelSubscription();
+              }}
+              className="bg-red text-white"
+              disabled={isCancelling}
+            >
+              {isCancelling ? (
+                <div className="flex-center gap-3">
+                  <Loader />
+                  Cancelling...
+                </div>
+              ) : (
+                <span>Cancel</span>
+              )}
+            </Button>
+          </>
+        ) : (
+          <p>Please visit the parking spot manager representative and return the card to collect your deposit and ask owner to cancel subscription</p>
+        )}
       </DialogContent>
     </Dialog>
   );
