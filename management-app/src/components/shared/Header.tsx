@@ -14,13 +14,15 @@ const Header = () => {
   const { refetch: getAccountLink, isFetching: isGettingAccountLink } = useGetAccountLink(user?.id ?? "");
 
   const openInNewTab = (url: string) => {
-    // Create an anchor element
-    const anchor = document.createElement("a");
-    anchor.href = url;
-    anchor.target = "_blank"; // Open link in new window/tab
-
-    // Programmatically click the anchor element
-    anchor.click();
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    if (isSafari) {
+      // For Safari, open the URL in the same window due to restrictions
+      window.location.href = url;
+    } else {
+      // Use JavaScript to open a new window for other browsers
+      const newWindow = window.open(url, "_blank", "noopener,noreferrer");
+      if (newWindow) newWindow.opener = null;
+    }
   };
 
   const handleGetAccountLink = async () => {
