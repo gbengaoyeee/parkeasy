@@ -205,6 +205,12 @@ export const AppContextProvider = ({ children }: { children: React.ReactNode }) 
     }
   }, [currentBuilding]);
 
+  useEffect(() => {
+    if(tenant === 'visitor') {
+      navigate('/discover')
+    }
+  }, [])
+
   const handleSideBarOptionSelection = (optionId: number) => {
     // find the option with corresponding id and set it as selected option
     const selectedOption = sideBarOptions.find((option) => option.id === optionId);
