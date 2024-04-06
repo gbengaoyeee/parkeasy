@@ -32,8 +32,8 @@ export class StripeService {
   async createAccountLink(account: string) {
     return await this.stripe.accountLinks.create({
       account,
-      refresh_url: 'https://www.easyparkway.com',
-      return_url: 'https://www.easyparkway.com',
+      refresh_url: 'https://host.easyparkway.com',
+      return_url: 'https://host.easyparkway.com',
       type: 'account_onboarding',
     });
   }
