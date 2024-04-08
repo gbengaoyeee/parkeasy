@@ -15,7 +15,7 @@ import { SubscribeToParkingSpotValidation } from "@/lib/validation";
 import { ParkingSpot } from "@/types";
 import { useUserContext } from "@/context/UserContext";
 import { useState } from "react";
-import UploadWidget from "@/components/shared/UploadWidget";
+// import UploadWidget from "@/components/shared/UploadWidget";
 
 const VisitorViewSpot = () => {
   const { spotId } = useParams();
