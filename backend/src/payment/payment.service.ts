@@ -148,6 +148,10 @@ export class PaymentService {
             price: spot.stripe_product['default_price'],
             quantity: 1,
           },
+          {
+            price: process.env.PARKING_DEPOSIT_PRICE,
+            quantity: 1,
+          },
         ],
         automatic_tax: {
           enabled: true,
