@@ -6,7 +6,7 @@ import { Dispatch, SetStateAction, createContext, useContext, useEffect, useStat
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { z } from "zod";
-import {} from 'firebase/app'
+import {} from "firebase/app";
 import { firAuth } from "@/api/firebase";
 import { User, onAuthStateChanged, sendSignInLinkToEmail } from "firebase/auth";
 
@@ -42,11 +42,10 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
   const navigate = useNavigate();
   const location = useLocation();
   const url = new URL(import.meta.env.VITE_APP_URL);
-  
-  
+
   function getTenantFromHostname() {
     // Example: Extract tenant from subdomain
-    const subdomain = window.location.hostname.split('.')[0];
+    const subdomain = window.location.hostname.split(".")[0];
     return subdomain;
   }
 
@@ -87,7 +86,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
       await sendSignInLinkToEmail(firAuth, values.email, {
         url: `${url.protocol}//${getTenantFromHostname()}.${url.host}/sso-redirect`,
         handleCodeInApp: true,
-      })
+      });
       localStorage.setItem("emailForSignIn", values.email);
       return true;
     } catch (error: any) {
@@ -137,13 +136,16 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
     const subscribe = onAuthStateChanged(firAuth, async (user) => {
       if (!user && !nonProtectedRoutes.includes(location.pathname)) {
         navigate("/login");
+      } 
+      else if (user && getTenantFromHostname() === "visitor") {
+        navigate("/discover");
       }
       setUser(user);
-    })
+    });
     checkAuthUser();
     return () => {
       subscribe();
-    }
+    };
   }, [localStorage]);
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
