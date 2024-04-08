@@ -15,6 +15,7 @@ import { SubscribeToParkingSpotValidation } from "@/lib/validation";
 import { ParkingSpot } from "@/types";
 import { useUserContext } from "@/context/UserContext";
 import { useState } from "react";
+import UploadWidget from "@/components/shared/UploadWidget";
 
 const VisitorViewSpot = () => {
   const { spotId } = useParams();
@@ -147,6 +148,7 @@ const SubscribeToSpotModal = ({ openSubscribeModal, setOpenSubscribeModal, parki
         <DialogHeader>
           <DialogTitle>Enter details to subscribe</DialogTitle>
           <DialogDescription>You will be able to pay after you enter your details</DialogDescription>
+          <DialogDescription className="small-semibold">You will also need to pay a deposit fee which will be refunded if you cancel</DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
@@ -256,6 +258,8 @@ const SubscribeToSpotModal = ({ openSubscribeModal, setOpenSubscribeModal, parki
                   </FormItem>
                 )}
               />
+
+              {/* <UploadWidget btnText="Upload CV" onComplete={(urls) => console.log(urls)} /> */}
 
               <DialogFooter>
                 <Button type="submit" disabled={isSubscribing} className="shad-button_primary">
