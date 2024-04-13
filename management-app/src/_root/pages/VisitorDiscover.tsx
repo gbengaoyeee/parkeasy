@@ -34,7 +34,7 @@ const VisitorDiscover = () => {
   return (
     <div>
       <span className="flex justify-between">
-        <h3 className="h3-bold">Discover parking spots</h3>
+        <h3 className="h3-bold">Select and subscribe to available parking spots</h3>
       </span>
 
       <div className="overflow-x-auto shadow-md sm:rounded-lg">

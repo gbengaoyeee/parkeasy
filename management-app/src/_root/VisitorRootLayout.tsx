@@ -74,9 +74,6 @@ const UpdateCustomerUserModal = (
       open={!user?.stripe_customer_id}
       // onOpenChange={setOpenSubscribeModal}
     >
-      {/* <DialogTrigger asChild data-state="closed">
-        <Button className="shad-button_primary w-[250px]">Subscribe to this spot</Button>
-      </DialogTrigger> */}
       <DialogContent className="bg-light-1">
         <DialogHeader>
           <DialogTitle>Let us update your details</DialogTitle>

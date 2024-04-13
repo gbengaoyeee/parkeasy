@@ -135,6 +135,11 @@
   .my-table-row {
     @apply flex justify-center items-center
   }
+
+  .uploader__modal{
+    background-color: red;
+    z-index: 9999999 !important;
+  }
 }
 
 @layer components {
