@@ -14,7 +14,7 @@ import { useAppContext } from "@/context/AppContext";
 import { getUser } from "@/api/user";
 import { useEffect, useState } from "react";
 import useBreakpoints from "@/hooks/useBreakpoints";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent,  } from "@/components/ui/dialog";
 
 const LoginForm = () => {
   // const { isPending: isSigningIn, mutateAsync: handleSignIn } = useLoginByEmail();
