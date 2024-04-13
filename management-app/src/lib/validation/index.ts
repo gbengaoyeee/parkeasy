@@ -176,4 +176,7 @@ export const SubscribeToParkingSpotValidation = z.object({
   officeNumber: z.string().min(1, 'Please enter your office number'),
   driverLicenceNumber: z.string().min(4, 'Please enter your driver licence number'),
   emiratesId: z.string().regex(/^\d+$/, 'Please enter a valid emirates id').min(10, 'Please enter your emirates id'),
+  agreedToTerms: z.boolean().refine((val) => val, {
+    message: 'Please agree to the terms and conditions',
+  })
 })

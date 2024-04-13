@@ -95,6 +95,7 @@ const SubscribeToSpotModal = ({ openSubscribeModal, setOpenSubscribeModal, parki
       officeNumber: "",
       driverLicenceNumber: "",
       emiratesId: "",
+      agreedToTerms: false,
     },
   });
 
@@ -254,6 +255,19 @@ const SubscribeToSpotModal = ({ openSubscribeModal, setOpenSubscribeModal, parki
                     <FormControl>
                       <Input placeholder="12345678901234" {...field} />
                     </FormControl>
+                    <FormMessage className="text-red" />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="agreedToTerms"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl className="flex-center">
+                      <Input type="checkbox" onChange={field.onChange} className="!h-5 !w-5 mr-3"/>
+                    </FormControl>
+                    <FormLabel className="text-[12px]">You agree to subscribe to Citadel Monthly Parking Subscription. Kindly note your parking subscription will be charged every month automatically once you subscribe and pay it</FormLabel>
                     <FormMessage className="text-red" />
                   </FormItem>
                 )}
