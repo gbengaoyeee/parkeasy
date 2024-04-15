@@ -153,6 +153,10 @@ export class AddParkingSpotDto {
   @IsNumber()
   @IsOptional()
   price: number
+
+  @IsBoolean()
+  @IsOptional()
+  depositEnabled: boolean
 }
 
 export class UpdateParkingSpotDto extends AddParkingSpotDto {

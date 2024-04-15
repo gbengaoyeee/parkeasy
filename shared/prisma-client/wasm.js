@@ -204,6 +204,7 @@ exports.Prisma.ParkingSpotScalarFieldEnum = {
   parking_instructions: 'parking_instructions',
   price: 'price',
   stripe_product: 'stripe_product',
+  deposit_enabled: 'deposit_enabled',
   current_subscription_id: 'current_subscription_id'
 };
 

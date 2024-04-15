@@ -139,7 +139,10 @@ export class PaymentService {
           }
         }
       })
-      
+      const deposit = spot.deposit_enabled ? {
+        price: process.env.PARKING_DEPOSIT_PRICE,
+        quantity: 1,
+      } : {}
       const session = await this.stripe.checkout.sessions.create({
         mode: 'subscription',
         customer: user.stripe_customer_id,
@@ -148,10 +151,11 @@ export class PaymentService {
             price: spot.stripe_product['default_price'],
             quantity: 1,
           },
-          {
-            price: process.env.PARKING_DEPOSIT_PRICE,
-            quantity: 1,
-          },
+          ...[deposit]
+          // {
+          //   price: process.env.PARKING_DEPOSIT_PRICE,
+          //   quantity: 1,
+          // },
         ],
         automatic_tax: {
           enabled: true,

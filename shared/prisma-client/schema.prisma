@@ -210,6 +210,8 @@ model ParkingSpot {
 
   stripe_product Json?
 
+  deposit_enabled Boolean? @default(true)
+
   current_subscription_id String? @unique // Foreign key
 
   building     Building          @relation(fields: [building_id], references: [id], onDelete: Cascade) // Relation attribute

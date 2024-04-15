@@ -990,7 +990,8 @@ export class BuildingService {
           parking_spot_type: dto.spotType,
           parking_instructions: dto.parkingInstructions,
           price: dto.price,
-          stripe_product: stripeProduct ? stripeProduct as any : spot.stripe_product
+          stripe_product: stripeProduct ? stripeProduct as any : spot.stripe_product,
+          deposit_enabled: dto.depositEnabled
         },
         include: {
           qr_code: true,

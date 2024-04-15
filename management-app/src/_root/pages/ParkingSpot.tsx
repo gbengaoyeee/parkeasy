@@ -1,15 +1,21 @@
 import { Label } from "@/components/ui/label";
 import { useParams } from "react-router-dom";
-import { useCancelSubscription, useGetBuilding, useGetParkingSpot } from "@/lib/react-query/queriesAndMutations";
+import { useCancelSubscription, useGetBuilding, useGetParkingSpot, useUpdateParkingSpot } from "@/lib/react-query/queriesAndMutations";
 import Loader from "@/components/shared/Loader";
 import { AddParkingSpotModal } from "./ParkingSpots";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { formatCurrency } from "@/lib/formatter";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { ParkingSpot as AppParkingSpot } from "@/types";
 import moment from "moment";
+import Switch from "react-switch";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { AddParkingSpotValidation } from "@/lib/validation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useDebounce } from "@/hooks/useDebounce";
 
 const ParkingSpot = () => {
   const { buildingId, parkingSpotId } = useParams();
@@ -18,6 +24,48 @@ const ParkingSpot = () => {
   const [openCancelSubscriptionModal, setOpenCancelSubscriptionModal] = useState(false);
 
   const [openAddParkingSpotModal, setOpenAddParkingSpotModal] = useState(false);
+  const form = useForm<z.infer<typeof AddParkingSpotValidation>>({
+    resolver: zodResolver(AddParkingSpotValidation),
+    defaultValues: {
+      spotNumber: parkingSpot?.parking_spot_number ?? "",
+      spotLevel: parkingSpot?.parking_level ? parkingSpot?.parking_level : 1,
+      spotType: parkingSpot?.parking_spot_type ?? "regular",
+      price: parkingSpot?.price ? parkingSpot?.price / 100 : 0.0,
+      depositEnabled: parkingSpot?.deposit_enabled ?? false,
+    },
+  });
+
+  const watchDepositEnabled = form.watch("depositEnabled");
+  const debounce = useDebounce(watchDepositEnabled?.toString() ?? "false", 1000);
+
+  const handleToggle = useCallback(async () => {
+    onSubmit(form.getValues());
+  }, [debounce]);
+
+  useEffect(() => {
+    handleToggle();
+  }, [debounce, handleToggle]);
+
+  const { mutateAsync: updateParkingSpot, isPending: isUpdatingParkingSpot } = useUpdateParkingSpot();
+
+  function onSubmit(values: z.infer<typeof AddParkingSpotValidation>) {
+    // Do something with the form values.
+    // ✅ This will be type-safe and validated.
+    if (!building) {
+      toast.error(`Could not find your building. contact ${import.meta.env.VITE_SUPPORT_EMAIL}`);
+      return;
+    }
+    if (parkingSpot) {
+      updateParkingSpot({ buildingId: building.id, spotId: parkingSpot.id, dto: values })
+        .then((_) => {
+          toast.success("Parking spot updated successfully");
+        })
+        .catch((error) => {
+          console.error(error.message);
+          toast.error(error.response.data.message);
+        });
+    }
+  }
 
   if (isFetchingParkingSpot) {
     return <Loader />;
@@ -48,6 +96,22 @@ const ParkingSpot = () => {
           <div className="flex flex-col gap-2">
             <Label className="base-semibold">Parking spot price</Label>
             <p className="subtle-regular">{formatCurrency(parkingSpot.price ? parkingSpot.price / 100 : 0, "ar-AE", "AED")}/m</p>
+          </div>
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="enable-disable-deposit" className="base-semibold">
+              {watchDepositEnabled ? "Disable" : "Enable"} Deposit
+            </Label>
+            <Switch
+              width={50}
+              height={20}
+              checkedIcon={false}
+              uncheckedIcon={false}
+              onColor="#090909"
+              checked={watchDepositEnabled ?? false}
+              onChange={(checked) => {
+                form.setValue("depositEnabled", checked);
+              }}
+            />
           </div>
           {parkingSpot.current_subscription && (
             <>

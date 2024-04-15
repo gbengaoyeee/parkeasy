@@ -165,6 +165,7 @@ export const AddParkingSpotValidation = z.object({
       message: 'Please enter a price greater than 0',
       path: ['price'],
     }),
+  depositEnabled: z.boolean().optional(),
 })
 
 export const SubscribeToParkingSpotValidation = z.object({
