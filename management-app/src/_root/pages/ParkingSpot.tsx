@@ -46,7 +46,7 @@ const ParkingSpot = () => {
     handleToggle();
   }, [debounce, handleToggle]);
 
-  const { mutateAsync: updateParkingSpot, isPending: isUpdatingParkingSpot } = useUpdateParkingSpot();
+  const { mutateAsync: updateParkingSpot, } = useUpdateParkingSpot();
 
   function onSubmit(values: z.infer<typeof AddParkingSpotValidation>) {
     // Do something with the form values.
