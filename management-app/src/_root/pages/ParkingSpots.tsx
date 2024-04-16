@@ -63,8 +63,10 @@ const ParkingSpots = () => {
     return <h1>Could not find your building. contact {import.meta.env.VITE_SUPPORT_EMAIL}</h1>;
   }
 
-  const handleSpotClick = (spotId: string) => {
-    navigate(`/parking-spots/${currentBuilding?.id}/${spotId}`);
+  const handleSpotClick = (parkingSpot: ParkingSpot) => {
+    navigate(`/parking-spots/${currentBuilding?.id}/${parkingSpot.id}`, {
+      state: { parkingSpot, building: currentBuilding },
+    });
   };
 
   const handlePageChange = (direction: "next" | "prev") => {
@@ -118,7 +120,7 @@ const ParkingSpots = () => {
               </thead>
               <tbody className="">
                 {filteredParkngSpots.map((spot) => (
-                  <tr onClick={() => handleSpotClick(spot.id)} key={spot.id} className="bg-white border-b cursor-pointer">
+                  <tr onClick={() => handleSpotClick(spot)} key={spot.id} className="bg-white border-b cursor-pointer">
                     <td className="px-6 py-4">{spot.parking_spot_number}</td>
                     <td className="px-6 py-4">{spot.parking_level}</td>
                     <td className="px-6 py-4">{spot.parking_spot_type}</td>

@@ -3,6 +3,7 @@ import { Label } from "@/components/ui/label";
 import useManagementData from "@/hooks/useManagementData";
 import { formatCurrency } from "@/lib/formatter";
 import { useGetHostSubscriptions } from "@/lib/react-query/queriesAndMutations";
+import { Subscription } from "@/types";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 
@@ -13,24 +14,12 @@ const HostSubscriptions = () => {
   const navigate = useNavigate();
   const { data: subscriptions } = useGetHostSubscriptions(currentBuilding?.id);
 
-  // useEffect(() => {
-  //   refetchParkingSpots();
-  // }, [parkingSpotsPage]);
-
-  const handleSpotClick = (spotId: string) => {
-    navigate(`/parking-spots/${currentBuilding?.id}/${spotId}`);
+  const handleSpotClick = (subscription: Subscription) => {
+    navigate(`/subscriptions/${subscription.id}`, {
+      state: { subscription },
+    });
   };
 
-  // const handlePageChange = (direction: "next" | "prev") => {
-  //   if (direction === "next" && parkingSpotsPage < Math.ceil(data?.numOfSpots ?? 1 / pageSize)) {
-  //     setParkingSpotsPage(parkingSpotsPage + 1);
-  //   } else if (direction === "prev" && parkingSpotsPage > 1) {
-  //     setParkingSpotsPage(parkingSpotsPage - 1);
-  //   }
-  // };
-
-  // let filteredParkngSpots = data?.parkingSpots ?? [];
-  // const numberOfPages = Math.ceil((data?.numOfSpots ?? 1) / pageSize);
   return (
     <div>
       <span className="flex justify-between">
@@ -60,7 +49,7 @@ const HostSubscriptions = () => {
           </thead>
           <tbody className="">
             {subscriptions?.map((subscription) => (
-              <tr onClick={() => handleSpotClick(subscription.parking_spot?.id ?? "no_parking_id")} key={subscription.id} className="bg-white border-b cursor-pointer">
+              <tr onClick={() => handleSpotClick(subscription)} key={subscription.id} className="bg-white border-b cursor-pointer">
                 <td className="px-6 py-4">{subscription?.parking_spot?.parking_spot_number}</td>
                 <td className="px-6 py-4">{formatCurrency(subscription.parking_spot?.price ? subscription.parking_spot?.price / 100 : 0, "ar-AE", "AED")}/m</td>
                 <td className="px-6 py-4">

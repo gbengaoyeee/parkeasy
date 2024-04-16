@@ -1,5 +1,5 @@
 import { Label } from "@/components/ui/label";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useCancelSubscription, useGetBuilding, useGetParkingSpot, useUpdateParkingSpot } from "@/lib/react-query/queriesAndMutations";
 import Loader from "@/components/shared/Loader";
 import { AddParkingSpotModal } from "./ParkingSpots";
@@ -8,7 +8,7 @@ import { formatCurrency } from "@/lib/formatter";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { ParkingSpot as AppParkingSpot } from "@/types";
+import { ParkingSpot as AppParkingSpot, Building } from "@/types";
 import moment from "moment";
 import Switch from "react-switch";
 import { useForm } from "react-hook-form";
@@ -17,10 +17,15 @@ import { AddParkingSpotValidation } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useDebounce } from "@/hooks/useDebounce";
 
+interface State {
+  parkingSpot: AppParkingSpot;
+  building: Building
+}
 const ParkingSpot = () => {
   const { buildingId, parkingSpotId } = useParams();
-  const { data: parkingSpot, isFetching: isFetchingParkingSpot, refetch: refetchParkingSpot } = useGetParkingSpot(buildingId, parkingSpotId);
-  const { data: building } = useGetBuilding(buildingId);
+  const { isFetching: isFetchingParkingSpot, refetch: refetchParkingSpot, } = useGetParkingSpot(buildingId, parkingSpotId);
+  const { state } = useLocation();
+  const { parkingSpot, building }: State = state;
   const [openCancelSubscriptionModal, setOpenCancelSubscriptionModal] = useState(false);
 
   const [openAddParkingSpotModal, setOpenAddParkingSpotModal] = useState(false);
@@ -38,17 +43,22 @@ const ParkingSpot = () => {
   const watchDepositEnabled = form.watch("depositEnabled");
   const debounce = useDebounce(watchDepositEnabled?.toString() ?? "false", 1000);
 
+  const [initialDebounce, setInitialDebounce] = useState(false);
   const handleToggle = useCallback(async () => {
-    onSubmit(form.getValues());
+    updateDepositStatus(form.getValues());
   }, [debounce]);
 
   useEffect(() => {
+    if(!initialDebounce) {
+      setInitialDebounce(true);
+      return;
+    }
     handleToggle();
   }, [debounce, handleToggle]);
 
   const { mutateAsync: updateParkingSpot, } = useUpdateParkingSpot();
 
-  function onSubmit(values: z.infer<typeof AddParkingSpotValidation>) {
+  function updateDepositStatus(values: z.infer<typeof AddParkingSpotValidation>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     if (!building) {
@@ -58,17 +68,13 @@ const ParkingSpot = () => {
     if (parkingSpot) {
       updateParkingSpot({ buildingId: building.id, spotId: parkingSpot.id, dto: values })
         .then((_) => {
-          toast.success("Parking spot updated successfully");
+          toast.success("Deposit status updated successfully");
         })
         .catch((error) => {
           console.error(error.message);
           toast.error(error.response.data.message);
         });
     }
-  }
-
-  if (isFetchingParkingSpot) {
-    return <Loader />;
   }
   if (!parkingSpot) {
     return <h1>Could not find your parking spot. contact {import.meta.env.VITE_SUPPORT_EMAIL}</h1>;
