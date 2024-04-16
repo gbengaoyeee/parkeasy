@@ -1,6 +1,6 @@
 import { Label } from "@/components/ui/label";
 import { useLocation, useParams } from "react-router-dom";
-import { useCancelSubscription, useGetBuilding, useGetParkingSpot, useUpdateParkingSpot } from "@/lib/react-query/queriesAndMutations";
+import { useCancelSubscription, useGetParkingSpot, useUpdateParkingSpot } from "@/lib/react-query/queriesAndMutations";
 import Loader from "@/components/shared/Loader";
 import { AddParkingSpotModal } from "./ParkingSpots";
 import { useCallback, useEffect, useState } from "react";
@@ -23,7 +23,7 @@ interface State {
 }
 const ParkingSpot = () => {
   const { buildingId, parkingSpotId } = useParams();
-  const { isFetching: isFetchingParkingSpot, refetch: refetchParkingSpot, } = useGetParkingSpot(buildingId, parkingSpotId);
+  const { refetch: refetchParkingSpot, } = useGetParkingSpot(buildingId, parkingSpotId);
   const { state } = useLocation();
   const { parkingSpot, building }: State = state;
   const [openCancelSubscriptionModal, setOpenCancelSubscriptionModal] = useState(false);
