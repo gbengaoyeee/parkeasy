@@ -33,15 +33,32 @@ const VisitorSubscription = () => {
             <p className="subtle-regular">{subscription.parking_spot?.parking_spot_type}</p>
           </div>
           <div className="flex flex-col gap-2">
-            <Label className="base-semibold">Parking spot price</Label>
+            <Label className="base-semibold">Monthly price</Label>
             <p className="subtle-regular">{formatCurrency(subscription.parking_spot?.price ? subscription.parking_spot?.price / 100 : 0, "ar-AE", "AED")}/m</p>
           </div>
+          <div className="flex flex-col gap-2">
+            <Label className="base-semibold">Hourly price</Label>
+            <p className="subtle-regular">{formatCurrency(subscription.parking_spot?.hourly_price ? subscription.parking_spot?.hourly_price / 100 : 0, "ar-AE", "AED")}/h</p>
+          </div>
+          <div />
           {subscription && (
             <>
-              <div className="flex flex-col gap-2">
-                <Label className="base-semibold">Subscription status</Label>
-                <p className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm subtle-regular">{(subscription?.stripe_subscription as any)["status"]}</p>
-              </div>
+              {subscription?.stripe_subscription && (
+                <div className="flex flex-col gap-2">
+                  <Label className="base-semibold">Subscription status</Label>
+                  <p className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm subtle-regular">{(subscription?.stripe_subscription as any)["status"]}</p>
+                </div>
+              )}
+              {subscription?.stripe_payment_intent && (
+                <div className="flex flex-col gap-2">
+                  <Label className="base-semibold">Amount paid</Label>
+                  <p className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm subtle-regular">
+                    {formatCurrency((subscription?.stripe_payment_intent as any)["amount"] / 100, "ar-AE", "AED")}
+                    {" "}for{" "}
+                    {subscription.no_of_hours} hours
+                  </p>
+                </div>
+              )}
               <div className="flex flex-col gap-2">
                 <Label className="base-semibold">Subscriber</Label>
                 <p className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm subtle-regular">{subscription?.subscriber_name}</p>
@@ -79,20 +96,24 @@ const VisitorSubscription = () => {
         </div>
         {subscription && (
           <>
-            {(subscription.stripe_subscription as any)["cancel_at"] ? (
-              <div className="flex flex-col gap-2">
-                <Label className="base-semibold">Subscription ends at {moment((subscription.stripe_subscription as any)["cancel_at"] * 1000).format("MMM DD, YYYY")}</Label>
-              </div>
-            ) : (
-              <CancelSubscriptionConfirmationModal
-                tenant="visitor"
-                openCancelSubscriptionModal={openCancelSubscriptionModal}
-                setOpenCancelSubscriptionModal={setOpenCancelSubscriptionModal}
-                parkingSpot={subscription.parking_spot}
-                refetchParkingSpot={() => {
-                  navigate("/subscriptions");
-                }}
-              />
+            {subscription.stripe_subscription && (
+              <>
+                {(subscription.stripe_subscription as any)["cancel_at"] ? (
+                  <div className="flex flex-col gap-2">
+                    <Label className="base-semibold">Subscription ends at {moment((subscription.stripe_subscription as any)["cancel_at"] * 1000).format("MMM DD, YYYY")}</Label>
+                  </div>
+                ) : (
+                  <CancelSubscriptionConfirmationModal
+                    tenant="visitor"
+                    openCancelSubscriptionModal={openCancelSubscriptionModal}
+                    setOpenCancelSubscriptionModal={setOpenCancelSubscriptionModal}
+                    parkingSpot={subscription.parking_spot}
+                    refetchParkingSpot={() => {
+                      navigate("/subscriptions");
+                    }}
+                  />
+                )}
+              </>
             )}
           </>
         )}

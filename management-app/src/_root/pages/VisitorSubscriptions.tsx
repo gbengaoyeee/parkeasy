@@ -58,7 +58,10 @@ const VisitorSubscriptions = () => {
             {subscriptions?.map((subscription) => (
               <tr onClick={() => handleSpotClick(subscription)} key={subscription.id} className="bg-white border-b cursor-pointer">
                 <td className="px-6 py-4">{subscription?.parking_spot?.parking_spot_number}</td>
-                <td className="px-6 py-4">{formatCurrency(subscription.parking_spot?.price ? subscription.parking_spot?.price / 100 : 0, "ar-AE", "AED")}/m</td>
+                <td className="px-6 py-4">
+                  {subscription.stripe_subscription && (<>{formatCurrency(subscription.parking_spot?.price ? subscription.parking_spot?.price / 100 : 0, "ar-AE", "AED")}/m</>)}
+                  {subscription.stripe_payment_intent && (<>{formatCurrency((subscription.stripe_payment_intent as any)["amount"] / 100 , "ar-AE", "AED")} paid</>)}
+                </td>
                 {/* <td className="px-6 py-4">{spot.owner ? spot.owner?.name : "N/A"}</td> */}
                 <td className="px-6 py-4">
                   {subscription?.stripe_subscription ? (

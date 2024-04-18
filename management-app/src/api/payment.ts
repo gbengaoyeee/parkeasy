@@ -10,7 +10,8 @@ export const subscribeToParkingSpot = async (
     parkingSpotId: string, 
     dto: z.infer<typeof SubscribeToParkingSpotValidation>
 ): Promise<{url: string}> => {
-    const {data} = await client.post(`/subscribe-to-parking`, {userId, parkingSpotId, ...dto})
+    const {noOfHours, ...restDto} = dto
+    const {data} = await client.post(`/subscribe-to-parking`, {userId, parkingSpotId, noOfHours: noOfHours ? parseFloat(noOfHours.trim()) : undefined, ...restDto})
     return data.data
 }
 

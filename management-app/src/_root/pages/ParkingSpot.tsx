@@ -1,6 +1,6 @@
 import { Label } from "@/components/ui/label";
 import { useLocation, useParams } from "react-router-dom";
-import { useCancelSubscription, useGetParkingSpot, useUpdateParkingSpot } from "@/lib/react-query/queriesAndMutations";
+import { useCancelSubscription, useGetParkingSpot, useToggleEnableDeposit, useUpdateParkingSpot } from "@/lib/react-query/queriesAndMutations";
 import Loader from "@/components/shared/Loader";
 import { AddParkingSpotModal } from "./ParkingSpots";
 import { useCallback, useEffect, useState } from "react";
@@ -23,42 +23,36 @@ interface State {
 }
 const ParkingSpot = () => {
   const { buildingId, parkingSpotId } = useParams();
-  const { refetch: refetchParkingSpot, } = useGetParkingSpot(buildingId, parkingSpotId);
-  const { state } = useLocation();
-  const { parkingSpot, building }: State = state;
+  const { refetch: refetchParkingSpot, data: parkingSpot } = useGetParkingSpot(buildingId, parkingSpotId);
+  const { state, } = useLocation();
+  const { parkingSpot:rCachedSpot, building }: State = state;
   const [openCancelSubscriptionModal, setOpenCancelSubscriptionModal] = useState(false);
-
+  const [depEnabled, setDepEnabled] = useState(false);
+  
   const [openAddParkingSpotModal, setOpenAddParkingSpotModal] = useState(false);
-  const form = useForm<z.infer<typeof AddParkingSpotValidation>>({
-    resolver: zodResolver(AddParkingSpotValidation),
-    defaultValues: {
-      spotNumber: parkingSpot?.parking_spot_number ?? "",
-      spotLevel: parkingSpot?.parking_level ? parkingSpot?.parking_level : 1,
-      spotType: parkingSpot?.parking_spot_type ?? "regular",
-      price: parkingSpot?.price ? parkingSpot?.price / 100 : 0.0,
-      depositEnabled: parkingSpot?.deposit_enabled ?? false,
-    },
-  });
-
-  const watchDepositEnabled = form.watch("depositEnabled");
-  const debounce = useDebounce(watchDepositEnabled?.toString() ?? "false", 1000);
-
-  const [initialDebounce, setInitialDebounce] = useState(false);
-  const handleToggle = useCallback(async () => {
-    updateDepositStatus(form.getValues());
-  }, [debounce]);
-
+  
   useEffect(() => {
-    if(!initialDebounce) {
-      setInitialDebounce(true);
-      return;
+    if(parkingSpot) {
+      setDepEnabled(parkingSpot.deposit_enabled ?? false);
     }
-    handleToggle();
-  }, [debounce, handleToggle]);
-
-  const { mutateAsync: updateParkingSpot, } = useUpdateParkingSpot();
-
-  function updateDepositStatus(values: z.infer<typeof AddParkingSpotValidation>) {
+  }, [parkingSpot, refetchParkingSpot]);
+  // const debounce = useDebounce(depEnabled?.toString() ?? "false", 1000);
+  
+  // const [initialDebounce, setInitialDebounce] = useState(false);
+  // const handleToggle = useCallback(async () => {
+  //   updateDepositStatus();
+  // }, [debounce]);
+  
+  // useEffect(() => {
+  //   if(!initialDebounce) {
+  //     setInitialDebounce(true);
+  //     return;
+  //   }
+  //   handleToggle();
+  // }, [debounce, handleToggle]);
+  
+  const { mutateAsync: toggleEnableDeposit } = useToggleEnableDeposit()
+  function updateDepositStatus() {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     if (!building) {
@@ -66,8 +60,9 @@ const ParkingSpot = () => {
       return;
     }
     if (parkingSpot) {
-      updateParkingSpot({ buildingId: building.id, spotId: parkingSpot.id, dto: values })
+      toggleEnableDeposit({ buildingId: building.id, spotId: parkingSpot.id })
         .then((_) => {
+          refetchParkingSpot();
           toast.success("Deposit status updated successfully");
         })
         .catch((error) => {
@@ -95,17 +90,25 @@ const ParkingSpot = () => {
             <p className="subtle-regular">{parkingSpot.parking_level}</p>
           </div>
 
-          <div className="flex flex-col gap-2">
+          {/* <div className="flex flex-col gap-2">
             <Label className="base-semibold">Parking spot type</Label>
             <p className="subtle-regular">{parkingSpot.parking_spot_type}</p>
-          </div>
+          </div> */}
           <div className="flex flex-col gap-2">
-            <Label className="base-semibold">Parking spot price</Label>
+            <Label className="base-semibold">Monthly price</Label>
             <p className="subtle-regular">{formatCurrency(parkingSpot.price ? parkingSpot.price / 100 : 0, "ar-AE", "AED")}/m</p>
           </div>
           <div className="flex flex-col gap-2">
+            <Label className="base-semibold">Hourly price</Label>
+            <p className="subtle-regular">{formatCurrency(parkingSpot.hourly_price ? parkingSpot.hourly_price / 100 : 0, "ar-AE", "AED")}/m</p>
+          </div>
+          <div className="flex flex-col gap-2">
+            <Label className="base-semibold">Deposit price</Label>
+            <p className="subtle-regular">{formatCurrency(parkingSpot.deposit_price ? parkingSpot.deposit_price / 100 : 0, "ar-AE", "AED")}</p>
+          </div>
+          <div className="flex flex-col gap-2">
             <Label htmlFor="enable-disable-deposit" className="base-semibold">
-              {watchDepositEnabled ? "Disable" : "Enable"} Deposit
+              {depEnabled ? "Disable" : "Enable"} Deposit
             </Label>
             <Switch
               width={50}
@@ -113,9 +116,11 @@ const ParkingSpot = () => {
               checkedIcon={false}
               uncheckedIcon={false}
               onColor="#090909"
-              checked={watchDepositEnabled ?? false}
+              checked={depEnabled}
               onChange={(checked) => {
-                form.setValue("depositEnabled", checked);
+                // form.setValue("depositEnabled", checked);
+                setDepEnabled(checked);
+                updateDepositStatus();
               }}
             />
           </div>

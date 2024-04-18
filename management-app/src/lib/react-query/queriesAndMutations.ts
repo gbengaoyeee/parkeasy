@@ -3,7 +3,7 @@ import { z } from 'zod'
 import { AddApartmentUnitValidation, AddParkingSpotValidation, CreateCommunityMemberValidation, LoginValidation, OnboardBuildingValidation, OnboardManagementValidation, PasswordRecoveryValidation, SSOValidation, SignUpValidation, SubscribeToParkingSpotValidation, VisitorSignUpValidation } from '../validation'
 import { getManagementByEmail, onboardBuilding, onboardManagement, preSignUp } from '@/api/management'
 import appwriteClient from '@/api/appwrite'
-import { activateAllCommunityMembers, addApartmentUnit, addCommunityMember, addParkingSpot, deleteCommunityMember, getApartmentUnits, getBuilding, getCommunityMember, getParkingSpot, getParkingSpots, getSubscriptions as getHostSubscriptions, toggleMemberStatus, updateCommunityMember, updateParkingSpot, uploadCommunityMembers } from '@/api/building'
+import { activateAllCommunityMembers, addApartmentUnit, addCommunityMember, addParkingSpot, deleteCommunityMember, getApartmentUnits, getBuilding, getCommunityMember, getParkingSpot, getParkingSpots, getSubscriptions as getHostSubscriptions, toggleMemberStatus, updateCommunityMember, updateParkingSpot, uploadCommunityMembers, toggleEnableDeposit } from '@/api/building'
 import { getUser, signUpVisitor, updateUser } from '@/api/user'
 import { enableHosting, getAccountLink } from '@/api/host'
 import { discover, getSingleDiscoverParkingSpot, getSubscription as getVisitorSubscription, getSubscriptions as getVisitorSubscriptions } from '@/api/visitor'
@@ -211,6 +211,14 @@ export const useUpdateParkingSpot = () => {
     })
 }
 
+export const useToggleEnableDeposit = () => {
+    return useMutation({
+        mutationFn: ({buildingId, spotId}:{buildingId: string, spotId: string}) => {
+            return toggleEnableDeposit(buildingId, spotId)
+        }
+    })
+}
+
 export const useGetParkingSpots = (
     buildingId?: string, 
     queries?: {
@@ -243,6 +251,7 @@ export const useGetParkingSpot = (buildingId?: string, spotId?: string) => {
             queryFn: () => {
                 throw new Error('buildingId and spotId are required')
             },
+            refetchOnMount: false
         })
     }
     return useQuery({

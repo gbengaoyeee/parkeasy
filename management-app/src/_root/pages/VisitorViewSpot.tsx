@@ -15,6 +15,7 @@ import { SubscribeToParkingSpotValidation } from "@/lib/validation";
 import { ParkingSpot } from "@/types";
 import { useUserContext } from "@/context/UserContext";
 import { useState } from "react";
+import Switch from "react-switch";
 // import UploadWidget from "@/components/shared/UploadWidget";
 
 const VisitorViewSpot = () => {
@@ -48,8 +49,12 @@ const VisitorViewSpot = () => {
             <p>{parkingSpot.parking_spot_type}</p>
           </div>
           <div className="flex flex-col gap-2">
-            <Label className="base-semibold">Parking spot price</Label>
+            <Label className="base-semibold">Parking spot monthly price</Label>
             <p>{formatCurrency(parkingSpot.price ? parkingSpot.price / 100 : 0, "ar-AE", "AED")}/m</p>
+          </div>
+          <div className="flex flex-col gap-2">
+            <Label className="base-semibold">Parking spot hourly price</Label>
+            <p>{formatCurrency(parkingSpot.hourly_price ? parkingSpot.hourly_price / 100 : 0, "ar-AE", "AED")}/m</p>
           </div>
           <div className="flex flex-col gap-2">
             {/* <Label className="base-semibold">Assigned to</Label> */}
@@ -65,7 +70,9 @@ const VisitorViewSpot = () => {
                 </p> */}
           </div>
         </div>
-        <SubscribeToSpotModal openSubscribeModal={openSubscribeToSpotModal} setOpenSubscribeModal={setSubscribeToSpotModal} parkingSpot={parkingSpot} refetchParkingSpot={refetchParkingSpot} />
+        <div className="mt-5">
+          <SubscribeToSpotModal openSubscribeModal={openSubscribeToSpotModal} setOpenSubscribeModal={setSubscribeToSpotModal} parkingSpot={parkingSpot} refetchParkingSpot={refetchParkingSpot} />
+        </div>
       </div>
       {/* <div className="flex flex-col gap-2 text-gray-500 shadow-md rounded-lg p-4 border">
             <Label className="base-semibold">QR Codes</Label>
@@ -96,10 +103,14 @@ const SubscribeToSpotModal = ({ openSubscribeModal, setOpenSubscribeModal, parki
       driverLicenceNumber: "",
       emiratesId: "",
       agreedToTerms: false,
+      noOfHours: undefined,
+      paymentType: "subscription",
     },
   });
 
   const { mutateAsync: subscribeToSpot, isPending: isSubscribing } = useSubscribeToSpot();
+
+  const watchPaymentType = form.watch("paymentType");
 
   const openInNewTab = (url: string) => {
     const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
@@ -143,7 +154,7 @@ const SubscribeToSpotModal = ({ openSubscribeModal, setOpenSubscribeModal, parki
   return (
     <Dialog open={openSubscribeModal} onOpenChange={setOpenSubscribeModal}>
       <DialogTrigger asChild data-state="closed">
-        <Button className="shad-button_primary w-[250px]">Subscribe to this spot</Button>
+        <Button className="shad-button_primary w-[250px]">Buy this spot</Button>
       </DialogTrigger>
       <DialogContent className="bg-light-1 overflow-y-scroll max-h-screen">
         <DialogHeader>
@@ -155,6 +166,42 @@ const SubscribeToSpotModal = ({ openSubscribeModal, setOpenSubscribeModal, parki
         <Form {...form}>
           <div className="sm:w-420 flex-center flex-col">
             <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col w-full gap-5">
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="enable-disable-deposit" className="base-semibold">
+                  {watchPaymentType === "subscription" ? "You will be subscribing to this spot" : "This will be a one-time payment"}
+                </Label>
+                <Switch
+                  width={50}
+                  height={20}
+                  checkedIcon={false}
+                  uncheckedIcon={false}
+                  onColor="#45f439"
+                  offColor="#ff792b"
+                  checked={watchPaymentType === "subscription"}
+                  onChange={(checked) => {
+                    if (checked) {
+                      form.setValue("paymentType", "subscription");
+                    } else {
+                      form.setValue("paymentType", "payment");
+                    }
+                  }}
+                />
+              </div>
+              {watchPaymentType === "payment" && (
+                <FormField
+                  control={form.control}
+                  name="noOfHours"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>How many hours will you be parking?</FormLabel>
+                      <FormControl>
+                        <Input placeholder="3" {...field} />
+                      </FormControl>
+                      <FormMessage className="text-red" />
+                    </FormItem>
+                  )}
+                />
+              )}
               <FormField
                 control={form.control}
                 name="name"
@@ -265,7 +312,7 @@ const SubscribeToSpotModal = ({ openSubscribeModal, setOpenSubscribeModal, parki
                 render={({ field }) => (
                   <FormItem>
                     <FormControl className="flex-center">
-                      <Input type="checkbox" onChange={field.onChange} className="!h-5 !w-5 mr-3"/>
+                      <Input type="checkbox" onChange={field.onChange} className="!h-5 !w-5 mr-3" />
                     </FormControl>
                     <FormLabel className="text-[12px]">You agree to subscribe to Citadel Monthly Parking Subscription. Kindly note your parking subscription will be charged every month automatically once you subscribe and pay it</FormLabel>
                     <FormMessage className="text-red" />

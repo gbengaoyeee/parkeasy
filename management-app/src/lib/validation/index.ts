@@ -159,12 +159,26 @@ export const AddParkingSpotValidation = z.object({
   }).transform((val) => parseInt(val)),
   spotType: z.union([z.literal('regular'), z.literal('electric'), z.literal('hybrid')]),
   price: z.string()
-    .regex(/^\d+$/, 'Price must be all digits')
+    .regex(/^\d+(\.\d+)?$/, 'Price must be greater than 0')
     .transform((str) => parseFloat(str))
     .refine((price) => price > 0, {
       message: 'Please enter a price greater than 0',
       path: ['price'],
     }),
+  hourlyPrice: z.string()
+    .regex(/^\d+(\.\d+)?$/, 'Price must be greater than 0')
+    .transform((str) => parseFloat(str))
+    .refine((price) => price > 0, {
+      message: 'Please enter a price greater than 0',
+      path: ['hourlyPrice'],
+    }),
+  depositPrice: z.string()
+    .regex(/^\d+(\.\d+)?$/, 'Deposit price must be greater than 0')
+    .transform((str) => parseFloat(str))
+    .refine((price) => price > 0, {
+      message: 'Please enter a price greater than 0',
+      path: ['depositPrice'],
+    }).optional(),
   depositEnabled: z.boolean().optional(),
 })
 
@@ -179,5 +193,21 @@ export const SubscribeToParkingSpotValidation = z.object({
   emiratesId: z.string().regex(/^\d+$/, 'Please enter a valid emirates id').min(10, 'Please enter your emirates id'),
   agreedToTerms: z.boolean().refine((val) => val, {
     message: 'Please agree to the terms and conditions',
-  })
-})
+  }),
+  paymentType: z.enum(['subscription', 'payment']),
+  noOfHours: z.string().regex(/^\d+/, {
+    message: "Please enter a valid number",
+  }).optional()
+}).refine((data) => {
+    // If paymentType is 'payment', noOfHours is required and must be greater than 0
+    if (data.paymentType === 'payment') {
+      const noOfHoursNumeric = parseInt(data.noOfHours ?? '0', 10);
+      return data.noOfHours != null && !isNaN(noOfHoursNumeric) && noOfHoursNumeric > 0;
+    }
+    // If paymentType is 'subscription', noOfHours can be optional
+    return true;
+  }, {
+    // The error message and path for when the refinement fails
+    message: "number of hours must be greater than 0 ",
+    path: ["noOfHours"],
+  });

@@ -76,13 +76,28 @@ export const getParkingSpots = async (
 }
 
 export const addParkingSpot = async (buildingId: string, dto: z.infer<typeof AddParkingSpotValidation>) => {
-    const response = await client.post(`/parking-spot/${buildingId}`, {...dto, price: dto.price * 100})
+    const response = await client.post(`/parking-spot/${buildingId}`, {
+        ...dto, 
+        price: dto.price * 100, 
+        hourlyPrice: dto.hourlyPrice * 100,
+        depositPrice: dto.depositPrice ? dto.depositPrice * 100 : null
+    })
     return response.data
 }
 
 export const updateParkingSpot = async (buildingId: string, spotId: string, dto: Partial<z.infer<typeof AddParkingSpotValidation>>) => {
-    const data = {...dto, spotId, price: dto.price ? dto.price * 100 : undefined}
+    const data = {
+        ...dto, 
+        spotId, 
+        price: dto.price ? dto.price * 100 : undefined, 
+        hourlyPrice: dto.hourlyPrice ? dto.hourlyPrice * 100 : undefined,
+        depositPrice: dto.depositPrice ? dto.depositPrice * 100 : undefined
+    }
     const response = await client.put(`/parking-spot/${buildingId}`, data)
+    return response.data
+}
+export const toggleEnableDeposit = async (buildingId: string, spotId: string,) => {
+    const response = await client.put(`/toggle-deposit/${buildingId}/${spotId}`,)
     return response.data
 }
 

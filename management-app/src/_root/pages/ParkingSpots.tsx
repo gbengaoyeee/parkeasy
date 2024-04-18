@@ -173,6 +173,8 @@ export const AddParkingSpotModal = ({ openAddParkingSpotModal, setOpenAddParking
       spotLevel: parkingSpot?.parking_level ? parkingSpot?.parking_level : 1,
       spotType: parkingSpot?.parking_spot_type ?? "regular",
       price: parkingSpot?.price ? parkingSpot?.price / 100 : 0.0,
+      hourlyPrice: parkingSpot?.hourly_price ? parkingSpot?.hourly_price / 100 : 0.0,
+      depositPrice: parkingSpot?.deposit_price ? parkingSpot?.deposit_price / 100 : undefined,
     },
   });
 
@@ -255,6 +257,32 @@ export const AddParkingSpotModal = ({ openAddParkingSpotModal, setOpenAddParking
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>What will be the monthly price for this spot in AED?</FormLabel>
+                    <FormControl>
+                      <Input placeholder="300" {...field} />
+                    </FormControl>
+                    <FormMessage className="text-red" />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="hourlyPrice"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>What will be the hourly price for this spot in AED?</FormLabel>
+                    <FormControl>
+                      <Input placeholder="300" {...field} />
+                    </FormControl>
+                    <FormMessage className="text-red" />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="depositPrice"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>How much will be the deposit price for this spot in AED?</FormLabel>
                     <FormControl>
                       <Input placeholder="300" {...field} />
                     </FormControl>
