@@ -312,13 +312,16 @@ export class VisitorService {
       const subscriptions = await this.prisma.subscription.findMany({
         where: {
           subscriber_user_id: userId,
-          stripe_subscription: {
-            path: ["status"],
-            equals: "active",
-          },
+          // stripe_subscription: {
+          //   path: ["status"],
+          //   equals: "active",
+          // },
         },
         include: {
           parking_spot: true,
+        },
+        orderBy: {
+          created_at: 'desc',
         },
       });
       return new IResponseData(`subscriptions retrieved successfully`, subscriptions).json;

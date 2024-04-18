@@ -796,28 +796,39 @@ export class BuildingService {
 
   async getSubscriptions(buildingId: string, dto: GetSubscriptionsDto) {
     try {
-      const parkingSpots = await this.prisma.parkingSpot.findMany({
+      // const parkingSpots = await this.prisma.parkingSpot.findMany({
+      //   where: {
+      //     building_id: buildingId,
+      //     current_subscription_id: { not: null },
+      //   },
+      //   include: {
+      //     current_subscription: {
+      //       include: {
+      //         parking_spot: true,
+      //       }
+      //     },
+      //     owner: {
+      //       select: {
+      //         name: true,
+      //         id: true,
+      //       },
+      //     },
+      //   },
+      //   // skip: (dto.page - 1) * dto.pageSize, // Calculate the offset
+      //   // take: dto.pageSize, // Limit the number of items returned
+      // });
+      // const subscriptions = parkingSpots.map((spot) => spot.current_subscription);
+      const subscriptions = await this.prisma.subscription.findMany({
         where: {
-          building_id: buildingId,
-          current_subscription_id: { not: null },
+          host_user_id: dto.userId,
         },
         include: {
-          current_subscription: {
-            include: {
-              parking_spot: true,
-            }
-          },
-          owner: {
-            select: {
-              name: true,
-              id: true,
-            },
-          },
+          parking_spot: true,
         },
-        // skip: (dto.page - 1) * dto.pageSize, // Calculate the offset
-        // take: dto.pageSize, // Limit the number of items returned
-      });
-      const subscriptions = parkingSpots.map((spot) => spot.current_subscription);
+        orderBy: {
+          created_at: 'desc',
+        },
+      })
       return new IResponseData(`Parking spots with subscriptions found successfully`, subscriptions).json;
     } catch (error) {
       console.error(error);
@@ -889,7 +900,7 @@ export class BuildingService {
         });
       }
 
-      const product = await this.stripeService.createProduct(dto.spotNumber, dto.price, 'aed')
+      const {prod: product, hourlyPrice} = await this.stripeService.createProduct(dto.spotNumber, dto.price, dto.hourlyPrice, 'aed')
 
       const [spot] = await this.prisma.$transaction([
         // this.prisma.qRCode.create({
@@ -910,6 +921,8 @@ export class BuildingService {
             building_id: buildingId,
             parking_instructions: dto.parkingInstructions,
             price: dto.price,
+            hourly_price: dto.hourlyPrice,
+            hourly_stripe_price_id: hourlyPrice.id,
             stripe_product: product as any
             // qr_code_id: `${qrCodeId}`,
           },
@@ -919,11 +932,46 @@ export class BuildingService {
         }),
       ]);
 
+      if(dto.depositPrice){
+        const depositProd = await this.stripeService.createDepositProduct(dto.spotNumber, dto.depositPrice, 'aed')
+        const updatedSpot = await this.prisma.parkingSpot.update({
+          where: {
+            id: spot.id
+          },
+          data: {
+            deposit_price: dto.depositPrice,
+            deposit_stripe_price_id: depositProd.default_price as string,
+            stripe_deposit_product: depositProd as any
+          }
+        })
+        return new IResponseData(`Parking spot added successfully`, updatedSpot).json;
+      }
+
       return new IResponseData(`Parking spot added successfully`, spot).json;
     } catch (error) {
       console.error(error);
       throw this.errorService.handleException(error);
     }
+  }
+
+  async toggleDeposit(buildingId: string, spotId: string) {
+    const {deposit_enabled} = await this.prisma.parkingSpot.findUnique({
+      where: {
+        id: spotId
+      },
+      select: {
+        deposit_enabled: true
+      }
+    })
+    const spot = await this.prisma.parkingSpot.update({
+      where: {
+        id: spotId,
+      },
+      data: {
+        deposit_enabled: !deposit_enabled
+      }
+    })
+    return new IResponseData(`Parking spot updated successfully`, spot).json;
   }
 
   async updateParkingSpot(buildingId: string, dto: UpdateParkingSpotDto) {
@@ -937,13 +985,15 @@ export class BuildingService {
         }
       })
       if(!spot.stripe_product) {
-        const product = await this.stripeService.createProduct(dto.spotNumber, dto.price, 'aed')
+        const {prod: product, hourlyPrice} = await this.stripeService.createProduct(dto.spotNumber, dto.price, dto.hourlyPrice, 'aed')
         spot = await this.prisma.parkingSpot.update({
           where: {
             id: dto.spotId,
           },
           data: {
-            stripe_product: product as any
+            stripe_product: product as any,
+            hourly_price: dto.hourlyPrice,
+            hourly_stripe_price_id: hourlyPrice.id
           },
           include: {
             current_subscription: true
@@ -952,10 +1002,11 @@ export class BuildingService {
       }
 
       let priceObj = await this.stripeService.getPrice(spot.stripe_product['default_price'])
+      
       let prodParams = {}
       if(priceObj.unit_amount !== dto.price) {
         prodParams['currency'] = priceObj.currency
-        const price = await this.stripeService.createPrice(dto.price, 'aed', spot.stripe_product['id'])
+        const price = await this.stripeService.createPrice(dto.price, 'aed', spot.stripe_product['id'], 'month')
         prodParams['price'] = {
           price_id: price.id,
           price_in_cents: dto.price
@@ -968,6 +1019,69 @@ export class BuildingService {
                 price: price.id
               }
             ]
+          })
+        }
+      }
+
+      let hourlyPriceObj = spot.hourly_stripe_price_id && await this.stripeService.getPrice(spot.hourly_stripe_price_id)
+      if(!hourlyPriceObj || hourlyPriceObj.unit_amount !== dto.hourlyPrice) {
+        // prodParams['currency'] = hourlyPriceObj.currency
+        spot.hourly_stripe_price_id && await this.stripeService.stripe.prices.update(spot.hourly_stripe_price_id, {
+          active: false
+        })
+        const price = await this.stripeService.createPrice(dto.hourlyPrice, 'aed', spot.stripe_product['id'], 'hour')
+        await this.prisma.parkingSpot.update({
+          where: {
+            id: dto.spotId
+          },
+          data: {
+            hourly_price: dto.hourlyPrice,
+            hourly_stripe_price_id: price.id
+          }
+        })
+      }
+
+
+      //FOR DEPOSIT
+      if(!spot.deposit_stripe_price_id || !spot.stripe_deposit_product) {
+        const depositProd = await this.stripeService.createDepositProduct(dto.spotNumber, dto.depositPrice, 'aed')
+        const updatedSpot = await this.prisma.parkingSpot.update({
+          where: {
+            id: spot.id
+          },
+          data: {
+            deposit_price: dto.depositPrice,
+            deposit_stripe_price_id: depositProd.default_price as string,
+            stripe_deposit_product: depositProd as any
+          }
+        })
+      } else {
+        let depositPriceObj = spot.deposit_stripe_price_id && await this.stripeService.getPrice(spot.deposit_stripe_price_id)
+        if(!depositPriceObj || depositPriceObj.unit_amount !== dto.depositPrice) {
+          // spot.deposit_stripe_price_id && await this.stripeService.stripe.prices.update(spot.deposit_stripe_price_id, {
+          //   active: false
+          // })
+          const price = await this.stripeService.stripe.prices.create({
+            unit_amount: dto.depositPrice,
+            currency: 'aed',
+            product: spot.stripe_deposit_product['id']
+          })
+          await this.stripeService.updateProduct(spot.stripe_deposit_product['id'], {
+            price:{
+              price_id: price.id,
+              price_in_cents: dto.depositPrice
+            },
+            currency: 'aed',
+            name: `${dto.spotNumber}Dep`
+          })
+          await this.prisma.parkingSpot.update({
+            where: {
+              id: dto.spotId
+            },
+            data: {
+              deposit_price: dto.depositPrice,
+              deposit_stripe_price_id: price.id
+            }
           })
         }
       }
@@ -999,6 +1113,8 @@ export class BuildingService {
         },
       })
       return new IResponseData(`Parking spot updated successfully`, spot).json;
+
+
     } catch (error) {
       console.error(error);
       throw this.errorService.handleException(error);

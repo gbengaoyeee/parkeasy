@@ -141,6 +141,45 @@ export class WebhooksService {
           // Then define and call a function to handle the event charge.updated
           await this.handleStripeChargesEvents(chargeUpdated);
           break;
+        
+        case 'payment_intent.succeeded':
+          const paymentIntentSucceeded = event.data.object;
+          // Then define and call a function to handle the event payment_intent.succeeded
+          if(paymentIntentSucceeded.metadata['appId'] !== 'easyparkway') {
+            return;
+          }
+          const existing = await this.prisma.subscription.findFirst({
+            where: {
+              stripe_payment_intent: {
+                not: null,
+                path: ['id'],
+                equals: paymentIntentSucceeded.id,
+              },
+            }
+          })
+          if(existing) {
+            return;
+          }
+          if(paymentIntentSucceeded.metadata['paymentType'] === 'payment') {
+            const payment = await this.prisma.subscription.create({
+              data: {
+                subscriber_user_id: paymentIntentSucceeded.metadata['subscriberUserId'],
+                subscriber_name: paymentIntentSucceeded.metadata['subscriberName'],
+                host_user_id: paymentIntentSucceeded.metadata['hostUserId'],
+                subscriber_email: paymentIntentSucceeded.metadata['subscriberEmail'],
+                subscriber_phone: paymentIntentSucceeded.metadata['subscriberPhone'],
+                subscriber_car_model: paymentIntentSucceeded.metadata['subscriberCarModel'],
+                subscriber_office_number: paymentIntentSucceeded.metadata['subscriberOfficeNumber'],
+                subscriber_licence_plate: paymentIntentSucceeded.metadata['subscriberLicencePlate'],
+                parking_spot_id: paymentIntentSucceeded.metadata['parkingSpotId'],
+                stripe_payment_intent: paymentIntentSucceeded as any,
+                subscriber_driver_licence_number: paymentIntentSucceeded.metadata['subscriberDriverLicenceNumber'],
+                subscriber_id_card_number: paymentIntentSucceeded.metadata['subscriberEmiratesId'],
+                no_of_hours: parseFloat(paymentIntentSucceeded.metadata['noOfHours']),
+              }
+            })
+          }
+          break;
         default:
           console.log(`SEND A NOTIFICATION TO SUPPORT`);
           console.log(`Unhandled event type ${event.type}`);
@@ -165,12 +204,14 @@ export class WebhooksService {
       switch (event.type) {
         case 'customer.subscription.created':{
           const customerSubscriptionCreated = event.data.object;
-          console.log(customerSubscriptionCreated.status);
-          console.log(customerSubscriptionCreated.canceled_at);
+          if(customerSubscriptionCreated.metadata['appId'] !== 'easyparkway') {
+            return;
+          }
           // Then define and call a function to handle the event customer.subscription.created
           const sub = await this.prisma.subscription.create({
             data: {
               subscriber_user_id: customerSubscriptionCreated.metadata['subscriberUserId'],
+              host_user_id: customerSubscriptionCreated.metadata['hostUserId'],
               subscriber_name: customerSubscriptionCreated.metadata['subscriberName'],
               subscriber_email: customerSubscriptionCreated.metadata['subscriberEmail'],
               subscriber_phone: customerSubscriptionCreated.metadata['subscriberPhone'],
@@ -201,6 +242,9 @@ export class WebhooksService {
         case 'customer.subscription.deleted': {
           const customerSubscriptionDeleted = event.data.object;
           // Then define and call a function to handle the event customer.subscription.deleted
+          if(customerSubscriptionDeleted.metadata['appId'] !== 'easyparkway') {
+            return;
+          }
           await this.prisma.subscription.update({
             where: {
               id: customerSubscriptionDeleted.metadata['subscriptionId'],
@@ -222,9 +266,10 @@ export class WebhooksService {
         }
         case 'customer.subscription.updated': {
           const customerSubscriptionUpdated = event.data.object;
-          console.log(customerSubscriptionUpdated.status);
-          console.log(customerSubscriptionUpdated.cancel_at);
           // Then define and call a function to handle the event customer.subscription.updated
+          if(customerSubscriptionUpdated.metadata['appId'] !== 'easyparkway') {
+            return;
+          }
           await this.prisma.subscription.update({
             where: {
               id: customerSubscriptionUpdated.metadata['subscriptionId'],

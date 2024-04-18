@@ -179,6 +179,15 @@ export class BuildingController {
   ) {
     return await this.buildingService.updateParkingSpot(buildingId, dto);
   }
+  @Put('toggle-deposit/:buildingId/:spotId')
+  async toggleDeposit(
+    @Param('buildingId')
+    buildingId: string,
+    @Param('spotId')
+    spotId: string,
+  ) {
+    return await this.buildingService.toggleDeposit(buildingId, spotId);
+  }
 
   @Get('parking-spot/:buildingId/:parkingSpotId')
   async getParkingSpot(

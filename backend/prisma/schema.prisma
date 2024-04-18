@@ -63,7 +63,8 @@ model User {
   listings            Listing[]
   hostReservations    Reservation[]      @relation(name: "HostRelation")
   visitorReservations Reservation[]      @relation(name: "VisitorRelation")
-  subscriptions        Subscription[]
+  subscriber_subscriptions      Subscription[] @relation("SubscriberUser")
+  host_subscriptions            Subscription[] @relation("HostUser")
 
   @@unique([email, phone_number])
   @@map("Users")
@@ -207,8 +208,13 @@ model ParkingSpot {
   parking_instructions String?           @default("")
 
   price Int? // In cents
+  hourly_price Int? // In cents
+  hourly_stripe_price_id String?
+  deposit_price Int? // In cents
+  deposit_stripe_price_id String?
 
   stripe_product Json?
+  stripe_deposit_product Json?
 
   deposit_enabled Boolean? @default(true)
 
@@ -345,10 +351,15 @@ model ApartmentUnit {
   @@unique([building_id, unit_number])
 }
 
+enum Payment_Type {
+  subscription
+  payment
+}
 model Subscription {
   id                       String   @id @default(uuid())
   parking_spot_id          String? // Foreign key
   subscriber_user_id       String? // Foreign key
+  host_user_id             String? // Foreign key
   subscriber_name          String?
   subscriber_email         String?
   subscriber_phone         String?
@@ -358,11 +369,15 @@ model Subscription {
   subscriber_driver_licence_number String?
   subscriber_id_card_number String?
   stripe_subscription      Json?
+  stripe_payment_intent   Json?
+  no_of_hours              Int?
+
   created_at               DateTime @default(now())
   updated_at               DateTime @default(now()) @updatedAt
 
   parking_spot    ParkingSpot? @relation(fields: [parking_spot_id], references: [id])
-  subscriber_user User?        @relation(fields: [subscriber_user_id], references: [id])
+  subscriber_user               User? @relation("SubscriberUser", fields: [subscriber_user_id], references: [id])
+  host_user                     User? @relation("HostUser", fields: [host_user_id], references: [id])
 
   // This back-relation is implicit; it's here for clarity and must be unique across Subscription.
   parking_spot_current ParkingSpot? @relation(name: "CurrentSubscription")

@@ -153,6 +153,12 @@ export class AddParkingSpotDto {
   @IsNumber()
   @IsOptional()
   price: number
+  @IsNumber()
+  @IsOptional()
+  hourlyPrice: number
+  @IsNumber()
+  @IsOptional()
+  depositPrice: number
 
   @IsBoolean()
   @IsOptional()

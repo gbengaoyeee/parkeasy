@@ -2060,7 +2060,8 @@ export namespace Prisma {
     listings: number
     hostReservations: number
     visitorReservations: number
-    subscriptions: number
+    subscriber_subscriptions: number
+    host_subscriptions: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2068,7 +2069,8 @@ export namespace Prisma {
     listings?: boolean | UserCountOutputTypeCountListingsArgs
     hostReservations?: boolean | UserCountOutputTypeCountHostReservationsArgs
     visitorReservations?: boolean | UserCountOutputTypeCountVisitorReservationsArgs
-    subscriptions?: boolean | UserCountOutputTypeCountSubscriptionsArgs
+    subscriber_subscriptions?: boolean | UserCountOutputTypeCountSubscriber_subscriptionsArgs
+    host_subscriptions?: boolean | UserCountOutputTypeCountHost_subscriptionsArgs
   }
 
   // Custom InputTypes
@@ -2119,7 +2121,15 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountSubscriptionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserCountOutputTypeCountSubscriber_subscriptionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SubscriptionWhereInput
+  }
+
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountHost_subscriptionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SubscriptionWhereInput
   }
 
@@ -3498,7 +3508,8 @@ export namespace Prisma {
     listings?: boolean | User$listingsArgs<ExtArgs>
     hostReservations?: boolean | User$hostReservationsArgs<ExtArgs>
     visitorReservations?: boolean | User$visitorReservationsArgs<ExtArgs>
-    subscriptions?: boolean | User$subscriptionsArgs<ExtArgs>
+    subscriber_subscriptions?: boolean | User$subscriber_subscriptionsArgs<ExtArgs>
+    host_subscriptions?: boolean | User$host_subscriptionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -3524,7 +3535,8 @@ export namespace Prisma {
     listings?: boolean | User$listingsArgs<ExtArgs>
     hostReservations?: boolean | User$hostReservationsArgs<ExtArgs>
     visitorReservations?: boolean | User$visitorReservationsArgs<ExtArgs>
-    subscriptions?: boolean | User$subscriptionsArgs<ExtArgs>
+    subscriber_subscriptions?: boolean | User$subscriber_subscriptionsArgs<ExtArgs>
+    host_subscriptions?: boolean | User$host_subscriptionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -3537,7 +3549,8 @@ export namespace Prisma {
       listings: Prisma.$ListingPayload<ExtArgs>[]
       hostReservations: Prisma.$ReservationPayload<ExtArgs>[]
       visitorReservations: Prisma.$ReservationPayload<ExtArgs>[]
-      subscriptions: Prisma.$SubscriptionPayload<ExtArgs>[]
+      subscriber_subscriptions: Prisma.$SubscriptionPayload<ExtArgs>[]
+      host_subscriptions: Prisma.$SubscriptionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3928,7 +3941,9 @@ export namespace Prisma {
 
     visitorReservations<T extends User$visitorReservationsArgs<ExtArgs> = {}>(args?: Subset<T, User$visitorReservationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservationPayload<ExtArgs>, T, 'findMany'> | Null>;
 
-    subscriptions<T extends User$subscriptionsArgs<ExtArgs> = {}>(args?: Subset<T, User$subscriptionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, 'findMany'> | Null>;
+    subscriber_subscriptions<T extends User$subscriber_subscriptionsArgs<ExtArgs> = {}>(args?: Subset<T, User$subscriber_subscriptionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, 'findMany'> | Null>;
+
+    host_subscriptions<T extends User$host_subscriptionsArgs<ExtArgs> = {}>(args?: Subset<T, User$host_subscriptionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, 'findMany'> | Null>;
 
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -4383,9 +4398,30 @@ export namespace Prisma {
 
 
   /**
-   * User.subscriptions
+   * User.subscriber_subscriptions
    */
-  export type User$subscriptionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$subscriber_subscriptionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subscription
+     */
+    select?: SubscriptionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubscriptionInclude<ExtArgs> | null
+    where?: SubscriptionWhereInput
+    orderBy?: SubscriptionOrderByWithRelationInput | SubscriptionOrderByWithRelationInput[]
+    cursor?: SubscriptionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SubscriptionScalarFieldEnum | SubscriptionScalarFieldEnum[]
+  }
+
+
+  /**
+   * User.host_subscriptions
+   */
+  export type User$host_subscriptionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Subscription
      */
@@ -8769,11 +8805,15 @@ export namespace Prisma {
   export type ParkingSpotAvgAggregateOutputType = {
     parking_level: number | null
     price: number | null
+    hourly_price: number | null
+    deposit_price: number | null
   }
 
   export type ParkingSpotSumAggregateOutputType = {
     parking_level: number | null
     price: number | null
+    hourly_price: number | null
+    deposit_price: number | null
   }
 
   export type ParkingSpotMinAggregateOutputType = {
@@ -8787,6 +8827,10 @@ export namespace Prisma {
     parking_spot_type: $Enums.Parking_Spot_Type | null
     parking_instructions: string | null
     price: number | null
+    hourly_price: number | null
+    hourly_stripe_price_id: string | null
+    deposit_price: number | null
+    deposit_stripe_price_id: string | null
     deposit_enabled: boolean | null
     current_subscription_id: string | null
   }
@@ -8802,6 +8846,10 @@ export namespace Prisma {
     parking_spot_type: $Enums.Parking_Spot_Type | null
     parking_instructions: string | null
     price: number | null
+    hourly_price: number | null
+    hourly_stripe_price_id: string | null
+    deposit_price: number | null
+    deposit_stripe_price_id: string | null
     deposit_enabled: boolean | null
     current_subscription_id: string | null
   }
@@ -8817,7 +8865,12 @@ export namespace Prisma {
     parking_spot_type: number
     parking_instructions: number
     price: number
+    hourly_price: number
+    hourly_stripe_price_id: number
+    deposit_price: number
+    deposit_stripe_price_id: number
     stripe_product: number
+    stripe_deposit_product: number
     deposit_enabled: number
     current_subscription_id: number
     _all: number
@@ -8827,11 +8880,15 @@ export namespace Prisma {
   export type ParkingSpotAvgAggregateInputType = {
     parking_level?: true
     price?: true
+    hourly_price?: true
+    deposit_price?: true
   }
 
   export type ParkingSpotSumAggregateInputType = {
     parking_level?: true
     price?: true
+    hourly_price?: true
+    deposit_price?: true
   }
 
   export type ParkingSpotMinAggregateInputType = {
@@ -8845,6 +8902,10 @@ export namespace Prisma {
     parking_spot_type?: true
     parking_instructions?: true
     price?: true
+    hourly_price?: true
+    hourly_stripe_price_id?: true
+    deposit_price?: true
+    deposit_stripe_price_id?: true
     deposit_enabled?: true
     current_subscription_id?: true
   }
@@ -8860,6 +8921,10 @@ export namespace Prisma {
     parking_spot_type?: true
     parking_instructions?: true
     price?: true
+    hourly_price?: true
+    hourly_stripe_price_id?: true
+    deposit_price?: true
+    deposit_stripe_price_id?: true
     deposit_enabled?: true
     current_subscription_id?: true
   }
@@ -8875,7 +8940,12 @@ export namespace Prisma {
     parking_spot_type?: true
     parking_instructions?: true
     price?: true
+    hourly_price?: true
+    hourly_stripe_price_id?: true
+    deposit_price?: true
+    deposit_stripe_price_id?: true
     stripe_product?: true
+    stripe_deposit_product?: true
     deposit_enabled?: true
     current_subscription_id?: true
     _all?: true
@@ -8978,7 +9048,12 @@ export namespace Prisma {
     parking_spot_type: $Enums.Parking_Spot_Type
     parking_instructions: string | null
     price: number | null
+    hourly_price: number | null
+    hourly_stripe_price_id: string | null
+    deposit_price: number | null
+    deposit_stripe_price_id: string | null
     stripe_product: JsonValue | null
+    stripe_deposit_product: JsonValue | null
     deposit_enabled: boolean | null
     current_subscription_id: string | null
     _count: ParkingSpotCountAggregateOutputType | null
@@ -9013,7 +9088,12 @@ export namespace Prisma {
     parking_spot_type?: boolean
     parking_instructions?: boolean
     price?: boolean
+    hourly_price?: boolean
+    hourly_stripe_price_id?: boolean
+    deposit_price?: boolean
+    deposit_stripe_price_id?: boolean
     stripe_product?: boolean
+    stripe_deposit_product?: boolean
     deposit_enabled?: boolean
     current_subscription_id?: boolean
     building?: boolean | BuildingDefaultArgs<ExtArgs>
@@ -9038,7 +9118,12 @@ export namespace Prisma {
     parking_spot_type?: boolean
     parking_instructions?: boolean
     price?: boolean
+    hourly_price?: boolean
+    hourly_stripe_price_id?: boolean
+    deposit_price?: boolean
+    deposit_stripe_price_id?: boolean
     stripe_product?: boolean
+    stripe_deposit_product?: boolean
     deposit_enabled?: boolean
     current_subscription_id?: boolean
   }
@@ -9079,7 +9164,12 @@ export namespace Prisma {
       parking_spot_type: $Enums.Parking_Spot_Type
       parking_instructions: string | null
       price: number | null
+      hourly_price: number | null
+      hourly_stripe_price_id: string | null
+      deposit_price: number | null
+      deposit_stripe_price_id: string | null
       stripe_product: Prisma.JsonValue | null
+      stripe_deposit_product: Prisma.JsonValue | null
       deposit_enabled: boolean | null
       current_subscription_id: string | null
     }, ExtArgs["result"]["parkingSpot"]>
@@ -9501,7 +9591,12 @@ export namespace Prisma {
     readonly parking_spot_type: FieldRef<"ParkingSpot", 'Parking_Spot_Type'>
     readonly parking_instructions: FieldRef<"ParkingSpot", 'String'>
     readonly price: FieldRef<"ParkingSpot", 'Int'>
+    readonly hourly_price: FieldRef<"ParkingSpot", 'Int'>
+    readonly hourly_stripe_price_id: FieldRef<"ParkingSpot", 'String'>
+    readonly deposit_price: FieldRef<"ParkingSpot", 'Int'>
+    readonly deposit_stripe_price_id: FieldRef<"ParkingSpot", 'String'>
     readonly stripe_product: FieldRef<"ParkingSpot", 'Json'>
+    readonly stripe_deposit_product: FieldRef<"ParkingSpot", 'Json'>
     readonly deposit_enabled: FieldRef<"ParkingSpot", 'Boolean'>
     readonly current_subscription_id: FieldRef<"ParkingSpot", 'String'>
   }
@@ -15065,14 +15160,25 @@ export namespace Prisma {
 
   export type AggregateSubscription = {
     _count: SubscriptionCountAggregateOutputType | null
+    _avg: SubscriptionAvgAggregateOutputType | null
+    _sum: SubscriptionSumAggregateOutputType | null
     _min: SubscriptionMinAggregateOutputType | null
     _max: SubscriptionMaxAggregateOutputType | null
+  }
+
+  export type SubscriptionAvgAggregateOutputType = {
+    no_of_hours: number | null
+  }
+
+  export type SubscriptionSumAggregateOutputType = {
+    no_of_hours: number | null
   }
 
   export type SubscriptionMinAggregateOutputType = {
     id: string | null
     parking_spot_id: string | null
     subscriber_user_id: string | null
+    host_user_id: string | null
     subscriber_name: string | null
     subscriber_email: string | null
     subscriber_phone: string | null
@@ -15081,6 +15187,7 @@ export namespace Prisma {
     subscriber_office_number: string | null
     subscriber_driver_licence_number: string | null
     subscriber_id_card_number: string | null
+    no_of_hours: number | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -15089,6 +15196,7 @@ export namespace Prisma {
     id: string | null
     parking_spot_id: string | null
     subscriber_user_id: string | null
+    host_user_id: string | null
     subscriber_name: string | null
     subscriber_email: string | null
     subscriber_phone: string | null
@@ -15097,6 +15205,7 @@ export namespace Prisma {
     subscriber_office_number: string | null
     subscriber_driver_licence_number: string | null
     subscriber_id_card_number: string | null
+    no_of_hours: number | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -15105,6 +15214,7 @@ export namespace Prisma {
     id: number
     parking_spot_id: number
     subscriber_user_id: number
+    host_user_id: number
     subscriber_name: number
     subscriber_email: number
     subscriber_phone: number
@@ -15114,16 +15224,27 @@ export namespace Prisma {
     subscriber_driver_licence_number: number
     subscriber_id_card_number: number
     stripe_subscription: number
+    stripe_payment_intent: number
+    no_of_hours: number
     created_at: number
     updated_at: number
     _all: number
   }
 
 
+  export type SubscriptionAvgAggregateInputType = {
+    no_of_hours?: true
+  }
+
+  export type SubscriptionSumAggregateInputType = {
+    no_of_hours?: true
+  }
+
   export type SubscriptionMinAggregateInputType = {
     id?: true
     parking_spot_id?: true
     subscriber_user_id?: true
+    host_user_id?: true
     subscriber_name?: true
     subscriber_email?: true
     subscriber_phone?: true
@@ -15132,6 +15253,7 @@ export namespace Prisma {
     subscriber_office_number?: true
     subscriber_driver_licence_number?: true
     subscriber_id_card_number?: true
+    no_of_hours?: true
     created_at?: true
     updated_at?: true
   }
@@ -15140,6 +15262,7 @@ export namespace Prisma {
     id?: true
     parking_spot_id?: true
     subscriber_user_id?: true
+    host_user_id?: true
     subscriber_name?: true
     subscriber_email?: true
     subscriber_phone?: true
@@ -15148,6 +15271,7 @@ export namespace Prisma {
     subscriber_office_number?: true
     subscriber_driver_licence_number?: true
     subscriber_id_card_number?: true
+    no_of_hours?: true
     created_at?: true
     updated_at?: true
   }
@@ -15156,6 +15280,7 @@ export namespace Prisma {
     id?: true
     parking_spot_id?: true
     subscriber_user_id?: true
+    host_user_id?: true
     subscriber_name?: true
     subscriber_email?: true
     subscriber_phone?: true
@@ -15165,6 +15290,8 @@ export namespace Prisma {
     subscriber_driver_licence_number?: true
     subscriber_id_card_number?: true
     stripe_subscription?: true
+    stripe_payment_intent?: true
+    no_of_hours?: true
     created_at?: true
     updated_at?: true
     _all?: true
@@ -15208,6 +15335,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: SubscriptionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SubscriptionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: SubscriptionMinAggregateInputType
@@ -15238,6 +15377,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: SubscriptionCountAggregateInputType | true
+    _avg?: SubscriptionAvgAggregateInputType
+    _sum?: SubscriptionSumAggregateInputType
     _min?: SubscriptionMinAggregateInputType
     _max?: SubscriptionMaxAggregateInputType
   }
@@ -15246,6 +15387,7 @@ export namespace Prisma {
     id: string
     parking_spot_id: string | null
     subscriber_user_id: string | null
+    host_user_id: string | null
     subscriber_name: string | null
     subscriber_email: string | null
     subscriber_phone: string | null
@@ -15255,9 +15397,13 @@ export namespace Prisma {
     subscriber_driver_licence_number: string | null
     subscriber_id_card_number: string | null
     stripe_subscription: JsonValue | null
+    stripe_payment_intent: JsonValue | null
+    no_of_hours: number | null
     created_at: Date
     updated_at: Date
     _count: SubscriptionCountAggregateOutputType | null
+    _avg: SubscriptionAvgAggregateOutputType | null
+    _sum: SubscriptionSumAggregateOutputType | null
     _min: SubscriptionMinAggregateOutputType | null
     _max: SubscriptionMaxAggregateOutputType | null
   }
@@ -15280,6 +15426,7 @@ export namespace Prisma {
     id?: boolean
     parking_spot_id?: boolean
     subscriber_user_id?: boolean
+    host_user_id?: boolean
     subscriber_name?: boolean
     subscriber_email?: boolean
     subscriber_phone?: boolean
@@ -15289,10 +15436,13 @@ export namespace Prisma {
     subscriber_driver_licence_number?: boolean
     subscriber_id_card_number?: boolean
     stripe_subscription?: boolean
+    stripe_payment_intent?: boolean
+    no_of_hours?: boolean
     created_at?: boolean
     updated_at?: boolean
     parking_spot?: boolean | Subscription$parking_spotArgs<ExtArgs>
     subscriber_user?: boolean | Subscription$subscriber_userArgs<ExtArgs>
+    host_user?: boolean | Subscription$host_userArgs<ExtArgs>
     parking_spot_current?: boolean | Subscription$parking_spot_currentArgs<ExtArgs>
   }, ExtArgs["result"]["subscription"]>
 
@@ -15300,6 +15450,7 @@ export namespace Prisma {
     id?: boolean
     parking_spot_id?: boolean
     subscriber_user_id?: boolean
+    host_user_id?: boolean
     subscriber_name?: boolean
     subscriber_email?: boolean
     subscriber_phone?: boolean
@@ -15309,6 +15460,8 @@ export namespace Prisma {
     subscriber_driver_licence_number?: boolean
     subscriber_id_card_number?: boolean
     stripe_subscription?: boolean
+    stripe_payment_intent?: boolean
+    no_of_hours?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
@@ -15316,6 +15469,7 @@ export namespace Prisma {
   export type SubscriptionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     parking_spot?: boolean | Subscription$parking_spotArgs<ExtArgs>
     subscriber_user?: boolean | Subscription$subscriber_userArgs<ExtArgs>
+    host_user?: boolean | Subscription$host_userArgs<ExtArgs>
     parking_spot_current?: boolean | Subscription$parking_spot_currentArgs<ExtArgs>
   }
 
@@ -15325,12 +15479,14 @@ export namespace Prisma {
     objects: {
       parking_spot: Prisma.$ParkingSpotPayload<ExtArgs> | null
       subscriber_user: Prisma.$UserPayload<ExtArgs> | null
+      host_user: Prisma.$UserPayload<ExtArgs> | null
       parking_spot_current: Prisma.$ParkingSpotPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       parking_spot_id: string | null
       subscriber_user_id: string | null
+      host_user_id: string | null
       subscriber_name: string | null
       subscriber_email: string | null
       subscriber_phone: string | null
@@ -15340,6 +15496,8 @@ export namespace Prisma {
       subscriber_driver_licence_number: string | null
       subscriber_id_card_number: string | null
       stripe_subscription: Prisma.JsonValue | null
+      stripe_payment_intent: Prisma.JsonValue | null
+      no_of_hours: number | null
       created_at: Date
       updated_at: Date
     }, ExtArgs["result"]["subscription"]>
@@ -15711,6 +15869,8 @@ export namespace Prisma {
 
     subscriber_user<T extends Subscription$subscriber_userArgs<ExtArgs> = {}>(args?: Subset<T, Subscription$subscriber_userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
 
+    host_user<T extends Subscription$host_userArgs<ExtArgs> = {}>(args?: Subset<T, Subscription$host_userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
+
     parking_spot_current<T extends Subscription$parking_spot_currentArgs<ExtArgs> = {}>(args?: Subset<T, Subscription$parking_spot_currentArgs<ExtArgs>>): Prisma__ParkingSpotClient<$Result.GetResult<Prisma.$ParkingSpotPayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
 
     /**
@@ -15744,6 +15904,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Subscription", 'String'>
     readonly parking_spot_id: FieldRef<"Subscription", 'String'>
     readonly subscriber_user_id: FieldRef<"Subscription", 'String'>
+    readonly host_user_id: FieldRef<"Subscription", 'String'>
     readonly subscriber_name: FieldRef<"Subscription", 'String'>
     readonly subscriber_email: FieldRef<"Subscription", 'String'>
     readonly subscriber_phone: FieldRef<"Subscription", 'String'>
@@ -15753,6 +15914,8 @@ export namespace Prisma {
     readonly subscriber_driver_licence_number: FieldRef<"Subscription", 'String'>
     readonly subscriber_id_card_number: FieldRef<"Subscription", 'String'>
     readonly stripe_subscription: FieldRef<"Subscription", 'Json'>
+    readonly stripe_payment_intent: FieldRef<"Subscription", 'Json'>
+    readonly no_of_hours: FieldRef<"Subscription", 'Int'>
     readonly created_at: FieldRef<"Subscription", 'DateTime'>
     readonly updated_at: FieldRef<"Subscription", 'DateTime'>
   }
@@ -16099,6 +16262,22 @@ export namespace Prisma {
 
 
   /**
+   * Subscription.host_user
+   */
+  export type Subscription$host_userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+
+  /**
    * Subscription.parking_spot_current
    */
   export type Subscription$parking_spot_currentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -16258,7 +16437,12 @@ export namespace Prisma {
     parking_spot_type: 'parking_spot_type',
     parking_instructions: 'parking_instructions',
     price: 'price',
+    hourly_price: 'hourly_price',
+    hourly_stripe_price_id: 'hourly_stripe_price_id',
+    deposit_price: 'deposit_price',
+    deposit_stripe_price_id: 'deposit_stripe_price_id',
     stripe_product: 'stripe_product',
+    stripe_deposit_product: 'stripe_deposit_product',
     deposit_enabled: 'deposit_enabled',
     current_subscription_id: 'current_subscription_id'
   };
@@ -16342,6 +16526,7 @@ export namespace Prisma {
     id: 'id',
     parking_spot_id: 'parking_spot_id',
     subscriber_user_id: 'subscriber_user_id',
+    host_user_id: 'host_user_id',
     subscriber_name: 'subscriber_name',
     subscriber_email: 'subscriber_email',
     subscriber_phone: 'subscriber_phone',
@@ -16351,6 +16536,8 @@ export namespace Prisma {
     subscriber_driver_licence_number: 'subscriber_driver_licence_number',
     subscriber_id_card_number: 'subscriber_id_card_number',
     stripe_subscription: 'stripe_subscription',
+    stripe_payment_intent: 'stripe_payment_intent',
+    no_of_hours: 'no_of_hours',
     created_at: 'created_at',
     updated_at: 'updated_at'
   };
@@ -16761,7 +16948,8 @@ export namespace Prisma {
     listings?: ListingListRelationFilter
     hostReservations?: ReservationListRelationFilter
     visitorReservations?: ReservationListRelationFilter
-    subscriptions?: SubscriptionListRelationFilter
+    subscriber_subscriptions?: SubscriptionListRelationFilter
+    host_subscriptions?: SubscriptionListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -16783,7 +16971,8 @@ export namespace Prisma {
     listings?: ListingOrderByRelationAggregateInput
     hostReservations?: ReservationOrderByRelationAggregateInput
     visitorReservations?: ReservationOrderByRelationAggregateInput
-    subscriptions?: SubscriptionOrderByRelationAggregateInput
+    subscriber_subscriptions?: SubscriptionOrderByRelationAggregateInput
+    host_subscriptions?: SubscriptionOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -16809,7 +16998,8 @@ export namespace Prisma {
     listings?: ListingListRelationFilter
     hostReservations?: ReservationListRelationFilter
     visitorReservations?: ReservationListRelationFilter
-    subscriptions?: SubscriptionListRelationFilter
+    subscriber_subscriptions?: SubscriptionListRelationFilter
+    host_subscriptions?: SubscriptionListRelationFilter
   }, "id" | "id" | "email" | "phone_number" | "email_phone_number">
 
   export type UserOrderByWithAggregationInput = {
@@ -17264,7 +17454,12 @@ export namespace Prisma {
     parking_spot_type?: EnumParking_Spot_TypeFilter<"ParkingSpot"> | $Enums.Parking_Spot_Type
     parking_instructions?: StringNullableFilter<"ParkingSpot"> | string | null
     price?: IntNullableFilter<"ParkingSpot"> | number | null
+    hourly_price?: IntNullableFilter<"ParkingSpot"> | number | null
+    hourly_stripe_price_id?: StringNullableFilter<"ParkingSpot"> | string | null
+    deposit_price?: IntNullableFilter<"ParkingSpot"> | number | null
+    deposit_stripe_price_id?: StringNullableFilter<"ParkingSpot"> | string | null
     stripe_product?: JsonNullableFilter<"ParkingSpot">
+    stripe_deposit_product?: JsonNullableFilter<"ParkingSpot">
     deposit_enabled?: BoolNullableFilter<"ParkingSpot"> | boolean | null
     current_subscription_id?: StringNullableFilter<"ParkingSpot"> | string | null
     building?: XOR<BuildingRelationFilter, BuildingWhereInput>
@@ -17288,7 +17483,12 @@ export namespace Prisma {
     parking_spot_type?: SortOrder
     parking_instructions?: SortOrderInput | SortOrder
     price?: SortOrderInput | SortOrder
+    hourly_price?: SortOrderInput | SortOrder
+    hourly_stripe_price_id?: SortOrderInput | SortOrder
+    deposit_price?: SortOrderInput | SortOrder
+    deposit_stripe_price_id?: SortOrderInput | SortOrder
     stripe_product?: SortOrderInput | SortOrder
+    stripe_deposit_product?: SortOrderInput | SortOrder
     deposit_enabled?: SortOrderInput | SortOrder
     current_subscription_id?: SortOrderInput | SortOrder
     building?: BuildingOrderByWithRelationInput
@@ -17317,7 +17517,12 @@ export namespace Prisma {
     parking_spot_type?: EnumParking_Spot_TypeFilter<"ParkingSpot"> | $Enums.Parking_Spot_Type
     parking_instructions?: StringNullableFilter<"ParkingSpot"> | string | null
     price?: IntNullableFilter<"ParkingSpot"> | number | null
+    hourly_price?: IntNullableFilter<"ParkingSpot"> | number | null
+    hourly_stripe_price_id?: StringNullableFilter<"ParkingSpot"> | string | null
+    deposit_price?: IntNullableFilter<"ParkingSpot"> | number | null
+    deposit_stripe_price_id?: StringNullableFilter<"ParkingSpot"> | string | null
     stripe_product?: JsonNullableFilter<"ParkingSpot">
+    stripe_deposit_product?: JsonNullableFilter<"ParkingSpot">
     deposit_enabled?: BoolNullableFilter<"ParkingSpot"> | boolean | null
     building?: XOR<BuildingRelationFilter, BuildingWhereInput>
     owner?: XOR<CommunityMembersNullableRelationFilter, CommunityMembersWhereInput> | null
@@ -17340,7 +17545,12 @@ export namespace Prisma {
     parking_spot_type?: SortOrder
     parking_instructions?: SortOrderInput | SortOrder
     price?: SortOrderInput | SortOrder
+    hourly_price?: SortOrderInput | SortOrder
+    hourly_stripe_price_id?: SortOrderInput | SortOrder
+    deposit_price?: SortOrderInput | SortOrder
+    deposit_stripe_price_id?: SortOrderInput | SortOrder
     stripe_product?: SortOrderInput | SortOrder
+    stripe_deposit_product?: SortOrderInput | SortOrder
     deposit_enabled?: SortOrderInput | SortOrder
     current_subscription_id?: SortOrderInput | SortOrder
     _count?: ParkingSpotCountOrderByAggregateInput
@@ -17364,7 +17574,12 @@ export namespace Prisma {
     parking_spot_type?: EnumParking_Spot_TypeWithAggregatesFilter<"ParkingSpot"> | $Enums.Parking_Spot_Type
     parking_instructions?: StringNullableWithAggregatesFilter<"ParkingSpot"> | string | null
     price?: IntNullableWithAggregatesFilter<"ParkingSpot"> | number | null
+    hourly_price?: IntNullableWithAggregatesFilter<"ParkingSpot"> | number | null
+    hourly_stripe_price_id?: StringNullableWithAggregatesFilter<"ParkingSpot"> | string | null
+    deposit_price?: IntNullableWithAggregatesFilter<"ParkingSpot"> | number | null
+    deposit_stripe_price_id?: StringNullableWithAggregatesFilter<"ParkingSpot"> | string | null
     stripe_product?: JsonNullableWithAggregatesFilter<"ParkingSpot">
+    stripe_deposit_product?: JsonNullableWithAggregatesFilter<"ParkingSpot">
     deposit_enabled?: BoolNullableWithAggregatesFilter<"ParkingSpot"> | boolean | null
     current_subscription_id?: StringNullableWithAggregatesFilter<"ParkingSpot"> | string | null
   }
@@ -17768,6 +17983,7 @@ export namespace Prisma {
     id?: StringFilter<"Subscription"> | string
     parking_spot_id?: StringNullableFilter<"Subscription"> | string | null
     subscriber_user_id?: StringNullableFilter<"Subscription"> | string | null
+    host_user_id?: StringNullableFilter<"Subscription"> | string | null
     subscriber_name?: StringNullableFilter<"Subscription"> | string | null
     subscriber_email?: StringNullableFilter<"Subscription"> | string | null
     subscriber_phone?: StringNullableFilter<"Subscription"> | string | null
@@ -17777,10 +17993,13 @@ export namespace Prisma {
     subscriber_driver_licence_number?: StringNullableFilter<"Subscription"> | string | null
     subscriber_id_card_number?: StringNullableFilter<"Subscription"> | string | null
     stripe_subscription?: JsonNullableFilter<"Subscription">
+    stripe_payment_intent?: JsonNullableFilter<"Subscription">
+    no_of_hours?: IntNullableFilter<"Subscription"> | number | null
     created_at?: DateTimeFilter<"Subscription"> | Date | string
     updated_at?: DateTimeFilter<"Subscription"> | Date | string
     parking_spot?: XOR<ParkingSpotNullableRelationFilter, ParkingSpotWhereInput> | null
     subscriber_user?: XOR<UserNullableRelationFilter, UserWhereInput> | null
+    host_user?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     parking_spot_current?: XOR<ParkingSpotNullableRelationFilter, ParkingSpotWhereInput> | null
   }
 
@@ -17788,6 +18007,7 @@ export namespace Prisma {
     id?: SortOrder
     parking_spot_id?: SortOrderInput | SortOrder
     subscriber_user_id?: SortOrderInput | SortOrder
+    host_user_id?: SortOrderInput | SortOrder
     subscriber_name?: SortOrderInput | SortOrder
     subscriber_email?: SortOrderInput | SortOrder
     subscriber_phone?: SortOrderInput | SortOrder
@@ -17797,10 +18017,13 @@ export namespace Prisma {
     subscriber_driver_licence_number?: SortOrderInput | SortOrder
     subscriber_id_card_number?: SortOrderInput | SortOrder
     stripe_subscription?: SortOrderInput | SortOrder
+    stripe_payment_intent?: SortOrderInput | SortOrder
+    no_of_hours?: SortOrderInput | SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     parking_spot?: ParkingSpotOrderByWithRelationInput
     subscriber_user?: UserOrderByWithRelationInput
+    host_user?: UserOrderByWithRelationInput
     parking_spot_current?: ParkingSpotOrderByWithRelationInput
   }
 
@@ -17811,6 +18034,7 @@ export namespace Prisma {
     NOT?: SubscriptionWhereInput | SubscriptionWhereInput[]
     parking_spot_id?: StringNullableFilter<"Subscription"> | string | null
     subscriber_user_id?: StringNullableFilter<"Subscription"> | string | null
+    host_user_id?: StringNullableFilter<"Subscription"> | string | null
     subscriber_name?: StringNullableFilter<"Subscription"> | string | null
     subscriber_email?: StringNullableFilter<"Subscription"> | string | null
     subscriber_phone?: StringNullableFilter<"Subscription"> | string | null
@@ -17820,10 +18044,13 @@ export namespace Prisma {
     subscriber_driver_licence_number?: StringNullableFilter<"Subscription"> | string | null
     subscriber_id_card_number?: StringNullableFilter<"Subscription"> | string | null
     stripe_subscription?: JsonNullableFilter<"Subscription">
+    stripe_payment_intent?: JsonNullableFilter<"Subscription">
+    no_of_hours?: IntNullableFilter<"Subscription"> | number | null
     created_at?: DateTimeFilter<"Subscription"> | Date | string
     updated_at?: DateTimeFilter<"Subscription"> | Date | string
     parking_spot?: XOR<ParkingSpotNullableRelationFilter, ParkingSpotWhereInput> | null
     subscriber_user?: XOR<UserNullableRelationFilter, UserWhereInput> | null
+    host_user?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     parking_spot_current?: XOR<ParkingSpotNullableRelationFilter, ParkingSpotWhereInput> | null
   }, "id">
 
@@ -17831,6 +18058,7 @@ export namespace Prisma {
     id?: SortOrder
     parking_spot_id?: SortOrderInput | SortOrder
     subscriber_user_id?: SortOrderInput | SortOrder
+    host_user_id?: SortOrderInput | SortOrder
     subscriber_name?: SortOrderInput | SortOrder
     subscriber_email?: SortOrderInput | SortOrder
     subscriber_phone?: SortOrderInput | SortOrder
@@ -17840,11 +18068,15 @@ export namespace Prisma {
     subscriber_driver_licence_number?: SortOrderInput | SortOrder
     subscriber_id_card_number?: SortOrderInput | SortOrder
     stripe_subscription?: SortOrderInput | SortOrder
+    stripe_payment_intent?: SortOrderInput | SortOrder
+    no_of_hours?: SortOrderInput | SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     _count?: SubscriptionCountOrderByAggregateInput
+    _avg?: SubscriptionAvgOrderByAggregateInput
     _max?: SubscriptionMaxOrderByAggregateInput
     _min?: SubscriptionMinOrderByAggregateInput
+    _sum?: SubscriptionSumOrderByAggregateInput
   }
 
   export type SubscriptionScalarWhereWithAggregatesInput = {
@@ -17854,6 +18086,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Subscription"> | string
     parking_spot_id?: StringNullableWithAggregatesFilter<"Subscription"> | string | null
     subscriber_user_id?: StringNullableWithAggregatesFilter<"Subscription"> | string | null
+    host_user_id?: StringNullableWithAggregatesFilter<"Subscription"> | string | null
     subscriber_name?: StringNullableWithAggregatesFilter<"Subscription"> | string | null
     subscriber_email?: StringNullableWithAggregatesFilter<"Subscription"> | string | null
     subscriber_phone?: StringNullableWithAggregatesFilter<"Subscription"> | string | null
@@ -17863,6 +18096,8 @@ export namespace Prisma {
     subscriber_driver_licence_number?: StringNullableWithAggregatesFilter<"Subscription"> | string | null
     subscriber_id_card_number?: StringNullableWithAggregatesFilter<"Subscription"> | string | null
     stripe_subscription?: JsonNullableWithAggregatesFilter<"Subscription">
+    stripe_payment_intent?: JsonNullableWithAggregatesFilter<"Subscription">
+    no_of_hours?: IntNullableWithAggregatesFilter<"Subscription"> | number | null
     created_at?: DateTimeWithAggregatesFilter<"Subscription"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"Subscription"> | Date | string
   }
@@ -17942,7 +18177,8 @@ export namespace Prisma {
     listings?: ListingCreateNestedManyWithoutHostInput
     hostReservations?: ReservationCreateNestedManyWithoutHostInput
     visitorReservations?: ReservationCreateNestedManyWithoutVisitorInput
-    subscriptions?: SubscriptionCreateNestedManyWithoutSubscriber_userInput
+    subscriber_subscriptions?: SubscriptionCreateNestedManyWithoutSubscriber_userInput
+    host_subscriptions?: SubscriptionCreateNestedManyWithoutHost_userInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -17964,7 +18200,8 @@ export namespace Prisma {
     listings?: ListingUncheckedCreateNestedManyWithoutHostInput
     hostReservations?: ReservationUncheckedCreateNestedManyWithoutHostInput
     visitorReservations?: ReservationUncheckedCreateNestedManyWithoutVisitorInput
-    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutSubscriber_userInput
+    subscriber_subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutSubscriber_userInput
+    host_subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutHost_userInput
   }
 
   export type UserUpdateInput = {
@@ -17986,7 +18223,8 @@ export namespace Prisma {
     listings?: ListingUpdateManyWithoutHostNestedInput
     hostReservations?: ReservationUpdateManyWithoutHostNestedInput
     visitorReservations?: ReservationUpdateManyWithoutVisitorNestedInput
-    subscriptions?: SubscriptionUpdateManyWithoutSubscriber_userNestedInput
+    subscriber_subscriptions?: SubscriptionUpdateManyWithoutSubscriber_userNestedInput
+    host_subscriptions?: SubscriptionUpdateManyWithoutHost_userNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -18008,7 +18246,8 @@ export namespace Prisma {
     listings?: ListingUncheckedUpdateManyWithoutHostNestedInput
     hostReservations?: ReservationUncheckedUpdateManyWithoutHostNestedInput
     visitorReservations?: ReservationUncheckedUpdateManyWithoutVisitorNestedInput
-    subscriptions?: SubscriptionUncheckedUpdateManyWithoutSubscriber_userNestedInput
+    subscriber_subscriptions?: SubscriptionUncheckedUpdateManyWithoutSubscriber_userNestedInput
+    host_subscriptions?: SubscriptionUncheckedUpdateManyWithoutHost_userNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -18519,7 +18758,12 @@ export namespace Prisma {
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
     price?: number | null
+    hourly_price?: number | null
+    hourly_stripe_price_id?: string | null
+    deposit_price?: number | null
+    deposit_stripe_price_id?: string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
     building: BuildingCreateNestedOneWithoutParking_spotsInput
     owner?: CommunityMembersCreateNestedOneWithoutParking_spotsInput
@@ -18542,7 +18786,12 @@ export namespace Prisma {
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
     price?: number | null
+    hourly_price?: number | null
+    hourly_stripe_price_id?: string | null
+    deposit_price?: number | null
+    deposit_stripe_price_id?: string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
     current_subscription_id?: string | null
     listings?: ListingUncheckedCreateNestedManyWithoutParking_spotInput
@@ -18557,7 +18806,12 @@ export namespace Prisma {
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
+    deposit_price?: NullableIntFieldUpdateOperationsInput | number | null
+    deposit_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
     building?: BuildingUpdateOneRequiredWithoutParking_spotsNestedInput
     owner?: CommunityMembersUpdateOneWithoutParking_spotsNestedInput
@@ -18580,7 +18834,12 @@ export namespace Prisma {
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
+    deposit_price?: NullableIntFieldUpdateOperationsInput | number | null
+    deposit_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
     current_subscription_id?: NullableStringFieldUpdateOperationsInput | string | null
     listings?: ListingUncheckedUpdateManyWithoutParking_spotNestedInput
@@ -18599,7 +18858,12 @@ export namespace Prisma {
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
     price?: number | null
+    hourly_price?: number | null
+    hourly_stripe_price_id?: string | null
+    deposit_price?: number | null
+    deposit_stripe_price_id?: string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
     current_subscription_id?: string | null
   }
@@ -18611,7 +18875,12 @@ export namespace Prisma {
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
+    deposit_price?: NullableIntFieldUpdateOperationsInput | number | null
+    deposit_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
@@ -18626,7 +18895,12 @@ export namespace Prisma {
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
+    deposit_price?: NullableIntFieldUpdateOperationsInput | number | null
+    deposit_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
     current_subscription_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -19048,10 +19322,13 @@ export namespace Prisma {
     subscriber_driver_licence_number?: string | null
     subscriber_id_card_number?: string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    no_of_hours?: number | null
     created_at?: Date | string
     updated_at?: Date | string
     parking_spot?: ParkingSpotCreateNestedOneWithoutAll_subscriptionsInput
-    subscriber_user?: UserCreateNestedOneWithoutSubscriptionsInput
+    subscriber_user?: UserCreateNestedOneWithoutSubscriber_subscriptionsInput
+    host_user?: UserCreateNestedOneWithoutHost_subscriptionsInput
     parking_spot_current?: ParkingSpotCreateNestedOneWithoutCurrent_subscriptionInput
   }
 
@@ -19059,6 +19336,7 @@ export namespace Prisma {
     id?: string
     parking_spot_id?: string | null
     subscriber_user_id?: string | null
+    host_user_id?: string | null
     subscriber_name?: string | null
     subscriber_email?: string | null
     subscriber_phone?: string | null
@@ -19068,6 +19346,8 @@ export namespace Prisma {
     subscriber_driver_licence_number?: string | null
     subscriber_id_card_number?: string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    no_of_hours?: number | null
     created_at?: Date | string
     updated_at?: Date | string
     parking_spot_current?: ParkingSpotUncheckedCreateNestedOneWithoutCurrent_subscriptionInput
@@ -19084,10 +19364,13 @@ export namespace Prisma {
     subscriber_driver_licence_number?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    no_of_hours?: NullableIntFieldUpdateOperationsInput | number | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     parking_spot?: ParkingSpotUpdateOneWithoutAll_subscriptionsNestedInput
-    subscriber_user?: UserUpdateOneWithoutSubscriptionsNestedInput
+    subscriber_user?: UserUpdateOneWithoutSubscriber_subscriptionsNestedInput
+    host_user?: UserUpdateOneWithoutHost_subscriptionsNestedInput
     parking_spot_current?: ParkingSpotUpdateOneWithoutCurrent_subscriptionNestedInput
   }
 
@@ -19095,6 +19378,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     parking_spot_id?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    host_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_name?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_email?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -19104,6 +19388,8 @@ export namespace Prisma {
     subscriber_driver_licence_number?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    no_of_hours?: NullableIntFieldUpdateOperationsInput | number | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     parking_spot_current?: ParkingSpotUncheckedUpdateOneWithoutCurrent_subscriptionNestedInput
@@ -19113,6 +19399,7 @@ export namespace Prisma {
     id?: string
     parking_spot_id?: string | null
     subscriber_user_id?: string | null
+    host_user_id?: string | null
     subscriber_name?: string | null
     subscriber_email?: string | null
     subscriber_phone?: string | null
@@ -19122,6 +19409,8 @@ export namespace Prisma {
     subscriber_driver_licence_number?: string | null
     subscriber_id_card_number?: string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    no_of_hours?: number | null
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -19137,6 +19426,8 @@ export namespace Prisma {
     subscriber_driver_licence_number?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    no_of_hours?: NullableIntFieldUpdateOperationsInput | number | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -19145,6 +19436,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     parking_spot_id?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    host_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_name?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_email?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -19154,6 +19446,8 @@ export namespace Prisma {
     subscriber_driver_licence_number?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    no_of_hours?: NullableIntFieldUpdateOperationsInput | number | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -19949,7 +20243,12 @@ export namespace Prisma {
     parking_spot_type?: SortOrder
     parking_instructions?: SortOrder
     price?: SortOrder
+    hourly_price?: SortOrder
+    hourly_stripe_price_id?: SortOrder
+    deposit_price?: SortOrder
+    deposit_stripe_price_id?: SortOrder
     stripe_product?: SortOrder
+    stripe_deposit_product?: SortOrder
     deposit_enabled?: SortOrder
     current_subscription_id?: SortOrder
   }
@@ -19957,6 +20256,8 @@ export namespace Prisma {
   export type ParkingSpotAvgOrderByAggregateInput = {
     parking_level?: SortOrder
     price?: SortOrder
+    hourly_price?: SortOrder
+    deposit_price?: SortOrder
   }
 
   export type ParkingSpotMaxOrderByAggregateInput = {
@@ -19970,6 +20271,10 @@ export namespace Prisma {
     parking_spot_type?: SortOrder
     parking_instructions?: SortOrder
     price?: SortOrder
+    hourly_price?: SortOrder
+    hourly_stripe_price_id?: SortOrder
+    deposit_price?: SortOrder
+    deposit_stripe_price_id?: SortOrder
     deposit_enabled?: SortOrder
     current_subscription_id?: SortOrder
   }
@@ -19985,6 +20290,10 @@ export namespace Prisma {
     parking_spot_type?: SortOrder
     parking_instructions?: SortOrder
     price?: SortOrder
+    hourly_price?: SortOrder
+    hourly_stripe_price_id?: SortOrder
+    deposit_price?: SortOrder
+    deposit_stripe_price_id?: SortOrder
     deposit_enabled?: SortOrder
     current_subscription_id?: SortOrder
   }
@@ -19992,6 +20301,8 @@ export namespace Prisma {
   export type ParkingSpotSumOrderByAggregateInput = {
     parking_level?: SortOrder
     price?: SortOrder
+    hourly_price?: SortOrder
+    deposit_price?: SortOrder
   }
 
   export type EnumParking_Spot_TypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -20372,6 +20683,7 @@ export namespace Prisma {
     id?: SortOrder
     parking_spot_id?: SortOrder
     subscriber_user_id?: SortOrder
+    host_user_id?: SortOrder
     subscriber_name?: SortOrder
     subscriber_email?: SortOrder
     subscriber_phone?: SortOrder
@@ -20381,14 +20693,21 @@ export namespace Prisma {
     subscriber_driver_licence_number?: SortOrder
     subscriber_id_card_number?: SortOrder
     stripe_subscription?: SortOrder
+    stripe_payment_intent?: SortOrder
+    no_of_hours?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
+  }
+
+  export type SubscriptionAvgOrderByAggregateInput = {
+    no_of_hours?: SortOrder
   }
 
   export type SubscriptionMaxOrderByAggregateInput = {
     id?: SortOrder
     parking_spot_id?: SortOrder
     subscriber_user_id?: SortOrder
+    host_user_id?: SortOrder
     subscriber_name?: SortOrder
     subscriber_email?: SortOrder
     subscriber_phone?: SortOrder
@@ -20397,6 +20716,7 @@ export namespace Prisma {
     subscriber_office_number?: SortOrder
     subscriber_driver_licence_number?: SortOrder
     subscriber_id_card_number?: SortOrder
+    no_of_hours?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -20405,6 +20725,7 @@ export namespace Prisma {
     id?: SortOrder
     parking_spot_id?: SortOrder
     subscriber_user_id?: SortOrder
+    host_user_id?: SortOrder
     subscriber_name?: SortOrder
     subscriber_email?: SortOrder
     subscriber_phone?: SortOrder
@@ -20413,8 +20734,13 @@ export namespace Prisma {
     subscriber_office_number?: SortOrder
     subscriber_driver_licence_number?: SortOrder
     subscriber_id_card_number?: SortOrder
+    no_of_hours?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
+  }
+
+  export type SubscriptionSumOrderByAggregateInput = {
+    no_of_hours?: SortOrder
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -20470,6 +20796,13 @@ export namespace Prisma {
     connect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
   }
 
+  export type SubscriptionCreateNestedManyWithoutHost_userInput = {
+    create?: XOR<SubscriptionCreateWithoutHost_userInput, SubscriptionUncheckedCreateWithoutHost_userInput> | SubscriptionCreateWithoutHost_userInput[] | SubscriptionUncheckedCreateWithoutHost_userInput[]
+    connectOrCreate?: SubscriptionCreateOrConnectWithoutHost_userInput | SubscriptionCreateOrConnectWithoutHost_userInput[]
+    createMany?: SubscriptionCreateManyHost_userInputEnvelope
+    connect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+  }
+
   export type ManagementUncheckedCreateNestedOneWithoutUserInput = {
     create?: XOR<ManagementCreateWithoutUserInput, ManagementUncheckedCreateWithoutUserInput>
     connectOrCreate?: ManagementCreateOrConnectWithoutUserInput
@@ -20508,6 +20841,13 @@ export namespace Prisma {
     create?: XOR<SubscriptionCreateWithoutSubscriber_userInput, SubscriptionUncheckedCreateWithoutSubscriber_userInput> | SubscriptionCreateWithoutSubscriber_userInput[] | SubscriptionUncheckedCreateWithoutSubscriber_userInput[]
     connectOrCreate?: SubscriptionCreateOrConnectWithoutSubscriber_userInput | SubscriptionCreateOrConnectWithoutSubscriber_userInput[]
     createMany?: SubscriptionCreateManySubscriber_userInputEnvelope
+    connect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+  }
+
+  export type SubscriptionUncheckedCreateNestedManyWithoutHost_userInput = {
+    create?: XOR<SubscriptionCreateWithoutHost_userInput, SubscriptionUncheckedCreateWithoutHost_userInput> | SubscriptionCreateWithoutHost_userInput[] | SubscriptionUncheckedCreateWithoutHost_userInput[]
+    connectOrCreate?: SubscriptionCreateOrConnectWithoutHost_userInput | SubscriptionCreateOrConnectWithoutHost_userInput[]
+    createMany?: SubscriptionCreateManyHost_userInputEnvelope
     connect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
   }
 
@@ -20608,6 +20948,20 @@ export namespace Prisma {
     deleteMany?: SubscriptionScalarWhereInput | SubscriptionScalarWhereInput[]
   }
 
+  export type SubscriptionUpdateManyWithoutHost_userNestedInput = {
+    create?: XOR<SubscriptionCreateWithoutHost_userInput, SubscriptionUncheckedCreateWithoutHost_userInput> | SubscriptionCreateWithoutHost_userInput[] | SubscriptionUncheckedCreateWithoutHost_userInput[]
+    connectOrCreate?: SubscriptionCreateOrConnectWithoutHost_userInput | SubscriptionCreateOrConnectWithoutHost_userInput[]
+    upsert?: SubscriptionUpsertWithWhereUniqueWithoutHost_userInput | SubscriptionUpsertWithWhereUniqueWithoutHost_userInput[]
+    createMany?: SubscriptionCreateManyHost_userInputEnvelope
+    set?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    disconnect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    delete?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    connect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    update?: SubscriptionUpdateWithWhereUniqueWithoutHost_userInput | SubscriptionUpdateWithWhereUniqueWithoutHost_userInput[]
+    updateMany?: SubscriptionUpdateManyWithWhereWithoutHost_userInput | SubscriptionUpdateManyWithWhereWithoutHost_userInput[]
+    deleteMany?: SubscriptionScalarWhereInput | SubscriptionScalarWhereInput[]
+  }
+
   export type ManagementUncheckedUpdateOneWithoutUserNestedInput = {
     create?: XOR<ManagementCreateWithoutUserInput, ManagementUncheckedCreateWithoutUserInput>
     connectOrCreate?: ManagementCreateOrConnectWithoutUserInput
@@ -20685,6 +21039,20 @@ export namespace Prisma {
     connect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
     update?: SubscriptionUpdateWithWhereUniqueWithoutSubscriber_userInput | SubscriptionUpdateWithWhereUniqueWithoutSubscriber_userInput[]
     updateMany?: SubscriptionUpdateManyWithWhereWithoutSubscriber_userInput | SubscriptionUpdateManyWithWhereWithoutSubscriber_userInput[]
+    deleteMany?: SubscriptionScalarWhereInput | SubscriptionScalarWhereInput[]
+  }
+
+  export type SubscriptionUncheckedUpdateManyWithoutHost_userNestedInput = {
+    create?: XOR<SubscriptionCreateWithoutHost_userInput, SubscriptionUncheckedCreateWithoutHost_userInput> | SubscriptionCreateWithoutHost_userInput[] | SubscriptionUncheckedCreateWithoutHost_userInput[]
+    connectOrCreate?: SubscriptionCreateOrConnectWithoutHost_userInput | SubscriptionCreateOrConnectWithoutHost_userInput[]
+    upsert?: SubscriptionUpsertWithWhereUniqueWithoutHost_userInput | SubscriptionUpsertWithWhereUniqueWithoutHost_userInput[]
+    createMany?: SubscriptionCreateManyHost_userInputEnvelope
+    set?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    disconnect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    delete?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    connect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    update?: SubscriptionUpdateWithWhereUniqueWithoutHost_userInput | SubscriptionUpdateWithWhereUniqueWithoutHost_userInput[]
+    updateMany?: SubscriptionUpdateManyWithWhereWithoutHost_userInput | SubscriptionUpdateManyWithWhereWithoutHost_userInput[]
     deleteMany?: SubscriptionScalarWhereInput | SubscriptionScalarWhereInput[]
   }
 
@@ -21693,9 +22061,15 @@ export namespace Prisma {
     connect?: ParkingSpotWhereUniqueInput
   }
 
-  export type UserCreateNestedOneWithoutSubscriptionsInput = {
-    create?: XOR<UserCreateWithoutSubscriptionsInput, UserUncheckedCreateWithoutSubscriptionsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutSubscriptionsInput
+  export type UserCreateNestedOneWithoutSubscriber_subscriptionsInput = {
+    create?: XOR<UserCreateWithoutSubscriber_subscriptionsInput, UserUncheckedCreateWithoutSubscriber_subscriptionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSubscriber_subscriptionsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutHost_subscriptionsInput = {
+    create?: XOR<UserCreateWithoutHost_subscriptionsInput, UserUncheckedCreateWithoutHost_subscriptionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutHost_subscriptionsInput
     connect?: UserWhereUniqueInput
   }
 
@@ -21721,14 +22095,24 @@ export namespace Prisma {
     update?: XOR<XOR<ParkingSpotUpdateToOneWithWhereWithoutAll_subscriptionsInput, ParkingSpotUpdateWithoutAll_subscriptionsInput>, ParkingSpotUncheckedUpdateWithoutAll_subscriptionsInput>
   }
 
-  export type UserUpdateOneWithoutSubscriptionsNestedInput = {
-    create?: XOR<UserCreateWithoutSubscriptionsInput, UserUncheckedCreateWithoutSubscriptionsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutSubscriptionsInput
-    upsert?: UserUpsertWithoutSubscriptionsInput
+  export type UserUpdateOneWithoutSubscriber_subscriptionsNestedInput = {
+    create?: XOR<UserCreateWithoutSubscriber_subscriptionsInput, UserUncheckedCreateWithoutSubscriber_subscriptionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSubscriber_subscriptionsInput
+    upsert?: UserUpsertWithoutSubscriber_subscriptionsInput
     disconnect?: UserWhereInput | boolean
     delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSubscriptionsInput, UserUpdateWithoutSubscriptionsInput>, UserUncheckedUpdateWithoutSubscriptionsInput>
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSubscriber_subscriptionsInput, UserUpdateWithoutSubscriber_subscriptionsInput>, UserUncheckedUpdateWithoutSubscriber_subscriptionsInput>
+  }
+
+  export type UserUpdateOneWithoutHost_subscriptionsNestedInput = {
+    create?: XOR<UserCreateWithoutHost_subscriptionsInput, UserUncheckedCreateWithoutHost_subscriptionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutHost_subscriptionsInput
+    upsert?: UserUpsertWithoutHost_subscriptionsInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutHost_subscriptionsInput, UserUpdateWithoutHost_subscriptionsInput>, UserUncheckedUpdateWithoutHost_subscriptionsInput>
   }
 
   export type ParkingSpotUpdateOneWithoutCurrent_subscriptionNestedInput = {
@@ -22446,15 +22830,19 @@ export namespace Prisma {
     subscriber_driver_licence_number?: string | null
     subscriber_id_card_number?: string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    no_of_hours?: number | null
     created_at?: Date | string
     updated_at?: Date | string
     parking_spot?: ParkingSpotCreateNestedOneWithoutAll_subscriptionsInput
+    host_user?: UserCreateNestedOneWithoutHost_subscriptionsInput
     parking_spot_current?: ParkingSpotCreateNestedOneWithoutCurrent_subscriptionInput
   }
 
   export type SubscriptionUncheckedCreateWithoutSubscriber_userInput = {
     id?: string
     parking_spot_id?: string | null
+    host_user_id?: string | null
     subscriber_name?: string | null
     subscriber_email?: string | null
     subscriber_phone?: string | null
@@ -22464,6 +22852,8 @@ export namespace Prisma {
     subscriber_driver_licence_number?: string | null
     subscriber_id_card_number?: string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    no_of_hours?: number | null
     created_at?: Date | string
     updated_at?: Date | string
     parking_spot_current?: ParkingSpotUncheckedCreateNestedOneWithoutCurrent_subscriptionInput
@@ -22476,6 +22866,56 @@ export namespace Prisma {
 
   export type SubscriptionCreateManySubscriber_userInputEnvelope = {
     data: SubscriptionCreateManySubscriber_userInput | SubscriptionCreateManySubscriber_userInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SubscriptionCreateWithoutHost_userInput = {
+    id?: string
+    subscriber_name?: string | null
+    subscriber_email?: string | null
+    subscriber_phone?: string | null
+    subscriber_licence_plate?: string | null
+    subscriber_car_model?: string | null
+    subscriber_office_number?: string | null
+    subscriber_driver_licence_number?: string | null
+    subscriber_id_card_number?: string | null
+    stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    no_of_hours?: number | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    parking_spot?: ParkingSpotCreateNestedOneWithoutAll_subscriptionsInput
+    subscriber_user?: UserCreateNestedOneWithoutSubscriber_subscriptionsInput
+    parking_spot_current?: ParkingSpotCreateNestedOneWithoutCurrent_subscriptionInput
+  }
+
+  export type SubscriptionUncheckedCreateWithoutHost_userInput = {
+    id?: string
+    parking_spot_id?: string | null
+    subscriber_user_id?: string | null
+    subscriber_name?: string | null
+    subscriber_email?: string | null
+    subscriber_phone?: string | null
+    subscriber_licence_plate?: string | null
+    subscriber_car_model?: string | null
+    subscriber_office_number?: string | null
+    subscriber_driver_licence_number?: string | null
+    subscriber_id_card_number?: string | null
+    stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    no_of_hours?: number | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    parking_spot_current?: ParkingSpotUncheckedCreateNestedOneWithoutCurrent_subscriptionInput
+  }
+
+  export type SubscriptionCreateOrConnectWithoutHost_userInput = {
+    where: SubscriptionWhereUniqueInput
+    create: XOR<SubscriptionCreateWithoutHost_userInput, SubscriptionUncheckedCreateWithoutHost_userInput>
+  }
+
+  export type SubscriptionCreateManyHost_userInputEnvelope = {
+    data: SubscriptionCreateManyHost_userInput | SubscriptionCreateManyHost_userInput[]
     skipDuplicates?: boolean
   }
 
@@ -22677,6 +23117,7 @@ export namespace Prisma {
     id?: StringFilter<"Subscription"> | string
     parking_spot_id?: StringNullableFilter<"Subscription"> | string | null
     subscriber_user_id?: StringNullableFilter<"Subscription"> | string | null
+    host_user_id?: StringNullableFilter<"Subscription"> | string | null
     subscriber_name?: StringNullableFilter<"Subscription"> | string | null
     subscriber_email?: StringNullableFilter<"Subscription"> | string | null
     subscriber_phone?: StringNullableFilter<"Subscription"> | string | null
@@ -22686,8 +23127,26 @@ export namespace Prisma {
     subscriber_driver_licence_number?: StringNullableFilter<"Subscription"> | string | null
     subscriber_id_card_number?: StringNullableFilter<"Subscription"> | string | null
     stripe_subscription?: JsonNullableFilter<"Subscription">
+    stripe_payment_intent?: JsonNullableFilter<"Subscription">
+    no_of_hours?: IntNullableFilter<"Subscription"> | number | null
     created_at?: DateTimeFilter<"Subscription"> | Date | string
     updated_at?: DateTimeFilter<"Subscription"> | Date | string
+  }
+
+  export type SubscriptionUpsertWithWhereUniqueWithoutHost_userInput = {
+    where: SubscriptionWhereUniqueInput
+    update: XOR<SubscriptionUpdateWithoutHost_userInput, SubscriptionUncheckedUpdateWithoutHost_userInput>
+    create: XOR<SubscriptionCreateWithoutHost_userInput, SubscriptionUncheckedCreateWithoutHost_userInput>
+  }
+
+  export type SubscriptionUpdateWithWhereUniqueWithoutHost_userInput = {
+    where: SubscriptionWhereUniqueInput
+    data: XOR<SubscriptionUpdateWithoutHost_userInput, SubscriptionUncheckedUpdateWithoutHost_userInput>
+  }
+
+  export type SubscriptionUpdateManyWithWhereWithoutHost_userInput = {
+    where: SubscriptionScalarWhereInput
+    data: XOR<SubscriptionUpdateManyMutationInput, SubscriptionUncheckedUpdateManyWithoutHost_userInput>
   }
 
   export type ManagementStaffCreateWithoutManagementInput = {
@@ -22786,7 +23245,8 @@ export namespace Prisma {
     listings?: ListingCreateNestedManyWithoutHostInput
     hostReservations?: ReservationCreateNestedManyWithoutHostInput
     visitorReservations?: ReservationCreateNestedManyWithoutVisitorInput
-    subscriptions?: SubscriptionCreateNestedManyWithoutSubscriber_userInput
+    subscriber_subscriptions?: SubscriptionCreateNestedManyWithoutSubscriber_userInput
+    host_subscriptions?: SubscriptionCreateNestedManyWithoutHost_userInput
   }
 
   export type UserUncheckedCreateWithoutManagementInput = {
@@ -22807,7 +23267,8 @@ export namespace Prisma {
     listings?: ListingUncheckedCreateNestedManyWithoutHostInput
     hostReservations?: ReservationUncheckedCreateNestedManyWithoutHostInput
     visitorReservations?: ReservationUncheckedCreateNestedManyWithoutVisitorInput
-    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutSubscriber_userInput
+    subscriber_subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutSubscriber_userInput
+    host_subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutHost_userInput
   }
 
   export type UserCreateOrConnectWithoutManagementInput = {
@@ -22909,7 +23370,8 @@ export namespace Prisma {
     listings?: ListingUpdateManyWithoutHostNestedInput
     hostReservations?: ReservationUpdateManyWithoutHostNestedInput
     visitorReservations?: ReservationUpdateManyWithoutVisitorNestedInput
-    subscriptions?: SubscriptionUpdateManyWithoutSubscriber_userNestedInput
+    subscriber_subscriptions?: SubscriptionUpdateManyWithoutSubscriber_userNestedInput
+    host_subscriptions?: SubscriptionUpdateManyWithoutHost_userNestedInput
   }
 
   export type UserUncheckedUpdateWithoutManagementInput = {
@@ -22930,7 +23392,8 @@ export namespace Prisma {
     listings?: ListingUncheckedUpdateManyWithoutHostNestedInput
     hostReservations?: ReservationUncheckedUpdateManyWithoutHostNestedInput
     visitorReservations?: ReservationUncheckedUpdateManyWithoutVisitorNestedInput
-    subscriptions?: SubscriptionUncheckedUpdateManyWithoutSubscriber_userNestedInput
+    subscriber_subscriptions?: SubscriptionUncheckedUpdateManyWithoutSubscriber_userNestedInput
+    host_subscriptions?: SubscriptionUncheckedUpdateManyWithoutHost_userNestedInput
   }
 
   export type ManagementCreateWithoutStaffsInput = {
@@ -23131,7 +23594,12 @@ export namespace Prisma {
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
     price?: number | null
+    hourly_price?: number | null
+    hourly_stripe_price_id?: string | null
+    deposit_price?: number | null
+    deposit_stripe_price_id?: string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
     owner?: CommunityMembersCreateNestedOneWithoutParking_spotsInput
     qr_code?: QRCodeCreateNestedOneWithoutParking_spotInput
@@ -23152,7 +23620,12 @@ export namespace Prisma {
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
     price?: number | null
+    hourly_price?: number | null
+    hourly_stripe_price_id?: string | null
+    deposit_price?: number | null
+    deposit_stripe_price_id?: string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
     current_subscription_id?: string | null
     listings?: ListingUncheckedCreateNestedManyWithoutParking_spotInput
@@ -23341,7 +23814,12 @@ export namespace Prisma {
     parking_spot_type?: EnumParking_Spot_TypeFilter<"ParkingSpot"> | $Enums.Parking_Spot_Type
     parking_instructions?: StringNullableFilter<"ParkingSpot"> | string | null
     price?: IntNullableFilter<"ParkingSpot"> | number | null
+    hourly_price?: IntNullableFilter<"ParkingSpot"> | number | null
+    hourly_stripe_price_id?: StringNullableFilter<"ParkingSpot"> | string | null
+    deposit_price?: IntNullableFilter<"ParkingSpot"> | number | null
+    deposit_stripe_price_id?: StringNullableFilter<"ParkingSpot"> | string | null
     stripe_product?: JsonNullableFilter<"ParkingSpot">
+    stripe_deposit_product?: JsonNullableFilter<"ParkingSpot">
     deposit_enabled?: BoolNullableFilter<"ParkingSpot"> | boolean | null
     current_subscription_id?: StringNullableFilter<"ParkingSpot"> | string | null
   }
@@ -23467,7 +23945,12 @@ export namespace Prisma {
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
     price?: number | null
+    hourly_price?: number | null
+    hourly_stripe_price_id?: string | null
+    deposit_price?: number | null
+    deposit_stripe_price_id?: string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
     building: BuildingCreateNestedOneWithoutParking_spotsInput
     qr_code?: QRCodeCreateNestedOneWithoutParking_spotInput
@@ -23488,7 +23971,12 @@ export namespace Prisma {
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
     price?: number | null
+    hourly_price?: number | null
+    hourly_stripe_price_id?: string | null
+    deposit_price?: number | null
+    deposit_stripe_price_id?: string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
     current_subscription_id?: string | null
     listings?: ListingUncheckedCreateNestedManyWithoutParking_spotInput
@@ -23524,7 +24012,8 @@ export namespace Prisma {
     listings?: ListingCreateNestedManyWithoutHostInput
     hostReservations?: ReservationCreateNestedManyWithoutHostInput
     visitorReservations?: ReservationCreateNestedManyWithoutVisitorInput
-    subscriptions?: SubscriptionCreateNestedManyWithoutSubscriber_userInput
+    subscriber_subscriptions?: SubscriptionCreateNestedManyWithoutSubscriber_userInput
+    host_subscriptions?: SubscriptionCreateNestedManyWithoutHost_userInput
   }
 
   export type UserUncheckedCreateWithoutCommunity_membersInput = {
@@ -23545,7 +24034,8 @@ export namespace Prisma {
     listings?: ListingUncheckedCreateNestedManyWithoutHostInput
     hostReservations?: ReservationUncheckedCreateNestedManyWithoutHostInput
     visitorReservations?: ReservationUncheckedCreateNestedManyWithoutVisitorInput
-    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutSubscriber_userInput
+    subscriber_subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutSubscriber_userInput
+    host_subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutHost_userInput
   }
 
   export type UserCreateOrConnectWithoutCommunity_membersInput = {
@@ -23706,7 +24196,8 @@ export namespace Prisma {
     listings?: ListingUpdateManyWithoutHostNestedInput
     hostReservations?: ReservationUpdateManyWithoutHostNestedInput
     visitorReservations?: ReservationUpdateManyWithoutVisitorNestedInput
-    subscriptions?: SubscriptionUpdateManyWithoutSubscriber_userNestedInput
+    subscriber_subscriptions?: SubscriptionUpdateManyWithoutSubscriber_userNestedInput
+    host_subscriptions?: SubscriptionUpdateManyWithoutHost_userNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommunity_membersInput = {
@@ -23727,7 +24218,8 @@ export namespace Prisma {
     listings?: ListingUncheckedUpdateManyWithoutHostNestedInput
     hostReservations?: ReservationUncheckedUpdateManyWithoutHostNestedInput
     visitorReservations?: ReservationUncheckedUpdateManyWithoutVisitorNestedInput
-    subscriptions?: SubscriptionUncheckedUpdateManyWithoutSubscriber_userNestedInput
+    subscriber_subscriptions?: SubscriptionUncheckedUpdateManyWithoutSubscriber_userNestedInput
+    host_subscriptions?: SubscriptionUncheckedUpdateManyWithoutHost_userNestedInput
   }
 
   export type ApartmentUnitUpsertWithWhereUniqueWithoutCommunity_memberInput = {
@@ -23963,16 +24455,20 @@ export namespace Prisma {
     subscriber_driver_licence_number?: string | null
     subscriber_id_card_number?: string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    no_of_hours?: number | null
     created_at?: Date | string
     updated_at?: Date | string
     parking_spot?: ParkingSpotCreateNestedOneWithoutAll_subscriptionsInput
-    subscriber_user?: UserCreateNestedOneWithoutSubscriptionsInput
+    subscriber_user?: UserCreateNestedOneWithoutSubscriber_subscriptionsInput
+    host_user?: UserCreateNestedOneWithoutHost_subscriptionsInput
   }
 
   export type SubscriptionUncheckedCreateWithoutParking_spot_currentInput = {
     id?: string
     parking_spot_id?: string | null
     subscriber_user_id?: string | null
+    host_user_id?: string | null
     subscriber_name?: string | null
     subscriber_email?: string | null
     subscriber_phone?: string | null
@@ -23982,6 +24478,8 @@ export namespace Prisma {
     subscriber_driver_licence_number?: string | null
     subscriber_id_card_number?: string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    no_of_hours?: number | null
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -24002,15 +24500,19 @@ export namespace Prisma {
     subscriber_driver_licence_number?: string | null
     subscriber_id_card_number?: string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    no_of_hours?: number | null
     created_at?: Date | string
     updated_at?: Date | string
-    subscriber_user?: UserCreateNestedOneWithoutSubscriptionsInput
+    subscriber_user?: UserCreateNestedOneWithoutSubscriber_subscriptionsInput
+    host_user?: UserCreateNestedOneWithoutHost_subscriptionsInput
     parking_spot_current?: ParkingSpotCreateNestedOneWithoutCurrent_subscriptionInput
   }
 
   export type SubscriptionUncheckedCreateWithoutParking_spotInput = {
     id?: string
     subscriber_user_id?: string | null
+    host_user_id?: string | null
     subscriber_name?: string | null
     subscriber_email?: string | null
     subscriber_phone?: string | null
@@ -24020,6 +24522,8 @@ export namespace Prisma {
     subscriber_driver_licence_number?: string | null
     subscriber_id_card_number?: string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    no_of_hours?: number | null
     created_at?: Date | string
     updated_at?: Date | string
     parking_spot_current?: ParkingSpotUncheckedCreateNestedOneWithoutCurrent_subscriptionInput
@@ -24233,16 +24737,20 @@ export namespace Prisma {
     subscriber_driver_licence_number?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    no_of_hours?: NullableIntFieldUpdateOperationsInput | number | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     parking_spot?: ParkingSpotUpdateOneWithoutAll_subscriptionsNestedInput
-    subscriber_user?: UserUpdateOneWithoutSubscriptionsNestedInput
+    subscriber_user?: UserUpdateOneWithoutSubscriber_subscriptionsNestedInput
+    host_user?: UserUpdateOneWithoutHost_subscriptionsNestedInput
   }
 
   export type SubscriptionUncheckedUpdateWithoutParking_spot_currentInput = {
     id?: StringFieldUpdateOperationsInput | string
     parking_spot_id?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    host_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_name?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_email?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -24252,6 +24760,8 @@ export namespace Prisma {
     subscriber_driver_licence_number?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    no_of_hours?: NullableIntFieldUpdateOperationsInput | number | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -24312,7 +24822,12 @@ export namespace Prisma {
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
     price?: number | null
+    hourly_price?: number | null
+    hourly_stripe_price_id?: string | null
+    deposit_price?: number | null
+    deposit_stripe_price_id?: string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
     building: BuildingCreateNestedOneWithoutParking_spotsInput
     owner?: CommunityMembersCreateNestedOneWithoutParking_spotsInput
@@ -24333,7 +24848,12 @@ export namespace Prisma {
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
     price?: number | null
+    hourly_price?: number | null
+    hourly_stripe_price_id?: string | null
+    deposit_price?: number | null
+    deposit_stripe_price_id?: string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
     current_subscription_id?: string | null
     listings?: ListingUncheckedCreateNestedManyWithoutParking_spotInput
@@ -24403,7 +24923,12 @@ export namespace Prisma {
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
+    deposit_price?: NullableIntFieldUpdateOperationsInput | number | null
+    deposit_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
     building?: BuildingUpdateOneRequiredWithoutParking_spotsNestedInput
     owner?: CommunityMembersUpdateOneWithoutParking_spotsNestedInput
@@ -24424,7 +24949,12 @@ export namespace Prisma {
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
+    deposit_price?: NullableIntFieldUpdateOperationsInput | number | null
+    deposit_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
     current_subscription_id?: NullableStringFieldUpdateOperationsInput | string | null
     listings?: ListingUncheckedUpdateManyWithoutParking_spotNestedInput
@@ -24439,7 +24969,12 @@ export namespace Prisma {
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
     price?: number | null
+    hourly_price?: number | null
+    hourly_stripe_price_id?: string | null
+    deposit_price?: number | null
+    deposit_stripe_price_id?: string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
     building: BuildingCreateNestedOneWithoutParking_spotsInput
     owner?: CommunityMembersCreateNestedOneWithoutParking_spotsInput
@@ -24460,7 +24995,12 @@ export namespace Prisma {
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
     price?: number | null
+    hourly_price?: number | null
+    hourly_stripe_price_id?: string | null
+    deposit_price?: number | null
+    deposit_stripe_price_id?: string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
     current_subscription_id?: string | null
     listings?: ListingUncheckedCreateNestedManyWithoutParking_spotInput
@@ -24512,7 +25052,8 @@ export namespace Prisma {
     community_members?: CommunityMembersCreateNestedManyWithoutUserInput
     hostReservations?: ReservationCreateNestedManyWithoutHostInput
     visitorReservations?: ReservationCreateNestedManyWithoutVisitorInput
-    subscriptions?: SubscriptionCreateNestedManyWithoutSubscriber_userInput
+    subscriber_subscriptions?: SubscriptionCreateNestedManyWithoutSubscriber_userInput
+    host_subscriptions?: SubscriptionCreateNestedManyWithoutHost_userInput
   }
 
   export type UserUncheckedCreateWithoutListingsInput = {
@@ -24533,7 +25074,8 @@ export namespace Prisma {
     community_members?: CommunityMembersUncheckedCreateNestedManyWithoutUserInput
     hostReservations?: ReservationUncheckedCreateNestedManyWithoutHostInput
     visitorReservations?: ReservationUncheckedCreateNestedManyWithoutVisitorInput
-    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutSubscriber_userInput
+    subscriber_subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutSubscriber_userInput
+    host_subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutHost_userInput
   }
 
   export type UserCreateOrConnectWithoutListingsInput = {
@@ -24548,7 +25090,12 @@ export namespace Prisma {
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
     price?: number | null
+    hourly_price?: number | null
+    hourly_stripe_price_id?: string | null
+    deposit_price?: number | null
+    deposit_stripe_price_id?: string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
     building: BuildingCreateNestedOneWithoutParking_spotsInput
     owner?: CommunityMembersCreateNestedOneWithoutParking_spotsInput
@@ -24570,7 +25117,12 @@ export namespace Prisma {
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
     price?: number | null
+    hourly_price?: number | null
+    hourly_stripe_price_id?: string | null
+    deposit_price?: number | null
+    deposit_stripe_price_id?: string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
     current_subscription_id?: string | null
     reservations?: ReservationUncheckedCreateNestedManyWithoutParkingInput
@@ -24655,7 +25207,8 @@ export namespace Prisma {
     community_members?: CommunityMembersUpdateManyWithoutUserNestedInput
     hostReservations?: ReservationUpdateManyWithoutHostNestedInput
     visitorReservations?: ReservationUpdateManyWithoutVisitorNestedInput
-    subscriptions?: SubscriptionUpdateManyWithoutSubscriber_userNestedInput
+    subscriber_subscriptions?: SubscriptionUpdateManyWithoutSubscriber_userNestedInput
+    host_subscriptions?: SubscriptionUpdateManyWithoutHost_userNestedInput
   }
 
   export type UserUncheckedUpdateWithoutListingsInput = {
@@ -24676,7 +25229,8 @@ export namespace Prisma {
     community_members?: CommunityMembersUncheckedUpdateManyWithoutUserNestedInput
     hostReservations?: ReservationUncheckedUpdateManyWithoutHostNestedInput
     visitorReservations?: ReservationUncheckedUpdateManyWithoutVisitorNestedInput
-    subscriptions?: SubscriptionUncheckedUpdateManyWithoutSubscriber_userNestedInput
+    subscriber_subscriptions?: SubscriptionUncheckedUpdateManyWithoutSubscriber_userNestedInput
+    host_subscriptions?: SubscriptionUncheckedUpdateManyWithoutHost_userNestedInput
   }
 
   export type ParkingSpotUpsertWithoutListingsInput = {
@@ -24697,7 +25251,12 @@ export namespace Prisma {
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
+    deposit_price?: NullableIntFieldUpdateOperationsInput | number | null
+    deposit_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
     building?: BuildingUpdateOneRequiredWithoutParking_spotsNestedInput
     owner?: CommunityMembersUpdateOneWithoutParking_spotsNestedInput
@@ -24719,7 +25278,12 @@ export namespace Prisma {
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
+    deposit_price?: NullableIntFieldUpdateOperationsInput | number | null
+    deposit_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
     current_subscription_id?: NullableStringFieldUpdateOperationsInput | string | null
     reservations?: ReservationUncheckedUpdateManyWithoutParkingNestedInput
@@ -24797,7 +25361,8 @@ export namespace Prisma {
     community_members?: CommunityMembersCreateNestedManyWithoutUserInput
     listings?: ListingCreateNestedManyWithoutHostInput
     visitorReservations?: ReservationCreateNestedManyWithoutVisitorInput
-    subscriptions?: SubscriptionCreateNestedManyWithoutSubscriber_userInput
+    subscriber_subscriptions?: SubscriptionCreateNestedManyWithoutSubscriber_userInput
+    host_subscriptions?: SubscriptionCreateNestedManyWithoutHost_userInput
   }
 
   export type UserUncheckedCreateWithoutHostReservationsInput = {
@@ -24818,7 +25383,8 @@ export namespace Prisma {
     community_members?: CommunityMembersUncheckedCreateNestedManyWithoutUserInput
     listings?: ListingUncheckedCreateNestedManyWithoutHostInput
     visitorReservations?: ReservationUncheckedCreateNestedManyWithoutVisitorInput
-    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutSubscriber_userInput
+    subscriber_subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutSubscriber_userInput
+    host_subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutHost_userInput
   }
 
   export type UserCreateOrConnectWithoutHostReservationsInput = {
@@ -24844,7 +25410,8 @@ export namespace Prisma {
     community_members?: CommunityMembersCreateNestedManyWithoutUserInput
     listings?: ListingCreateNestedManyWithoutHostInput
     hostReservations?: ReservationCreateNestedManyWithoutHostInput
-    subscriptions?: SubscriptionCreateNestedManyWithoutSubscriber_userInput
+    subscriber_subscriptions?: SubscriptionCreateNestedManyWithoutSubscriber_userInput
+    host_subscriptions?: SubscriptionCreateNestedManyWithoutHost_userInput
   }
 
   export type UserUncheckedCreateWithoutVisitorReservationsInput = {
@@ -24865,7 +25432,8 @@ export namespace Prisma {
     community_members?: CommunityMembersUncheckedCreateNestedManyWithoutUserInput
     listings?: ListingUncheckedCreateNestedManyWithoutHostInput
     hostReservations?: ReservationUncheckedCreateNestedManyWithoutHostInput
-    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutSubscriber_userInput
+    subscriber_subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutSubscriber_userInput
+    host_subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutHost_userInput
   }
 
   export type UserCreateOrConnectWithoutVisitorReservationsInput = {
@@ -24927,7 +25495,12 @@ export namespace Prisma {
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
     price?: number | null
+    hourly_price?: number | null
+    hourly_stripe_price_id?: string | null
+    deposit_price?: number | null
+    deposit_stripe_price_id?: string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
     building: BuildingCreateNestedOneWithoutParking_spotsInput
     owner?: CommunityMembersCreateNestedOneWithoutParking_spotsInput
@@ -24949,7 +25522,12 @@ export namespace Prisma {
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
     price?: number | null
+    hourly_price?: number | null
+    hourly_stripe_price_id?: string | null
+    deposit_price?: number | null
+    deposit_stripe_price_id?: string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
     current_subscription_id?: string | null
     listings?: ListingUncheckedCreateNestedManyWithoutParking_spotInput
@@ -25033,7 +25611,8 @@ export namespace Prisma {
     community_members?: CommunityMembersUpdateManyWithoutUserNestedInput
     listings?: ListingUpdateManyWithoutHostNestedInput
     visitorReservations?: ReservationUpdateManyWithoutVisitorNestedInput
-    subscriptions?: SubscriptionUpdateManyWithoutSubscriber_userNestedInput
+    subscriber_subscriptions?: SubscriptionUpdateManyWithoutSubscriber_userNestedInput
+    host_subscriptions?: SubscriptionUpdateManyWithoutHost_userNestedInput
   }
 
   export type UserUncheckedUpdateWithoutHostReservationsInput = {
@@ -25054,7 +25633,8 @@ export namespace Prisma {
     community_members?: CommunityMembersUncheckedUpdateManyWithoutUserNestedInput
     listings?: ListingUncheckedUpdateManyWithoutHostNestedInput
     visitorReservations?: ReservationUncheckedUpdateManyWithoutVisitorNestedInput
-    subscriptions?: SubscriptionUncheckedUpdateManyWithoutSubscriber_userNestedInput
+    subscriber_subscriptions?: SubscriptionUncheckedUpdateManyWithoutSubscriber_userNestedInput
+    host_subscriptions?: SubscriptionUncheckedUpdateManyWithoutHost_userNestedInput
   }
 
   export type UserUpsertWithoutVisitorReservationsInput = {
@@ -25086,7 +25666,8 @@ export namespace Prisma {
     community_members?: CommunityMembersUpdateManyWithoutUserNestedInput
     listings?: ListingUpdateManyWithoutHostNestedInput
     hostReservations?: ReservationUpdateManyWithoutHostNestedInput
-    subscriptions?: SubscriptionUpdateManyWithoutSubscriber_userNestedInput
+    subscriber_subscriptions?: SubscriptionUpdateManyWithoutSubscriber_userNestedInput
+    host_subscriptions?: SubscriptionUpdateManyWithoutHost_userNestedInput
   }
 
   export type UserUncheckedUpdateWithoutVisitorReservationsInput = {
@@ -25107,7 +25688,8 @@ export namespace Prisma {
     community_members?: CommunityMembersUncheckedUpdateManyWithoutUserNestedInput
     listings?: ListingUncheckedUpdateManyWithoutHostNestedInput
     hostReservations?: ReservationUncheckedUpdateManyWithoutHostNestedInput
-    subscriptions?: SubscriptionUncheckedUpdateManyWithoutSubscriber_userNestedInput
+    subscriber_subscriptions?: SubscriptionUncheckedUpdateManyWithoutSubscriber_userNestedInput
+    host_subscriptions?: SubscriptionUncheckedUpdateManyWithoutHost_userNestedInput
   }
 
   export type BuildingUpsertWithoutReservationsInput = {
@@ -25181,7 +25763,12 @@ export namespace Prisma {
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
+    deposit_price?: NullableIntFieldUpdateOperationsInput | number | null
+    deposit_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
     building?: BuildingUpdateOneRequiredWithoutParking_spotsNestedInput
     owner?: CommunityMembersUpdateOneWithoutParking_spotsNestedInput
@@ -25203,7 +25790,12 @@ export namespace Prisma {
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
+    deposit_price?: NullableIntFieldUpdateOperationsInput | number | null
+    deposit_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
     current_subscription_id?: NullableStringFieldUpdateOperationsInput | string | null
     listings?: ListingUncheckedUpdateManyWithoutParking_spotNestedInput
@@ -25389,7 +25981,12 @@ export namespace Prisma {
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
     price?: number | null
+    hourly_price?: number | null
+    hourly_stripe_price_id?: string | null
+    deposit_price?: number | null
+    deposit_stripe_price_id?: string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
     building: BuildingCreateNestedOneWithoutParking_spotsInput
     owner?: CommunityMembersCreateNestedOneWithoutParking_spotsInput
@@ -25411,7 +26008,12 @@ export namespace Prisma {
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
     price?: number | null
+    hourly_price?: number | null
+    hourly_stripe_price_id?: string | null
+    deposit_price?: number | null
+    deposit_stripe_price_id?: string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
     current_subscription_id?: string | null
     listings?: ListingUncheckedCreateNestedManyWithoutParking_spotInput
@@ -25423,7 +26025,7 @@ export namespace Prisma {
     create: XOR<ParkingSpotCreateWithoutAll_subscriptionsInput, ParkingSpotUncheckedCreateWithoutAll_subscriptionsInput>
   }
 
-  export type UserCreateWithoutSubscriptionsInput = {
+  export type UserCreateWithoutSubscriber_subscriptionsInput = {
     id?: string
     email?: string | null
     phone_number?: string | null
@@ -25442,9 +26044,10 @@ export namespace Prisma {
     listings?: ListingCreateNestedManyWithoutHostInput
     hostReservations?: ReservationCreateNestedManyWithoutHostInput
     visitorReservations?: ReservationCreateNestedManyWithoutVisitorInput
+    host_subscriptions?: SubscriptionCreateNestedManyWithoutHost_userInput
   }
 
-  export type UserUncheckedCreateWithoutSubscriptionsInput = {
+  export type UserUncheckedCreateWithoutSubscriber_subscriptionsInput = {
     id?: string
     email?: string | null
     phone_number?: string | null
@@ -25463,11 +26066,61 @@ export namespace Prisma {
     listings?: ListingUncheckedCreateNestedManyWithoutHostInput
     hostReservations?: ReservationUncheckedCreateNestedManyWithoutHostInput
     visitorReservations?: ReservationUncheckedCreateNestedManyWithoutVisitorInput
+    host_subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutHost_userInput
   }
 
-  export type UserCreateOrConnectWithoutSubscriptionsInput = {
+  export type UserCreateOrConnectWithoutSubscriber_subscriptionsInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutSubscriptionsInput, UserUncheckedCreateWithoutSubscriptionsInput>
+    create: XOR<UserCreateWithoutSubscriber_subscriptionsInput, UserUncheckedCreateWithoutSubscriber_subscriptionsInput>
+  }
+
+  export type UserCreateWithoutHost_subscriptionsInput = {
+    id?: string
+    email?: string | null
+    phone_number?: string | null
+    first_name?: string | null
+    last_name?: string | null
+    user_roles?: UserCreateuser_rolesInput | $Enums.User_Role[]
+    verification_status?: $Enums.Verification_Status | null
+    mobile_onboard_status?: $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id?: string | null
+    stripe_account?: NullableJsonNullValueInput | InputJsonValue
+    notification_token?: string | null
+    created_at?: Date | string
+    last_login?: Date | string
+    management?: ManagementCreateNestedOneWithoutUserInput
+    community_members?: CommunityMembersCreateNestedManyWithoutUserInput
+    listings?: ListingCreateNestedManyWithoutHostInput
+    hostReservations?: ReservationCreateNestedManyWithoutHostInput
+    visitorReservations?: ReservationCreateNestedManyWithoutVisitorInput
+    subscriber_subscriptions?: SubscriptionCreateNestedManyWithoutSubscriber_userInput
+  }
+
+  export type UserUncheckedCreateWithoutHost_subscriptionsInput = {
+    id?: string
+    email?: string | null
+    phone_number?: string | null
+    first_name?: string | null
+    last_name?: string | null
+    user_roles?: UserCreateuser_rolesInput | $Enums.User_Role[]
+    verification_status?: $Enums.Verification_Status | null
+    mobile_onboard_status?: $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id?: string | null
+    stripe_account?: NullableJsonNullValueInput | InputJsonValue
+    notification_token?: string | null
+    created_at?: Date | string
+    last_login?: Date | string
+    management?: ManagementUncheckedCreateNestedOneWithoutUserInput
+    community_members?: CommunityMembersUncheckedCreateNestedManyWithoutUserInput
+    listings?: ListingUncheckedCreateNestedManyWithoutHostInput
+    hostReservations?: ReservationUncheckedCreateNestedManyWithoutHostInput
+    visitorReservations?: ReservationUncheckedCreateNestedManyWithoutVisitorInput
+    subscriber_subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutSubscriber_userInput
+  }
+
+  export type UserCreateOrConnectWithoutHost_subscriptionsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutHost_subscriptionsInput, UserUncheckedCreateWithoutHost_subscriptionsInput>
   }
 
   export type ParkingSpotCreateWithoutCurrent_subscriptionInput = {
@@ -25477,7 +26130,12 @@ export namespace Prisma {
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
     price?: number | null
+    hourly_price?: number | null
+    hourly_stripe_price_id?: string | null
+    deposit_price?: number | null
+    deposit_stripe_price_id?: string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
     building: BuildingCreateNestedOneWithoutParking_spotsInput
     owner?: CommunityMembersCreateNestedOneWithoutParking_spotsInput
@@ -25499,7 +26157,12 @@ export namespace Prisma {
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
     price?: number | null
+    hourly_price?: number | null
+    hourly_stripe_price_id?: string | null
+    deposit_price?: number | null
+    deposit_stripe_price_id?: string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
     listings?: ListingUncheckedCreateNestedManyWithoutParking_spotInput
     reservations?: ReservationUncheckedCreateNestedManyWithoutParkingInput
@@ -25529,7 +26192,12 @@ export namespace Prisma {
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
+    deposit_price?: NullableIntFieldUpdateOperationsInput | number | null
+    deposit_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
     building?: BuildingUpdateOneRequiredWithoutParking_spotsNestedInput
     owner?: CommunityMembersUpdateOneWithoutParking_spotsNestedInput
@@ -25551,25 +26219,30 @@ export namespace Prisma {
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
+    deposit_price?: NullableIntFieldUpdateOperationsInput | number | null
+    deposit_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
     current_subscription_id?: NullableStringFieldUpdateOperationsInput | string | null
     listings?: ListingUncheckedUpdateManyWithoutParking_spotNestedInput
     reservations?: ReservationUncheckedUpdateManyWithoutParkingNestedInput
   }
 
-  export type UserUpsertWithoutSubscriptionsInput = {
-    update: XOR<UserUpdateWithoutSubscriptionsInput, UserUncheckedUpdateWithoutSubscriptionsInput>
-    create: XOR<UserCreateWithoutSubscriptionsInput, UserUncheckedCreateWithoutSubscriptionsInput>
+  export type UserUpsertWithoutSubscriber_subscriptionsInput = {
+    update: XOR<UserUpdateWithoutSubscriber_subscriptionsInput, UserUncheckedUpdateWithoutSubscriber_subscriptionsInput>
+    create: XOR<UserCreateWithoutSubscriber_subscriptionsInput, UserUncheckedCreateWithoutSubscriber_subscriptionsInput>
     where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutSubscriptionsInput = {
+  export type UserUpdateToOneWithWhereWithoutSubscriber_subscriptionsInput = {
     where?: UserWhereInput
-    data: XOR<UserUpdateWithoutSubscriptionsInput, UserUncheckedUpdateWithoutSubscriptionsInput>
+    data: XOR<UserUpdateWithoutSubscriber_subscriptionsInput, UserUncheckedUpdateWithoutSubscriber_subscriptionsInput>
   }
 
-  export type UserUpdateWithoutSubscriptionsInput = {
+  export type UserUpdateWithoutSubscriber_subscriptionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone_number?: NullableStringFieldUpdateOperationsInput | string | null
@@ -25588,9 +26261,10 @@ export namespace Prisma {
     listings?: ListingUpdateManyWithoutHostNestedInput
     hostReservations?: ReservationUpdateManyWithoutHostNestedInput
     visitorReservations?: ReservationUpdateManyWithoutVisitorNestedInput
+    host_subscriptions?: SubscriptionUpdateManyWithoutHost_userNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutSubscriptionsInput = {
+  export type UserUncheckedUpdateWithoutSubscriber_subscriptionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone_number?: NullableStringFieldUpdateOperationsInput | string | null
@@ -25609,6 +26283,62 @@ export namespace Prisma {
     listings?: ListingUncheckedUpdateManyWithoutHostNestedInput
     hostReservations?: ReservationUncheckedUpdateManyWithoutHostNestedInput
     visitorReservations?: ReservationUncheckedUpdateManyWithoutVisitorNestedInput
+    host_subscriptions?: SubscriptionUncheckedUpdateManyWithoutHost_userNestedInput
+  }
+
+  export type UserUpsertWithoutHost_subscriptionsInput = {
+    update: XOR<UserUpdateWithoutHost_subscriptionsInput, UserUncheckedUpdateWithoutHost_subscriptionsInput>
+    create: XOR<UserCreateWithoutHost_subscriptionsInput, UserUncheckedCreateWithoutHost_subscriptionsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutHost_subscriptionsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutHost_subscriptionsInput, UserUncheckedUpdateWithoutHost_subscriptionsInput>
+  }
+
+  export type UserUpdateWithoutHost_subscriptionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone_number?: NullableStringFieldUpdateOperationsInput | string | null
+    first_name?: NullableStringFieldUpdateOperationsInput | string | null
+    last_name?: NullableStringFieldUpdateOperationsInput | string | null
+    user_roles?: UserUpdateuser_rolesInput | $Enums.User_Role[]
+    verification_status?: NullableEnumVerification_StatusFieldUpdateOperationsInput | $Enums.Verification_Status | null
+    mobile_onboard_status?: NullableEnumMobile_Onboard_StatusFieldUpdateOperationsInput | $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id?: NullableStringFieldUpdateOperationsInput | string | null
+    stripe_account?: NullableJsonNullValueInput | InputJsonValue
+    notification_token?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    last_login?: DateTimeFieldUpdateOperationsInput | Date | string
+    management?: ManagementUpdateOneWithoutUserNestedInput
+    community_members?: CommunityMembersUpdateManyWithoutUserNestedInput
+    listings?: ListingUpdateManyWithoutHostNestedInput
+    hostReservations?: ReservationUpdateManyWithoutHostNestedInput
+    visitorReservations?: ReservationUpdateManyWithoutVisitorNestedInput
+    subscriber_subscriptions?: SubscriptionUpdateManyWithoutSubscriber_userNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutHost_subscriptionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone_number?: NullableStringFieldUpdateOperationsInput | string | null
+    first_name?: NullableStringFieldUpdateOperationsInput | string | null
+    last_name?: NullableStringFieldUpdateOperationsInput | string | null
+    user_roles?: UserUpdateuser_rolesInput | $Enums.User_Role[]
+    verification_status?: NullableEnumVerification_StatusFieldUpdateOperationsInput | $Enums.Verification_Status | null
+    mobile_onboard_status?: NullableEnumMobile_Onboard_StatusFieldUpdateOperationsInput | $Enums.Mobile_Onboard_Status | null
+    stripe_customer_id?: NullableStringFieldUpdateOperationsInput | string | null
+    stripe_account?: NullableJsonNullValueInput | InputJsonValue
+    notification_token?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    last_login?: DateTimeFieldUpdateOperationsInput | Date | string
+    management?: ManagementUncheckedUpdateOneWithoutUserNestedInput
+    community_members?: CommunityMembersUncheckedUpdateManyWithoutUserNestedInput
+    listings?: ListingUncheckedUpdateManyWithoutHostNestedInput
+    hostReservations?: ReservationUncheckedUpdateManyWithoutHostNestedInput
+    visitorReservations?: ReservationUncheckedUpdateManyWithoutVisitorNestedInput
+    subscriber_subscriptions?: SubscriptionUncheckedUpdateManyWithoutSubscriber_userNestedInput
   }
 
   export type ParkingSpotUpsertWithoutCurrent_subscriptionInput = {
@@ -25629,7 +26359,12 @@ export namespace Prisma {
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
+    deposit_price?: NullableIntFieldUpdateOperationsInput | number | null
+    deposit_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
     building?: BuildingUpdateOneRequiredWithoutParking_spotsNestedInput
     owner?: CommunityMembersUpdateOneWithoutParking_spotsNestedInput
@@ -25651,7 +26386,12 @@ export namespace Prisma {
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
+    deposit_price?: NullableIntFieldUpdateOperationsInput | number | null
+    deposit_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
     listings?: ListingUncheckedUpdateManyWithoutParking_spotNestedInput
     reservations?: ReservationUncheckedUpdateManyWithoutParkingNestedInput
@@ -25722,6 +26462,7 @@ export namespace Prisma {
   export type SubscriptionCreateManySubscriber_userInput = {
     id?: string
     parking_spot_id?: string | null
+    host_user_id?: string | null
     subscriber_name?: string | null
     subscriber_email?: string | null
     subscriber_phone?: string | null
@@ -25731,6 +26472,27 @@ export namespace Prisma {
     subscriber_driver_licence_number?: string | null
     subscriber_id_card_number?: string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    no_of_hours?: number | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type SubscriptionCreateManyHost_userInput = {
+    id?: string
+    parking_spot_id?: string | null
+    subscriber_user_id?: string | null
+    subscriber_name?: string | null
+    subscriber_email?: string | null
+    subscriber_phone?: string | null
+    subscriber_licence_plate?: string | null
+    subscriber_car_model?: string | null
+    subscriber_office_number?: string | null
+    subscriber_driver_licence_number?: string | null
+    subscriber_id_card_number?: string | null
+    stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    no_of_hours?: number | null
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -25935,15 +26697,19 @@ export namespace Prisma {
     subscriber_driver_licence_number?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    no_of_hours?: NullableIntFieldUpdateOperationsInput | number | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     parking_spot?: ParkingSpotUpdateOneWithoutAll_subscriptionsNestedInput
+    host_user?: UserUpdateOneWithoutHost_subscriptionsNestedInput
     parking_spot_current?: ParkingSpotUpdateOneWithoutCurrent_subscriptionNestedInput
   }
 
   export type SubscriptionUncheckedUpdateWithoutSubscriber_userInput = {
     id?: StringFieldUpdateOperationsInput | string
     parking_spot_id?: NullableStringFieldUpdateOperationsInput | string | null
+    host_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_name?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_email?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -25953,6 +26719,8 @@ export namespace Prisma {
     subscriber_driver_licence_number?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    no_of_hours?: NullableIntFieldUpdateOperationsInput | number | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     parking_spot_current?: ParkingSpotUncheckedUpdateOneWithoutCurrent_subscriptionNestedInput
@@ -25961,6 +26729,7 @@ export namespace Prisma {
   export type SubscriptionUncheckedUpdateManyWithoutSubscriber_userInput = {
     id?: StringFieldUpdateOperationsInput | string
     parking_spot_id?: NullableStringFieldUpdateOperationsInput | string | null
+    host_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_name?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_email?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -25970,6 +26739,67 @@ export namespace Prisma {
     subscriber_driver_licence_number?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    no_of_hours?: NullableIntFieldUpdateOperationsInput | number | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubscriptionUpdateWithoutHost_userInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subscriber_name?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_email?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_phone?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_licence_plate?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_car_model?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_office_number?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_driver_licence_number?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
+    stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    no_of_hours?: NullableIntFieldUpdateOperationsInput | number | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    parking_spot?: ParkingSpotUpdateOneWithoutAll_subscriptionsNestedInput
+    subscriber_user?: UserUpdateOneWithoutSubscriber_subscriptionsNestedInput
+    parking_spot_current?: ParkingSpotUpdateOneWithoutCurrent_subscriptionNestedInput
+  }
+
+  export type SubscriptionUncheckedUpdateWithoutHost_userInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    parking_spot_id?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_name?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_email?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_phone?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_licence_plate?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_car_model?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_office_number?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_driver_licence_number?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
+    stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    no_of_hours?: NullableIntFieldUpdateOperationsInput | number | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    parking_spot_current?: ParkingSpotUncheckedUpdateOneWithoutCurrent_subscriptionNestedInput
+  }
+
+  export type SubscriptionUncheckedUpdateManyWithoutHost_userInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    parking_spot_id?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_name?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_email?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_phone?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_licence_plate?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_car_model?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_office_number?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_driver_licence_number?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
+    stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    no_of_hours?: NullableIntFieldUpdateOperationsInput | number | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -26104,7 +26934,12 @@ export namespace Prisma {
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
     price?: number | null
+    hourly_price?: number | null
+    hourly_stripe_price_id?: string | null
+    deposit_price?: number | null
+    deposit_stripe_price_id?: string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
     current_subscription_id?: string | null
   }
@@ -26181,7 +27016,12 @@ export namespace Prisma {
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
+    deposit_price?: NullableIntFieldUpdateOperationsInput | number | null
+    deposit_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
     owner?: CommunityMembersUpdateOneWithoutParking_spotsNestedInput
     qr_code?: QRCodeUpdateOneWithoutParking_spotNestedInput
@@ -26202,7 +27042,12 @@ export namespace Prisma {
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
+    deposit_price?: NullableIntFieldUpdateOperationsInput | number | null
+    deposit_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
     current_subscription_id?: NullableStringFieldUpdateOperationsInput | string | null
     listings?: ListingUncheckedUpdateManyWithoutParking_spotNestedInput
@@ -26220,7 +27065,12 @@ export namespace Prisma {
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
+    deposit_price?: NullableIntFieldUpdateOperationsInput | number | null
+    deposit_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
     current_subscription_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -26310,7 +27160,12 @@ export namespace Prisma {
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
     price?: number | null
+    hourly_price?: number | null
+    hourly_stripe_price_id?: string | null
+    deposit_price?: number | null
+    deposit_stripe_price_id?: string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
     current_subscription_id?: string | null
   }
@@ -26330,7 +27185,12 @@ export namespace Prisma {
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
+    deposit_price?: NullableIntFieldUpdateOperationsInput | number | null
+    deposit_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
     building?: BuildingUpdateOneRequiredWithoutParking_spotsNestedInput
     qr_code?: QRCodeUpdateOneWithoutParking_spotNestedInput
@@ -26351,7 +27211,12 @@ export namespace Prisma {
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
+    deposit_price?: NullableIntFieldUpdateOperationsInput | number | null
+    deposit_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
     current_subscription_id?: NullableStringFieldUpdateOperationsInput | string | null
     listings?: ListingUncheckedUpdateManyWithoutParking_spotNestedInput
@@ -26369,7 +27234,12 @@ export namespace Prisma {
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
+    deposit_price?: NullableIntFieldUpdateOperationsInput | number | null
+    deposit_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
     current_subscription_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -26433,6 +27303,7 @@ export namespace Prisma {
   export type SubscriptionCreateManyParking_spotInput = {
     id?: string
     subscriber_user_id?: string | null
+    host_user_id?: string | null
     subscriber_name?: string | null
     subscriber_email?: string | null
     subscriber_phone?: string | null
@@ -26442,6 +27313,8 @@ export namespace Prisma {
     subscriber_driver_licence_number?: string | null
     subscriber_id_card_number?: string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    no_of_hours?: number | null
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -26555,15 +27428,19 @@ export namespace Prisma {
     subscriber_driver_licence_number?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    no_of_hours?: NullableIntFieldUpdateOperationsInput | number | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    subscriber_user?: UserUpdateOneWithoutSubscriptionsNestedInput
+    subscriber_user?: UserUpdateOneWithoutSubscriber_subscriptionsNestedInput
+    host_user?: UserUpdateOneWithoutHost_subscriptionsNestedInput
     parking_spot_current?: ParkingSpotUpdateOneWithoutCurrent_subscriptionNestedInput
   }
 
   export type SubscriptionUncheckedUpdateWithoutParking_spotInput = {
     id?: StringFieldUpdateOperationsInput | string
     subscriber_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    host_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_name?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_email?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26573,6 +27450,8 @@ export namespace Prisma {
     subscriber_driver_licence_number?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    no_of_hours?: NullableIntFieldUpdateOperationsInput | number | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     parking_spot_current?: ParkingSpotUncheckedUpdateOneWithoutCurrent_subscriptionNestedInput
@@ -26581,6 +27460,7 @@ export namespace Prisma {
   export type SubscriptionUncheckedUpdateManyWithoutParking_spotInput = {
     id?: StringFieldUpdateOperationsInput | string
     subscriber_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    host_user_id?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_name?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_email?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26590,6 +27470,8 @@ export namespace Prisma {
     subscriber_driver_licence_number?: NullableStringFieldUpdateOperationsInput | string | null
     subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
+    stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    no_of_hours?: NullableIntFieldUpdateOperationsInput | number | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -26604,7 +27486,12 @@ export namespace Prisma {
     parking_spot_type?: $Enums.Parking_Spot_Type
     parking_instructions?: string | null
     price?: number | null
+    hourly_price?: number | null
+    hourly_stripe_price_id?: string | null
+    deposit_price?: number | null
+    deposit_stripe_price_id?: string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
     current_subscription_id?: string | null
   }
@@ -26616,7 +27503,12 @@ export namespace Prisma {
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
+    deposit_price?: NullableIntFieldUpdateOperationsInput | number | null
+    deposit_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
     building?: BuildingUpdateOneRequiredWithoutParking_spotsNestedInput
     owner?: CommunityMembersUpdateOneWithoutParking_spotsNestedInput
@@ -26637,7 +27529,12 @@ export namespace Prisma {
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
+    deposit_price?: NullableIntFieldUpdateOperationsInput | number | null
+    deposit_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
     current_subscription_id?: NullableStringFieldUpdateOperationsInput | string | null
     listings?: ListingUncheckedUpdateManyWithoutParking_spotNestedInput
@@ -26655,7 +27552,12 @@ export namespace Prisma {
     parking_spot_type?: EnumParking_Spot_TypeFieldUpdateOperationsInput | $Enums.Parking_Spot_Type
     parking_instructions?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_price?: NullableIntFieldUpdateOperationsInput | number | null
+    hourly_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
+    deposit_price?: NullableIntFieldUpdateOperationsInput | number | null
+    deposit_stripe_price_id?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
+    stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
     current_subscription_id?: NullableStringFieldUpdateOperationsInput | string | null
   }

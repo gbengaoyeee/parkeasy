@@ -203,7 +203,12 @@ exports.Prisma.ParkingSpotScalarFieldEnum = {
   parking_spot_type: 'parking_spot_type',
   parking_instructions: 'parking_instructions',
   price: 'price',
+  hourly_price: 'hourly_price',
+  hourly_stripe_price_id: 'hourly_stripe_price_id',
+  deposit_price: 'deposit_price',
+  deposit_stripe_price_id: 'deposit_stripe_price_id',
   stripe_product: 'stripe_product',
+  stripe_deposit_product: 'stripe_deposit_product',
   deposit_enabled: 'deposit_enabled',
   current_subscription_id: 'current_subscription_id'
 };
@@ -269,6 +274,7 @@ exports.Prisma.SubscriptionScalarFieldEnum = {
   id: 'id',
   parking_spot_id: 'parking_spot_id',
   subscriber_user_id: 'subscriber_user_id',
+  host_user_id: 'host_user_id',
   subscriber_name: 'subscriber_name',
   subscriber_email: 'subscriber_email',
   subscriber_phone: 'subscriber_phone',
@@ -278,6 +284,8 @@ exports.Prisma.SubscriptionScalarFieldEnum = {
   subscriber_driver_licence_number: 'subscriber_driver_licence_number',
   subscriber_id_card_number: 'subscriber_id_card_number',
   stripe_subscription: 'stripe_subscription',
+  stripe_payment_intent: 'stripe_payment_intent',
+  no_of_hours: 'no_of_hours',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };

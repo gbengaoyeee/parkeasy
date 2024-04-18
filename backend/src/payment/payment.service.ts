@@ -118,6 +118,7 @@ export class PaymentService {
           id: dto.userId,
         },
       })
+
       const spot = await this.prisma.parkingSpot.findUniqueOrThrow({
         where: {
           id: dto.parkingSpotId
@@ -130,6 +131,7 @@ export class PaymentService {
                 include: {
                   user: {
                     select: {
+                      id: true,
                       stripe_account: true
                     }
                   }
@@ -139,31 +141,65 @@ export class PaymentService {
           }
         }
       })
-      const deposit = spot.deposit_enabled ? {
-        price: process.env.PARKING_DEPOSIT_PRICE,
-        quantity: 1,
-      } : {}
-      const session = await this.stripe.checkout.sessions.create({
-        mode: 'subscription',
-        customer: user.stripe_customer_id,
-        line_items: [
-          {
-            price: spot.stripe_product['default_price'],
-            quantity: 1,
+
+      if(dto.paymentType === 'subscription') {
+        if(spot.deposit_enabled && !spot.deposit_stripe_price_id) {
+          throw new BadRequestException(`Deposit price is not set. Please contact the host.`)
+        }
+        const deposit = spot.deposit_enabled ? {
+          price: spot.deposit_stripe_price_id,
+          quantity: 1,
+        } : {}
+        const session = await this.stripe.checkout.sessions.create({
+          mode: 'subscription',
+          customer: user.stripe_customer_id,
+          line_items: [
+            {
+              price: spot.stripe_product['default_price'],
+              quantity: 1,
+            },
+            ...[deposit]
+            // {
+            //   price: process.env.PARKING_DEPOSIT_PRICE,
+            //   quantity: 1,
+            // },
+          ],
+          automatic_tax: {
+            enabled: true,
           },
-          ...[deposit]
-          // {
-          //   price: process.env.PARKING_DEPOSIT_PRICE,
-          //   quantity: 1,
-          // },
-        ],
-        automatic_tax: {
-          enabled: true,
-        },
-        subscription_data: {
+          subscription_data: {
+            metadata: {
+              parkingSpotId: dto.parkingSpotId,
+              subscriberUserId: dto.userId,
+              hostUserId: spot.building.management.user.id,
+              paymentType: 'subscription',
+              appId: 'easyparkway',
+              subscriberName: dto.name,
+              subscriberEmail: dto.email,
+              subscriberPhone: dto.phone,
+              subscriberCarModel: dto.carModel,
+              subscriberOfficeNumber: dto.officeNumber,
+              subscriberLicencePlate: dto.licencePlate,
+              subscriberDriverLicenceNumber: dto.driverLicenceNumber,
+              subscriberEmiratesId: dto.emiratesId,
+            },
+            application_fee_percent: Math.round(100 * APP_BOOKING_FEE_PERCENTAGE),
+            transfer_data: {
+              destination: spot.building.management.user.stripe_account['id'],
+            },
+          },
+          customer_update: {
+            address: 'auto',
+            shipping: 'auto',
+            name: 'auto',
+          },
+          payment_method_types: ['card'],
           metadata: {
             parkingSpotId: dto.parkingSpotId,
             subscriberUserId: dto.userId,
+            hostUserId: spot.building.management.user.id,
+            paymentType: 'subscription',
+            appId: 'easyparkway',
             subscriberName: dto.name,
             subscriberEmail: dto.email,
             subscriberPhone: dto.phone,
@@ -173,33 +209,72 @@ export class PaymentService {
             subscriberDriverLicenceNumber: dto.driverLicenceNumber,
             subscriberEmiratesId: dto.emiratesId,
           },
-          application_fee_percent: Math.round(100 * APP_BOOKING_FEE_PERCENTAGE),
-          transfer_data: {
-            destination: spot.building.management.user.stripe_account['id'],
+          success_url: `${process.env.VISITOR_URL}/subscriptions`,
+          cancel_url: `${process.env.VISITOR_URL}/discover/spot/${dto.parkingSpotId}`,
+        })
+        return new IResponseData(`Checkout session created successfully`, session).json;
+      } else {
+        const session = await this.stripe.checkout.sessions.create({
+          mode: 'payment',
+          customer: user.stripe_customer_id,
+          automatic_tax: {
+            enabled: true,
           },
-        },
-        customer_update: {
-          address: 'auto',
-          shipping: 'auto',
-          name: 'auto',
-        },
-        payment_method_types: ['card'],
-        metadata: {
-          parkingSpotId: dto.parkingSpotId,
-          subscriberUserId: dto.userId,
-          subscriberName: dto.name,
-          subscriberEmail: dto.email,
-          subscriberPhone: dto.phone,
-          subscriberCarModel: dto.carModel,
-          subscriberOfficeNumber: dto.officeNumber,
-          subscriberLicencePlate: dto.licencePlate,
-          subscriberDriverLicenceNumber: dto.driverLicenceNumber,
-          subscriberEmiratesId: dto.emiratesId,
-        },
-        success_url: `${process.env.VISITOR_URL}/subscriptions`,
-        cancel_url: `${process.env.VISITOR_URL}/discover/spot/${dto.parkingSpotId}`,
-      })
-      return new IResponseData(`Checkout session created successfully`, session).json;
+          line_items: [
+            {
+              price: spot.hourly_stripe_price_id,
+              quantity: dto.noOfHours,
+            },
+          ],
+          metadata: {
+            parkingSpotId: dto.parkingSpotId,
+            subscriberUserId: dto.userId,
+            hostUserId: spot.building.management.user.id,
+            paymentType: 'payment',
+            appId: 'easyparkway',
+            noOfHours: dto.noOfHours,
+            subscriberName: dto.name,
+            subscriberEmail: dto.email,
+            subscriberPhone: dto.phone,
+            subscriberCarModel: dto.carModel,
+            subscriberOfficeNumber: dto.officeNumber,
+            subscriberLicencePlate: dto.licencePlate,
+            subscriberDriverLicenceNumber: dto.driverLicenceNumber,
+            subscriberEmiratesId: dto.emiratesId,
+          },
+          payment_intent_data: {
+            metadata: {
+              parkingSpotId: dto.parkingSpotId,
+              subscriberUserId: dto.userId,
+              noOfHours: dto.noOfHours,
+              paymentType: 'payment',
+              appId: 'easyparkway',
+              hostUserId: spot.building.management.user.id,
+              subscriberName: dto.name,
+              subscriberEmail: dto.email,
+              subscriberPhone: dto.phone,
+              subscriberCarModel: dto.carModel,
+              subscriberOfficeNumber: dto.officeNumber,
+              subscriberLicencePlate: dto.licencePlate,
+              subscriberDriverLicenceNumber: dto.driverLicenceNumber,
+              subscriberEmiratesId: dto.emiratesId,
+            },
+            application_fee_amount: Math.round(100 * APP_BOOKING_FEE_PERCENTAGE),
+            transfer_data: {
+              destination: spot.building.management.user.stripe_account['id'],
+            },
+          },
+          customer_update: {
+            address: 'auto',
+            shipping: 'auto',
+            name: 'auto',
+          },
+          payment_method_types: ['card'],
+          success_url: `${process.env.VISITOR_URL}/discover/spot/${dto.parkingSpotId}`,
+          cancel_url: `${process.env.VISITOR_URL}/discover/spot/${dto.parkingSpotId}`,
+        })
+        return new IResponseData(`Checkout session created successfully`, session).json;
+      }
     } catch (error) {
       throw this.errorService.handleException(error);
     }
