@@ -53,7 +53,10 @@ const VisitorSubscriptions = () => {
                 Subscription status
               </th>
               <th scope="col" className="px-6 py-3">
-                Card number
+                Access Card number
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Created at
               </th>
             </tr>
           </thead>
@@ -89,6 +92,9 @@ const VisitorSubscriptions = () => {
                   ) : (
                     "--"
                   )}
+                </td>
+                <td className="px-6 py-4">
+                    {moment(subscription.created_at).format("MMM DD, YYYY")}
                 </td>
               </tr>
             ))}

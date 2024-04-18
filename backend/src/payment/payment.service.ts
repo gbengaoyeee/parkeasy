@@ -270,7 +270,7 @@ export class PaymentService {
             name: 'auto',
           },
           payment_method_types: ['card'],
-          success_url: `${process.env.VISITOR_URL}/discover/spot/${dto.parkingSpotId}`,
+          success_url: `${process.env.VISITOR_URL}/subscriptions`,
           cancel_url: `${process.env.VISITOR_URL}/discover/spot/${dto.parkingSpotId}`,
         })
         return new IResponseData(`Checkout session created successfully`, session).json;

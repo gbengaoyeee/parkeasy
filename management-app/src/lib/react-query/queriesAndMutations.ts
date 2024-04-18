@@ -343,8 +343,9 @@ export const useGetVisitorSubscriptions = (userId?: string) => {
         })
     }
     return useQuery({
-        queryKey: ['visitor-subscriptions'],
-        queryFn: () => getVisitorSubscriptions(userId)
+        queryKey: ['visitor-subscriptions', userId],
+        queryFn: () => getVisitorSubscriptions(userId),
+        enabled: !!userId
     })
 }
 

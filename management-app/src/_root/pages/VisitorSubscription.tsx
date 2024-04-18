@@ -119,12 +119,20 @@ const VisitorSubscription = () => {
                 </div>
               )}
               {subscription?.stripe_payment_intent && (
-                <div className="flex flex-col gap-2">
-                  <Label className="base-semibold">Amount paid</Label>
-                  <p className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm subtle-regular">
-                    {formatCurrency((subscription?.stripe_payment_intent as any)["amount"] / 100, "ar-AE", "AED")} for {subscription.no_of_hours} hours
-                  </p>
-                </div>
+                <>
+                  <div className="flex flex-col gap-2">
+                    <Label className="base-semibold">Amount paid</Label>
+                    <p className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm subtle-regular">
+                      {formatCurrency((subscription?.stripe_payment_intent as any)["amount"] / 100, "ar-AE", "AED")} for {subscription.no_of_hours} hours
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <Label className="base-semibold">Session ends</Label>
+                    <p className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm subtle-regular">
+                      {moment(subscription.created_at).add(subscription.no_of_hours, "hours").format("MMM DD, YYYY, hh:mm A")}
+                    </p>
+                  </div>
+                </>
               )}
               <div className="flex flex-col gap-2">
                 <Label className="base-semibold">Subscriber</Label>

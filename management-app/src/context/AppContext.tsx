@@ -175,7 +175,6 @@ export const AppContextProvider = ({ children }: { children: React.ReactNode }) 
       ];
       setSideBarOptions([...options]);
     } else {
-      console.log("visitor");
       setSideBarOptions([...visitorOptions]);
     }
   }, [currentBuilding]);

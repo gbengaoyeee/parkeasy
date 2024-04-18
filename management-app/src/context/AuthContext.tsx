@@ -137,10 +137,6 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
       if (!user && !nonProtectedRoutes.includes(location.pathname)) {
         navigate("/login");
       } 
-      else if (user && getTenantFromHostname() === "visitor") {
-
-        navigate("/discover");
-      }
       setUser(user);
     });
     checkAuthUser();
