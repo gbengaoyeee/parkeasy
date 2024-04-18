@@ -1,9 +1,9 @@
 import { Label } from "@/components/ui/label";
 import { useLocation, useParams } from "react-router-dom";
-import { useCancelSubscription, useGetParkingSpot, useToggleEnableDeposit, useUpdateParkingSpot } from "@/lib/react-query/queriesAndMutations";
+import { useCancelSubscription, useGetParkingSpot, useToggleEnableDeposit,  } from "@/lib/react-query/queriesAndMutations";
 import Loader from "@/components/shared/Loader";
 import { AddParkingSpotModal } from "./ParkingSpots";
-import { useCallback, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import { formatCurrency } from "@/lib/formatter";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -11,11 +11,6 @@ import { toast } from "sonner";
 import { ParkingSpot as AppParkingSpot, Building } from "@/types";
 import moment from "moment";
 import Switch from "react-switch";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { AddParkingSpotValidation } from "@/lib/validation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useDebounce } from "@/hooks/useDebounce";
 
 interface State {
   parkingSpot: AppParkingSpot;
@@ -25,7 +20,7 @@ const ParkingSpot = () => {
   const { buildingId, parkingSpotId } = useParams();
   const { refetch: refetchParkingSpot, data: parkingSpot } = useGetParkingSpot(buildingId, parkingSpotId);
   const { state, } = useLocation();
-  const { parkingSpot:rCachedSpot, building }: State = state;
+  const { building }: State = state;
   const [openCancelSubscriptionModal, setOpenCancelSubscriptionModal] = useState(false);
   const [depEnabled, setDepEnabled] = useState(false);
   
