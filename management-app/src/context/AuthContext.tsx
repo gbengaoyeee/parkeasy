@@ -138,6 +138,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
         navigate("/login");
       } 
       else if (user && getTenantFromHostname() === "visitor") {
+
         navigate("/discover");
       }
       setUser(user);

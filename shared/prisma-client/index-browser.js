@@ -286,6 +286,7 @@ exports.Prisma.SubscriptionScalarFieldEnum = {
   stripe_subscription: 'stripe_subscription',
   stripe_payment_intent: 'stripe_payment_intent',
   no_of_hours: 'no_of_hours',
+  access_card_number: 'access_card_number',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };

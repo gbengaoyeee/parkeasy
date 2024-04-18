@@ -52,6 +52,9 @@ const VisitorSubscriptions = () => {
               <th scope="col" className="px-6 py-3">
                 Subscription status
               </th>
+              <th scope="col" className="px-6 py-3">
+                Card number
+              </th>
             </tr>
           </thead>
           <tbody className="">
@@ -76,6 +79,15 @@ const VisitorSubscriptions = () => {
                     </>
                   ) : (
                     "N/A"
+                  )}
+                </td>
+                <td className="px-6 py-4">
+                  {subscription?.access_card_number ? (
+                    <>
+                      {subscription.access_card_number}
+                    </>
+                  ) : (
+                    "--"
                   )}
                 </td>
               </tr>

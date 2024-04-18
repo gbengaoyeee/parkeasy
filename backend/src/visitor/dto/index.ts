@@ -72,3 +72,9 @@ export class GetListingsDto {
   )
   endDate: number;
 }
+
+export class UpdateSubscriptionDto {
+  @IsString()
+  @MinLength(10)
+  accessCardNumber: string
+}

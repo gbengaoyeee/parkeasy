@@ -172,36 +172,11 @@ export const AppContextProvider = ({ children }: { children: React.ReactNode }) 
           icon: "/assets/icons/home-white.svg",
           ic: <FaParking />,
         },
-        // {
-        //   id: 1,
-        //   name: "Apartment units",
-        //   to: "/apartment-units",
-        //   icon: "/assets/icons/apartment.svg",
-        //   ic: <MdApartment size={20} />,
-        // },
-        // {
-        //   id: 2,
-        //   name: "Community members",
-        //   to: `/community-members${currentBuilding ? `/${currentBuilding.id}` : ""}`,
-        //   icon: "/assets/icons/community-white.svg",
-        //   ic: <FaPeopleGroup size={20} />,
-        // },
-        // {
-        //   id: 3,
-        //   name: "Parking spots",
-        //   to: "/parking-spots",
-        //   icon: "/assets/icons/parking-white.svg",
-        //   ic: <FaParking size={20} />,
-        // },
-        // {
-        //   id: 4,
-        //   name: "Violations",
-        //   to: "/violations",
-        //   icon: "/assets/icons/violations-white.svg",
-        //   ic: <RiErrorWarningLine size={20} />,
-        // },
       ];
       setSideBarOptions([...options]);
+    } else {
+      console.log("visitor");
+      setSideBarOptions([...visitorOptions]);
     }
   }, [currentBuilding]);
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ErrorService } from 'src/exceptions/error.service';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateReservationDto, GetListingsDto, UpdateReservationDto } from './dto';
+import { CreateReservationDto, GetListingsDto, UpdateReservationDto, UpdateSubscriptionDto } from './dto';
 import { IResponseData } from 'src/response';
 import { StripeService } from 'src/stripe/stripe.service';
 import { Queue } from 'bull';
@@ -341,6 +341,22 @@ export class VisitorService {
         },
       });
       return new IResponseData(`subscription retrieved successfully`, subscription).json;
+    } catch (error) {
+      throw this.errorService.handleException(error);
+    }
+  }
+
+  async updateSubscription(subscriptionId: string, dto: UpdateSubscriptionDto) {
+    try {
+      const subscription = await this.prisma.subscription.update({
+        where: {
+          id: subscriptionId,
+        },
+        data: {
+          access_card_number: dto.accessCardNumber,
+        },
+      });
+      return new IResponseData(`subscription updated successfully`, subscription).json;
     } catch (error) {
       throw this.errorService.handleException(error);
     }

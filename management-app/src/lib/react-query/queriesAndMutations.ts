@@ -1,12 +1,12 @@
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { z } from 'zod'
-import { AddApartmentUnitValidation, AddParkingSpotValidation, CreateCommunityMemberValidation, LoginValidation, OnboardBuildingValidation, OnboardManagementValidation, PasswordRecoveryValidation, SSOValidation, SignUpValidation, SubscribeToParkingSpotValidation, VisitorSignUpValidation } from '../validation'
+import { AddApartmentUnitValidation, AddParkingSpotValidation, CreateCommunityMemberValidation, LoginValidation, OnboardBuildingValidation, OnboardManagementValidation, PasswordRecoveryValidation, SSOValidation, SignUpValidation, SubscribeToParkingSpotValidation, UpdateSubscriptionValidation, VisitorSignUpValidation } from '../validation'
 import { getManagementByEmail, onboardBuilding, onboardManagement, preSignUp } from '@/api/management'
 import appwriteClient from '@/api/appwrite'
 import { activateAllCommunityMembers, addApartmentUnit, addCommunityMember, addParkingSpot, deleteCommunityMember, getApartmentUnits, getBuilding, getCommunityMember, getParkingSpot, getParkingSpots, getSubscriptions as getHostSubscriptions, toggleMemberStatus, updateCommunityMember, updateParkingSpot, uploadCommunityMembers, toggleEnableDeposit } from '@/api/building'
 import { getUser, signUpVisitor, updateUser } from '@/api/user'
 import { enableHosting, getAccountLink } from '@/api/host'
-import { discover, getSingleDiscoverParkingSpot, getSubscription as getVisitorSubscription, getSubscriptions as getVisitorSubscriptions } from '@/api/visitor'
+import { discover, getSingleDiscoverParkingSpot, getSubscription as getVisitorSubscription, getSubscriptions as getVisitorSubscriptions, updateSubscription } from '@/api/visitor'
 import { cancelSubscription, subscribeToParkingSpot } from '@/api/payment'
 
 export const useGetUser = (email?: string) => {
@@ -360,5 +360,11 @@ export const useGetVisitorSubscription = (subscriptionId?: string) => {
     return useQuery({
         queryKey: ['visitor-subscription'],
         queryFn: () => getVisitorSubscription(subscriptionId)
+    })
+}
+
+export const useUpdateSubscription = () => {
+    return useMutation({
+        mutationFn: ({subscriptionId, dto}:{subscriptionId: string, dto: z.infer<typeof UpdateSubscriptionValidation>}) => updateSubscription(subscriptionId, dto)
     })
 }

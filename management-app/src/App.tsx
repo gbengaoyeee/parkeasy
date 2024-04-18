@@ -16,15 +16,19 @@ import VisitorViewSpot from "./_root/pages/VisitorViewSpot";
 import HostSubscriptions from "./_root/pages/HostSubscriptions";
 import VisitorSubscriptions from "./_root/pages/VisitorSubscriptions";
 import VisitorSubscription from "./_root/pages/VisitorSubscription";
+import { useLayoutEffect } from "react";
 
 const App = () => {
-  console.log(getTenantFromHostname());
 
   function getTenantFromHostname(): "host" | "visitor" {
     // Example: Extract tenant from subdomain
     const subdomain = window.location.hostname.split(".")[0];
     return subdomain === "host" ? "host" : "visitor";
   }
+
+  useLayoutEffect(() => {
+    document.title = getTenantFromHostname() === "host" ? "Host - Citadel Tower" : "Visitor - Citadel Tower";
+  })
   return (
     <main className="flex h-screen">
       <Toaster position="top-right" richColors expand />

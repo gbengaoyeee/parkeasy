@@ -1,5 +1,7 @@
 import { ParkingSpot, Subscription } from "@/types"
 import ApiClient from "./client"
+import { z } from "zod"
+import { UpdateSubscriptionValidation } from "@/lib/validation"
 
 let client = new ApiClient('visitor').client
 
@@ -30,4 +32,9 @@ export const getSubscriptions = async (userId: string): Promise<Subscription[]> 
 export const getSubscription = async (subscriptionId: string): Promise<Subscription> => {
     const {data} = await client.get(`/subscription/${subscriptionId}`)
     return data.data
+}
+
+export const updateSubscription = async (subscriptionId: string, dto: z.infer<typeof UpdateSubscriptionValidation>) => {
+    const {data} = await client.put(`/subscription/${subscriptionId}`, dto)
+    return data
 }

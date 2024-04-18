@@ -314,7 +314,12 @@ const SubscribeToSpotModal = ({ openSubscribeModal, setOpenSubscribeModal, parki
                     <FormControl className="flex-center">
                       <Input type="checkbox" onChange={field.onChange} className="!h-5 !w-5 mr-3" />
                     </FormControl>
-                    <FormLabel className="text-[12px]">You agree to subscribe to Citadel Monthly Parking Subscription. Kindly note your parking subscription will be charged every month automatically once you subscribe and pay it</FormLabel>
+                    {watchPaymentType === "subscription" ? (
+                      <FormLabel className="text-[12px]">You agree to subscribe to Citadel Monthly Parking Subscription. Kindly note your parking subscription will be charged every month automatically once you subscribe and pay it. You can request terms and condition from Citadel if you need to</FormLabel>
+                      ) : (
+                      <FormLabel className="text-[12px]">You agree to pay a one time payment to Citadel Parking. You can request terms and condition from Citadel if you need to</FormLabel>
+
+                    )}
                     <FormMessage className="text-red" />
                   </FormItem>
                 )}

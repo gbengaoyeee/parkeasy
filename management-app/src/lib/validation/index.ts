@@ -211,3 +211,7 @@ export const SubscribeToParkingSpotValidation = z.object({
     message: "number of hours must be greater than 0 ",
     path: ["noOfHours"],
   });
+
+  export const UpdateSubscriptionValidation = z.object({
+    accessCardNumber: z.string().min(10, 'Please enter your valid access card number'),
+  })

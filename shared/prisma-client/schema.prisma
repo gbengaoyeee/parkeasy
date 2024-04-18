@@ -371,6 +371,7 @@ model Subscription {
   stripe_subscription      Json?
   stripe_payment_intent   Json?
   no_of_hours              Int?
+  access_card_number       String?
 
   created_at               DateTime @default(now())
   updated_at               DateTime @default(now()) @updatedAt

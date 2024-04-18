@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { VisitorService } from './visitor.service';
-import { CreateReservationDto, GetListingsDto, UpdateReservationDto } from './dto';
+import { CreateReservationDto, GetListingsDto, UpdateReservationDto, UpdateSubscriptionDto } from './dto';
 import { GetParkingsDto } from 'src/building/dto';
 
 @Controller('visitor')
@@ -75,5 +75,15 @@ export class VisitorController {
     subscriptionId: string,
   ) {
     return await this.visitorService.getSubscription(subscriptionId);
+  }
+
+  @Put('subscription/:subscriptionId')
+  async updateSubscription(
+    @Param('subscriptionId')
+    subscriptionId: string,
+    @Body()
+    dto: UpdateSubscriptionDto,
+  ) {
+    return await this.visitorService.updateSubscription(subscriptionId, dto);
   }
 }

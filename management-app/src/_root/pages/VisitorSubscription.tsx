@@ -5,14 +5,48 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { CancelSubscriptionConfirmationModal } from "./ParkingSpot";
 import moment from "moment";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { UpdateSubscriptionValidation } from "@/lib/validation";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import Loader from "@/components/shared/Loader";
+import { useUpdateSubscription } from "@/lib/react-query/queriesAndMutations";
+import { toast } from "sonner";
 interface State {
   subscription: Subscription;
 }
 const VisitorSubscription = () => {
   const { state } = useLocation();
-  const { subscription }: State = state;
+  const { subscription: originalSubscription }: State = state;
   const navigate = useNavigate();
   const [openCancelSubscriptionModal, setOpenCancelSubscriptionModal] = useState(false);
+  const { mutateAsync: updateSubscription, isPending: isUpdating } = useUpdateSubscription();
+  const [subscription, setSubscription] = useState<Subscription>(originalSubscription);
+
+  const form = useForm<z.infer<typeof UpdateSubscriptionValidation>>({
+    resolver: zodResolver(UpdateSubscriptionValidation),
+    defaultValues: {
+      accessCardNumber: "",
+    },
+  });
+
+  function onSubmit(values: z.infer<typeof UpdateSubscriptionValidation>) {
+    // Do something with the form values.
+    // ✅ This will be type-safe and validated.
+    updateSubscription({ subscriptionId: subscription.id, dto: values })
+      .then((_) => {
+        toast.success("Subscription updated successfully");
+        setSubscription({ ...subscription, access_card_number: values.accessCardNumber });
+        form.reset();
+      })
+      .catch((error) => {
+        console.error(error.message);
+        toast.error(error.response.data.message);
+      });
+  }
   return (
     <div className="flex flex-col gap-5">
       <h3 className="base-semibold">Subscription information</h3>
@@ -41,6 +75,41 @@ const VisitorSubscription = () => {
             <p className="subtle-regular">{formatCurrency(subscription.parking_spot?.hourly_price ? subscription.parking_spot?.hourly_price / 100 : 0, "ar-AE", "AED")}/h</p>
           </div>
           <div />
+          {!subscription.access_card_number ? (
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col w-full gap-5">
+                <FormField
+                  control={form.control}
+                  name="accessCardNumber"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="base-semibold uppercase">Enter your access card number</FormLabel>
+                      <FormControl>
+                        <Input placeholder="01234567890123" className="border-green-500 border-2" {...field} />
+                      </FormControl>
+                      <FormMessage className="text-red" />
+                    </FormItem>
+                  )}
+                />
+                <Button type="submit" disabled={isUpdating} className="shad-button_primary">
+                  {isUpdating ? (
+                    <div className="flex-center gap-3">
+                      <Loader />
+                      Submitting...
+                    </div>
+                  ) : (
+                    <span>Submit</span>
+                  )}
+                </Button>
+              </form>
+            </Form>
+          ) : (
+            <div className="flex flex-col gap-2">
+              <Label className="base-semibold">Access card number</Label>
+              <p className="base-semibold">{subscription.access_card_number}</p>
+            </div>
+          )}
+          <div />
           {subscription && (
             <>
               {subscription?.stripe_subscription && (
@@ -53,9 +122,7 @@ const VisitorSubscription = () => {
                 <div className="flex flex-col gap-2">
                   <Label className="base-semibold">Amount paid</Label>
                   <p className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm subtle-regular">
-                    {formatCurrency((subscription?.stripe_payment_intent as any)["amount"] / 100, "ar-AE", "AED")}
-                    {" "}for{" "}
-                    {subscription.no_of_hours} hours
+                    {formatCurrency((subscription?.stripe_payment_intent as any)["amount"] / 100, "ar-AE", "AED")} for {subscription.no_of_hours} hours
                   </p>
                 </div>
               )}
