@@ -16,7 +16,6 @@ import { ParkingSpot } from "@/types";
 import { useUserContext } from "@/context/UserContext";
 import { useState } from "react";
 import Switch from "react-switch";
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import moment from "moment";
 import useBreakpoints from "@/hooks/useBreakpoints";
 // import UploadWidget from "@/components/shared/UploadWidget";
