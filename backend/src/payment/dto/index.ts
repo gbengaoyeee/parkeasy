@@ -64,7 +64,9 @@ export class SubscribeToParkingDto {
   @IsString()
   licencePlate: string;
   @IsString()
+  @IsOptional()
   driverLicenceNumber: string;
   @IsString()
+  @IsOptional()
   emiratesId: string;
 }

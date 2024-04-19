@@ -100,11 +100,11 @@ const SubscribeToSpotModal = ({ openSubscribeModal, setOpenSubscribeModal, parki
       carModel: "",
       licencePlate: "",
       officeNumber: "",
-      driverLicenceNumber: "",
-      emiratesId: "",
+      paymentType: "subscription",
       agreedToTerms: false,
       noOfHours: undefined,
-      paymentType: "subscription",
+      driverLicenceNumber: undefined,
+      emiratesId: undefined,
     },
   });
 
@@ -160,7 +160,7 @@ const SubscribeToSpotModal = ({ openSubscribeModal, setOpenSubscribeModal, parki
             <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col w-full gap-5">
               <div className="flex flex-col gap-2">
                 <Label htmlFor="enable-disable-deposit" className="base-semibold">
-                  {watchPaymentType === "subscription" ? "You will be subscribing to this spot" : "This will be a one-time payment"}
+                  {watchPaymentType === "subscription" ? "Monthly recurring parking subscription" : "Hourly parking subscription"}
                 </Label>
                 <Switch
                   width={50}
@@ -272,32 +272,36 @@ const SubscribeToSpotModal = ({ openSubscribeModal, setOpenSubscribeModal, parki
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="driverLicenceNumber"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>What is your drivers licence number?</FormLabel>
-                    <FormControl>
-                      <Input placeholder="123456" {...field} />
-                    </FormControl>
-                    <FormMessage className="text-red" />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="emiratesId"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>What is your Emirates ID number?(Only numbers allowed)</FormLabel>
-                    <FormControl>
-                      <Input placeholder="12345678901234" {...field} />
-                    </FormControl>
-                    <FormMessage className="text-red" />
-                  </FormItem>
-                )}
-              />
+              {watchPaymentType === "subscription" && (
+                <FormField
+                  control={form.control}
+                  name="driverLicenceNumber"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>What is your drivers licence number?</FormLabel>
+                      <FormControl>
+                        <Input placeholder="123456" {...field} />
+                      </FormControl>
+                      <FormMessage className="text-red" />
+                    </FormItem>
+                  )}
+                />
+              )}
+              {watchPaymentType === "subscription" && (
+                <FormField
+                  control={form.control}
+                  name="emiratesId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>What is your Emirates ID number?(Only numbers allowed)</FormLabel>
+                      <FormControl>
+                        <Input placeholder="12345678901234" {...field} />
+                      </FormControl>
+                      <FormMessage className="text-red" />
+                    </FormItem>
+                  )}
+                />
+              )}
               <FormField
                 control={form.control}
                 name="agreedToTerms"
@@ -307,10 +311,21 @@ const SubscribeToSpotModal = ({ openSubscribeModal, setOpenSubscribeModal, parki
                       <Input type="checkbox" onChange={field.onChange} className="!h-5 !w-5 mr-3" />
                     </FormControl>
                     {watchPaymentType === "subscription" ? (
-                      <FormLabel className="text-[12px]">You agree to subscribe to Citadel Monthly Parking Subscription. Kindly note your parking subscription will be charged every month automatically once you subscribe and pay it. You can request terms and condition from Citadel if you need to</FormLabel>
-                      ) : (
-                      <FormLabel className="text-[12px]">You agree to pay a one time payment to Citadel Parking. You can request terms and condition from Citadel if you need to</FormLabel>
-
+                      <FormLabel className="text-[12px]">
+                        You agree to subscribe to Citadel Monthly Parking Subscription. Kindly note your parking subscription will be charged every month automatically once you subscribe and pay it. You can review the parking terms and conditions{" "}
+                        <a href="https://www.easyparkway.com/" className="text-primary-2 uppercase">
+                          easyparkway.com
+                        </a>{" "}
+                        if required.
+                      </FormLabel>
+                    ) : (
+                      <FormLabel className="text-[12px]">
+                        You agree to pay a one time payment to Citadel Parking. You can review the parking terms and conditions{" "}
+                        <a href="https://www.easyparkway.com/" className="text-primary-2 uppercase">
+                          easyparkway.com
+                        </a>{" "}
+                        if required.
+                      </FormLabel>
                     )}
                     <FormMessage className="text-red" />
                   </FormItem>

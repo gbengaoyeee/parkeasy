@@ -189,8 +189,8 @@ export const SubscribeToParkingSpotValidation = z.object({
   licencePlate: z.string().min(1, 'Please enter a valid license plate'),
   carModel: z.string().min(1, 'Please enter the model of your car. e.g. Tesla Model 3'),
   officeNumber: z.string().min(1, 'Please enter your office number'),
-  driverLicenceNumber: z.string().min(4, 'Please enter your driver licence number'),
-  emiratesId: z.string().regex(/^\d+$/, 'Please enter a valid emirates id').min(10, 'Please enter your emirates id'),
+  driverLicenceNumber: z.string().min(4, 'Please enter your driver licence number').optional(),
+  emiratesId: z.string().regex(/^\d+$/, 'Please enter yourrrrr emirates id').min(10, 'Please enter a valid emirates id').optional(),
   agreedToTerms: z.boolean().refine((val) => val, {
     message: 'Please agree to the terms and conditions',
   }),
@@ -210,8 +210,30 @@ export const SubscribeToParkingSpotValidation = z.object({
     // The error message and path for when the refinement fails
     message: "number of hours must be greater than 0 ",
     path: ["noOfHours"],
-  });
-
-  export const UpdateSubscriptionValidation = z.object({
-    accessCardNumber: z.string().min(10, 'Please enter your valid access card number'),
   })
+  .refine((data) => {
+        // If paymentType is 'subscription', then driverLicenceNumber and emiratesId are required
+    if (data.paymentType === 'subscription') {
+      return data.driverLicenceNumber?.trim() && data.driverLicenceNumber?.trim().length > 4;
+    }
+    // Otherwise, they can be optional
+    return true;
+  }, {
+    message: "Please enter your driver licence number",
+    path: ["driverLicenceNumber"],
+  })
+  .refine((data) => {
+    // If paymentType is 'subscription', then emiratesId is required
+    if (data.paymentType === 'subscription') {
+      return data.emiratesId?.trim() && data.emiratesId?.trim().length > 10;
+    }
+    // Otherwise, they can be optional
+    return true;
+  }, {
+    message: "Please enter your emirates id",
+    path: ["emiratesId"],
+  })
+
+export const UpdateSubscriptionValidation = z.object({
+  accessCardNumber: z.string().min(10, 'Please enter your valid access card number'),
+})
