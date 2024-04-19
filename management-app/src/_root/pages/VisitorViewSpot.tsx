@@ -113,15 +113,7 @@ const SubscribeToSpotModal = ({ openSubscribeModal, setOpenSubscribeModal, parki
   const watchPaymentType = form.watch("paymentType");
 
   const openInNewTab = (url: string) => {
-    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-    if (isSafari) {
-      // For Safari, open the URL in the same window due to restrictions
-      window.location.href = url;
-    } else {
-      // Use JavaScript to open a new window for other browsers
-      const newWindow = window.open(url, "_blank", "noopener,noreferrer");
-      if (newWindow) newWindow.opener = null;
-    }
+    window.location.href = url;
   };
 
   function onSubmit(values: z.infer<typeof SubscribeToParkingSpotValidation>) {
