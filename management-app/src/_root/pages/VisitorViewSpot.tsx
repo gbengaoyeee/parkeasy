@@ -16,6 +16,9 @@ import { ParkingSpot } from "@/types";
 import { useUserContext } from "@/context/UserContext";
 import { useState } from "react";
 import Switch from "react-switch";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import moment from "moment";
+import useBreakpoints from "@/hooks/useBreakpoints";
 // import UploadWidget from "@/components/shared/UploadWidget";
 
 const VisitorViewSpot = () => {
@@ -100,13 +103,17 @@ const SubscribeToSpotModal = ({ openSubscribeModal, setOpenSubscribeModal, parki
       carModel: "",
       licencePlate: "",
       officeNumber: "",
-      paymentType: "subscription",
+      paymentType: "payment",
       agreedToTerms: false,
-      noOfHours: undefined,
+      // noOfHours: undefined,
+      startDate: undefined,
+      endDate: undefined,
       driverLicenceNumber: undefined,
       emiratesId: undefined,
     },
   });
+
+  const {isMedium, isSmall} = useBreakpoints();
 
   const { mutateAsync: subscribeToSpot, isPending: isSubscribing } = useSubscribeToSpot();
 
@@ -120,10 +127,18 @@ const SubscribeToSpotModal = ({ openSubscribeModal, setOpenSubscribeModal, parki
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     if (!user) {
+      if(isSmall || isMedium){
+        alert("Please log back in to subscribe to parking spot");
+        return;
+      }
       toast.error("Please log back in to subscribe to parking spot");
       return;
     }
     if (!parkingSpot) {
+      if(isSmall || isMedium){
+        alert("Could not find this parking spot. contact "+import.meta.env.VITE_SUPPORT_EMAIL);
+        return;
+      }
       toast.error(`Could not find this parking spot. contact ${import.meta.env.VITE_SUPPORT_EMAIL}`);
       return;
     }
@@ -140,6 +155,10 @@ const SubscribeToSpotModal = ({ openSubscribeModal, setOpenSubscribeModal, parki
       })
       .catch((error) => {
         console.error(error.message);
+        if(isSmall || isMedium){
+          alert(error.response.data.message);
+          return;
+        }
         toast.error(error.response.data.message);
       });
   }
@@ -180,19 +199,58 @@ const SubscribeToSpotModal = ({ openSubscribeModal, setOpenSubscribeModal, parki
                 />
               </div>
               {watchPaymentType === "payment" && (
-                <FormField
-                  control={form.control}
-                  name="noOfHours"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>How many hours will you be parking?</FormLabel>
-                      <FormControl>
-                        <Input placeholder="3" {...field} />
-                      </FormControl>
-                      <FormMessage className="text-red" />
-                    </FormItem>
-                  )}
-                />
+                <>
+                  {/* <FormField
+                    control={form.control}
+                    name="noOfHours"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>How many hours will you be parking?</FormLabel>
+                        <FormControl>
+                          <Input placeholder="3" {...field} />
+                        </FormControl>
+                        <FormMessage className="text-red" />
+                      </FormItem>
+                    )}
+                  /> */}
+                  <FormField
+                    control={form.control}
+                    name="startDate"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>What date and time will you start parking?</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="datetime-local"
+                            onChange={(e) => {
+                              console.log(moment(e.target.value).toDate())
+                              field.onChange(moment(e.target.value).toDate().getTime());
+                            }}
+                          />
+                        </FormControl>
+                        <FormMessage className="text-red" />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="endDate"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>What date and time will you end parking?</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="datetime-local"
+                            onChange={(e) => {
+                              field.onChange(moment(e.target.value).toDate().getTime());
+                            }}
+                          />
+                        </FormControl>
+                        <FormMessage className="text-red" />
+                      </FormItem>
+                    )}
+                  />
+                </>
               )}
               <FormField
                 control={form.control}

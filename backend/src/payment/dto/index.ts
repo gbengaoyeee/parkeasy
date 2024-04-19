@@ -7,12 +7,7 @@ export class GetCheckoutDetailsDto {
   listingId: string;
 
   @Type(() => Number)
-  @IsNumber(
-    {},
-    {
-      message: 'startDate must be in milliseconds',
-    },
-  )
+  @IsNumber({}, { message: 'startDate must be in milliseconds',})
   startDate: number;
 
   @Type(() => Number)
@@ -39,9 +34,15 @@ export class SubscribeToParkingDto {
   @IsIn(['subscription', 'payment'])
   paymentType: "subscription" | "payment";
 
-  @IsNumber()
+  @Type(() => Number)
   @IsOptional()
-  noOfHours: number;
+  @IsNumber({}, { message: 'startDate must be in milliseconds',})
+  startDate: number;
+
+  @Type(() => Number)
+  @IsOptional()
+  @IsNumber({}, {message: 'endDate must be in milliseconds',})
+  endDate: number;
 
   @IsString()
   parkingSpotId: string;

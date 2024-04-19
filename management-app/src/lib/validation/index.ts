@@ -195,21 +195,42 @@ export const SubscribeToParkingSpotValidation = z.object({
     message: 'Please agree to the terms and conditions',
   }),
   paymentType: z.enum(['subscription', 'payment']),
-  noOfHours: z.string().regex(/^\d+/, {
-    message: "Please enter a valid number",
-  }).optional()
-}).refine((data) => {
-    // If paymentType is 'payment', noOfHours is required and must be greater than 0
+  // noOfHours: z.string().regex(/^\d+/, {
+  //   message: "Please enter a valid number",
+  // }).optional(),
+  startDate: z.number().optional(),
+  endDate: z.number().optional(),
+})
+  // .refine((data) => {
+  //   // If paymentType is 'payment', noOfHours is required and must be greater than 0
+  //   if (data.paymentType === 'payment') {
+  //     const noOfHoursNumeric = parseInt(data.noOfHours ?? '0', 10);
+  //     return data.noOfHours != null && !isNaN(noOfHoursNumeric) && noOfHoursNumeric > 0;
+  //   }
+  //   // If paymentType is 'subscription', noOfHours can be optional
+  //   return true;
+  // }, {
+  //   // The error message and path for when the refinement fails
+  //   message: "number of hours must be greater than 0 ",
+  //   path: ["noOfHours"],
+  // })
+  .refine((data) => {
     if (data.paymentType === 'payment') {
-      const noOfHoursNumeric = parseInt(data.noOfHours ?? '0', 10);
-      return data.noOfHours != null && !isNaN(noOfHoursNumeric) && noOfHoursNumeric > 0;
+      return data.startDate;
     }
-    // If paymentType is 'subscription', noOfHours can be optional
     return true;
   }, {
-    // The error message and path for when the refinement fails
-    message: "number of hours must be greater than 0 ",
-    path: ["noOfHours"],
+    message: "Please enter a start date",
+    path: ["startDate"],
+  })
+  .refine((data) => {
+    if (data.paymentType === 'payment') {
+      return data.endDate;
+    }
+    return true;
+  }, {
+    message: "Please enter an end date",
+    path: ["endDate"],
   })
   .refine((data) => {
         // If paymentType is 'subscription', then driverLicenceNumber and emiratesId are required
@@ -233,6 +254,9 @@ export const SubscribeToParkingSpotValidation = z.object({
     message: "Please enter your emirates id",
     path: ["emiratesId"],
   })
+
+
+
 
 export const UpdateSubscriptionValidation = z.object({
   accessCardNumber: z.string().min(10, 'Please enter your valid access card number'),

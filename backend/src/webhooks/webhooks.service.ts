@@ -176,6 +176,8 @@ export class WebhooksService {
                 subscriber_driver_licence_number: paymentIntentSucceeded.metadata['subscriberDriverLicenceNumber'],
                 subscriber_id_card_number: paymentIntentSucceeded.metadata['subscriberEmiratesId'],
                 no_of_hours: parseFloat(paymentIntentSucceeded.metadata['noOfHours']),
+                start_date: new Date(parseFloat(paymentIntentSucceeded.metadata['startDate'])),
+                end_date: new Date(parseFloat(paymentIntentSucceeded.metadata['endDate'])),
               }
             })
           }

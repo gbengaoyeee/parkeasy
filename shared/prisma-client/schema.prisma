@@ -370,7 +370,11 @@ model Subscription {
   subscriber_id_card_number String?
   stripe_subscription      Json?
   stripe_payment_intent   Json?
+  
   no_of_hours              Int?
+  start_date               DateTime?
+  end_date                 DateTime?
+
   access_card_number       String?
 
   created_at               DateTime @default(now())

@@ -329,7 +329,8 @@ export const useGetHostSubscriptions = (buildingId?: string) => {
     }
     return useQuery({
         queryKey: ['host-subscriptions'],
-        queryFn: () => getHostSubscriptions(buildingId)
+        queryFn: () => getHostSubscriptions(buildingId),
+        enabled: !!buildingId
     })
 }
 

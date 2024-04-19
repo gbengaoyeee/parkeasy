@@ -5,6 +5,7 @@ import { IResponseData } from 'src/response';
 import { Stripe } from 'stripe';
 import { GetCheckoutDetailsDto, PaymentIntentDto, SubscribeToParkingDto } from './dto';
 import { APP_BOOKING_FEE_PERCENTAGE } from 'src/utils/constants';
+import moment from 'moment';
 
 @Injectable()
 export class PaymentService {
@@ -113,6 +114,33 @@ export class PaymentService {
 
   async subscribeToParking(dto: SubscribeToParkingDto) {
     try {
+      // Try to check for any active subscriptions/payments
+      const existingSubscription = await this.prisma.subscription.findFirst({
+        where: {
+          parking_spot_id: dto.parkingSpotId,
+          subscriber_user_id: dto.userId,
+          OR: [
+            {
+              stripe_payment_intent: {
+                not: null,
+              },
+              end_date: {
+                gte: new Date(),
+              },
+            },
+            {
+              stripe_subscription: {
+                not: null,
+                path: ['status'],
+                equals: 'active',
+              },
+            },
+          ]
+        }
+      })
+      if(existingSubscription) {
+        throw new BadRequestException(`You already have an active parking or subscription.`)
+      }
       const user = await this.prisma.user.findUniqueOrThrow({
         where: {
           id: dto.userId,
@@ -214,6 +242,7 @@ export class PaymentService {
         })
         return new IResponseData(`Checkout session created successfully`, session).json;
       } else {
+        const noOfHours = moment(dto.endDate).diff(moment(dto.startDate), 'hours');
         const session = await this.stripe.checkout.sessions.create({
           mode: 'payment',
           customer: user.stripe_customer_id,
@@ -223,7 +252,7 @@ export class PaymentService {
           line_items: [
             {
               price: spot.hourly_stripe_price_id,
-              quantity: dto.noOfHours,
+              quantity: noOfHours
             },
           ],
           metadata: {
@@ -232,7 +261,9 @@ export class PaymentService {
             hostUserId: spot.building.management.user.id,
             paymentType: 'payment',
             appId: 'easyparkway',
-            noOfHours: dto.noOfHours,
+            noOfHours: noOfHours,
+            startDate: dto.startDate,
+            endDate: dto.endDate,
             subscriberName: dto.name,
             subscriberEmail: dto.email,
             subscriberPhone: dto.phone,
@@ -246,7 +277,9 @@ export class PaymentService {
             metadata: {
               parkingSpotId: dto.parkingSpotId,
               subscriberUserId: dto.userId,
-              noOfHours: dto.noOfHours,
+              noOfHours: noOfHours,
+              startDate: dto.startDate,
+              endDate: dto.endDate,
               paymentType: 'payment',
               appId: 'easyparkway',
               hostUserId: spot.building.management.user.id,
