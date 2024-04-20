@@ -24,7 +24,6 @@ const SideBar = () => {
         }
         return false;
       });
-      console.log(active);
       if (active.length) {
         setTimeout(() => {
           setSideBarOptions(sideBarOptions.filter((item) => item.to !== "/discover"));

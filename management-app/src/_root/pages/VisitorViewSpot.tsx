@@ -222,7 +222,6 @@ const SubscribeToSpotModal = ({ openSubscribeModal, setOpenSubscribeModal, parki
                           <Input
                             type="datetime-local"
                             onChange={(e) => {
-                              console.log(moment(e.target.value).toDate())
                               field.onChange(moment(e.target.value).toDate().getTime());
                             }}
                           />

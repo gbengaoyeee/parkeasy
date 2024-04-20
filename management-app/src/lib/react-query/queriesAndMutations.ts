@@ -327,7 +327,6 @@ export const useGetHostSubscriptions = (buildingId?: string) => {
             },
         })
     }
-    console.log('fetching host subscriptions')
     return useQuery({
         queryKey: ['host-subscriptions'],
         queryFn: () => getHostSubscriptions(buildingId),
