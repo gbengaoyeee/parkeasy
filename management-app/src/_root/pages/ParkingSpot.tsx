@@ -95,7 +95,7 @@ const ParkingSpot = () => {
           </div>
           <div className="flex flex-col gap-2">
             <Label className="base-semibold">Hourly price</Label>
-            <p className="subtle-regular">{formatCurrency(parkingSpot.hourly_price ? parkingSpot.hourly_price / 100 : 0, "ar-AE", "AED")}/m</p>
+            <p className="subtle-regular">{formatCurrency(parkingSpot.hourly_price ? parkingSpot.hourly_price / 100 : 0, "ar-AE", "AED")}/hour</p>
           </div>
           <div className="flex flex-col gap-2">
             <Label className="base-semibold">Deposit price</Label>
