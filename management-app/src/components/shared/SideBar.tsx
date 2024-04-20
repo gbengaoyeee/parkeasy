@@ -28,7 +28,7 @@ const SideBar = () => {
         setTimeout(() => {
           setSideBarOptions(sideBarOptions.filter((item) => item.to !== "/discover"));
           navigate("/subscriptions");
-        }, 500);
+        }, 300);
       }
     }
   }, [subscriptions]);
