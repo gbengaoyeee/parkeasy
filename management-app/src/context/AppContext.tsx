@@ -113,6 +113,7 @@ const visitorOptions = [
 // ];
 interface AppContextData {
   sideBarOptions: ISideBarOption[];
+  setSideBarOptions: Dispatch<SetStateAction<ISideBarOption[]>>;
   selectedSideBarOption: ISideBarOption | null;
   sideBarOpen: boolean;
   tenant: "host" | "visitor";
@@ -123,6 +124,7 @@ interface AppContextData {
 
 export const AppContext = createContext<AppContextData>({
   sideBarOptions: [],
+  setSideBarOptions: () => {},
   selectedSideBarOption: null,
   sideBarOpen: false,
   tenant: "visitor",
@@ -194,6 +196,7 @@ export const AppContextProvider = ({ children }: { children: React.ReactNode }) 
     <AppContext.Provider
       value={{
         sideBarOptions,
+        setSideBarOptions,
         selectedSideBarOption,
         sideBarOpen,
         tenant,

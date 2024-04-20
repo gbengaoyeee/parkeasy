@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { formatCurrency } from "@/lib/formatter";
+// import { formatCurrency } from "@/lib/formatter";
 import { useDiscover } from "@/lib/react-query/queriesAndMutations";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -50,9 +50,9 @@ const VisitorDiscover = () => {
               <th scope="col" className="px-6 py-3">
                 Spot type
               </th>
-              <th scope="col" className="px-6 py-3">
+              {/* <th scope="col" className="px-6 py-3">
                 Price
-              </th>
+              </th> */}
               {/* <th scope="col" className="px-6 py-3">
                     Assigned to
                   </th> */}
@@ -64,7 +64,7 @@ const VisitorDiscover = () => {
                 <td className="px-6 py-4">{spot.parking_spot_number}</td>
                 <td className="px-6 py-4">{spot.parking_level}</td>
                 <td className="px-6 py-4">{spot.parking_spot_type}</td>
-                <td className="px-6 py-4">{formatCurrency(spot.price ? spot.price / 100 : 0, "ar-AE", "AED")}/m</td>
+                {/* <td className="px-6 py-4">{formatCurrency(spot.price ? spot.price / 100 : 0, "ar-AE", "AED")}/m</td> */}
                 {/* <td className="px-6 py-4">{spot.owner ? spot.owner?.name : "N/A"}</td> */}
               </tr>
             ))}

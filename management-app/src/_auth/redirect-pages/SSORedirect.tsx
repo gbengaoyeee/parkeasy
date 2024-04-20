@@ -14,7 +14,7 @@ http://localhost:5173/sso-redirect?userId=26a1f03b-274f-413d-9fd0-55dcbf12d3e1&s
 const SSORedirect = () => {
   const navigate = useNavigate()
   const { setUser } = useContext(AuthContext)
-  const {tenant} = useAppContext()
+  const {tenant, sideBarOptions} = useAppContext()
 
   // useEffect(() => {
   //   const secret = query.get("secret");
@@ -50,7 +50,8 @@ const SSORedirect = () => {
         signInWithEmailLink(firAuth, email, window.location.href)
         .then((result) => {
           setUser(result.user)
-          tenant === 'host' ? navigate('/') : navigate('/discover')
+          // tenant === 'host' ? navigate('/') : navigate('/discover')
+          sideBarOptions[0] ? navigate(sideBarOptions[0].to) : (tenant === 'host' ? navigate('/') : navigate('/discover'))
         })
       }
     }
