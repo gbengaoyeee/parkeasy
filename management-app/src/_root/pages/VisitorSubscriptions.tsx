@@ -81,7 +81,15 @@ const VisitorSubscriptions = () => {
                       )}
                     </>
                   ) : (
-                    "N/A"
+                    <>
+                    {subscription?.stripe_payment_intent ? (
+                      <>
+                        Ends {moment(subscription.end_date).format("MMM DD, YYYY, hh:mm A")}
+                      </>
+                    ) : (
+                      "N/A"
+                    )}
+                    </>
                   )}
                 </td>
                 <td className="px-6 py-4">
