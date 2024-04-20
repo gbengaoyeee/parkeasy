@@ -43,6 +43,9 @@ const HostSubscriptions = () => {
                 Subscriber email
               </th>
               <th scope="col" className="px-6 py-3">
+                Subscriber phone
+              </th>
+              <th scope="col" className="px-6 py-3">
                 Subscriber licence plate
               </th>
             </tr>
@@ -69,6 +72,7 @@ const HostSubscriptions = () => {
                 </td>
 
                 <td className="px-6 py-4">{subscription?.subscriber_email}</td>
+                <td className="px-6 py-4">{subscription?.subscriber_phone}</td>
                 <td className="px-6 py-4">{subscription?.subscriber_licence_plate}</td>
               </tr>
             ))}
