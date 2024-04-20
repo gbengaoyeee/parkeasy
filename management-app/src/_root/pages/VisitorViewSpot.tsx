@@ -56,7 +56,7 @@ const VisitorViewSpot = () => {
           </div>
           <div className="flex flex-col gap-2">
             <Label className="base-semibold">Parking spot hourly price</Label>
-            <p>{formatCurrency(parkingSpot.hourly_price ? parkingSpot.hourly_price / 100 : 0, "ar-AE", "AED")}/m</p>
+            <p>{formatCurrency(parkingSpot.hourly_price ? parkingSpot.hourly_price / 100 : 0, "ar-AE", "AED")}/hour</p>
           </div>
           <div className="flex flex-col gap-2">
             {/* <Label className="base-semibold">Assigned to</Label> */}
