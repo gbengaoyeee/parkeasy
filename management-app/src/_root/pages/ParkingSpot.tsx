@@ -1,6 +1,6 @@
 import { Label } from "@/components/ui/label";
 import { useLocation, useParams } from "react-router-dom";
-import { useCancelSubscription, useGetParkingSpot, useToggleEnableDeposit,  } from "@/lib/react-query/queriesAndMutations";
+import { useCancelSubscription, useGetParkingSpot, useToggleActivateParkingSpot, useToggleEnableDeposit,  } from "@/lib/react-query/queriesAndMutations";
 import Loader from "@/components/shared/Loader";
 import { AddParkingSpotModal } from "./ParkingSpots";
 import {  useEffect, useState } from "react";
@@ -23,30 +23,19 @@ const ParkingSpot = () => {
   const { building }: State = state;
   const [openCancelSubscriptionModal, setOpenCancelSubscriptionModal] = useState(false);
   const [depEnabled, setDepEnabled] = useState(false);
+  const [spotActive, setSpotActive] = useState(false);
   
   const [openAddParkingSpotModal, setOpenAddParkingSpotModal] = useState(false);
   
   useEffect(() => {
     if(parkingSpot) {
       setDepEnabled(parkingSpot.deposit_enabled ?? false);
+      setSpotActive(parkingSpot.active ?? false);
     }
   }, [parkingSpot, refetchParkingSpot]);
-  // const debounce = useDebounce(depEnabled?.toString() ?? "false", 1000);
-  
-  // const [initialDebounce, setInitialDebounce] = useState(false);
-  // const handleToggle = useCallback(async () => {
-  //   updateDepositStatus();
-  // }, [debounce]);
-  
-  // useEffect(() => {
-  //   if(!initialDebounce) {
-  //     setInitialDebounce(true);
-  //     return;
-  //   }
-  //   handleToggle();
-  // }, [debounce, handleToggle]);
   
   const { mutateAsync: toggleEnableDeposit } = useToggleEnableDeposit()
+  const { mutateAsync: toggleActivateSpot } = useToggleActivateParkingSpot()
   function updateDepositStatus() {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
@@ -59,6 +48,24 @@ const ParkingSpot = () => {
         .then((_) => {
           refetchParkingSpot();
           toast.success("Deposit status updated successfully");
+        })
+        .catch((error) => {
+          console.error(error.message);
+          toast.error(error.response.data.message);
+        });
+    }
+  }
+
+  function updateSpotStatus() {
+    if (!building) {
+      toast.error(`Could not find your building. contact ${import.meta.env.VITE_SUPPORT_EMAIL}`);
+      return;
+    }
+    if (parkingSpot) {
+      toggleActivateSpot({ buildingId: building.id, spotId: parkingSpot.id })
+        .then((_) => {
+          refetchParkingSpot();
+          toast.success("Spot status updated successfully");
         })
         .catch((error) => {
           console.error(error.message);
@@ -116,6 +123,21 @@ const ParkingSpot = () => {
                 // form.setValue("depositEnabled", checked);
                 setDepEnabled(checked);
                 updateDepositStatus();
+              }}
+            />
+            <Label htmlFor="enable-disable-deposit" className="base-semibold">
+              {spotActive ? "Deactivate" : "Activate"} Parking spot
+            </Label>
+            <Switch
+              width={50}
+              height={20}
+              checkedIcon={false}
+              uncheckedIcon={false}
+              onColor="#090909"
+              checked={spotActive}
+              onChange={(checked) => {
+                setSpotActive(checked);
+                updateSpotStatus();
               }}
             />
           </div>

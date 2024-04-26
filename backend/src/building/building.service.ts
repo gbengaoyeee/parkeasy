@@ -733,6 +733,7 @@ export class BuildingService {
         parkingSpots = await this.prisma.parkingSpot.findMany({
           where: {
             building_id: buildingId,
+            active: true,
           },
           include: {
             qr_code: true,
@@ -753,6 +754,7 @@ export class BuildingService {
             parkingSpots = await this.prisma.parkingSpot.findMany({
               where: {
                 building_id: buildingId,
+                active: true,
                 // owner_id: null
               },
               include: {
@@ -770,6 +772,7 @@ export class BuildingService {
             parkingSpots = await this.prisma.parkingSpot.findMany({
               where: {
                 building_id: buildingId,
+                active: true,
                 // owner_id: {not: null}
               },
               include: {
@@ -955,23 +958,53 @@ export class BuildingService {
   }
 
   async toggleDeposit(buildingId: string, spotId: string) {
-    const {deposit_enabled} = await this.prisma.parkingSpot.findUnique({
-      where: {
-        id: spotId
-      },
-      select: {
-        deposit_enabled: true
-      }
-    })
-    const spot = await this.prisma.parkingSpot.update({
-      where: {
-        id: spotId,
-      },
-      data: {
-        deposit_enabled: !deposit_enabled
-      }
-    })
-    return new IResponseData(`Parking spot updated successfully`, spot).json;
+    try {
+      const {deposit_enabled} = await this.prisma.parkingSpot.findUnique({
+        where: {
+          id: spotId
+        },
+        select: {
+          deposit_enabled: true
+        }
+      })
+      const spot = await this.prisma.parkingSpot.update({
+        where: {
+          id: spotId,
+        },
+        data: {
+          deposit_enabled: !deposit_enabled
+        }
+      })
+      return new IResponseData(`Parking spot updated successfully`, spot).json;
+    } catch (error) {
+      console.error(error);
+      throw this.errorService.handleException(error);
+    }
+  }
+
+  async toggleParkingStatus(buildingId: string, spotId: string) {
+    try {
+      const {active} = await this.prisma.parkingSpot.findUnique({
+        where: {
+          id: spotId
+        },
+        select: {
+          active: true
+        }
+      })
+      const spot = await this.prisma.parkingSpot.update({
+        where: {
+          id: spotId
+        },
+        data: {
+          active: !active
+        }
+      })
+      return new IResponseData(`Parking spot is now ${active ? 'inactive' : 'active'}`, spot).json;
+    } catch (error) {
+      console.error(error);
+      throw this.errorService.handleException(error);
+    }
   }
 
   async updateParkingSpot(buildingId: string, dto: UpdateParkingSpotDto) {

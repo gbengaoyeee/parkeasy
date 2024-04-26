@@ -101,6 +101,11 @@ export const toggleEnableDeposit = async (buildingId: string, spotId: string,) =
     return response.data
 }
 
+export const toggleActivateParkingSpot = async (buildingId: string, spotId: string) => {
+    const response = await client.put(`/toggle-parking-status/${buildingId}/${spotId}`)
+    return response.data
+}
+
 //search parking spots by spot number
 export const searchParkingSpots = async (buildingId: string, spotNumber: string): Promise<ParkingSpot[]> => {
     const {data} = await client.get(`/search-parking-spots/${buildingId}?spotNumber=${spotNumber}`)

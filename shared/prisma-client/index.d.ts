@@ -8832,6 +8832,7 @@ export namespace Prisma {
     deposit_price: number | null
     deposit_stripe_price_id: string | null
     deposit_enabled: boolean | null
+    active: boolean | null
     current_subscription_id: string | null
   }
 
@@ -8851,6 +8852,7 @@ export namespace Prisma {
     deposit_price: number | null
     deposit_stripe_price_id: string | null
     deposit_enabled: boolean | null
+    active: boolean | null
     current_subscription_id: string | null
   }
 
@@ -8872,6 +8874,7 @@ export namespace Prisma {
     stripe_product: number
     stripe_deposit_product: number
     deposit_enabled: number
+    active: number
     current_subscription_id: number
     _all: number
   }
@@ -8907,6 +8910,7 @@ export namespace Prisma {
     deposit_price?: true
     deposit_stripe_price_id?: true
     deposit_enabled?: true
+    active?: true
     current_subscription_id?: true
   }
 
@@ -8926,6 +8930,7 @@ export namespace Prisma {
     deposit_price?: true
     deposit_stripe_price_id?: true
     deposit_enabled?: true
+    active?: true
     current_subscription_id?: true
   }
 
@@ -8947,6 +8952,7 @@ export namespace Prisma {
     stripe_product?: true
     stripe_deposit_product?: true
     deposit_enabled?: true
+    active?: true
     current_subscription_id?: true
     _all?: true
   }
@@ -9055,6 +9061,7 @@ export namespace Prisma {
     stripe_product: JsonValue | null
     stripe_deposit_product: JsonValue | null
     deposit_enabled: boolean | null
+    active: boolean | null
     current_subscription_id: string | null
     _count: ParkingSpotCountAggregateOutputType | null
     _avg: ParkingSpotAvgAggregateOutputType | null
@@ -9095,6 +9102,7 @@ export namespace Prisma {
     stripe_product?: boolean
     stripe_deposit_product?: boolean
     deposit_enabled?: boolean
+    active?: boolean
     current_subscription_id?: boolean
     building?: boolean | BuildingDefaultArgs<ExtArgs>
     owner?: boolean | ParkingSpot$ownerArgs<ExtArgs>
@@ -9125,6 +9133,7 @@ export namespace Prisma {
     stripe_product?: boolean
     stripe_deposit_product?: boolean
     deposit_enabled?: boolean
+    active?: boolean
     current_subscription_id?: boolean
   }
 
@@ -9171,6 +9180,7 @@ export namespace Prisma {
       stripe_product: Prisma.JsonValue | null
       stripe_deposit_product: Prisma.JsonValue | null
       deposit_enabled: boolean | null
+      active: boolean | null
       current_subscription_id: string | null
     }, ExtArgs["result"]["parkingSpot"]>
     composites: {}
@@ -9598,6 +9608,7 @@ export namespace Prisma {
     readonly stripe_product: FieldRef<"ParkingSpot", 'Json'>
     readonly stripe_deposit_product: FieldRef<"ParkingSpot", 'Json'>
     readonly deposit_enabled: FieldRef<"ParkingSpot", 'Boolean'>
+    readonly active: FieldRef<"ParkingSpot", 'Boolean'>
     readonly current_subscription_id: FieldRef<"ParkingSpot", 'String'>
   }
     
@@ -16477,6 +16488,7 @@ export namespace Prisma {
     stripe_product: 'stripe_product',
     stripe_deposit_product: 'stripe_deposit_product',
     deposit_enabled: 'deposit_enabled',
+    active: 'active',
     current_subscription_id: 'current_subscription_id'
   };
 
@@ -17497,6 +17509,7 @@ export namespace Prisma {
     stripe_product?: JsonNullableFilter<"ParkingSpot">
     stripe_deposit_product?: JsonNullableFilter<"ParkingSpot">
     deposit_enabled?: BoolNullableFilter<"ParkingSpot"> | boolean | null
+    active?: BoolNullableFilter<"ParkingSpot"> | boolean | null
     current_subscription_id?: StringNullableFilter<"ParkingSpot"> | string | null
     building?: XOR<BuildingRelationFilter, BuildingWhereInput>
     owner?: XOR<CommunityMembersNullableRelationFilter, CommunityMembersWhereInput> | null
@@ -17526,6 +17539,7 @@ export namespace Prisma {
     stripe_product?: SortOrderInput | SortOrder
     stripe_deposit_product?: SortOrderInput | SortOrder
     deposit_enabled?: SortOrderInput | SortOrder
+    active?: SortOrderInput | SortOrder
     current_subscription_id?: SortOrderInput | SortOrder
     building?: BuildingOrderByWithRelationInput
     owner?: CommunityMembersOrderByWithRelationInput
@@ -17560,6 +17574,7 @@ export namespace Prisma {
     stripe_product?: JsonNullableFilter<"ParkingSpot">
     stripe_deposit_product?: JsonNullableFilter<"ParkingSpot">
     deposit_enabled?: BoolNullableFilter<"ParkingSpot"> | boolean | null
+    active?: BoolNullableFilter<"ParkingSpot"> | boolean | null
     building?: XOR<BuildingRelationFilter, BuildingWhereInput>
     owner?: XOR<CommunityMembersNullableRelationFilter, CommunityMembersWhereInput> | null
     qr_code?: XOR<QRCodeNullableRelationFilter, QRCodeWhereInput> | null
@@ -17588,6 +17603,7 @@ export namespace Prisma {
     stripe_product?: SortOrderInput | SortOrder
     stripe_deposit_product?: SortOrderInput | SortOrder
     deposit_enabled?: SortOrderInput | SortOrder
+    active?: SortOrderInput | SortOrder
     current_subscription_id?: SortOrderInput | SortOrder
     _count?: ParkingSpotCountOrderByAggregateInput
     _avg?: ParkingSpotAvgOrderByAggregateInput
@@ -17617,6 +17633,7 @@ export namespace Prisma {
     stripe_product?: JsonNullableWithAggregatesFilter<"ParkingSpot">
     stripe_deposit_product?: JsonNullableWithAggregatesFilter<"ParkingSpot">
     deposit_enabled?: BoolNullableWithAggregatesFilter<"ParkingSpot"> | boolean | null
+    active?: BoolNullableWithAggregatesFilter<"ParkingSpot"> | boolean | null
     current_subscription_id?: StringNullableWithAggregatesFilter<"ParkingSpot"> | string | null
   }
 
@@ -18816,6 +18833,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
+    active?: boolean | null
     building: BuildingCreateNestedOneWithoutParking_spotsInput
     owner?: CommunityMembersCreateNestedOneWithoutParking_spotsInput
     qr_code?: QRCodeCreateNestedOneWithoutParking_spotInput
@@ -18844,6 +18862,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
+    active?: boolean | null
     current_subscription_id?: string | null
     listings?: ListingUncheckedCreateNestedManyWithoutParking_spotInput
     reservations?: ReservationUncheckedCreateNestedManyWithoutParkingInput
@@ -18864,6 +18883,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     building?: BuildingUpdateOneRequiredWithoutParking_spotsNestedInput
     owner?: CommunityMembersUpdateOneWithoutParking_spotsNestedInput
     qr_code?: QRCodeUpdateOneWithoutParking_spotNestedInput
@@ -18892,6 +18912,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     current_subscription_id?: NullableStringFieldUpdateOperationsInput | string | null
     listings?: ListingUncheckedUpdateManyWithoutParking_spotNestedInput
     reservations?: ReservationUncheckedUpdateManyWithoutParkingNestedInput
@@ -18916,6 +18937,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
+    active?: boolean | null
     current_subscription_id?: string | null
   }
 
@@ -18933,6 +18955,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
   export type ParkingSpotUncheckedUpdateManyInput = {
@@ -18953,6 +18976,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     current_subscription_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -20322,6 +20346,7 @@ export namespace Prisma {
     stripe_product?: SortOrder
     stripe_deposit_product?: SortOrder
     deposit_enabled?: SortOrder
+    active?: SortOrder
     current_subscription_id?: SortOrder
   }
 
@@ -20348,6 +20373,7 @@ export namespace Prisma {
     deposit_price?: SortOrder
     deposit_stripe_price_id?: SortOrder
     deposit_enabled?: SortOrder
+    active?: SortOrder
     current_subscription_id?: SortOrder
   }
 
@@ -20367,6 +20393,7 @@ export namespace Prisma {
     deposit_price?: SortOrder
     deposit_stripe_price_id?: SortOrder
     deposit_enabled?: SortOrder
+    active?: SortOrder
     current_subscription_id?: SortOrder
   }
 
@@ -23697,6 +23724,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
+    active?: boolean | null
     owner?: CommunityMembersCreateNestedOneWithoutParking_spotsInput
     qr_code?: QRCodeCreateNestedOneWithoutParking_spotInput
     vehicle?: VehicleCreateNestedOneWithoutParking_spotsInput
@@ -23723,6 +23751,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
+    active?: boolean | null
     current_subscription_id?: string | null
     listings?: ListingUncheckedCreateNestedManyWithoutParking_spotInput
     reservations?: ReservationUncheckedCreateNestedManyWithoutParkingInput
@@ -23917,6 +23946,7 @@ export namespace Prisma {
     stripe_product?: JsonNullableFilter<"ParkingSpot">
     stripe_deposit_product?: JsonNullableFilter<"ParkingSpot">
     deposit_enabled?: BoolNullableFilter<"ParkingSpot"> | boolean | null
+    active?: BoolNullableFilter<"ParkingSpot"> | boolean | null
     current_subscription_id?: StringNullableFilter<"ParkingSpot"> | string | null
   }
 
@@ -24048,6 +24078,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
+    active?: boolean | null
     building: BuildingCreateNestedOneWithoutParking_spotsInput
     qr_code?: QRCodeCreateNestedOneWithoutParking_spotInput
     vehicle?: VehicleCreateNestedOneWithoutParking_spotsInput
@@ -24074,6 +24105,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
+    active?: boolean | null
     current_subscription_id?: string | null
     listings?: ListingUncheckedCreateNestedManyWithoutParking_spotInput
     reservations?: ReservationUncheckedCreateNestedManyWithoutParkingInput
@@ -24943,6 +24975,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
+    active?: boolean | null
     building: BuildingCreateNestedOneWithoutParking_spotsInput
     owner?: CommunityMembersCreateNestedOneWithoutParking_spotsInput
     vehicle?: VehicleCreateNestedOneWithoutParking_spotsInput
@@ -24969,6 +25002,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
+    active?: boolean | null
     current_subscription_id?: string | null
     listings?: ListingUncheckedCreateNestedManyWithoutParking_spotInput
     reservations?: ReservationUncheckedCreateNestedManyWithoutParkingInput
@@ -25044,6 +25078,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     building?: BuildingUpdateOneRequiredWithoutParking_spotsNestedInput
     owner?: CommunityMembersUpdateOneWithoutParking_spotsNestedInput
     vehicle?: VehicleUpdateOneWithoutParking_spotsNestedInput
@@ -25070,6 +25105,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     current_subscription_id?: NullableStringFieldUpdateOperationsInput | string | null
     listings?: ListingUncheckedUpdateManyWithoutParking_spotNestedInput
     reservations?: ReservationUncheckedUpdateManyWithoutParkingNestedInput
@@ -25090,6 +25126,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
+    active?: boolean | null
     building: BuildingCreateNestedOneWithoutParking_spotsInput
     owner?: CommunityMembersCreateNestedOneWithoutParking_spotsInput
     qr_code?: QRCodeCreateNestedOneWithoutParking_spotInput
@@ -25116,6 +25153,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
+    active?: boolean | null
     current_subscription_id?: string | null
     listings?: ListingUncheckedCreateNestedManyWithoutParking_spotInput
     reservations?: ReservationUncheckedCreateNestedManyWithoutParkingInput
@@ -25211,6 +25249,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
+    active?: boolean | null
     building: BuildingCreateNestedOneWithoutParking_spotsInput
     owner?: CommunityMembersCreateNestedOneWithoutParking_spotsInput
     qr_code?: QRCodeCreateNestedOneWithoutParking_spotInput
@@ -25238,6 +25277,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
+    active?: boolean | null
     current_subscription_id?: string | null
     reservations?: ReservationUncheckedCreateNestedManyWithoutParkingInput
     all_subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutParking_spotInput
@@ -25372,6 +25412,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     building?: BuildingUpdateOneRequiredWithoutParking_spotsNestedInput
     owner?: CommunityMembersUpdateOneWithoutParking_spotsNestedInput
     qr_code?: QRCodeUpdateOneWithoutParking_spotNestedInput
@@ -25399,6 +25440,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     current_subscription_id?: NullableStringFieldUpdateOperationsInput | string | null
     reservations?: ReservationUncheckedUpdateManyWithoutParkingNestedInput
     all_subscriptions?: SubscriptionUncheckedUpdateManyWithoutParking_spotNestedInput
@@ -25616,6 +25658,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
+    active?: boolean | null
     building: BuildingCreateNestedOneWithoutParking_spotsInput
     owner?: CommunityMembersCreateNestedOneWithoutParking_spotsInput
     qr_code?: QRCodeCreateNestedOneWithoutParking_spotInput
@@ -25643,6 +25686,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
+    active?: boolean | null
     current_subscription_id?: string | null
     listings?: ListingUncheckedCreateNestedManyWithoutParking_spotInput
     all_subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutParking_spotInput
@@ -25884,6 +25928,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     building?: BuildingUpdateOneRequiredWithoutParking_spotsNestedInput
     owner?: CommunityMembersUpdateOneWithoutParking_spotsNestedInput
     qr_code?: QRCodeUpdateOneWithoutParking_spotNestedInput
@@ -25911,6 +25956,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     current_subscription_id?: NullableStringFieldUpdateOperationsInput | string | null
     listings?: ListingUncheckedUpdateManyWithoutParking_spotNestedInput
     all_subscriptions?: SubscriptionUncheckedUpdateManyWithoutParking_spotNestedInput
@@ -26102,6 +26148,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
+    active?: boolean | null
     building: BuildingCreateNestedOneWithoutParking_spotsInput
     owner?: CommunityMembersCreateNestedOneWithoutParking_spotsInput
     qr_code?: QRCodeCreateNestedOneWithoutParking_spotInput
@@ -26129,6 +26176,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
+    active?: boolean | null
     current_subscription_id?: string | null
     listings?: ListingUncheckedCreateNestedManyWithoutParking_spotInput
     reservations?: ReservationUncheckedCreateNestedManyWithoutParkingInput
@@ -26251,6 +26299,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
+    active?: boolean | null
     building: BuildingCreateNestedOneWithoutParking_spotsInput
     owner?: CommunityMembersCreateNestedOneWithoutParking_spotsInput
     qr_code?: QRCodeCreateNestedOneWithoutParking_spotInput
@@ -26278,6 +26327,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
+    active?: boolean | null
     listings?: ListingUncheckedCreateNestedManyWithoutParking_spotInput
     reservations?: ReservationUncheckedCreateNestedManyWithoutParkingInput
     all_subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutParking_spotInput
@@ -26313,6 +26363,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     building?: BuildingUpdateOneRequiredWithoutParking_spotsNestedInput
     owner?: CommunityMembersUpdateOneWithoutParking_spotsNestedInput
     qr_code?: QRCodeUpdateOneWithoutParking_spotNestedInput
@@ -26340,6 +26391,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     current_subscription_id?: NullableStringFieldUpdateOperationsInput | string | null
     listings?: ListingUncheckedUpdateManyWithoutParking_spotNestedInput
     reservations?: ReservationUncheckedUpdateManyWithoutParkingNestedInput
@@ -26480,6 +26532,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     building?: BuildingUpdateOneRequiredWithoutParking_spotsNestedInput
     owner?: CommunityMembersUpdateOneWithoutParking_spotsNestedInput
     qr_code?: QRCodeUpdateOneWithoutParking_spotNestedInput
@@ -26507,6 +26560,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     listings?: ListingUncheckedUpdateManyWithoutParking_spotNestedInput
     reservations?: ReservationUncheckedUpdateManyWithoutParkingNestedInput
     all_subscriptions?: SubscriptionUncheckedUpdateManyWithoutParking_spotNestedInput
@@ -27079,6 +27133,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
+    active?: boolean | null
     current_subscription_id?: string | null
   }
 
@@ -27161,6 +27216,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     owner?: CommunityMembersUpdateOneWithoutParking_spotsNestedInput
     qr_code?: QRCodeUpdateOneWithoutParking_spotNestedInput
     vehicle?: VehicleUpdateOneWithoutParking_spotsNestedInput
@@ -27187,6 +27243,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     current_subscription_id?: NullableStringFieldUpdateOperationsInput | string | null
     listings?: ListingUncheckedUpdateManyWithoutParking_spotNestedInput
     reservations?: ReservationUncheckedUpdateManyWithoutParkingNestedInput
@@ -27210,6 +27267,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     current_subscription_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -27305,6 +27363,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
+    active?: boolean | null
     current_subscription_id?: string | null
   }
 
@@ -27330,6 +27389,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     building?: BuildingUpdateOneRequiredWithoutParking_spotsNestedInput
     qr_code?: QRCodeUpdateOneWithoutParking_spotNestedInput
     vehicle?: VehicleUpdateOneWithoutParking_spotsNestedInput
@@ -27356,6 +27416,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     current_subscription_id?: NullableStringFieldUpdateOperationsInput | string | null
     listings?: ListingUncheckedUpdateManyWithoutParking_spotNestedInput
     reservations?: ReservationUncheckedUpdateManyWithoutParkingNestedInput
@@ -27379,6 +27440,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     current_subscription_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -27643,6 +27705,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: boolean | null
+    active?: boolean | null
     current_subscription_id?: string | null
   }
 
@@ -27660,6 +27723,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     building?: BuildingUpdateOneRequiredWithoutParking_spotsNestedInput
     owner?: CommunityMembersUpdateOneWithoutParking_spotsNestedInput
     qr_code?: QRCodeUpdateOneWithoutParking_spotNestedInput
@@ -27686,6 +27750,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     current_subscription_id?: NullableStringFieldUpdateOperationsInput | string | null
     listings?: ListingUncheckedUpdateManyWithoutParking_spotNestedInput
     reservations?: ReservationUncheckedUpdateManyWithoutParkingNestedInput
@@ -27709,6 +27774,7 @@ export namespace Prisma {
     stripe_product?: NullableJsonNullValueInput | InputJsonValue
     stripe_deposit_product?: NullableJsonNullValueInput | InputJsonValue
     deposit_enabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
     current_subscription_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 

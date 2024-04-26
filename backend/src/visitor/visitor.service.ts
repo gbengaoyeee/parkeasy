@@ -280,7 +280,8 @@ export class VisitorService {
           // },
           stripe_product: {
             not: null
-          }
+          },
+          active: true
         },
         skip: (dto.page - 1) * dto.pageSize, // Calculate the offset
         take: dto.pageSize, // Limit the number of items returned

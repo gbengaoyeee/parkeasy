@@ -210,6 +210,7 @@ exports.Prisma.ParkingSpotScalarFieldEnum = {
   stripe_product: 'stripe_product',
   stripe_deposit_product: 'stripe_deposit_product',
   deposit_enabled: 'deposit_enabled',
+  active: 'active',
   current_subscription_id: 'current_subscription_id'
 };
 
