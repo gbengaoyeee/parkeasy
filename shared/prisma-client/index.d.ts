@@ -15242,6 +15242,7 @@ export namespace Prisma {
     subscriber_id_card_number: number
     stripe_subscription: number
     stripe_payment_intent: number
+    images: number
     no_of_hours: number
     start_date: number
     end_date: number
@@ -15317,6 +15318,7 @@ export namespace Prisma {
     subscriber_id_card_number?: true
     stripe_subscription?: true
     stripe_payment_intent?: true
+    images?: true
     no_of_hours?: true
     start_date?: true
     end_date?: true
@@ -15427,6 +15429,7 @@ export namespace Prisma {
     subscriber_id_card_number: string | null
     stripe_subscription: JsonValue | null
     stripe_payment_intent: JsonValue | null
+    images: string[]
     no_of_hours: number | null
     start_date: Date | null
     end_date: Date | null
@@ -15469,6 +15472,7 @@ export namespace Prisma {
     subscriber_id_card_number?: boolean
     stripe_subscription?: boolean
     stripe_payment_intent?: boolean
+    images?: boolean
     no_of_hours?: boolean
     start_date?: boolean
     end_date?: boolean
@@ -15496,6 +15500,7 @@ export namespace Prisma {
     subscriber_id_card_number?: boolean
     stripe_subscription?: boolean
     stripe_payment_intent?: boolean
+    images?: boolean
     no_of_hours?: boolean
     start_date?: boolean
     end_date?: boolean
@@ -15535,6 +15540,7 @@ export namespace Prisma {
       subscriber_id_card_number: string | null
       stripe_subscription: Prisma.JsonValue | null
       stripe_payment_intent: Prisma.JsonValue | null
+      images: string[]
       no_of_hours: number | null
       start_date: Date | null
       end_date: Date | null
@@ -15956,6 +15962,7 @@ export namespace Prisma {
     readonly subscriber_id_card_number: FieldRef<"Subscription", 'String'>
     readonly stripe_subscription: FieldRef<"Subscription", 'Json'>
     readonly stripe_payment_intent: FieldRef<"Subscription", 'Json'>
+    readonly images: FieldRef<"Subscription", 'String[]'>
     readonly no_of_hours: FieldRef<"Subscription", 'Int'>
     readonly start_date: FieldRef<"Subscription", 'DateTime'>
     readonly end_date: FieldRef<"Subscription", 'DateTime'>
@@ -16582,6 +16589,7 @@ export namespace Prisma {
     subscriber_id_card_number: 'subscriber_id_card_number',
     stripe_subscription: 'stripe_subscription',
     stripe_payment_intent: 'stripe_payment_intent',
+    images: 'images',
     no_of_hours: 'no_of_hours',
     start_date: 'start_date',
     end_date: 'end_date',
@@ -18047,6 +18055,7 @@ export namespace Prisma {
     subscriber_id_card_number?: StringNullableFilter<"Subscription"> | string | null
     stripe_subscription?: JsonNullableFilter<"Subscription">
     stripe_payment_intent?: JsonNullableFilter<"Subscription">
+    images?: StringNullableListFilter<"Subscription">
     no_of_hours?: IntNullableFilter<"Subscription"> | number | null
     start_date?: DateTimeNullableFilter<"Subscription"> | Date | string | null
     end_date?: DateTimeNullableFilter<"Subscription"> | Date | string | null
@@ -18074,6 +18083,7 @@ export namespace Prisma {
     subscriber_id_card_number?: SortOrderInput | SortOrder
     stripe_subscription?: SortOrderInput | SortOrder
     stripe_payment_intent?: SortOrderInput | SortOrder
+    images?: SortOrder
     no_of_hours?: SortOrderInput | SortOrder
     start_date?: SortOrderInput | SortOrder
     end_date?: SortOrderInput | SortOrder
@@ -18104,6 +18114,7 @@ export namespace Prisma {
     subscriber_id_card_number?: StringNullableFilter<"Subscription"> | string | null
     stripe_subscription?: JsonNullableFilter<"Subscription">
     stripe_payment_intent?: JsonNullableFilter<"Subscription">
+    images?: StringNullableListFilter<"Subscription">
     no_of_hours?: IntNullableFilter<"Subscription"> | number | null
     start_date?: DateTimeNullableFilter<"Subscription"> | Date | string | null
     end_date?: DateTimeNullableFilter<"Subscription"> | Date | string | null
@@ -18131,6 +18142,7 @@ export namespace Prisma {
     subscriber_id_card_number?: SortOrderInput | SortOrder
     stripe_subscription?: SortOrderInput | SortOrder
     stripe_payment_intent?: SortOrderInput | SortOrder
+    images?: SortOrder
     no_of_hours?: SortOrderInput | SortOrder
     start_date?: SortOrderInput | SortOrder
     end_date?: SortOrderInput | SortOrder
@@ -18162,6 +18174,7 @@ export namespace Prisma {
     subscriber_id_card_number?: StringNullableWithAggregatesFilter<"Subscription"> | string | null
     stripe_subscription?: JsonNullableWithAggregatesFilter<"Subscription">
     stripe_payment_intent?: JsonNullableWithAggregatesFilter<"Subscription">
+    images?: StringNullableListFilter<"Subscription">
     no_of_hours?: IntNullableWithAggregatesFilter<"Subscription"> | number | null
     start_date?: DateTimeNullableWithAggregatesFilter<"Subscription"> | Date | string | null
     end_date?: DateTimeNullableWithAggregatesFilter<"Subscription"> | Date | string | null
@@ -19398,6 +19411,7 @@ export namespace Prisma {
     subscriber_id_card_number?: string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    images?: SubscriptionCreateimagesInput | string[]
     no_of_hours?: number | null
     start_date?: Date | string | null
     end_date?: Date | string | null
@@ -19425,6 +19439,7 @@ export namespace Prisma {
     subscriber_id_card_number?: string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    images?: SubscriptionCreateimagesInput | string[]
     no_of_hours?: number | null
     start_date?: Date | string | null
     end_date?: Date | string | null
@@ -19446,6 +19461,7 @@ export namespace Prisma {
     subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    images?: SubscriptionUpdateimagesInput | string[]
     no_of_hours?: NullableIntFieldUpdateOperationsInput | number | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -19473,6 +19489,7 @@ export namespace Prisma {
     subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    images?: SubscriptionUpdateimagesInput | string[]
     no_of_hours?: NullableIntFieldUpdateOperationsInput | number | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -19497,6 +19514,7 @@ export namespace Prisma {
     subscriber_id_card_number?: string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    images?: SubscriptionCreateimagesInput | string[]
     no_of_hours?: number | null
     start_date?: Date | string | null
     end_date?: Date | string | null
@@ -19517,6 +19535,7 @@ export namespace Prisma {
     subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    images?: SubscriptionUpdateimagesInput | string[]
     no_of_hours?: NullableIntFieldUpdateOperationsInput | number | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -19540,6 +19559,7 @@ export namespace Prisma {
     subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    images?: SubscriptionUpdateimagesInput | string[]
     no_of_hours?: NullableIntFieldUpdateOperationsInput | number | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -20778,6 +20798,14 @@ export namespace Prisma {
     no_of_baths?: SortOrder
   }
 
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
   export type SubscriptionCountOrderByAggregateInput = {
     id?: SortOrder
     parking_spot_id?: SortOrder
@@ -20793,6 +20821,7 @@ export namespace Prisma {
     subscriber_id_card_number?: SortOrder
     stripe_subscription?: SortOrder
     stripe_payment_intent?: SortOrder
+    images?: SortOrder
     no_of_hours?: SortOrder
     start_date?: SortOrder
     end_date?: SortOrder
@@ -22163,6 +22192,10 @@ export namespace Prisma {
     update?: XOR<XOR<CommunityMembersUpdateToOneWithWhereWithoutApartment_unitsInput, CommunityMembersUpdateWithoutApartment_unitsInput>, CommunityMembersUncheckedUpdateWithoutApartment_unitsInput>
   }
 
+  export type SubscriptionCreateimagesInput = {
+    set: string[]
+  }
+
   export type ParkingSpotCreateNestedOneWithoutAll_subscriptionsInput = {
     create?: XOR<ParkingSpotCreateWithoutAll_subscriptionsInput, ParkingSpotUncheckedCreateWithoutAll_subscriptionsInput>
     connectOrCreate?: ParkingSpotCreateOrConnectWithoutAll_subscriptionsInput
@@ -22191,6 +22224,11 @@ export namespace Prisma {
     create?: XOR<ParkingSpotCreateWithoutCurrent_subscriptionInput, ParkingSpotUncheckedCreateWithoutCurrent_subscriptionInput>
     connectOrCreate?: ParkingSpotCreateOrConnectWithoutCurrent_subscriptionInput
     connect?: ParkingSpotWhereUniqueInput
+  }
+
+  export type SubscriptionUpdateimagesInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type ParkingSpotUpdateOneWithoutAll_subscriptionsNestedInput = {
@@ -22939,6 +22977,7 @@ export namespace Prisma {
     subscriber_id_card_number?: string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    images?: SubscriptionCreateimagesInput | string[]
     no_of_hours?: number | null
     start_date?: Date | string | null
     end_date?: Date | string | null
@@ -22964,6 +23003,7 @@ export namespace Prisma {
     subscriber_id_card_number?: string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    images?: SubscriptionCreateimagesInput | string[]
     no_of_hours?: number | null
     start_date?: Date | string | null
     end_date?: Date | string | null
@@ -22995,6 +23035,7 @@ export namespace Prisma {
     subscriber_id_card_number?: string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    images?: SubscriptionCreateimagesInput | string[]
     no_of_hours?: number | null
     start_date?: Date | string | null
     end_date?: Date | string | null
@@ -23020,6 +23061,7 @@ export namespace Prisma {
     subscriber_id_card_number?: string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    images?: SubscriptionCreateimagesInput | string[]
     no_of_hours?: number | null
     start_date?: Date | string | null
     end_date?: Date | string | null
@@ -23248,6 +23290,7 @@ export namespace Prisma {
     subscriber_id_card_number?: StringNullableFilter<"Subscription"> | string | null
     stripe_subscription?: JsonNullableFilter<"Subscription">
     stripe_payment_intent?: JsonNullableFilter<"Subscription">
+    images?: StringNullableListFilter<"Subscription">
     no_of_hours?: IntNullableFilter<"Subscription"> | number | null
     start_date?: DateTimeNullableFilter<"Subscription"> | Date | string | null
     end_date?: DateTimeNullableFilter<"Subscription"> | Date | string | null
@@ -24584,6 +24627,7 @@ export namespace Prisma {
     subscriber_id_card_number?: string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    images?: SubscriptionCreateimagesInput | string[]
     no_of_hours?: number | null
     start_date?: Date | string | null
     end_date?: Date | string | null
@@ -24610,6 +24654,7 @@ export namespace Prisma {
     subscriber_id_card_number?: string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    images?: SubscriptionCreateimagesInput | string[]
     no_of_hours?: number | null
     start_date?: Date | string | null
     end_date?: Date | string | null
@@ -24635,6 +24680,7 @@ export namespace Prisma {
     subscriber_id_card_number?: string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    images?: SubscriptionCreateimagesInput | string[]
     no_of_hours?: number | null
     start_date?: Date | string | null
     end_date?: Date | string | null
@@ -24660,6 +24706,7 @@ export namespace Prisma {
     subscriber_id_card_number?: string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    images?: SubscriptionCreateimagesInput | string[]
     no_of_hours?: number | null
     start_date?: Date | string | null
     end_date?: Date | string | null
@@ -24878,6 +24925,7 @@ export namespace Prisma {
     subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    images?: SubscriptionUpdateimagesInput | string[]
     no_of_hours?: NullableIntFieldUpdateOperationsInput | number | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -24904,6 +24952,7 @@ export namespace Prisma {
     subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    images?: SubscriptionUpdateimagesInput | string[]
     no_of_hours?: NullableIntFieldUpdateOperationsInput | number | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -26641,6 +26690,7 @@ export namespace Prisma {
     subscriber_id_card_number?: string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    images?: SubscriptionCreateimagesInput | string[]
     no_of_hours?: number | null
     start_date?: Date | string | null
     end_date?: Date | string | null
@@ -26663,6 +26713,7 @@ export namespace Prisma {
     subscriber_id_card_number?: string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    images?: SubscriptionCreateimagesInput | string[]
     no_of_hours?: number | null
     start_date?: Date | string | null
     end_date?: Date | string | null
@@ -26872,6 +26923,7 @@ export namespace Prisma {
     subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    images?: SubscriptionUpdateimagesInput | string[]
     no_of_hours?: NullableIntFieldUpdateOperationsInput | number | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -26897,6 +26949,7 @@ export namespace Prisma {
     subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    images?: SubscriptionUpdateimagesInput | string[]
     no_of_hours?: NullableIntFieldUpdateOperationsInput | number | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -26920,6 +26973,7 @@ export namespace Prisma {
     subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    images?: SubscriptionUpdateimagesInput | string[]
     no_of_hours?: NullableIntFieldUpdateOperationsInput | number | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -26940,6 +26994,7 @@ export namespace Prisma {
     subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    images?: SubscriptionUpdateimagesInput | string[]
     no_of_hours?: NullableIntFieldUpdateOperationsInput | number | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -26965,6 +27020,7 @@ export namespace Prisma {
     subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    images?: SubscriptionUpdateimagesInput | string[]
     no_of_hours?: NullableIntFieldUpdateOperationsInput | number | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -26988,6 +27044,7 @@ export namespace Prisma {
     subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    images?: SubscriptionUpdateimagesInput | string[]
     no_of_hours?: NullableIntFieldUpdateOperationsInput | number | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -27514,6 +27571,7 @@ export namespace Prisma {
     subscriber_id_card_number?: string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    images?: SubscriptionCreateimagesInput | string[]
     no_of_hours?: number | null
     start_date?: Date | string | null
     end_date?: Date | string | null
@@ -27632,6 +27690,7 @@ export namespace Prisma {
     subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    images?: SubscriptionUpdateimagesInput | string[]
     no_of_hours?: NullableIntFieldUpdateOperationsInput | number | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -27657,6 +27716,7 @@ export namespace Prisma {
     subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    images?: SubscriptionUpdateimagesInput | string[]
     no_of_hours?: NullableIntFieldUpdateOperationsInput | number | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -27680,6 +27740,7 @@ export namespace Prisma {
     subscriber_id_card_number?: NullableStringFieldUpdateOperationsInput | string | null
     stripe_subscription?: NullableJsonNullValueInput | InputJsonValue
     stripe_payment_intent?: NullableJsonNullValueInput | InputJsonValue
+    images?: SubscriptionUpdateimagesInput | string[]
     no_of_hours?: NullableIntFieldUpdateOperationsInput | number | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null

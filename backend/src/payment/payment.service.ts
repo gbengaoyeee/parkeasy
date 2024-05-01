@@ -210,6 +210,7 @@ export class PaymentService {
               subscriberLicencePlate: dto.licencePlate,
               subscriberDriverLicenceNumber: dto.driverLicenceNumber,
               subscriberEmiratesId: dto.emiratesId,
+              subscriberImages: JSON.stringify(dto.images || [])
             },
             application_fee_percent: Math.round(100 * APP_BOOKING_FEE_PERCENTAGE),
             transfer_data: {
@@ -236,6 +237,7 @@ export class PaymentService {
             subscriberLicencePlate: dto.licencePlate,
             subscriberDriverLicenceNumber: dto.driverLicenceNumber,
             subscriberEmiratesId: dto.emiratesId,
+            subscriberImages: JSON.stringify(dto.images || [])
           },
           success_url: `${process.env.VISITOR_URL}/subscriptions`,
           cancel_url: `${process.env.VISITOR_URL}/discover/spot/${dto.parkingSpotId}`,
@@ -272,6 +274,7 @@ export class PaymentService {
             subscriberLicencePlate: dto.licencePlate,
             subscriberDriverLicenceNumber: dto.driverLicenceNumber,
             subscriberEmiratesId: dto.emiratesId,
+            subscriberImages: JSON.stringify(dto.images || [])
           },
           payment_intent_data: {
             metadata: {
@@ -291,6 +294,7 @@ export class PaymentService {
               subscriberLicencePlate: dto.licencePlate,
               subscriberDriverLicenceNumber: dto.driverLicenceNumber,
               subscriberEmiratesId: dto.emiratesId,
+              subscriberImages: JSON.stringify(dto.images || [])
             },
             application_fee_amount: Math.round(100 * APP_BOOKING_FEE_PERCENTAGE),
             transfer_data: {

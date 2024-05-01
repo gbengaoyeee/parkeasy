@@ -1,6 +1,6 @@
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { z } from 'zod'
-import { AddApartmentUnitValidation, AddParkingSpotValidation, CreateCommunityMemberValidation, LoginValidation, OnboardBuildingValidation, OnboardManagementValidation, PasswordRecoveryValidation, SSOValidation, SignUpValidation, SubscribeToParkingSpotValidation, UpdateSubscriptionValidation, VisitorSignUpValidation } from '../validation'
+import { AddApartmentUnitValidation, AddParkingSpotValidation, CreateCommunityMemberValidation, LoginValidation, OnboardBuildingValidation, OnboardManagementValidation, PasswordRecoveryValidation, SSOValidation, SignUpValidation, UpdateSubscriptionValidation, VisitorSignUpValidation } from '../validation'
 import { getManagementByEmail, onboardBuilding, onboardManagement, preSignUp } from '@/api/management'
 import appwriteClient from '@/api/appwrite'
 import { activateAllCommunityMembers, addApartmentUnit, addCommunityMember, addParkingSpot, deleteCommunityMember, getApartmentUnits, getBuilding, getCommunityMember, getParkingSpot, getParkingSpots, getSubscriptions as getHostSubscriptions, toggleMemberStatus, updateCommunityMember, updateParkingSpot, uploadCommunityMembers, toggleEnableDeposit, toggleActivateParkingSpot } from '@/api/building'
@@ -316,7 +316,7 @@ export const useGetSingleDiscoverParkingSpot = (spotId?: string) => {
 
 export const useSubscribeToSpot = () => {
     return useMutation({
-        mutationFn: ({userId, parkingSpotId, dto}:{userId: string, parkingSpotId: string, dto: z.infer<typeof SubscribeToParkingSpotValidation>}) => subscribeToParkingSpot(userId, parkingSpotId, dto)
+        mutationFn: ({userId, parkingSpotId, dto}:{userId: string, parkingSpotId: string, dto: any}) => subscribeToParkingSpot(userId, parkingSpotId, dto)
     })
 }
 

@@ -1,7 +1,7 @@
 import { Label } from "@/components/ui/label";
 import { formatCurrency } from "@/lib/formatter";
 import { Subscription } from "@/types";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { CancelSubscriptionConfirmationModal } from "./ParkingSpot";
 import moment from "moment";
@@ -15,6 +15,8 @@ import { Button } from "@/components/ui/button";
 import Loader from "@/components/shared/Loader";
 import { useUpdateSubscription } from "@/lib/react-query/queriesAndMutations";
 import { toast } from "sonner";
+import ImageViewer from 'react-simple-image-viewer';
+
 interface State {
   subscription: Subscription;
 }
@@ -25,6 +27,19 @@ const VisitorSubscription = () => {
   const [openCancelSubscriptionModal, setOpenCancelSubscriptionModal] = useState(false);
   const { mutateAsync: updateSubscription, isPending: isUpdating } = useUpdateSubscription();
   const [subscription, setSubscription] = useState<Subscription>(originalSubscription);
+
+  const [currentImage, setCurrentImage] = useState(0);
+  const [isViewerOpen, setIsViewerOpen] = useState(false);
+
+  const openImageViewer = useCallback((index: number) => {
+    setCurrentImage(index);
+    setIsViewerOpen(true);
+  }, []);
+
+  const closeImageViewer = () => {
+    setCurrentImage(0);
+    setIsViewerOpen(false);
+  };
 
   const form = useForm<z.infer<typeof UpdateSubscriptionValidation>>({
     resolver: zodResolver(UpdateSubscriptionValidation),
@@ -128,9 +143,7 @@ const VisitorSubscription = () => {
                   </div>
                   <div className="flex flex-col gap-2">
                     <Label className="base-semibold">Session ends</Label>
-                    <p className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm subtle-regular">
-                      {moment(subscription.end_date).format("MMM DD, YYYY, hh:mm A")}
-                    </p>
+                    <p className="flex-center border rounded-lg p-2 cursor-pointer shadow-sm subtle-regular">{moment(subscription.end_date).format("MMM DD, YYYY, hh:mm A")}</p>
                   </div>
                 </>
               )}
@@ -193,6 +206,21 @@ const VisitorSubscription = () => {
           </>
         )}
       </div>
+      <div className="flex gap-5">
+        {subscription.images.map((image, index) => (
+          <img key={image} src={image} alt="Subscription image" className="w-24 h-24 rounded-lg cursor-pointer" onClick={() => openImageViewer(index)} />
+        ))}
+      </div>
+
+      {isViewerOpen && (
+        <ImageViewer
+          src={ subscription.images }
+          currentIndex={ currentImage }
+          disableScroll={ false }
+          closeOnClickOutside={ true }
+          onClose={ closeImageViewer }
+        />
+      )}
     </div>
   );
 };

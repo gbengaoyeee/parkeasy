@@ -1,6 +1,6 @@
 import { Type } from 'class-transformer';
 import { Listing } from '../../../../shared/prisma-client';
-import { IsEmail, IsEnum, IsIn, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsEmail, IsEnum, IsIn, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class GetCheckoutDetailsDto {
   @IsString()
@@ -70,4 +70,8 @@ export class SubscribeToParkingDto {
   @IsString()
   @IsOptional()
   emiratesId: string;
+
+  @IsOptional()
+  @IsArray()
+  images: string[]
 }
