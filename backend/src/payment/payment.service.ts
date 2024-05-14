@@ -192,9 +192,9 @@ export class PaymentService {
             //   quantity: 1,
             // },
           ],
-          automatic_tax: {
-            enabled: true,
-          },
+          // automatic_tax: {
+          //   enabled: true,
+          // },
           subscription_data: {
             metadata: {
               parkingSpotId: dto.parkingSpotId,
