@@ -402,7 +402,7 @@ const SubscribeToSpotModal = ({ openSubscribeModal, setOpenSubscribeModal, parki
                   )}
                 />
               )}
-              <FormLabel>Upload images of your vehicle</FormLabel>
+              {/* <FormLabel>Upload images of your vehicle</FormLabel> */}
               {/* <ImageUploading multiple acceptType={["jpg", "png", "jpeg"]} value={imagesData.map((imageData) => imageData.image)} onChange={onChange} maxNumber={maxNumber} dataURLKey="data_url">
                 {({ imageList, onImageUpload, onImageRemove, isDragging, dragProps }) => (
                   // write your building UI
