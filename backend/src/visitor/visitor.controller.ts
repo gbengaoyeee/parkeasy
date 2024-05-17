@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { VisitorService } from './visitor.service';
 import { CreateReservationDto, GetListingsDto, UpdateReservationDto, UpdateSubscriptionDto } from './dto';
 import { GetParkingsDto } from 'src/building/dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('visitor')
 export class VisitorController {
@@ -85,5 +86,11 @@ export class VisitorController {
     dto: UpdateSubscriptionDto,
   ) {
     return await this.visitorService.updateSubscription(subscriptionId, dto);
+  }
+
+  @Post('upload-image')
+  @UseInterceptors(FileInterceptor('image'))
+  async uploadImage(@UploadedFile() file: Express.Multer.File) {
+    return await this.visitorService.uploadImage(file);
   }
 }

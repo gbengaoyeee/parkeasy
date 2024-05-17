@@ -12,13 +12,4 @@ const s3 = new AWS.S3({
     }
 });
 
-
-export const ReactS3Config = {
-    bucketName: BUCKET_NAME,
-    // dirName: import.meta.env.VITE_AWS_S3_BUCKET_DIRECTORY,
-    region: import.meta.env.VITE_AWS_REGION,
-    accessKeyId: import.meta.env.VITE_AWS_ACCESS_KEY_ID,
-    secretAccessKey: import.meta.env.VITE_AWS_SECRET_ACCESS_KEY,
-}
-
 export default s3

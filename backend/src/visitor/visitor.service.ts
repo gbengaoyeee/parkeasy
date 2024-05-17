@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UploadedFile } from '@nestjs/common';
 import { ErrorService } from 'src/exceptions/error.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateReservationDto, GetListingsDto, UpdateReservationDto, UpdateSubscriptionDto } from './dto';
@@ -8,6 +8,8 @@ import { Queue } from 'bull';
 import { InjectReservationQueue, ReservationQueueType } from 'src/queues/reservation.processor';
 import { InjectTestQueue } from 'src/queues/test.processor';
 import { GetParkingsDto } from 'src/building/dto';
+import { S3 } from 'aws-sdk';
+import s3 from 'src/utils/aws';
 
 @Injectable()
 export class VisitorService {
@@ -358,6 +360,32 @@ export class VisitorService {
         },
       });
       return new IResponseData(`subscription updated successfully`, subscription).json;
+    } catch (error) {
+      throw this.errorService.handleException(error);
+    }
+  }
+
+  async uploadImage(@UploadedFile() file: Express.Multer.File) {
+    try {
+      const uploadParams: S3.PutObjectRequest = {
+        Bucket: process.env.VITE_AWS_S3_BUCKET,
+        Key: `${process.env.VITE_AWS_S3_BUCKET_DIRECTORY}/${Date.now()}_${file.originalname}`, // Unique file name
+        Body: file.buffer,
+  
+        ACL: "public-read", // or another ACL according to your requirements
+      };
+
+      return new Promise((resolve, reject) => {
+        s3.upload(uploadParams, function (err: any, data: any) {
+          if (err) {
+            console.log("Error", err);
+            throw this.errorService.handleException(err);
+          } else {
+            console.log("Success", data.Location);
+            return resolve(data.Location);
+          }
+        });
+      })
     } catch (error) {
       throw this.errorService.handleException(error);
     }

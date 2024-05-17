@@ -18,9 +18,8 @@ import { useState } from "react";
 import Switch from "react-switch";
 import moment from "moment";
 import useBreakpoints from "@/hooks/useBreakpoints";
-// import ImageUploading from "react-images-uploading";
-// import s3 from "@/api/aws";
-// import { S3 } from "aws-sdk";
+import ImageUploading from "react-images-uploading";
+import { uploadImage } from "@/api/visitor";
 
 const VisitorViewSpot = () => {
   const { spotId } = useParams();
@@ -95,55 +94,56 @@ const VisitorViewSpot = () => {
 
 const SubscribeToSpotModal = ({ openSubscribeModal, setOpenSubscribeModal, parkingSpot, refetchParkingSpot = () => {} }: { openSubscribeModal: boolean; setOpenSubscribeModal: (open: boolean) => void; parkingSpot?: ParkingSpot; refetchParkingSpot?: () => void }) => {
   const { user } = useUserContext();
-  // const [imagesData, setImagesData] = useState<
-  //   {
-  //     image: any;
-  //     url: any;
-  //   }[]
-  // >([]);
-  // const maxNumber = 4;
+  const [imagesData, setImagesData] = useState<
+    {
+      image: any;
+      url: any;
+    }[]
+  >([]);
+  const maxNumber = 4;
 
-  // const onChange = (imageList: any, addUpdatedIndexes: any) => {
-  //   // data for submit
-  //   const newImagesData = imageList.map((item: any) => ({ image: item }));
-  //   setImagesData(newImagesData);
+  const onChange = (imageList: any, addUpdatedIndexes: any) => {
+    // data for submit
+    const newImagesData = imageList.map((item: any) => ({ image: item }));
+    setImagesData(newImagesData);
 
-  //   if (addUpdatedIndexes) {
-  //     const filesList = addUpdatedIndexes.map((index: number) => imageList[index].file);
-  //     uploadMultipleFiles(filesList, addUpdatedIndexes).then((urls) => {
-  //       urls.forEach((url) => {
-  //         newImagesData[url.index].url = url.url;
-  //       });
-  //       setImagesData([...newImagesData]);
-  //     });
-  //   }
-  // };
+    if (addUpdatedIndexes) {
+      const filesList = addUpdatedIndexes.map((index: number) => imageList[index].file);
+      uploadMultipleFiles(filesList, addUpdatedIndexes).then((urls) => {
+        urls.forEach((url) => {
+          newImagesData[url.index].url = url.url;
+        });
+        setImagesData([...newImagesData]);
+      });
+    }
+  };
 
-  // function uploadFile(file: File, index: number): Promise<{ url: string; index: number }> {
-  //   const uploadParams: S3.PutObjectRequest = {
-  //     Bucket: import.meta.env.VITE_AWS_S3_BUCKET,
-  //     Key: `${import.meta.env.VITE_AWS_S3_BUCKET_DIRECTORY}/${Date.now()}_${file.name}`, // Unique file name
-  //     Body: file,
+  function uploadFile(file: File, index: number): Promise<{ url: string; index: number }> {
+    // const uploadParams: S3.PutObjectRequest = {
+    //   Bucket: import.meta.env.VITE_AWS_S3_BUCKET,
+    //   Key: `${import.meta.env.VITE_AWS_S3_BUCKET_DIRECTORY}/${Date.now()}_${file.name}`, // Unique file name
+    //   Body: file,
 
-  //     ACL: "public-read", // or another ACL according to your requirements
-  //   };
+    //   ACL: "public-read", // or another ACL according to your requirements
+    // };
 
-  //   return new Promise((resolve, reject) => {
-  //     s3.upload(uploadParams, function (err: any, data: any) {
-  //       if (err) {
-  //         reject(err.message);
-  //       } else {
-  //         resolve({ url: data.Location, index }); // The file URL
-  //       }
-  //     });
-  //   });
-  // }
+    const formData = new FormData();
+    formData.append("image", file);
+    return new Promise((resolve, reject) => {
+      uploadImage(formData).then((url) => {
+        console.log(url);
+        resolve({ url, index });
+      }).catch((error) => {
+          reject(error);
+      })
+    });
+  }
 
-  // function uploadMultipleFiles(files: FileList, addUpdatedIndexes: number[]): Promise<{ url: string; index: number }[]> {
-  //   const uploadPromises = Array.from(files).map((file, index) => uploadFile(file, addUpdatedIndexes[index]));
+  async function uploadMultipleFiles(files: FileList, addUpdatedIndexes: number[]): Promise<{ url: string; index: number }[]> {
+    const uploadPromises = Array.from(files).map((file, index) => uploadFile(file, addUpdatedIndexes[index]));
 
-  //   return Promise.allSettled(uploadPromises).then((results) => results.map((result) => (result.status === "fulfilled" ? result.value : { url: result.reason, index: -1 })));
-  // }
+    return Promise.allSettled(uploadPromises).then((results) => results.map((result) => (result.status === "fulfilled" ? result.value : { url: result.reason, index: -1 })));
+  }
 
   const form = useForm<z.infer<typeof SubscribeToParkingSpotValidation>>({
     resolver: zodResolver(SubscribeToParkingSpotValidation),
@@ -199,7 +199,7 @@ const SubscribeToSpotModal = ({ openSubscribeModal, setOpenSubscribeModal, parki
       userId: user.id,
       dto: { 
         ...values, 
-        // images: imagesData.map((image) => image.url) 
+        images: imagesData.map((image) => image.url) 
       },
     })
       .then((res) => {
@@ -402,8 +402,8 @@ const SubscribeToSpotModal = ({ openSubscribeModal, setOpenSubscribeModal, parki
                   )}
                 />
               )}
-              {/* <FormLabel>Upload images of your vehicle</FormLabel> */}
-              {/* <ImageUploading multiple acceptType={["jpg", "png", "jpeg"]} value={imagesData.map((imageData) => imageData.image)} onChange={onChange} maxNumber={maxNumber} dataURLKey="data_url">
+              <FormLabel>Upload images of your vehicle</FormLabel>
+              <ImageUploading multiple acceptType={["jpg", "png", "jpeg"]} value={imagesData.map((imageData) => imageData.image)} onChange={onChange} maxNumber={maxNumber} dataURLKey="data_url">
                 {({ imageList, onImageUpload, onImageRemove, isDragging, dragProps }) => (
                   // write your building UI
                   <div>
@@ -428,7 +428,7 @@ const SubscribeToSpotModal = ({ openSubscribeModal, setOpenSubscribeModal, parki
                     </div>
                   </div>
                 )}
-              </ImageUploading> */}
+              </ImageUploading>
               <FormField
                 control={form.control}
                 name="agreedToTerms"

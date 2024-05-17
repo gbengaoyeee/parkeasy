@@ -38,3 +38,12 @@ export const updateSubscription = async (subscriptionId: string, dto: z.infer<ty
     const {data} = await client.put(`/subscription/${subscriptionId}`, dto)
     return data
 }
+
+export const uploadImage = async (dto: FormData) => {
+    const {data} = await client.post('/upload-image', dto, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
+    return data
+}
