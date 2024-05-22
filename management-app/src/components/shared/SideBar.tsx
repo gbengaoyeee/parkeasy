@@ -2,36 +2,36 @@ import { useAuthContext } from "@/context/AuthContext";
 import { Button } from "../ui/button";
 import { useAppContext } from "@/context/AppContext";
 
-import { useUserContext } from "@/context/UserContext";
-import { useEffect } from "react";
-import { useGetVisitorSubscriptions } from "@/lib/react-query/queriesAndMutations";
-import { useNavigate } from "react-router-dom";
+// import { useUserContext } from "@/context/UserContext";
+// import { useEffect } from "react";
+// import { useGetVisitorSubscriptions } from "@/lib/react-query/queriesAndMutations";
+// import { useNavigate } from "react-router-dom";
 
 const SideBar = () => {
   const { signOut } = useAuthContext();
-  const { user } = useUserContext();
-  const { sideBarOptions, setSideBarOptions, selectedSideBarOption, handleSideBarOptionSelection: handleOptionSelection } = useAppContext();
-  const navigate = useNavigate();
-  const { data: subscriptions } = useGetVisitorSubscriptions(user?.id);
+  // const { user } = useUserContext();
+  const { sideBarOptions, selectedSideBarOption, handleSideBarOptionSelection: handleOptionSelection } = useAppContext();
+  // const navigate = useNavigate();
+  // const { data: subscriptions } = useGetVisitorSubscriptions(user?.id);
 
-  useEffect(() => {
-    if (subscriptions?.length) {
-      const active = subscriptions.filter((item) => {
-        if (item?.end_date && new Date(item.end_date).getTime() > new Date().getTime()) {
-          return true;
-        } else if (item.stripe_subscription && (item.stripe_subscription as any)["status"] === "active") {
-          return true;
-        }
-        return false;
-      });
-      if (active.length) {
-        setTimeout(() => {
-          setSideBarOptions(sideBarOptions.filter((item) => item.to !== "/discover"));
-          navigate("/subscriptions");
-        }, 300);
-      }
-    }
-  }, [subscriptions]);
+  // useEffect(() => {
+  //   if (subscriptions?.length) {
+  //     const active = subscriptions.filter((item) => {
+  //       if (item?.end_date && new Date(item.end_date).getTime() > new Date().getTime()) {
+  //         return true;
+  //       } else if (item.stripe_subscription && (item.stripe_subscription as any)["status"] === "active") {
+  //         return true;
+  //       }
+  //       return false;
+  //     });
+  //     if (active.length) {
+  //       setTimeout(() => {
+  //         setSideBarOptions(sideBarOptions.filter((item) => item.to !== "/discover"));
+  //         navigate("/subscriptions");
+  //       }, 300);
+  //     }
+  //   }
+  // }, [subscriptions]);
   return (
     <div>
       <div>
