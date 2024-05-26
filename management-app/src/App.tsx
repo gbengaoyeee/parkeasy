@@ -19,6 +19,7 @@ import VisitorSubscription from "./_root/pages/VisitorSubscription";
 import { useLayoutEffect } from "react";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import EnterPhone from "./_auth/forms/EnterPhone";
 
 const App = () => {
   function getTenantFromHostname(): "host" | "visitor" {
@@ -39,6 +40,7 @@ const App = () => {
             <Routes>
               {/* public routes */}
               <Route element={<AuthLayout />}>
+                <Route path="/verify-phone" element={<EnterPhone />} />
                 <Route path="/login" element={<LoginForm />} />
                 <Route path="/sign-up" element={<SignUpForm />} />
                 <Route path="/sso" element={<SSOForm />} />

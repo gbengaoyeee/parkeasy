@@ -49,7 +49,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
     return subdomain;
   }
 
-  const nonProtectedRoutes = ["/login", "/sso-redirect", "/sso", "/sign-up", "/request-success", "/request-failed", "/forgot-password", "/password-recovery"];
+  const nonProtectedRoutes = ["/verify-phone", "/login", "/sso-redirect", "/sso", "/sign-up", "/request-success", "/request-failed", "/forgot-password", "/password-recovery"];
 
   const signOut = async () => {
     try {

@@ -47,3 +47,14 @@ export class CreateUserDto {
   @IsOptional()
   notificationToken: string;
 }
+
+
+export class VerifyPhoneDto {
+  @IsString()
+  phone: string;
+}
+
+export class CompletePhoneVerificationDto extends VerifyPhoneDto {
+  @IsString()
+  code: string;
+}

@@ -1,14 +1,20 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { ErrorService } from 'src/exceptions/error.service';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateUserDto, GetUserByPhone, GetUserDto } from './dto/user.dto';
+import { CompletePhoneVerificationDto, CreateUserDto, GetUserByPhone, GetUserDto, VerifyPhoneDto } from './dto/user.dto';
 import { IResponseData } from 'src/response';
 import Stripe from 'stripe';
 import { StripeService } from 'src/stripe/stripe.service';
+import Twilio from "twilio";
+
+
+const ACCOUNT_SID = process.env.TWILIO_ACCOUNT_SID;
+const AUTH_TOKEN = process.env.TWILIO_AUTH_TOKEN;
 
 @Injectable()
 export class UserService {
   private readonly logger = new Logger(UserService.name);
+  private readonly twilioClient = Twilio(ACCOUNT_SID, AUTH_TOKEN);
   constructor(
     private prisma: PrismaService,
     private errorService: ErrorService,
@@ -161,6 +167,31 @@ export class UserService {
       return new IResponseData(`user updated successfully`, user).json;
     } catch (error) {
       console.log(error);
+      throw this.errorService.handleException(error);
+    }
+  }
+
+  async verifyPhone(dto: VerifyPhoneDto) {
+    try {
+      const verification = await this.twilioClient.verify.v2.services(process.env.TWILIO_SERVICE_SID)
+                .verifications
+                .create({to: dto.phone, channel: 'sms'})
+                .then(verification => console.log(verification.sid));
+
+    return new IResponseData(`verification sent successfully`, verification).json;
+    } catch (error) {
+      throw this.errorService.handleException(error);
+    }
+  }
+
+  async completePhoneVerification(dto: CompletePhoneVerificationDto) {
+    try {
+      const verification = await this.twilioClient.verify.v2.services(process.env.TWILIO_SERVICE_SID)
+                .verificationChecks
+                .create({to: dto.phone, code: dto.code})
+                .then(verification => console.log(verification.status));
+    return new IResponseData(`verification completed successfully`, verification).json;
+    } catch (error) {
       throw this.errorService.handleException(error);
     }
   }
