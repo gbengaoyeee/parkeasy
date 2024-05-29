@@ -7,7 +7,7 @@ import { z } from "zod";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useConfirmVerificationCode } from "@/lib/react-query/queriesAndMutations";
-import Loader from "@/components/shared/Loader";
+
 const EnterPhoneCode = () => {
   const form = useForm<z.infer<typeof CompleteVerificationValidation>>({
     resolver: zodResolver(CompleteVerificationValidation),
