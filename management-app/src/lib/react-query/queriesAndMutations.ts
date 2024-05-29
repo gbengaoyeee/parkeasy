@@ -1,6 +1,6 @@
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { z } from 'zod'
-import { AddApartmentUnitValidation, AddParkingSpotValidation, CreateCommunityMemberValidation, LoginValidation, OnboardBuildingValidation, OnboardManagementValidation, PasswordRecoveryValidation, SSOValidation, SignUpValidation, UpdateSubscriptionValidation, VisitorSignUpValidation } from '../validation'
+import { AddApartmentUnitValidation, AddParkingSpotValidation, CompleteVerificationValidation, CreateCommunityMemberValidation, LoginValidation, OnboardBuildingValidation, OnboardManagementValidation, PasswordRecoveryValidation, SSOValidation, SignUpValidation, UpdateSubscriptionValidation, VerifyPhoneValidation, VisitorSignUpValidation } from '../validation'
 import { getManagementByEmail, onboardBuilding, onboardManagement, preSignUp } from '@/api/management'
 import appwriteClient from '@/api/appwrite'
 import { activateAllCommunityMembers, addApartmentUnit, addCommunityMember, addParkingSpot, deleteCommunityMember, getApartmentUnits, getBuilding, getCommunityMember, getParkingSpot, getParkingSpots, getSubscriptions as getHostSubscriptions, toggleMemberStatus, updateCommunityMember, updateParkingSpot, uploadCommunityMembers, toggleEnableDeposit, toggleActivateParkingSpot } from '@/api/building'
@@ -8,6 +8,7 @@ import { getUser, signUpVisitor, updateUser } from '@/api/user'
 import { enableHosting, getAccountLink } from '@/api/host'
 import { discover, getSingleDiscoverParkingSpot, getSubscription as getVisitorSubscription, getSubscriptions as getVisitorSubscriptions, updateSubscription } from '@/api/visitor'
 import { cancelSubscription, subscribeToParkingSpot } from '@/api/payment'
+import { startSMSVerification, verifySMSCode } from '@/api/twilio'
 
 export const useGetUser = (email?: string) => {
     if(!email) {
@@ -26,6 +27,18 @@ export const useGetUser = (email?: string) => {
 export const usePreSignUp = () => {
     return useMutation({
         mutationFn: (dto: z.infer<typeof SignUpValidation>) => preSignUp(dto)
+    })
+}
+
+export const useVerifyPhone = () => {
+    return useMutation({
+        mutationFn: (dto: z.infer<typeof VerifyPhoneValidation>) => startSMSVerification(dto.phone)
+    })
+}
+
+export const useConfirmVerificationCode = () => {
+    return useMutation({
+        mutationFn: (dto: z.infer<typeof CompleteVerificationValidation>) => verifySMSCode(dto.phone, dto.code)
     })
 }
 

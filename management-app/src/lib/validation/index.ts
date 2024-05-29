@@ -18,6 +18,15 @@ export const LoginValidation = z.object({
   email: z.string().email(),
   password: z.string().min(8, 'Password must be at least 8 characters long')
 });
+
+export const VerifyPhoneValidation = z.object({
+  phone: z.string().regex(/^\+?[1-9]\d{1,14}$/, "Invalid phone number format"),
+});
+export const CompleteVerificationValidation = z.object({
+  phone: z.string().regex(/^\+?[1-9]\d{1,14}$/, "Invalid phone number format"),
+  code: z.string().min(6, 'Please enter a valid code'),
+});
+
 export const SSOValidation = z.object({
   email: z.string().email(),
 });

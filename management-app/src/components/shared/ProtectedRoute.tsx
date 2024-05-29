@@ -12,7 +12,8 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 
     if (!user) {
         // Redirect them to the /login page, but save the current location they were trying to go to
-        return <Navigate to="/login" state={{ from: location }} replace />;
+        // return <Navigate to="/login" state={{ from: location }} replace />;
+        return <Navigate to="/verify-phone" state={{ from: location }} replace />;
     }
 
     return children;

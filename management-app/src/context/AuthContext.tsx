@@ -55,7 +55,8 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
     try {
       // await appwriteClient.account.deleteSession("current");
       await firAuth.signOut();
-      navigate("/login");
+      // navigate("/login");
+      navigate("/verify-phone");
       await checkAuthUser();
       return true;
     } catch (error) {
@@ -109,7 +110,8 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
         return true;
       } catch (error) {
         console.error(error);
-        navigate("/login");
+        // navigate("/login");
+        navigate("/verify-phone");
         return false;
       }
     } else {
@@ -135,7 +137,8 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
     // }
     const subscribe = onAuthStateChanged(firAuth, async (user) => {
       if (!user && !nonProtectedRoutes.includes(location.pathname)) {
-        navigate("/login");
+        // navigate("/login");
+        navigate("/verify-phone");
       } 
       setUser(user);
     });

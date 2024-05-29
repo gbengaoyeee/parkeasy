@@ -52,6 +52,10 @@ module.exports = {
       },
       
       keyframes: {
+        'caret-blink': {
+          '0%,70%,100%': { opacity: '1' },
+          '20%,50%': { opacity: '0' },
+        },
         'accordion-down': {
           from: { height: 0 },
           to: { height: 'var(--radix-accordion-content-height)' },
@@ -80,6 +84,7 @@ module.exports = {
         'accordion-up': 'accordion-up 0.2s ease-out',
         'spin-slow': 'spin 2s linear infinite',
         'toast-slide-in-right': 'toast-slide-in 0.5s ease forwards',
+        'caret-blink': 'caret-blink 1.2s ease-out infinite',
       },
     },
   },
