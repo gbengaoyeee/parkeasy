@@ -23,6 +23,7 @@ import { objectToCamel } from 'ts-case-convert';
 import { retryAsyncFunction } from 'src/utils/helper';
 import { StripeService } from 'src/stripe/stripe.service';
 import Stripe from 'stripe';
+import moment from 'moment';
 
 interface IBulkUploadData {
   name: string;
@@ -799,31 +800,9 @@ export class BuildingService {
 
   async getSubscriptions(buildingId: string, dto: GetSubscriptionsDto) {
     try {
-      // const parkingSpots = await this.prisma.parkingSpot.findMany({
-      //   where: {
-      //     building_id: buildingId,
-      //     current_subscription_id: { not: null },
-      //   },
-      //   include: {
-      //     current_subscription: {
-      //       include: {
-      //         parking_spot: true,
-      //       }
-      //     },
-      //     owner: {
-      //       select: {
-      //         name: true,
-      //         id: true,
-      //       },
-      //     },
-      //   },
-      //   // skip: (dto.page - 1) * dto.pageSize, // Calculate the offset
-      //   // take: dto.pageSize, // Limit the number of items returned
-      // });
-      // const subscriptions = parkingSpots.map((spot) => spot.current_subscription);
-      const subscriptions = await this.prisma.subscription.findMany({
+      const subscriptions = (await this.prisma.subscription.findMany({
         where: {
-          host_user_id: dto.userId,
+          host_user_id: dto.userId
         },
         include: {
           parking_spot: true,
@@ -831,7 +810,14 @@ export class BuildingService {
         orderBy: {
           created_at: 'desc',
         },
+      })).filter(subscription => {
+        if (!subscription.stripe_subscription || !subscription.stripe_subscription["status"]) return false
+        if (subscription.stripe_subscription["cancel_at"]) {
+          return moment((subscription.stripe_subscription as any)["cancel_at"] * 1000).toDate() >= new Date()
+        }
+        return subscription.stripe_subscription["status"] === "active"
       })
+      console.log(subscriptions)
       return new IResponseData(`Parking spots with subscriptions found successfully`, subscriptions).json;
     } catch (error) {
       console.error(error);
