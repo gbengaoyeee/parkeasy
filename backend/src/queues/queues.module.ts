@@ -1,22 +1,17 @@
-import {
-  DynamicModule,
-  MiddlewareConsumer,
-  Module,
-  NestModule,
-} from '@nestjs/common';
+import { DynamicModule, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { BullModule } from '@nestjs/bullmq';
 import { Queue } from 'bullmq';
 import { createBullBoard } from '@bull-board/api';
 import { BullMQAdapter } from '@bull-board/api/bullMQAdapter';
 import { ExpressAdapter } from '@bull-board/express';
 
-import {
-  TEST_QUEUE_NAME,
-  TestProcessor,
-  InjectTestQueue,
-} from './test.processor';
+import { TEST_QUEUE_NAME, TestProcessor, InjectTestQueue } from './test.processor';
 import { BasicAuthMiddleware } from './basic-auth.middleware';
-import { RESERVATION_QUEUE_NAME, InjectReservationQueue, ReservationProcessor } from './reservation.processor';
+import {
+  RESERVATION_QUEUE_NAME,
+  InjectReservationQueue,
+  ReservationProcessor,
+} from './reservation.processor';
 
 @Module({})
 export class QueuesModule implements NestModule {
@@ -43,7 +38,7 @@ export class QueuesModule implements NestModule {
             host: process.env.REDIS_HOST,
             port: Number(process.env.REDIS_PORT),
             username: process.env.REDIS_USER,
-            password: process.env.REDIS_PASSWORD
+            password: process.env.REDIS_PASSWORD,
           },
           defaultJobOptions: {
             attempts: 3,
@@ -56,14 +51,19 @@ export class QueuesModule implements NestModule {
         testQueue,
         reservationQueue,
       ],
-      providers: [TestProcessor, ...testQueue.providers, ReservationProcessor, ...reservationQueue.providers],
+      providers: [
+        TestProcessor,
+        ...testQueue.providers,
+        ReservationProcessor,
+        ...reservationQueue.providers,
+      ],
       exports: [...testQueue.exports, ...reservationQueue.exports],
     };
   }
 
   constructor(
     @InjectTestQueue() private readonly testQueue: Queue,
-    @InjectReservationQueue() private readonly reservationQueue: Queue
+    @InjectReservationQueue() private readonly reservationQueue: Queue,
   ) {}
 
   configure(consumer: MiddlewareConsumer) {
@@ -71,12 +71,10 @@ export class QueuesModule implements NestModule {
     serverAdapter.setBasePath('/queues');
 
     createBullBoard({
-      queues: [new BullMQAdapter(this.testQueue), new BullMQAdapter(this.reservationQueue)],
+      queues: [new BullMQAdapter(this.testQueue), new BullMQAdapter(this.reservationQueue)] as any,
       serverAdapter,
     });
 
-    consumer
-      .apply(BasicAuthMiddleware, serverAdapter.getRouter())
-      .forRoutes('/queues');
+    consumer.apply(BasicAuthMiddleware, serverAdapter.getRouter()).forRoutes('/queues');
   }
 }
